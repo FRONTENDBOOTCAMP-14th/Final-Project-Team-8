@@ -66,7 +66,7 @@ export default function CardButton({
   className,
   ...restProps
 }: CardButtonProps) {
-  const { title, weight, imgSrc } = variantStyle[dogSize]
+  const { title, weight } = variantStyle[dogSize]
 
   return (
     <button
