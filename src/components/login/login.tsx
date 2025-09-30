@@ -8,6 +8,7 @@ import React, {
   useState,
   useTransition,
 } from 'react'
+import Button from '../ui/button/button'
 import Input from '../ui/input/Input'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -77,10 +78,10 @@ const Login = ({ onLogin, onSignUp }: LoginProps) => {
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-5 mt-8">
+        <h1 className="text-2xl font-bold text-center text-gray-800 mb-5 mt-2">
           로그인
         </h1>
-        <p className="text-center text-gray-500 mb-8">
+        <p className="text-center text-gray-500 mb-20">
           PawBuddy에 오신 것을 환영합니다!
         </p>
 
@@ -117,9 +118,9 @@ const Login = ({ onLogin, onSignUp }: LoginProps) => {
               value={password}
               onChange={handlePasswordChange}
             />
-            {password && password.length < 6 && (
+            {password && password.length < MIN_PASSWORD_LENGTH && (
               <p className="text-xs text-red-500 mt-3">
-                비밀번호는 최소 6자 이상이어야 합니다
+                비밀번호는 최소 {MIN_PASSWORD_LENGTH}자 이상이어야 합니다
               </p>
             )}
           </div>
@@ -142,13 +143,16 @@ const Login = ({ onLogin, onSignUp }: LoginProps) => {
           </div>
 
           {/* Login Button */}
-          <button
-            onClick={handleSubmit}
-            disabled={!isFormValid || isPending}
-            className="w-full bg-orange-500 text-white py-3 rounded-xl font-medium hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:cursor-not-allowed"
-          >
-            {isPending ? '로그인 중...' : '로그인'}
-          </button>
+          <div className='flex justify-center -m-[30px]'>
+            <Button
+              onClick={handleSubmit}
+              disabled={!isFormValid || isPending}
+              variant="orange"
+              className="w-full"
+            >
+              {isPending ? '로그인 중...' : '로그인'}
+            </Button>
+          </div>
         </div>
 
         {/* Footer Links */}
