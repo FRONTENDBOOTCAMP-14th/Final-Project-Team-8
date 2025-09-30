@@ -1,12 +1,9 @@
-import { LearnSection } from '@/components'
-import RandomCountUp from '@/demo'
+import Accordion from '../components/accordion/accordion'
 
 export default function HomePage() {
   return (
     <section>
-      <LearnSection title="랜덤 카운트 업">
-        <RandomCountUp />
-      </LearnSection>
+      <Accordion type="other-jurnals" title="예방접종"></Accordion>
     </section>
   )
 }
