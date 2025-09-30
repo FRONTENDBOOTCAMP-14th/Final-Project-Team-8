@@ -49,7 +49,7 @@ export default function Accordion({ type, title }: AccordionProps) {
   }
 
   return (
-    <section className="accordion-box m-5 flex max-w-160 min-w-70 flex-col rounded-2xl border-2 border-gray-300 active:border-amber-300">
+    <section className="accordion-box m-5 flex max-w-[630px] min-w-70 flex-col rounded-2xl border-2 border-gray-300 active:border-amber-300">
       {/* 아코디언 헤더 버튼 */}
       <button
         onClick={handleClick}
