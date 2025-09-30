@@ -1,9 +1,12 @@
-import Login from '../components/login/login'
+import { LearnSection } from '@/components'
+import RandomCountUp from '@/demo'
 
 export default function HomePage() {
   return (
     <section>
-      <Login />
+      <LearnSection title="랜덤 카운트 업">
+        <RandomCountUp />
+      </LearnSection>
     </section>
   )
 }
