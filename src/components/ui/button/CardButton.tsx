@@ -16,7 +16,7 @@ interface CardButtonProps extends ComponentProps<'button'> {
 
 const baseStyle = `
 flex flex-col items-center justify-center
-w-[156px] h-[200px] m-[30px] p-[30px]
+w-[156px] h-[200px] p-[30px]
 rounded-[18px] text-[#FF6000] bg-white
 focus:outline-none focus:ring-2 focus:ring-offset-0
 `
