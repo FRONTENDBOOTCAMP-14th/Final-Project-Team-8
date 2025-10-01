@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { selectTypeIcon } from './accordionFun'
 import AccordionItemBox from './accordionItemBox'
 
 // Accordion 컴포넌트 Props 타입 정의
-interface AccordionProps {
+export interface AccordionProps {
   type:
     | 'vaccination'
     | 'anthelmintic'
@@ -12,7 +13,7 @@ interface AccordionProps {
     | 'other-treatments'
     | 'food-journal'
     | 'walk'
-    | 'other-jurnals' // 오타: 'other-jurnals' -> 'other-journals' 고려
+    | 'other-journals'
   title: string
 }
 
@@ -20,32 +21,15 @@ interface AccordionProps {
  * Accordion 컴포넌트
  * 클릭 시 열리고 닫히는 아코디언 UI
  */
-export default function Accordion({ type, title }: AccordionProps) {
+export default function Accordion({
+  type = 'vaccination',
+  title,
+}: AccordionProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false) // 아코디언 열림 여부 상태
 
   // 아코디언 버튼 클릭 시 열림/닫힘 토글
   const handleClick = () => {
     setIsOpen(prop => !prop)
-  }
-
-  // type에 따라 아이콘 선택
-  const selectTypeIcon = () => {
-    switch (type) {
-      case 'vaccination':
-        return 'vaccination-icon'
-      case 'anthelmintic':
-        return 'anthelmintic-icon'
-      case 'medical':
-        return 'medical-icon'
-      case 'other-treatments':
-        return 'other-treatments-icon'
-      case 'food-journal':
-        return 'food-journal-icon'
-      case 'walk':
-        return 'walk-icon'
-      case 'other-jurnals':
-        return 'other-jurnals-icon'
-    }
   }
 
   return (
@@ -58,8 +42,8 @@ export default function Accordion({ type, title }: AccordionProps) {
       >
         {/* 아이콘 */}
         <img
-          src={`/components/accordion/${selectTypeIcon()}.svg`}
-          alt={selectTypeIcon()}
+          src={`/components/accordion/${selectTypeIcon(type)}.svg`}
+          alt={selectTypeIcon(type)}
         />
         {/* 제목 */}
         <p className="grow text-lg font-bold">{title}</p>
@@ -89,7 +73,7 @@ export default function Accordion({ type, title }: AccordionProps) {
 
       {/* 아코디언 내용 */}
       <div className="accordion-item">
-        <AccordionItemBox isOpen={isOpen}></AccordionItemBox>
+        <AccordionItemBox isOpen={isOpen} type={type}></AccordionItemBox>
       </div>
     </section>
   )
