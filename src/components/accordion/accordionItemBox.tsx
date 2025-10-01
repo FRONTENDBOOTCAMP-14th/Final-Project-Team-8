@@ -23,6 +23,8 @@ export default function AccordionItemBox<T extends AccordionType>({
 
   return (
     <div
+      aria-hidden={!isOpen}
+      inert={!isOpen}
       className={`overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.79,0.14,0.15,0.86)] ${isOpen ? 'mb-3 max-h-[400px] overflow-y-auto' : 'max-h-0'}`}
     >
       <div className="relative ml-5 before:absolute before:left-0 before:h-px before:w-[590px] before:rounded-2xl before:bg-gray-300"></div>
@@ -44,7 +46,7 @@ export default function AccordionItemBox<T extends AccordionType>({
             <h2 tabIndex={-1} className="m-5 font-bold text-gray-800">
               {year}
             </h2>
-            <ul>
+            <ul tabIndex={-1}>
               {records.map((rec: any, ri: number) => {
                 const props = conf.toProps(rec) as ItemPropsByType[T]
                 return <Item key={`item-${si}-${ri}`} {...props} />
