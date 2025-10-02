@@ -1,14 +1,15 @@
 'use client'
 
 import { User } from 'lucide-react'
-import React, {
+import {
+  type ComponentProps,
   useCallback,
   useId,
   useMemo,
   useState,
   useTransition,
 } from 'react'
-import Input from '../ui/input/Input'
+import Button from '../ui/button/button'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MIN_PASSWORD_LENGTH = 6
@@ -18,23 +19,18 @@ export interface LoginProps {
   onSignUp?: () => void
 }
 
-const Login = ({ onLogin, onSignUp }: LoginProps) => {
+export default function Login({ onLogin, onSignUp }: LoginProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
   const [isPending, startTransition] = useTransition()
 
-  // useId로 고유한 ID 생성 (접근성 향상)
-  const emailId = useId()
-  const passwordId = useId()
   const keepLoggedInId = useId()
 
-  // useMemo로 폼 유효성 검사 메모이제이션
   const isFormValid = useMemo(() => {
     return EMAIL_REGEX.test(email) && password.length >= MIN_PASSWORD_LENGTH
   }, [email, password])
 
-  // useCallback으로 함수 메모이제이션
   const handleSubmit = useCallback(() => {
     if (onLogin && isFormValid) {
       startTransition(() => {
@@ -49,89 +45,56 @@ const Login = ({ onLogin, onSignUp }: LoginProps) => {
     }
   }, [onSignUp])
 
-  const handleEmailChange = useCallback((value: string) => {
-    setEmail(value)
-  }, [])
-
-  const handlePasswordChange = useCallback((value: string) => {
-    setPassword(value)
-  }, [])
-
-  const handleKeepLoggedInChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setKeepLoggedIn(e.target.checked)
-    },
-    []
-  )
-
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="relative bg-white rounded-2xl shadow-lg p-8 w-full max-w-lg pt-20">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 pt-20 shadow-lg">
         {/* Profile Icon */}
-        <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
-          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center border-none">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center border-3 border-orange-200">
-              <User className="w-8 h-8 text-orange-500" />
+        <div className="absolute -top-10 left-1/2 -translate-x-1/2 transform">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full border-none bg-white">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border-3 border-orange-200">
+              <User className="h-8 w-8 text-orange-500" />
             </div>
           </div>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-5 mt-8">
+        <h1 className="mt-2 mb-5 text-center text-2xl font-bold text-gray-800">
           로그인
         </h1>
-        <p className="text-center text-gray-500 mb-8">
+        <p className="mb-20 text-center text-gray-500">
           PawBuddy에 오신 것을 환영합니다!
         </p>
 
         {/* Login Form */}
         <div className="space-y-6">
-          {/* Email Input */}
-          <div>
-            <label htmlFor={emailId} className="sr-only">
-              이메일 주소
-            </label>
-            <Input
-              id={emailId}
-              type="email"
-              placeholder="이메일 주소"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            {email && !EMAIL_REGEX.test(email) && (
-              <p className="text-xs text-red-500 mt-3">
-                올바른 이메일 형식을 입력해주세요 (예: example@email.com)
-              </p>
-            )}
-          </div>
+          <EmailInput
+            value={email}
+            onChange={setEmail}
+            error={
+              email && !EMAIL_REGEX.test(email)
+                ? '올바른 이메일 형식을 입력해주세요 (예: example@email.com)'
+                : ''
+            }
+          />
 
-          {/* Password Input */}
-          <div>
-            <label htmlFor={passwordId} className="sr-only">
-              비밀번호
-            </label>
-            <Input
-              id={passwordId}
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            {password && password.length < 6 && (
-              <p className="text-xs text-red-500 mt-3">
-                비밀번호는 최소 6자 이상이어야 합니다
-              </p>
-            )}
-          </div>
+          <PasswordInput
+            value={password}
+            onChange={setPassword}
+            error={
+              password && password.length < MIN_PASSWORD_LENGTH
+                ? `비밀번호는 최소 ${MIN_PASSWORD_LENGTH}자 이상이어야 합니다`
+                : ''
+            }
+          />
 
           {/* Keep Logged In Checkbox */}
-          <div className="flex items-center mb-32">
+          <div className="mb-32 flex items-center">
             <input
               type="checkbox"
               id={keepLoggedInId}
               checked={keepLoggedIn}
-              onChange={handleKeepLoggedInChange}
-              className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+              onChange={e => setKeepLoggedIn(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
             />
             <label
               htmlFor={keepLoggedInId}
@@ -142,22 +105,26 @@ const Login = ({ onLogin, onSignUp }: LoginProps) => {
           </div>
 
           {/* Login Button */}
-          <button
-            onClick={handleSubmit}
-            disabled={!isFormValid || isPending}
-            className="w-full bg-orange-500 text-white py-3 rounded-xl font-medium hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:cursor-not-allowed"
-          >
-            {isPending ? '로그인 중...' : '로그인'}
-          </button>
+          <div className="-m-[30px] flex justify-center">
+            <Button
+              onClick={handleSubmit}
+              disabled={!isFormValid || isPending}
+              variant="orange"
+              className="w-full"
+            >
+              {isPending ? '로그인 중...' : '로그인'}
+            </Button>
+          </div>
         </div>
 
         {/* Footer Links */}
         <div className="mt-6 text-center">
-          <div className="text-sm text-gray-500 mb-2">
+          <div className="mb-2 text-sm text-gray-500">
             계정이 없으신가요?{' '}
             <button
+              type="button"
               onClick={handleSignUp}
-              className="text-orange-500 hover:text-orange-600 transition-colors inline cursor-pointer"
+              className="inline cursor-pointer text-orange-500 transition-colors hover:text-orange-600"
             >
               회원가입하기
             </button>
@@ -168,4 +135,98 @@ const Login = ({ onLogin, onSignUp }: LoginProps) => {
   )
 }
 
-export default Login
+/**
+ * 이메일 입력 컴포넌트
+ */
+function EmailInput({
+  value,
+  onChange,
+  error,
+  inputProps,
+}: {
+  value: string
+  onChange: (value: string) => void
+  error?: string
+  inputProps?: ComponentProps<'input'>
+}) {
+  const id = useId()
+  const hasError = !!error && error.length > 0
+
+  return (
+    <div role="group" className="flex flex-col">
+      <label htmlFor={id} className="sr-only">
+        이메일 주소
+      </label>
+      <input
+        id={id}
+        type="email"
+        placeholder="이메일 주소"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        aria-invalid={hasError}
+        aria-describedby={hasError ? `${id}-error` : undefined}
+        autoComplete="email"
+        className={`rounded-lg border px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+        {...inputProps}
+      />
+      {hasError && (
+        <div
+          role="alert"
+          aria-live="polite"
+          id={`${id}-error`}
+          className="mt-3 text-xs text-red-500"
+        >
+          {error}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * 패스워드 입력 컴포넌트
+ */
+function PasswordInput({
+  value,
+  onChange,
+  error,
+  inputProps,
+}: {
+  value: string
+  onChange: (value: string) => void
+  error?: string
+  inputProps?: ComponentProps<'input'>
+}) {
+  const id = useId()
+  const hasError = !!error && error.length > 0
+
+  return (
+    <div role="group" className="flex flex-col">
+      <label htmlFor={id} className="sr-only">
+        비밀번호
+      </label>
+      <input
+        id={id}
+        type="password"
+        placeholder="비밀번호"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        aria-invalid={hasError}
+        aria-describedby={hasError ? `${id}-error` : undefined}
+        autoComplete="current-password"
+        className={`rounded-lg border px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+        {...inputProps}
+      />
+      {hasError && (
+        <div
+          role="alert"
+          aria-live="polite"
+          id={`${id}-error`}
+          className="mt-3 text-xs text-red-500"
+        >
+          {error}
+        </div>
+      )}
+    </div>
+  )
+}
