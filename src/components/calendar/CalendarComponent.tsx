@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Week from './Week'
 
 export interface CalendarDay {
@@ -8,12 +8,28 @@ export interface CalendarDay {
   isCurrentMonth: boolean
 }
 
-export default function CalendarComponent() {
+interface CalendarProps {
+  onDayClick?: (date: Date) => void
+  initialSelectedDate?: Date | null
+}
+
+export default function CalendarComponent({
+  onDayClick,
+  initialSelectedDate = null,
+}: CalendarProps) {
   const DAYS_OF_WEEK = ['일', '월', '화', '수', '목', '금', '토']
 
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1)
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    initialSelectedDate
+  )
+
+  useEffect(() => {
+    if (!initialSelectedDate && !selectedDate) {
+      setSelectedDate(new Date())
+    }
+  }, [initialSelectedDate, selectedDate])
 
   const calendar = useMemo(() => {
     // 이번 달 마지막 날짜 & 이번 달 총 일 수
@@ -79,6 +95,16 @@ export default function CalendarComponent() {
     return weeks
   }, [currentYear, currentMonth])
 
+  const handleDayClick = (date: number) => {
+    const newSelectedDate = new Date(currentYear, currentMonth - 1, date)
+
+    setSelectedDate(newSelectedDate)
+
+    if (onDayClick) {
+      onDayClick(newSelectedDate)
+    }
+  }
+
   return (
     <section>
       <h1 className="sr-only">캘린더 컴포넌트</h1>
@@ -97,7 +123,14 @@ export default function CalendarComponent() {
         </thead>
         <tbody className="text-[#636073]">
           {calendar.map((week, index) => (
-            <Week key={index} week={week} />
+            <Week
+              key={index}
+              week={week}
+              currentYear={currentYear}
+              currentMonth={currentMonth}
+              selectedDate={selectedDate}
+              onDayClick={handleDayClick}
+            />
           ))}
         </tbody>
       </table>
