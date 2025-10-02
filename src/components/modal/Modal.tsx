@@ -82,7 +82,7 @@ export default function Modal({
       className="m-auto rounded-3xl border-0 bg-white shadow-xl backdrop:backdrop-blur-[3px]"
     >
       <div className="felx flex min-h-55 w-170 flex-col p-[30px]">
-        <div className="flex">
+        <div className="flex gap-6">
           {!isModify ? (
             <h1
               id={titleId}
@@ -91,14 +91,19 @@ export default function Modal({
               {title ?? '다이얼로그 제목'}
             </h1>
           ) : (
-            <input type="text" defaultValue={title} />
+            <input
+              type="text"
+              defaultValue={title}
+              className="grow rounded-md border-2 border-amber-500 p-2 focus:border-2 focus:border-orange-500 focus:outline-none"
+            />
           )}
           <button
             type="button"
             aria-label="다이얼로그 닫기"
             title="다이얼로그 닫기"
+            disabled={isModify}
             onClick={close}
-            className="cursor-pointer rounded-full text-gray-600 transition active:scale-[0.95]"
+            className="cursor-pointer rounded-full text-gray-600 transition active:scale-[0.95] disabled:cursor-not-allowed disabled:text-gray-300"
           >
             <X width={20} height={20} />
           </button>
