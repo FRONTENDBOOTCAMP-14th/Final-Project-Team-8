@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import Button from '../ui/button/button'
+import Button from '../ui/button/Button'
 import { selectTypeButtonTitle } from './accordionFun'
 import {
   ACCORDION_CONFIG,

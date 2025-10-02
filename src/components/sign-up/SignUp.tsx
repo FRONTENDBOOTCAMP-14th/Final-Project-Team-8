@@ -9,7 +9,7 @@ import {
   useState,
   useTransition,
 } from 'react'
-import Button from '../ui/button/button'
+import Button from '../ui/button/Button'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MIN_PASSWORD_LENGTH = 6
