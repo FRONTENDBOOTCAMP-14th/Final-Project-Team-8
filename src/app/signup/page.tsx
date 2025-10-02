@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import Signup from '../../components/signup/Signup'
+import Signup from '../../components/sign-up/SignUp'
 import { signUpWithEmail } from '../../libs/api/auth'
 
 export default function SignupPage() {

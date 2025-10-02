@@ -8,4 +8,4 @@ export { default as DynamicImage } from './ui/dynamic-image'
 export { default as CalendarComponent } from './calendar/calendar'
 export { default as LearnSection } from './learn/section'
 
-export { default as Sidebar } from './ui/sidebar/Sidebar.tsx'
+export { default as Sidebar } from './ui/sidebar/Sidebar'
