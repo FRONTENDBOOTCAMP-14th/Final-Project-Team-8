@@ -1,3 +1,4 @@
+import { type RefObject } from 'react'
 import { type CalendarDay } from './CalendarComponent'
 import Day from './Day'
 
@@ -7,6 +8,7 @@ interface Props {
   currentMonth: number
   selectedDate: Date | null
   onDayClick: (date: number) => void
+  selectedDateRef: RefObject<HTMLButtonElement | null>
 }
 
 export default function Week({
@@ -15,6 +17,7 @@ export default function Week({
   currentMonth,
   selectedDate,
   onDayClick,
+  selectedDateRef,
 }: Props) {
   return (
     <tr>
@@ -26,6 +29,7 @@ export default function Week({
           currentMonth={currentMonth}
           selectedDate={selectedDate}
           onDayClick={onDayClick}
+          selectedDateRef={selectedDateRef}
           aria-label={`${dayData.date}일`}
         />
       ))}

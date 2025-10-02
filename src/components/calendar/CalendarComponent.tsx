@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Week from './Week'
 
 export interface CalendarDay {
@@ -25,9 +25,15 @@ export default function CalendarComponent({
     initialSelectedDate
   )
 
+  const selectedDateRef = useRef<HTMLButtonElement>(null)
+
   useEffect(() => {
     if (!initialSelectedDate && !selectedDate) {
       setSelectedDate(new Date())
+    }
+
+    if (selectedDateRef.current) {
+      selectedDateRef.current.focus()
     }
   }, [initialSelectedDate, selectedDate])
 
@@ -130,6 +136,7 @@ export default function CalendarComponent({
               currentMonth={currentMonth}
               selectedDate={selectedDate}
               onDayClick={handleDayClick}
+              selectedDateRef={selectedDateRef}
             />
           ))}
         </tbody>

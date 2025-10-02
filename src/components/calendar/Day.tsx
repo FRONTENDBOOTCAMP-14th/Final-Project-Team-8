@@ -1,3 +1,4 @@
+import { type RefObject } from 'react'
 import { type CalendarDay } from './CalendarComponent'
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
   currentMonth: number
   selectedDate: Date | null
   onDayClick: (date: number) => void
+  selectedDateRef: RefObject<HTMLButtonElement | null>
   restProps?: boolean
 }
 
@@ -15,6 +17,7 @@ export default function Day({
   currentMonth,
   selectedDate,
   onDayClick,
+  selectedDateRef,
   ...restProps
 }: Props) {
   const { date, isCurrentMonth } = dayData
@@ -39,6 +42,7 @@ export default function Day({
         onClick={handleClick}
         disabled={!isCurrentMonth}
         aria-disabled={!isCurrentMonth}
+        ref={isSelected ? selectedDateRef : null}
         className={`aspect-square w-13.5 cursor-pointer rounded-xl border-1 border-[#DAD9E6] bg-white hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
           isCurrentMonth
             ? ''
