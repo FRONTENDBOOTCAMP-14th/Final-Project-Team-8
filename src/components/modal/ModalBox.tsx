@@ -1,6 +1,6 @@
 'use client'
 
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import useToggleState from '../../hooks/useToggleState'
 import Modal from './Modal'
 
@@ -10,6 +10,8 @@ type Props = PropsWithChildren<{
 
 export default function ModalBox({ title, children }: Props) {
   const [isOpen, toggleHandler] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   const { on, off } = toggleHandler
 
   return (
