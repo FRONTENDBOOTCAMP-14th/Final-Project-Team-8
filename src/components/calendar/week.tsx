@@ -1,14 +1,15 @@
-import Day from './day'
+import { type CalendarDay } from './CalendarComponent'
+import Day from './Day'
 
 interface Props {
-  week: number[]
+  week: CalendarDay[]
 }
 
 export default function Week({ week }: Props) {
   return (
     <tr>
-      {week.map(day => (
-        <Day key={day} day={day} aria-label={`${day}일`} />
+      {week.map((dayData, index) => (
+        <Day key={index} dayData={dayData} aria-label={`${dayData.date}일`} />
       ))}
     </tr>
   )
