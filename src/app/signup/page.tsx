@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import Signup from '../../components/sign-up/SignUp'
 import { signUpWithEmail } from '../../libs/api/auth'
+import { createClient } from '../../libs/supabase/client'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -14,6 +15,14 @@ export default function SignupPage() {
     if (error) {
       toast.error(`오류 발생! ${error.message}`)
       return
+    }
+
+    if (data?.user) {
+      const supabase = createClient()
+      const { error } = await supabase.from('users').insert({
+        id: data.user.id,
+        email: data.user.email,
+      })
     }
 
     toast.success('회원가입 성공!', {
