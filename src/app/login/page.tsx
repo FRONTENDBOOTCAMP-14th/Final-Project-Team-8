@@ -3,17 +3,13 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Login } from '../../components/login'
-import { createClient } from '../../libs/supabase/client'
+import { loginWithEmail } from '../../libs/api/auth'
 
 export default function LoginPage() {
   const router = useRouter()
-  const supabase = createClient()
 
   const handleLogin = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const { data, error } = await loginWithEmail(email, password)
 
     if (error) {
       toast.error(`로그인 실패 : ${error.message}`)

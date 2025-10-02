@@ -3,17 +3,13 @@
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import Signup from '../../components/signup/Signup'
-import { createClient } from '../../libs/supabase/client'
+import { signUpWithEmail } from '../../libs/api/auth'
 
 export default function SignupPage() {
   const router = useRouter()
-  const supabase = createClient()
 
   const handleSignup = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
+    const { data, error } = await signUpWithEmail(email, password)
 
     if (error) {
       toast.error(`오류 발생! ${error.message}`)
