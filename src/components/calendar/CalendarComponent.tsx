@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import SelectDate from './SelectDate'
 import Week from './Week'
 
 export interface CalendarDay {
@@ -8,7 +9,7 @@ export interface CalendarDay {
   isCurrentMonth: boolean
 }
 
-interface CalendarProps {
+interface Props {
   onDayClick?: (date: Date) => void
   initialSelectedDate?: Date | null
 }
@@ -16,7 +17,7 @@ interface CalendarProps {
 export default function CalendarComponent({
   onDayClick,
   initialSelectedDate = null,
-}: CalendarProps) {
+}: Props) {
   const DAYS_OF_WEEK = ['일', '월', '화', '수', '목', '금', '토']
 
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
@@ -114,9 +115,12 @@ export default function CalendarComponent({
   return (
     <section>
       <h1 className="sr-only">캘린더 컴포넌트</h1>
-      <p>
-        {currentYear}년 {currentMonth}월
-      </p>
+      <SelectDate
+        currentYear={currentYear}
+        currentMonth={currentMonth}
+        setCurrentYear={setCurrentYear}
+        setCurrentMonth={setCurrentMonth}
+      />
       <table className="border-separate border-spacing-4 text-center">
         <thead className="text-sm font-bold text-[#80809A]">
           <tr>
