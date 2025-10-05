@@ -1,7 +1,9 @@
+// src/utils/server/get-image.ts
 import { getPlaiceholder } from 'plaiceholder'
+import 'server-only'
 
-export default async function getImage(src: string) {
-  const buffer = await fetch(src).then(async (res) =>
+export async function getImage(src: string) {
+  const buffer = await fetch(src).then(async res =>
     Buffer.from(await res.arrayBuffer())
   )
 
