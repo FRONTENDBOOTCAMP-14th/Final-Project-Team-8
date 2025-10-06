@@ -21,11 +21,12 @@ const PASSWORD_RULES = {
 }
 
 export interface SignupProps {
-  onSignup?: (email: string, password: string) => void
+  onSignup?: (email: string, password: string, name: string) => void
   onLogin?: () => void
 }
 
 export default function Signup({ onSignup, onLogin }: SignupProps) {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
@@ -79,20 +80,21 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
 
   const isFormValid = useMemo(() => {
     return (
+      name.trim().length > 0 &&
       EMAIL_REGEX.test(email) &&
       isPasswordValid &&
       isPasswordMatch &&
       agreeToTerms
     )
-  }, [email, isPasswordValid, isPasswordMatch, agreeToTerms])
+  }, [name, email, isPasswordValid, isPasswordMatch, agreeToTerms])
 
   const handleSubmit = useCallback(() => {
     if (onSignup && isFormValid) {
       startTransition(() => {
-        onSignup(email, password)
+        onSignup(email, password, name.trim())
       })
     }
-  }, [email, password, onSignup, isFormValid])
+  }, [name, email, password, onSignup, isFormValid])
 
   const handleLogin = useCallback(() => {
     if (onLogin) {
@@ -125,6 +127,14 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
 
         {/* Signup Form */}
         <div className="space-y-6">
+          <NameInput
+            value={name}
+            onChange={setName}
+            error={
+              name && name.trim().length === 0 ? '이름을 입력해주세요' : ''
+            }
+          />
+
           <EmailInput
             value={email}
             onChange={setEmail}
@@ -193,6 +203,55 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+/**
+ * 이름(닉네임) 입력 컴포넌트
+ */
+
+function NameInput({
+  value,
+  onChange,
+  error,
+  inputProps,
+}: {
+  value: string
+  onChange: (value: string) => void
+  error?: string
+  inputProps?: ComponentProps<'input'>
+}) {
+  const id = useId()
+  const hasError = !!error
+
+  return (
+    <div role="group" className="flex flex-col">
+      <label htmlFor={id} className="sr-only">
+        이름
+      </label>
+      <input
+        id={id}
+        type="text"
+        placeholder="이름"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        aria-invalid={hasError}
+        aria-describedby={hasError ? `${id}-error` : undefined}
+        autoComplete="name"
+        className={`rounded-lg border px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+        {...inputProps}
+      />
+      {error && (
+        <div
+          role="alert"
+          aria-live="polite"
+          id={`${id}-error`}
+          className="mt-3 text-xs text-red-500"
+        >
+          {error}
+        </div>
+      )}
     </div>
   )
 }
