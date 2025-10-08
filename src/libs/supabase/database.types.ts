@@ -10,274 +10,384 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: '13.0.5'
   }
   public: {
     Tables: {
-      article: {
+      antiparasitic: {
         Row: {
-          category_id: number
-          content: string
-          date_created: string | null
-          id: number
-          profile_id: number
-          slug: string
-          thumbnail: string
+          id: string
+          intake_date: string
+          next_date: string | null
+          notes: string | null
+          pet_id: string
           title: string
         }
         Insert: {
-          category_id: number
-          content: string
-          date_created?: string | null
-          id: number
-          profile_id: number
-          slug: string
-          thumbnail: string
+          id?: string
+          intake_date: string
+          next_date?: string | null
+          notes?: string | null
+          pet_id: string
           title: string
         }
         Update: {
-          category_id?: number
-          content?: string
-          date_created?: string | null
-          id?: number
-          profile_id?: number
-          slug?: string
-          thumbnail?: string
+          id?: string
+          intake_date?: string
+          next_date?: string | null
+          notes?: string | null
+          pet_id?: string
           title?: string
         }
         Relationships: [
           {
-            foreignKeyName: "article_category_id_foreign"
-            columns: ["category_id"]
+            foreignKeyName: 'antiparasitic_pet_id_fkey'
+            columns: ['pet_id']
             isOneToOne: false
-            referencedRelation: "category"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "article_profile_id_foreign"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
           },
         ]
       }
-      bookmark: {
+      diet: {
         Row: {
-          article_id: number
-          date_created: string | null
-          id: number
-          profile_id: number
-        }
-        Insert: {
-          article_id: number
-          date_created?: string | null
-          id: number
-          profile_id: number
-        }
-        Update: {
-          article_id?: number
-          date_created?: string | null
-          id?: number
-          profile_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "bookmark_article_id_foreign"
-            columns: ["article_id"]
-            isOneToOne: false
-            referencedRelation: "article"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bookmark_profile_id_foreign"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      category: {
-        Row: {
-          id: number
-          slug: string
-          thumbnail: string
+          date: string
+          id: string
+          pet_id: string
+          time: string
           title: string
         }
         Insert: {
-          id: number
-          slug: string
-          thumbnail: string
+          date: string
+          id?: string
+          pet_id: string
+          time: string
           title: string
         }
         Update: {
-          id?: number
-          slug?: string
-          thumbnail?: string
+          date?: string
+          id?: string
+          pet_id?: string
+          time?: string
           title?: string
         }
-        Relationships: []
-      }
-      comment: {
-        Row: {
-          article_id: number
-          comment: string
-          date_created: string | null
-          id: number
-          profile_id: number
-        }
-        Insert: {
-          article_id: number
-          comment: string
-          date_created?: string | null
-          id: number
-          profile_id: number
-        }
-        Update: {
-          article_id?: number
-          comment?: string
-          date_created?: string | null
-          id?: number
-          profile_id?: number
-        }
         Relationships: [
           {
-            foreignKeyName: "comment_article_id_foreign"
-            columns: ["article_id"]
+            foreignKeyName: 'diet_pet_id_fkey'
+            columns: ['pet_id']
             isOneToOne: false
-            referencedRelation: "article"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "comment_profile_id_foreign"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
           },
         ]
       }
-      like: {
+      'medical treatment': {
         Row: {
-          article_id: number
-          date_created: string | null
-          id: number
-          profile_id: number
+          category: string | null
+          id: string
+          next_date: string | null
+          notes: string | null
+          pet_id: string
+          title: string
+          visit_date: string
         }
         Insert: {
-          article_id: number
-          date_created?: string | null
-          id: number
-          profile_id: number
+          category?: string | null
+          id?: string
+          next_date?: string | null
+          notes?: string | null
+          pet_id: string
+          title: string
+          visit_date: string
         }
         Update: {
-          article_id?: number
-          date_created?: string | null
-          id?: number
-          profile_id?: number
+          category?: string | null
+          id?: string
+          next_date?: string | null
+          notes?: string | null
+          pet_id?: string
+          title?: string
+          visit_date?: string
         }
         Relationships: [
           {
-            foreignKeyName: "like_article_id_foreign"
-            columns: ["article_id"]
+            foreignKeyName: 'medical treatment_pet_id_fkey'
+            columns: ['pet_id']
             isOneToOne: false
-            referencedRelation: "article"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "like_profile_id_foreign"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
           },
         ]
       }
-      notification: {
+      'other activities': {
         Row: {
-          article_id: number
-          date_created: string | null
-          id: number
-          is_read: boolean
-          message: string
-          reciver_id: number
-          sender_id: number
-          type: string
+          date: string
+          id: string
+          notes: string | null
+          pet_id: string
+          time: string
+          title: string
         }
         Insert: {
-          article_id: number
-          date_created?: string | null
-          id: number
-          is_read?: boolean
-          message: string
-          reciver_id: number
-          sender_id: number
-          type: string
+          date: string
+          id?: string
+          notes?: string | null
+          pet_id: string
+          time: string
+          title: string
         }
         Update: {
-          article_id?: number
-          date_created?: string | null
-          id?: number
-          is_read?: boolean
-          message?: string
-          reciver_id?: number
-          sender_id?: number
-          type?: string
+          date?: string
+          id?: string
+          notes?: string | null
+          pet_id?: string
+          time?: string
+          title?: string
         }
         Relationships: [
           {
-            foreignKeyName: "notification_article_id_foreign"
-            columns: ["article_id"]
+            foreignKeyName: 'other activities_pet_id_fkey'
+            columns: ['pet_id']
             isOneToOne: false
-            referencedRelation: "article"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notification_reciver_id_foreign"
-            columns: ["reciver_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notification_sender_id_foreign"
-            columns: ["sender_id"]
-            isOneToOne: false
-            referencedRelation: "profile"
-            referencedColumns: ["id"]
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
           },
         ]
       }
-      profile: {
+      'other treatments': {
         Row: {
-          biography: string
-          country: string
-          id: number
-          image: string
-          job: string
+          date: string
+          detail: string | null
+          id: string
+          notes: string | null
+          pet_id: string
+          title: string
+        }
+        Insert: {
+          date: string
+          detail?: string | null
+          id?: string
+          notes?: string | null
+          pet_id: string
+          title: string
+        }
+        Update: {
+          date?: string
+          detail?: string | null
+          id?: string
+          notes?: string | null
+          pet_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'other treatments_pet_id_fkey'
+            columns: ['pet_id']
+            isOneToOne: false
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      pets: {
+        Row: {
+          adoption_date: string | null
+          bio: string | null
+          birthdate: string | null
+          breed: string | null
+          created_at: string
+          gender: string | null
+          id: string
           name: string
-          role: string
+          profile_img: string | null
+          size: number | null
+          species: string
+          user_id: string
+          weight: number | null
         }
         Insert: {
-          biography: string
-          country: string
-          id: number
-          image: string
-          job: string
+          adoption_date?: string | null
+          bio?: string | null
+          birthdate?: string | null
+          breed?: string | null
+          created_at?: string
+          gender?: string | null
+          id?: string
           name: string
-          role: string
+          profile_img?: string | null
+          size?: number | null
+          species: string
+          user_id?: string
+          weight?: number | null
         }
         Update: {
-          biography?: string
-          country?: string
-          id?: number
-          image?: string
-          job?: string
+          adoption_date?: string | null
+          bio?: string | null
+          birthdate?: string | null
+          breed?: string | null
+          created_at?: string
+          gender?: string | null
+          id?: string
           name?: string
-          role?: string
+          profile_img?: string | null
+          size?: number | null
+          species?: string
+          user_id?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pets_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      'scheduled meals': {
+        Row: {
+          id: string
+          pet_id: string
+          time: string
+          title: string
+          toggle: boolean
+          weekday: string
+        }
+        Insert: {
+          id?: string
+          pet_id: string
+          time: string
+          title: string
+          toggle?: boolean
+          weekday: string
+        }
+        Update: {
+          id?: string
+          pet_id?: string
+          time?: string
+          title?: string
+          toggle?: boolean
+          weekday?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'scheduled meals_pet_id_fkey'
+            columns: ['pet_id']
+            isOneToOne: false
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      users: {
+        Row: {
+          birthday: string | null
+          created_at: string | null
+          email: string
+          gender: string | null
+          id: string
+          nickname: string | null
+          phone: string | null
+          profile_img: string | null
+        }
+        Insert: {
+          birthday?: string | null
+          created_at?: string | null
+          email: string
+          gender?: string | null
+          id: string
+          nickname?: string | null
+          phone?: string | null
+          profile_img?: string | null
+        }
+        Update: {
+          birthday?: string | null
+          created_at?: string | null
+          email?: string
+          gender?: string | null
+          id?: string
+          nickname?: string | null
+          phone?: string | null
+          profile_img?: string | null
         }
         Relationships: []
+      }
+      vaccines: {
+        Row: {
+          expiry_date: string
+          id: string
+          lot: string
+          notes: string | null
+          pet_id: string
+          title: string
+          vaccinated_date: string
+        }
+        Insert: {
+          expiry_date: string
+          id?: string
+          lot: string
+          notes?: string | null
+          pet_id: string
+          title: string
+          vaccinated_date: string
+        }
+        Update: {
+          expiry_date?: string
+          id?: string
+          lot?: string
+          notes?: string | null
+          pet_id?: string
+          title?: string
+          vaccinated_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'vaccines_pet_id_fkey'
+            columns: ['pet_id']
+            isOneToOne: false
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      walks: {
+        Row: {
+          date: string
+          distance: number | null
+          id: string
+          pet_id: string
+          start_time: string
+          title: string
+          total_time: number | null
+        }
+        Insert: {
+          date: string
+          distance?: number | null
+          id?: string
+          pet_id: string
+          start_time: string
+          title: string
+          total_time?: number | null
+        }
+        Update: {
+          date?: string
+          distance?: number | null
+          id?: string
+          pet_id?: string
+          start_time?: string
+          title?: string
+          total_time?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'walks_pet_id_fkey'
+            columns: ['pet_id']
+            isOneToOne: false
+            referencedRelation: 'pets'
+            referencedColumns: ['id']
+          },
+        ]
       }
     }
     Views: {
@@ -295,33 +405,33 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -330,23 +440,23 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -355,23 +465,23 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -380,36 +490,36 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+    | keyof DefaultSchema['Enums']
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
