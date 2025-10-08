@@ -1,5 +1,6 @@
 import { CalendarIcon, SquarePen, X } from 'lucide-react'
 import { useId, useState } from 'react'
+import { MedicalTreatment } from '../../libs/supabase'
 import { toISODate } from './accordionFun'
 import { ItemPropsByType } from './config-type'
 
@@ -10,8 +11,12 @@ import { ItemPropsByType } from './config-type'
  */
 export function AccordionListItemTreatment({
   title,
-  date,
-}: ItemPropsByType['vaccination']) {
+  id,
+  next_date,
+  notes,
+  category,
+  visit_date,
+}: MedicalTreatment) {
   const [mouseState, setMouseState] = useState<boolean>(false)
   const headingId = useId()
   const handleMouseIn = () => {
@@ -29,6 +34,7 @@ export function AccordionListItemTreatment({
       onBlur={handleMouseOut}
       aria-labelledby={headingId}
       className="m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 pt-[23px] pr-4 pb-[23px] pl-4"
+      id={id}
     >
       <h3
         id={headingId}
@@ -46,7 +52,7 @@ export function AccordionListItemTreatment({
       <div className="relative mr-3 ml-3 flex items-center before:absolute before:left-0 before:h-4 before:w-px before:bg-gray-300"></div>
 
       <time
-        dateTime={toISODate(date)}
+        dateTime={toISODate(visit_date)}
         className="ml-2 flex items-center gap-1 font-bold text-gray-500"
       >
         {/* 날짜 아이콘 및 표시 */}
@@ -57,7 +63,7 @@ export function AccordionListItemTreatment({
           height={20}
           className="text-gray-400"
         />
-        {date}
+        {visit_date}
       </time>
       {/* 수정 및 삭제 버튼 */}
       {mouseState && (

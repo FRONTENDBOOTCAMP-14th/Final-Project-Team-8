@@ -44,7 +44,7 @@ export type DummyRoot = {
 
 // 화면에 뿌릴 각 아이템 컴포넌트의 props 형태
 export type ItemPropsByType = {
-  vaccination: { title: string; date: string }
+  vaccination: { title: string; date: string; id: string }
   anthelmintic: { title: string; date: string }
   medical: { title: string; date: string }
   'other-treatments': { title: string; date: string }
