@@ -20,6 +20,7 @@ import {
   AccordionListItemDiet,
   AccordionListItemOther,
   AccordionListItemTreatment,
+  AccordionListItemWalk,
 } from './accordionListItem'
 
 type AccordionItemProps<T extends AccordionProps['type']> = {
@@ -192,6 +193,7 @@ export function DietCompo({ dataList }: DietProps) {
             time={time}
             date={date}
             id={id}
+            key={id}
             pet_id={pet_id}
           ></AccordionListItemDiet>
         )
@@ -231,9 +233,14 @@ export function OtherTreatmentsCompo({ dataList }: OtherTreatMentsProps) {
       {dataList.map(({ date, detail, id, notes, pet_id, title }) => {
         return (
           <AccordionListItemTreatment
+            visit_date={date}
             category={detail}
             id={id}
+            key={id}
             notes={notes}
+            title={title}
+            pet_id={pet_id}
+            next_date={null}
           ></AccordionListItemTreatment>
         )
       })}
@@ -241,7 +248,54 @@ export function OtherTreatmentsCompo({ dataList }: OtherTreatMentsProps) {
   )
 }
 
-// 서스펜스 로딩 바운더리S
+export function VaccinesCompo({ dataList }: VaccinesProps) {
+  if (!dataList) return
+  return (
+    <div>
+      {dataList.map(
+        ({ expiry_date, id, lot, notes, pet_id, title, vaccinated_date }) => {
+          return (
+            <AccordionListItemTreatment
+              title={title}
+              id={id}
+              key={id}
+              next_date={expiry_date}
+              notes={notes}
+              category={null}
+              visit_date={vaccinated_date}
+              pet_id={pet_id}
+            ></AccordionListItemTreatment>
+          )
+        }
+      )}
+    </div>
+  )
+}
+
+export function WalksCompo({ dataList }: WalksProps) {
+  return (
+    <div>
+      {dataList?.map(
+        ({ date, distance, id, pet_id, start_time, title, total_time }) => {
+          return (
+            <AccordionListItemWalk
+              date={date}
+              distance={distance}
+              id={id}
+              key={id}
+              pet_id={pet_id}
+              start_time={start_time}
+              title={title}
+              total_time={total_time}
+            ></AccordionListItemWalk>
+          )
+        }
+      )}
+    </div>
+  )
+}
+
+// 서스펜스 로딩 바운더리
 function ListLoading() {
   return (
     <div>
