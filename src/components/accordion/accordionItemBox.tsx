@@ -3,25 +3,19 @@
 import { createClient } from '@/libs/supabase/client'
 import { Suspense, useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import type {
-  Antiparasitic,
-  Diet,
-  MedicalTreatment,
-  OtherActivities,
-  OtherTreatment,
-  Vaccines,
-  Walks,
-} from '../../libs/supabase'
 import { Database } from '../../libs/supabase/database.types'
 import Button from '../ui/button/Button'
 import { AccordionProps } from './accordion'
 import { selectTypeButtonTitle } from './accordionFun'
 import {
-  AccordionListItemDiet,
-  AccordionListItemOther,
-  AccordionListItemTreatment,
-  AccordionListItemWalk,
-} from './accordionListItem'
+  AntiparasiticCompo,
+  DietCompo,
+  MedicalTreatmentCompo,
+  OtherActivitiesCompo,
+  OtherTreatmentsCompo,
+  VaccinesCompo,
+  WalksCompo,
+} from './accordionList'
 
 type AccordionItemProps<T extends AccordionProps['type']> = {
   type: T
@@ -101,196 +95,6 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
         {handleSelectTypeAccordionListItem()}
       </Suspense>
       {/* <JSONDataSpreed type={type} /> */}
-    </div>
-  )
-}
-
-type MedicalTreatmentProps = {
-  dataList: MedicalTreatment[] | null
-}
-
-type AntiparasiticProps = {
-  dataList: Antiparasitic[] | null
-}
-
-type DietProps = {
-  dataList: Diet[] | null
-}
-
-type OtherActivitiesProps = {
-  dataList: OtherActivities[] | null
-}
-
-type OtherTreatMentsProps = {
-  dataList: OtherTreatment[] | null
-}
-
-type VaccinesProps = {
-  dataList: Vaccines[] | null
-}
-
-type WalksProps = {
-  dataList: Walks[] | null
-}
-
-// 의료 처치 리스트 렌더링 컴포넌트
-export function MedicalTreatmentCompo({ dataList }: MedicalTreatmentProps) {
-  if (!dataList) return
-  return (
-    <div>
-      {dataList.map(
-        ({ category, id, next_date, notes, pet_id, title, visit_date }) => {
-          return (
-            <AccordionListItemTreatment
-              category={category}
-              title={title}
-              id={id}
-              key={id}
-              next_date={next_date}
-              notes={notes}
-              visit_date={visit_date}
-              pet_id={pet_id}
-            ></AccordionListItemTreatment>
-          )
-        }
-      )}
-    </div>
-  )
-}
-
-// 구충 치료
-export function AntiparasiticCompo({ dataList }: AntiparasiticProps) {
-  if (!dataList) return
-  return (
-    <div>
-      {dataList.map(({ id, intake_date, next_date, notes, pet_id, title }) => {
-        return (
-          <AccordionListItemTreatment
-            category={null}
-            title={title}
-            id={id}
-            key={id}
-            next_date={next_date}
-            notes={notes}
-            visit_date={intake_date}
-            pet_id={pet_id}
-          ></AccordionListItemTreatment>
-        )
-      })}
-    </div>
-  )
-}
-
-// 식단 일지 컴포넌트
-export function DietCompo({ dataList }: DietProps) {
-  if (!dataList) return
-  return (
-    <div>
-      {dataList.map(({ date, id, pet_id, time, title }) => {
-        return (
-          <AccordionListItemDiet
-            title={title}
-            time={time}
-            date={date}
-            id={id}
-            key={id}
-            pet_id={pet_id}
-          ></AccordionListItemDiet>
-        )
-      })}
-    </div>
-  )
-}
-
-// 기타 활동 컴포넌트
-export function OtherActivitiesCompo({ dataList }: OtherActivitiesProps) {
-  if (!dataList) return
-  return (
-    <div>
-      {dataList.map(({ date, id, notes, pet_id, time, title }) => {
-        return (
-          <AccordionListItemOther
-            date={date}
-            id={id}
-            key={id}
-            notes={notes}
-            pet_id={pet_id}
-            time={time}
-            title={title}
-          ></AccordionListItemOther>
-        )
-      })}
-    </div>
-  )
-}
-
-// 기타 치료 리스트 아이템
-export function OtherTreatmentsCompo({ dataList }: OtherTreatMentsProps) {
-  if (!dataList) return
-
-  return (
-    <div>
-      {dataList.map(({ date, detail, id, notes, pet_id, title }) => {
-        return (
-          <AccordionListItemTreatment
-            visit_date={date}
-            category={detail}
-            id={id}
-            key={id}
-            notes={notes}
-            title={title}
-            pet_id={pet_id}
-            next_date={null}
-          ></AccordionListItemTreatment>
-        )
-      })}
-    </div>
-  )
-}
-
-export function VaccinesCompo({ dataList }: VaccinesProps) {
-  if (!dataList) return
-  return (
-    <div>
-      {dataList.map(
-        ({ expiry_date, id, lot, notes, pet_id, title, vaccinated_date }) => {
-          return (
-            <AccordionListItemTreatment
-              title={title}
-              id={id}
-              key={id}
-              next_date={expiry_date}
-              notes={notes}
-              category={null}
-              visit_date={vaccinated_date}
-              pet_id={pet_id}
-            ></AccordionListItemTreatment>
-          )
-        }
-      )}
-    </div>
-  )
-}
-
-export function WalksCompo({ dataList }: WalksProps) {
-  return (
-    <div>
-      {dataList?.map(
-        ({ date, distance, id, pet_id, start_time, title, total_time }) => {
-          return (
-            <AccordionListItemWalk
-              date={date}
-              distance={distance}
-              id={id}
-              key={id}
-              pet_id={pet_id}
-              start_time={start_time}
-              title={title}
-              total_time={total_time}
-            ></AccordionListItemWalk>
-          )
-        }
-      )}
     </div>
   )
 }
