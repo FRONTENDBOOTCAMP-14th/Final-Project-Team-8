@@ -33,6 +33,17 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [isPending, startTransition] = useTransition()
 
+  // 각 필드(이메일, 비밀번호 등)의 방문 여부를 추적하는 touched 상태
+  // - 사용자가 입력 중일 때는 에러를 보여주지 않고
+  // - 필드를 떠났을 때(onBlur)만 에러를 표시하여 UX 개선
+  // - 예: 이메일을 'aaa@'까지만 입력한 상태에서는 에러 없음, 필드 이탈 시 에러 표시
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    password: false,
+    passwordConfirm: false,
+  })
+
   const agreeToTermsId = useId()
 
   // 비밀번호 강도 계산
@@ -89,11 +100,23 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
   }, [name, email, isPasswordValid, isPasswordMatch, agreeToTerms])
 
   const handleSubmit = useCallback(() => {
+    // 폼 제출 시 모든 필드를 touched로 설정
+    // - 사용자가 어떤 필드를 건드리지 않고 바로 제출 버튼을 누른 경우,
+    // - 모든 필드의 에러를 한 번에 표시하여 무엇을 입력해야 하는지 알려줌
+    setTouched({
+      name: true,
+      email: true,
+      password: true,
+      passwordConfirm: true,
+    })
+
+    // 폼이 유효한 경우에만 실제 회원가입 진행
     if (onSignup && isFormValid) {
       startTransition(() => {
         onSignup(email, password, name.trim())
       })
     }
+    // 폼이 유효하지 않으면 위에서 설정한 touched 상태로 인해 에러 메시지 표시
   }, [name, email, password, onSignup, isFormValid])
 
   const handleLogin = useCallback(() => {
@@ -130,33 +153,50 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
           <NameInput
             value={name}
             onChange={setName}
+            onBlur={() => setTouched(prev => ({ ...prev, name: true }))}
             error={
-              name && name.trim().length === 0 ? '이름을 입력해주세요' : ''
+              touched.name && name.trim().length === 0
+                ? '이름을 입력해주세요'
+                : ''
             }
           />
 
           <EmailInput
             value={email}
             onChange={setEmail}
+            onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
             error={
-              email && !EMAIL_REGEX.test(email)
-                ? '올바른 이메일 형식을 입력해주세요 (예: example@email.com)'
+              touched.email && !EMAIL_REGEX.test(email)
+                ? email.length === 0
+                  ? '이메일을 입력해주세요'
+                  : '올바른 이메일 형식을 입력해주세요 (예: example@email.com)'
                 : ''
             }
           />
 
+          {/* showValidation prop으로 유효성 비밀번호 검사 메시지 표시 시점 제어
+          - touched.password가 false일 때: 비밀번호 강도만 표시
+          - touched.password가 true일 때: 강도 + 세부 요구사항(6자 이상, 영문, 숫자 등) 표시
+           */}
           <PasswordInput
             value={password}
             onChange={setPassword}
+            onBlur={() => setTouched(prev => ({ ...prev, password: true }))}
             passwordStrength={passwordStrength}
             passwordValidation={passwordValidation}
             isPasswordValid={isPasswordValid}
+            showValidation={touched.password}
           />
 
+          {/* showError prop으로 비밀번호 일치/불일치 메시지 표시 시점 제어 */}
           <PasswordConfirmInput
             value={passwordConfirm}
             onChange={setPasswordConfirm}
+            onBlur={() =>
+              setTouched(prev => ({ ...prev, passwordConfirm: true }))
+            }
             isPasswordMatch={isPasswordMatch}
+            showError={touched.passwordConfirm}
           />
 
           {/* Agree to Terms Checkbox */}
@@ -177,10 +217,15 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
           </div>
 
           {/* Signup Button */}
+          {/* 여기도 수정함 */}
+          {/* disabled 조건에서 isFormValid 제거
+          - 버튼을 항상 활성화하여 사용자가 언제든 제출 시도 가능
+          - 제출 시 유효하지 않은 필드들의 에러가 모두 표시됨
+           */}
           <div className="-m-[30px] flex justify-center">
             <Button
               onClick={handleSubmit}
-              disabled={!isFormValid || isPending}
+              disabled={isPending}
               variant="orange"
               className="w-full"
             >
@@ -214,11 +259,13 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
 function NameInput({
   value,
   onChange,
+  onBlur,
   error,
   inputProps,
 }: {
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   error?: string
   inputProps?: ComponentProps<'input'>
 }) {
@@ -236,6 +283,7 @@ function NameInput({
         placeholder="이름"
         value={value}
         onChange={e => onChange(e.target.value)}
+        onBlur={onBlur}
         aria-invalid={hasError}
         aria-describedby={hasError ? `${id}-error` : undefined}
         autoComplete="name"
@@ -262,11 +310,13 @@ function NameInput({
 function EmailInput({
   value,
   onChange,
+  onBlur,
   error,
   inputProps,
 }: {
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   error?: string
   inputProps?: ComponentProps<'input'>
 }) {
@@ -284,6 +334,7 @@ function EmailInput({
         placeholder="이메일 주소"
         value={value}
         onChange={e => onChange(e.target.value)}
+        onBlur={onBlur}
         aria-invalid={hasError}
         aria-describedby={hasError ? `${id}-error` : undefined}
         autoComplete="email"
@@ -310,13 +361,16 @@ function EmailInput({
 function PasswordInput({
   value,
   onChange,
+  onBlur,
   passwordStrength,
   passwordValidation,
   isPasswordValid,
+  showValidation,
   inputProps,
 }: {
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   passwordStrength: number
   passwordValidation: {
     length: boolean
@@ -325,9 +379,13 @@ function PasswordInput({
     hasSpecialChar: boolean
   }
   isPasswordValid: boolean
+  showValidation?: boolean
   inputProps?: ComponentProps<'input'>
 }) {
   const id = useId()
+
+  const hasError =
+    (!value && showValidation) || (value && !isPasswordValid && showValidation)
 
   const getStrengthColour = (level: number) => {
     if (level === 0) return 'bg-gray-200'
@@ -354,8 +412,9 @@ function PasswordInput({
         placeholder="비밀번호"
         value={value}
         onChange={e => onChange(e.target.value)}
+        onBlur={onBlur}
         autoComplete="new-password"
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+        className={`w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
         {...inputProps}
       />
 
@@ -380,7 +439,7 @@ function PasswordInput({
             </div>
           </div>
 
-          {!isPasswordValid && (
+          {!isPasswordValid && showValidation && (
             <div className="mt-2 space-y-1 text-xs">
               <p
                 className={
@@ -420,6 +479,16 @@ function PasswordInput({
           )}
         </>
       )}
+
+      {!value && showValidation && (
+        <p
+          role="alert"
+          aria-live="polite"
+          className="mt-3 text-xs text-red-500"
+        >
+          비밀번호를 입력해주세요
+        </p>
+      )}
     </div>
   )
 }
@@ -430,15 +499,22 @@ function PasswordInput({
 function PasswordConfirmInput({
   value,
   onChange,
+  onBlur,
   isPasswordMatch,
+  showError,
   inputProps,
 }: {
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   isPasswordMatch: boolean
+  showError?: boolean
   inputProps?: ComponentProps<'input'>
 }) {
   const id = useId()
+
+  const hasError =
+    (!value && showError) || (value && !isPasswordMatch && showError)
 
   return (
     <div role="group" className="flex flex-col">
@@ -451,11 +527,12 @@ function PasswordConfirmInput({
         placeholder="비밀번호 확인"
         value={value}
         onChange={e => onChange(e.target.value)}
+        onBlur={onBlur}
         autoComplete="new-password"
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+        className={`focus:ring-orange-500' w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
         {...inputProps}
       />
-      {value && !isPasswordMatch && (
+      {value && showError && !isPasswordMatch && (
         <p
           role="alert"
           aria-live="polite"
@@ -464,13 +541,22 @@ function PasswordConfirmInput({
           비밀번호가 일치하지 않습니다
         </p>
       )}
-      {value && isPasswordMatch && (
+      {value && showError && isPasswordMatch && (
         <p
           role="alert"
           aria-live="polite"
           className="mt-3 text-xs text-green-600"
         >
           비밀번호가 일치합니다
+        </p>
+      )}
+      {!value && showError && (
+        <p
+          role="alert"
+          aria-live="polite"
+          className="mt-3 text-xs text-red-500"
+        >
+          비밀번호 확인을 입력해주세요
         </p>
       )}
     </div>
