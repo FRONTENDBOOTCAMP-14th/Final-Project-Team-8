@@ -1,6 +1,6 @@
 'use client'
 
-import { User } from 'lucide-react'
+import { Eye, EyeOff, User } from 'lucide-react'
 import {
   type ComponentProps,
   useCallback,
@@ -387,6 +387,8 @@ function PasswordInput({
   const hasError =
     (!value && showValidation) || (value && !isPasswordValid && showValidation)
 
+  const [showPassword, setShowPassword] = useState(false)
+
   const getStrengthColour = (level: number) => {
     if (level === 0) return 'bg-gray-200'
     if (level === 1) return 'bg-red-500'
@@ -406,17 +408,31 @@ function PasswordInput({
       <label htmlFor={id} className="sr-only">
         비밀번호
       </label>
-      <input
-        id={id}
-        type="password"
-        placeholder="비밀번호"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        onBlur={onBlur}
-        autoComplete="new-password"
-        className={`w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
-        {...inputProps}
-      />
+      <div className="relative">
+        <input
+          id={id}
+          type={showPassword ? 'text' : 'password'}
+          placeholder="비밀번호"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          onBlur={onBlur}
+          autoComplete="new-password"
+          className={`w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+          {...inputProps}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+        >
+          {showPassword ? (
+            <EyeOff className="h-5 w-5" />
+          ) : (
+            <Eye className="h-5 w-5" />
+          )}
+        </button>
+      </div>
 
       {value && (
         <>
@@ -516,22 +532,38 @@ function PasswordConfirmInput({
   const hasError =
     (!value && showError) || (value && !isPasswordMatch && showError)
 
+  const [showPassword, setShowPassword] = useState(false)
+
   return (
     <div role="group" className="flex flex-col">
       <label htmlFor={id} className="sr-only">
         비밀번호 확인
       </label>
-      <input
-        id={id}
-        type="password"
-        placeholder="비밀번호 확인"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        onBlur={onBlur}
-        autoComplete="new-password"
-        className={`focus:ring-orange-500' w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
-        {...inputProps}
-      />
+      <div className="relative">
+        <input
+          id={id}
+          type={showPassword ? 'text' : 'password'}
+          placeholder="비밀번호 확인"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          onBlur={onBlur}
+          autoComplete="new-password"
+          className={`focus:ring-orange-500' w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+          {...inputProps}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+        >
+          {showPassword ? (
+            <EyeOff className="h-5 w-5" />
+          ) : (
+            <Eye className="h-5 w-5" />
+          )}
+        </button>
+      </div>
       {value && showError && !isPasswordMatch && (
         <p
           role="alert"
