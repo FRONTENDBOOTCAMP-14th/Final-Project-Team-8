@@ -78,11 +78,7 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
   }, [password])
 
   const isPasswordValid = useMemo(() => {
-    return (
-      passwordValidation.length &&
-      passwordValidation.hasLetters &&
-      passwordValidation.hasNumber
-    )
+    return passwordValidation.length && passwordValidation.hasLetters
   }, [passwordValidation])
 
   const isPasswordMatch = useMemo(() => {
@@ -462,7 +458,7 @@ function PasswordInput({
                   passwordValidation.length ? 'text-green-600' : 'text-gray-500'
                 }
               >
-                ✓ {MIN_PASSWORD_LENGTH}자 이상
+                ✓ {MIN_PASSWORD_LENGTH}자 이상 (필수)
               </p>
               <p
                 className={
@@ -471,7 +467,7 @@ function PasswordInput({
                     : 'text-gray-500'
                 }
               >
-                ✓ 영문 대소문자 포함
+                ✓ 영문 대소문자 포함 (필수)
               </p>
               <p
                 className={
@@ -480,7 +476,7 @@ function PasswordInput({
                     : 'text-gray-500'
                 }
               >
-                ✓ 숫자 포함
+                ✓ 숫자 포함 (선택사항)
               </p>
               <p
                 className={
