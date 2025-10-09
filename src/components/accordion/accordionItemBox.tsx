@@ -4,30 +4,27 @@ import { createClient } from '@/libs/supabase/client'
 import { Suspense, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import type { MedicalTreatment } from '../../libs/supabase'
+import { Database } from '../../libs/supabase/database.types'
 import Button from '../ui/button/Button'
-import { selectTypeButtonTitle, TableName } from './accordionFun'
+import { AccordionProps } from './accordion'
+import { selectTypeButtonTitle } from './accordionFun'
 import { AccordionListItemTreatment } from './accordionListItem'
 
-// type ItemPropsByType = {
-//   vaccines: Vaccines
-//   antiparasitic: Antiparasitic
-//   diet: Diet
-//   'medical treatment': MedicalTreatment
-//   'other activities': OtherActivities
-//   'other treatments': OtherTreatment
-//   walks: Walks
-// }
-
-type AccordionItemProps<T extends TableName> = {
+type AccordionItemProps<T extends AccordionProps['type']> = {
   type: T
   isOpen: boolean
 }
 
-export default function AccordionItemBox<T extends TableName>({
+type AllowedTableNames = AccordionProps['type']
+
+type TableRow<T extends AllowedTableNames> =
+  Database['public']['Tables'][T]['Row']
+
+export default function AccordionItemBox<T extends AllowedTableNames>({
   type,
   isOpen,
 }: AccordionItemProps<T>) {
-  const [rows, setRows] = useState([])
+  const [rows, setRows] = useState<any[] | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -40,8 +37,8 @@ export default function AccordionItemBox<T extends TableName>({
 
       if (!mounted) return
       if (error) setError(error.message)
-      else if (data.length === 0) toast.info('해당 기록이 없습니다.')
-      else setRows(data)
+      else if (data && data.length === 0) toast.info('해당 기록이 없습니다.')
+      else if (data) setRows(data)
       setLoading(false)
     }
 
@@ -77,10 +74,11 @@ export default function AccordionItemBox<T extends TableName>({
 }
 
 type MedicalTreatmentProps = {
-  dataList: MedicalTreatment[]
+  dataList: MedicalTreatment[] | null
 }
 
 function MedicalTreatment({ dataList }: MedicalTreatmentProps) {
+  if (!dataList) return
   return (
     <div>
       {dataList.map(
