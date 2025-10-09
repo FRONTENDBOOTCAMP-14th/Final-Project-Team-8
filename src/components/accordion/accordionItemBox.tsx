@@ -3,12 +3,24 @@
 import { createClient } from '@/libs/supabase/client'
 import { Suspense, useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import type { MedicalTreatment } from '../../libs/supabase'
+import type {
+  Antiparasitic,
+  Diet,
+  MedicalTreatment,
+  OtherActivities,
+  OtherTreatment,
+  Vaccines,
+  Walks,
+} from '../../libs/supabase'
 import { Database } from '../../libs/supabase/database.types'
 import Button from '../ui/button/Button'
 import { AccordionProps } from './accordion'
 import { selectTypeButtonTitle } from './accordionFun'
-import { AccordionListItemTreatment } from './accordionListItem'
+import {
+  AccordionListItemDiet,
+  AccordionListItemOther,
+  AccordionListItemTreatment,
+} from './accordionListItem'
 
 type AccordionItemProps<T extends AccordionProps['type']> = {
   type: T
@@ -27,6 +39,25 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
   const [rows, setRows] = useState<any[] | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const handleSelectTypeAccordionListItem = () => {
+    switch (type) {
+      case 'antiparasitic':
+        return <AntiparasiticCompo dataList={rows}></AntiparasiticCompo>
+      case 'diet':
+        return <DietCompo dataList={rows}></DietCompo>
+      case 'medical treatment':
+        return <MedicalTreatmentCompo dataList={rows}></MedicalTreatmentCompo>
+      case 'other activities':
+        return <OtherActivitiesCompo dataList={rows}></OtherActivitiesCompo>
+      case 'other treatments':
+        return <OtherTreatmentsCompo dataList={rows}></OtherTreatmentsCompo>
+      case 'vaccines':
+        return <VaccinesCompo dataList={rows}></VaccinesCompo>
+      case 'walks':
+        return <WalksCompo dataList={rows}></WalksCompo>
+    }
+  }
 
   useEffect(() => {
     let mounted = true
@@ -66,7 +97,7 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
         <p>{selectTypeButtonTitle(type)}</p>
       </Button>
       <Suspense fallback={<ListLoading></ListLoading>}>
-        <MedicalTreatment dataList={rows}></MedicalTreatment>
+        {handleSelectTypeAccordionListItem()}
       </Suspense>
       {/* <JSONDataSpreed type={type} /> */}
     </div>
@@ -77,7 +108,32 @@ type MedicalTreatmentProps = {
   dataList: MedicalTreatment[] | null
 }
 
-function MedicalTreatment({ dataList }: MedicalTreatmentProps) {
+type AntiparasiticProps = {
+  dataList: Antiparasitic[] | null
+}
+
+type DietProps = {
+  dataList: Diet[] | null
+}
+
+type OtherActivitiesProps = {
+  dataList: OtherActivities[] | null
+}
+
+type OtherTreatMentsProps = {
+  dataList: OtherTreatment[] | null
+}
+
+type VaccinesProps = {
+  dataList: Vaccines[] | null
+}
+
+type WalksProps = {
+  dataList: Walks[] | null
+}
+
+// 의료 처치 리스트 렌더링 컴포넌트
+export function MedicalTreatmentCompo({ dataList }: MedicalTreatmentProps) {
   if (!dataList) return
   return (
     <div>
@@ -101,6 +157,91 @@ function MedicalTreatment({ dataList }: MedicalTreatmentProps) {
   )
 }
 
+// 구충 치료
+export function AntiparasiticCompo({ dataList }: AntiparasiticProps) {
+  if (!dataList) return
+  return (
+    <div>
+      {dataList.map(({ id, intake_date, next_date, notes, pet_id, title }) => {
+        return (
+          <AccordionListItemTreatment
+            category={null}
+            title={title}
+            id={id}
+            key={id}
+            next_date={next_date}
+            notes={notes}
+            visit_date={intake_date}
+            pet_id={pet_id}
+          ></AccordionListItemTreatment>
+        )
+      })}
+    </div>
+  )
+}
+
+// 식단 일지 컴포넌트
+export function DietCompo({ dataList }: DietProps) {
+  if (!dataList) return
+  return (
+    <div>
+      {dataList.map(({ date, id, pet_id, time, title }) => {
+        return (
+          <AccordionListItemDiet
+            title={title}
+            time={time}
+            date={date}
+            id={id}
+            pet_id={pet_id}
+          ></AccordionListItemDiet>
+        )
+      })}
+    </div>
+  )
+}
+
+// 기타 활동 컴포넌트
+export function OtherActivitiesCompo({ dataList }: OtherActivitiesProps) {
+  if (!dataList) return
+  return (
+    <div>
+      {dataList.map(({ date, id, notes, pet_id, time, title }) => {
+        return (
+          <AccordionListItemOther
+            date={date}
+            id={id}
+            key={id}
+            notes={notes}
+            pet_id={pet_id}
+            time={time}
+            title={title}
+          ></AccordionListItemOther>
+        )
+      })}
+    </div>
+  )
+}
+
+// 기타 치료 리스트 아이템
+export function OtherTreatmentsCompo({ dataList }: OtherTreatMentsProps) {
+  if (!dataList) return
+
+  return (
+    <div>
+      {dataList.map(({ date, detail, id, notes, pet_id, title }) => {
+        return (
+          <AccordionListItemTreatment
+            category={detail}
+            id={id}
+            notes={notes}
+          ></AccordionListItemTreatment>
+        )
+      })}
+    </div>
+  )
+}
+
+// 서스펜스 로딩 바운더리S
 function ListLoading() {
   return (
     <div>
@@ -109,30 +250,3 @@ function ListLoading() {
     </div>
   )
 }
-
-// function JSONDataSpreed({ type }) {
-//   const conf = ACCORDION_CONFIG[type] // 여기서부터 T로 고정
-//   const sections = conf.select(dummyData as unknown as DummyRoot) ?? []
-//   return (
-//     <>
-//       {sections.map((section, si) => {
-//         const { year, records } = section
-//         const Item = conf.Item as ComponentType<ItemPropsByType[T]>
-
-//         return (
-//           <div key={`year-${si}`}>
-//             <h2 tabIndex={-1} className="m-5 font-bold text-gray-800">
-//               {year}
-//             </h2>
-//             <ul tabIndex={-1}>
-//               {records.map((rec: any, ri: number) => {
-//                 const props = conf.toProps(rec) as ItemPropsByType[T]
-//                 return <Item key={`item-${si}-${ri}`} {...props} />
-//               })}
-//             </ul>
-//           </div>
-//         )
-//       })}
-//     </>
-//   )
-// }

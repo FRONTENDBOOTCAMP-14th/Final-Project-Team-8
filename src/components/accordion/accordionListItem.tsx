@@ -1,6 +1,6 @@
 import { CalendarIcon, SquarePen, X } from 'lucide-react'
 import { useId, useState } from 'react'
-import { MedicalTreatment } from '../../libs/supabase'
+import { Diet, MedicalTreatment, OtherActivities } from '../../libs/supabase'
 import { toISODate } from './accordionFun'
 import { ItemPropsByType } from './config-type'
 
@@ -65,6 +65,13 @@ export function AccordionListItemTreatment({
         />
         {visit_date}
       </time>
+      <time
+        aria-label="next date"
+        dateTime={toISODate(next_date ?? null)}
+        className="sr-only"
+      >
+        {next_date}
+      </time>
       {/* 수정 및 삭제 버튼 */}
       {mouseState && (
         <>
@@ -101,11 +108,7 @@ export function AccordionListItemTreatment({
  * 년도별 기록(제목, 시간, 일) 한 줄 렌더링
  * 식단 일지 ...
  */
-export function AccordionListItem({
-  title,
-  date,
-  time,
-}: ItemPropsByType['food-journal']) {
+export function AccordionListItemDiet({ title, date, time, id, pet_id }: Diet) {
   const [mouseState, setMouseState] = useState<boolean>(false)
   const headingId = useId()
   const handleMouseIn = () => {
@@ -276,8 +279,11 @@ export function AccordionListItemWalk({
 export function AccordionListItemOther({
   title,
   date,
-  content,
-}: ItemPropsByType['other-journals']) {
+  notes,
+  pet_id,
+  time,
+  id,
+}: OtherActivities) {
   const [mouseState, setMouseState] = useState<boolean>(false)
   const headingId = useId()
 
@@ -295,7 +301,7 @@ export function AccordionListItemOther({
       onFocus={handleMouseIn}
       onBlur={handleMouseOut}
       aria-labelledby={headingId}
-      className="m-5 max-h-34 min-h-25 w-[calc(100%-40px)] rounded-xl border border-gray-300 px-4 py-[16px]"
+      className="m-5 max-h-34 min-h-25 w-[calc(100%-40px)] list-none rounded-xl border border-gray-300 px-4 py-[16px]"
     >
       <div className="mb-1 flex">
         <button
@@ -326,7 +332,7 @@ export function AccordionListItemOther({
       </div>
       <div className="flex">
         <p className="line-clamp-4 grow text-start text-sm whitespace-pre-line text-gray-500">
-          {content}
+          {notes}
         </p>
         {mouseState && (
           <div className="flex items-center justify-end">

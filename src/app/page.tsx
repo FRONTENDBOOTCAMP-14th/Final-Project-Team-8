@@ -7,7 +7,7 @@ export default function HomePage() {
         <RandomCountUp />
       </LearnSection> */}
 
-      <Accordion type="medical treatment" title="의료 처치"></Accordion>
+      <Accordion type="other activities" title="기타 활동"></Accordion>
     </section>
   )
 }
