@@ -1,8 +1,12 @@
 import { CalendarIcon, SquarePen, X } from 'lucide-react'
 import { useId, useState } from 'react'
-import { Diet, MedicalTreatment, OtherActivities } from '../../libs/supabase'
+import {
+  Diet,
+  MedicalTreatment,
+  OtherActivities,
+  Walks,
+} from '../../libs/supabase'
 import { toISODate } from './accordionFun'
-import { ItemPropsByType } from './config-type'
 
 /**
  * AccordionListItemTreatment 컴포넌트
@@ -70,7 +74,7 @@ export function AccordionListItemTreatment({
         dateTime={toISODate(next_date ?? null)}
         className="sr-only"
       >
-        {next_date}
+        {next_date ?? '다음 예정일이 없습니다.'}
       </time>
       {/* 수정 및 삭제 버튼 */}
       {mouseState && (
@@ -189,10 +193,10 @@ export function AccordionListItemDiet({ title, date, time, id, pet_id }: Diet) {
 export function AccordionListItemWalk({
   title,
   date,
-  startTime,
-  distanceKm,
-  duration,
-}: ItemPropsByType['walk']) {
+  start_time,
+  distance,
+  total_time,
+}: Walks) {
   const [mouseState, setMouseState] = useState<boolean>(false)
   const headingId = useId()
   const handleMouseIn = () => {
@@ -233,17 +237,17 @@ export function AccordionListItemWalk({
             {date}
           </time>
           <div className="h-4 w-px bg-gray-300" />
-          <span className="text-base text-gray-500">{startTime}</span>
+          <span className="text-base text-gray-500">{start_time}</span>
         </div>
       </div>
 
       <div className="flex items-center justify-center gap-4">
         <span className="text-gray-500">
-          <span className="font-bold text-gray-800">{distanceKm}</span> km
+          <span className="font-bold text-gray-800">{distance}</span> km
         </span>
         <div className="h-4 w-px bg-gray-300" />
         <span className="text-gray-500">
-          <span className="font-bold text-gray-800">{duration}</span> min
+          <span className="font-bold text-gray-800">{total_time}</span> min
         </span>
       </div>
       {mouseState && (
