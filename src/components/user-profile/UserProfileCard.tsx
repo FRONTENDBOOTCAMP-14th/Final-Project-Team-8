@@ -1,27 +1,47 @@
 'use client'
 
+import { getUserData } from '@/libs/api/user'
 import { createClient } from '@/libs/supabase/client'
 import { User } from '@supabase/supabase-js'
 import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 interface UserProfileCardProps {
   user: User
+  userId: string
 }
 
-export default function UserProfileCard({ user }: UserProfileCardProps) {
+interface UserData {
+  nickname?: string | null
+  profile_img?: string | null
+}
+
+export default function UserProfileCard({
+  user,
+  userId,
+}: UserProfileCardProps) {
   const router = useRouter()
 
-  // user_metadata에서 이름 가져오기
+  // user 테이블에서 유저정보 가져오기
+  const [userData, setUserData] = useState<UserData | null>(null)
+  useEffect(() => {
+    const fetchUSerData = async () => {
+      const data = await getUserData(userId)
+      setUserData(data)
+    }
+    fetchUSerData()
+  }, [userId])
+
+  // user테이블에서 이름 가져오기
   // 없으면 이메일 앞부분 사용
-  const displayName =
-    user.user_metadata?.name || user.email?.split('@')[0] || 'User'
+  const displayName = userData?.nickname || user.email?.split('@')[0] || 'User'
 
   // 프로필 이미지
-  const avatarUrl = user.user_metadata?.avatar_url
+  const avatarUrl = userData?.profile_img || user.user_metadata?.avatar_url
 
-  // 이름의 첫 글자 가져오기
+  // 이름의 첫 글자 가져오기 (기본 프로필에 들어감)
   const getInitial = (name: string) => {
     return name.charAt(0).toUpperCase()
   }
