@@ -1,4 +1,4 @@
-import { type RefObject } from 'react'
+import { useMemo, type RefObject } from 'react'
 import { type CalendarDay } from './CalendarComponent'
 
 interface Props {
@@ -29,6 +29,16 @@ export default function Day({
       selectedDate.getDate() === date
     : false
 
+  const isToday = useMemo(() => {
+    const today = new Date()
+
+    return (
+      today.getFullYear() === currentYear &&
+      today.getMonth() + 1 === currentMonth &&
+      today.getDate() === date
+    )
+  }, [currentYear, currentMonth, date])
+
   const handleClick = () => {
     if (isCurrentMonth) {
       onDayClick(date)
@@ -47,7 +57,7 @@ export default function Day({
           isCurrentMonth
             ? ''
             : 'pointer-events-none bg-[#F7F7FC] text-[#A3A0C0]'
-        } ${isSelected ? 'border-[#FF6000] !bg-[#FFD8C080] text-[#FF6000]' : ''}`}
+        } ${isSelected ? 'border-[#FF6000] !bg-[#FFD8C080] text-[#FF6000]' : ''} ${isToday ? 'border-[#FF6000] text-[#FF6000]' : ''}`}
       >
         {date}
       </button>
