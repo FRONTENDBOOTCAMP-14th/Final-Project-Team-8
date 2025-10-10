@@ -1,6 +1,6 @@
 'use client'
 
-import { User } from 'lucide-react'
+import { Eye, EyeOff, User } from 'lucide-react'
 import {
   type ComponentProps,
   useCallback,
@@ -21,16 +21,28 @@ const PASSWORD_RULES = {
 }
 
 export interface SignupProps {
-  onSignup?: (email: string, password: string) => void
+  onSignup?: (email: string, password: string, name: string) => void
   onLogin?: () => void
 }
 
 export default function Signup({ onSignup, onLogin }: SignupProps) {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [isPending, startTransition] = useTransition()
+
+  // 각 필드(이메일, 비밀번호 등)의 방문 여부를 추적하는 touched 상태
+  // - 사용자가 입력 중일 때는 에러를 보여주지 않고
+  // - 필드를 떠났을 때(onBlur)만 에러를 표시하여 UX 개선
+  // - 예: 이메일을 'aaa@'까지만 입력한 상태에서는 에러 없음, 필드 이탈 시 에러 표시
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    password: false,
+    passwordConfirm: false,
+  })
 
   const agreeToTermsId = useId()
 
@@ -66,11 +78,7 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
   }, [password])
 
   const isPasswordValid = useMemo(() => {
-    return (
-      passwordValidation.length &&
-      passwordValidation.hasLetters &&
-      passwordValidation.hasNumber
-    )
+    return passwordValidation.length && passwordValidation.hasLetters
   }, [passwordValidation])
 
   const isPasswordMatch = useMemo(() => {
@@ -79,20 +87,33 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
 
   const isFormValid = useMemo(() => {
     return (
+      name.trim().length > 0 &&
       EMAIL_REGEX.test(email) &&
       isPasswordValid &&
       isPasswordMatch &&
       agreeToTerms
     )
-  }, [email, isPasswordValid, isPasswordMatch, agreeToTerms])
+  }, [name, email, isPasswordValid, isPasswordMatch, agreeToTerms])
 
   const handleSubmit = useCallback(() => {
+    // 폼 제출 시 모든 필드를 touched로 설정
+    // - 사용자가 어떤 필드를 건드리지 않고 바로 제출 버튼을 누른 경우,
+    // - 모든 필드의 에러를 한 번에 표시하여 무엇을 입력해야 하는지 알려줌
+    setTouched({
+      name: true,
+      email: true,
+      password: true,
+      passwordConfirm: true,
+    })
+
+    // 폼이 유효한 경우에만 실제 회원가입 진행
     if (onSignup && isFormValid) {
       startTransition(() => {
-        onSignup(email, password)
+        onSignup(email, password, name.trim())
       })
     }
-  }, [email, password, onSignup, isFormValid])
+    // 폼이 유효하지 않으면 위에서 설정한 touched 상태로 인해 에러 메시지 표시
+  }, [name, email, password, onSignup, isFormValid])
 
   const handleLogin = useCallback(() => {
     if (onLogin) {
@@ -125,28 +146,53 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
 
         {/* Signup Form */}
         <div className="space-y-6">
-          <EmailInput
-            value={email}
-            onChange={setEmail}
+          <NameInput
+            value={name}
+            onChange={setName}
+            onBlur={() => setTouched(prev => ({ ...prev, name: true }))}
             error={
-              email && !EMAIL_REGEX.test(email)
-                ? '올바른 이메일 형식을 입력해주세요 (예: example@email.com)'
+              touched.name && name.trim().length === 0
+                ? '이름을 입력해주세요'
                 : ''
             }
           />
 
+          <EmailInput
+            value={email}
+            onChange={setEmail}
+            onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
+            error={
+              touched.email && !EMAIL_REGEX.test(email)
+                ? email.length === 0
+                  ? '이메일을 입력해주세요'
+                  : '올바른 이메일 형식을 입력해주세요 (예: example@email.com)'
+                : ''
+            }
+          />
+
+          {/* showValidation prop으로 유효성 비밀번호 검사 메시지 표시 시점 제어
+          - touched.password가 false일 때: 비밀번호 강도만 표시
+          - touched.password가 true일 때: 강도 + 세부 요구사항(6자 이상, 영문, 숫자 등) 표시
+           */}
           <PasswordInput
             value={password}
             onChange={setPassword}
+            onBlur={() => setTouched(prev => ({ ...prev, password: true }))}
             passwordStrength={passwordStrength}
             passwordValidation={passwordValidation}
             isPasswordValid={isPasswordValid}
+            showValidation={touched.password}
           />
 
+          {/* showError prop으로 비밀번호 일치/불일치 메시지 표시 시점 제어 */}
           <PasswordConfirmInput
             value={passwordConfirm}
             onChange={setPasswordConfirm}
+            onBlur={() =>
+              setTouched(prev => ({ ...prev, passwordConfirm: true }))
+            }
             isPasswordMatch={isPasswordMatch}
+            showError={touched.passwordConfirm}
           />
 
           {/* Agree to Terms Checkbox */}
@@ -167,10 +213,15 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
           </div>
 
           {/* Signup Button */}
+          {/* 여기도 수정함 */}
+          {/* disabled 조건에서 isFormValid 제거
+          - 버튼을 항상 활성화하여 사용자가 언제든 제출 시도 가능
+          - 제출 시 유효하지 않은 필드들의 에러가 모두 표시됨
+           */}
           <div className="-m-[30px] flex justify-center">
             <Button
               onClick={handleSubmit}
-              disabled={!isFormValid || isPending}
+              disabled={isPending}
               variant="orange"
               className="w-full"
             >
@@ -198,16 +249,70 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
 }
 
 /**
- * 이메일 입력 컴포넌트
+ * 이름(닉네임) 입력 컴포넌트
  */
-function EmailInput({
+
+function NameInput({
   value,
   onChange,
+  onBlur,
   error,
   inputProps,
 }: {
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
+  error?: string
+  inputProps?: ComponentProps<'input'>
+}) {
+  const id = useId()
+  const hasError = !!error
+
+  return (
+    <div role="group" className="flex flex-col">
+      <label htmlFor={id} className="sr-only">
+        이름
+      </label>
+      <input
+        id={id}
+        type="text"
+        placeholder="이름"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        onBlur={onBlur}
+        aria-invalid={hasError}
+        aria-describedby={hasError ? `${id}-error` : undefined}
+        autoComplete="name"
+        className={`rounded-lg border px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+        {...inputProps}
+      />
+      {error && (
+        <div
+          role="alert"
+          aria-live="polite"
+          id={`${id}-error`}
+          className="mt-3 text-xs text-red-500"
+        >
+          {error}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/**
+ * 이메일 입력 컴포넌트
+ */
+function EmailInput({
+  value,
+  onChange,
+  onBlur,
+  error,
+  inputProps,
+}: {
+  value: string
+  onChange: (value: string) => void
+  onBlur?: () => void
   error?: string
   inputProps?: ComponentProps<'input'>
 }) {
@@ -225,6 +330,7 @@ function EmailInput({
         placeholder="이메일 주소"
         value={value}
         onChange={e => onChange(e.target.value)}
+        onBlur={onBlur}
         aria-invalid={hasError}
         aria-describedby={hasError ? `${id}-error` : undefined}
         autoComplete="email"
@@ -251,13 +357,16 @@ function EmailInput({
 function PasswordInput({
   value,
   onChange,
+  onBlur,
   passwordStrength,
   passwordValidation,
   isPasswordValid,
+  showValidation,
   inputProps,
 }: {
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   passwordStrength: number
   passwordValidation: {
     length: boolean
@@ -266,9 +375,15 @@ function PasswordInput({
     hasSpecialChar: boolean
   }
   isPasswordValid: boolean
+  showValidation?: boolean
   inputProps?: ComponentProps<'input'>
 }) {
   const id = useId()
+
+  const hasError =
+    (!value && showValidation) || (value && !isPasswordValid && showValidation)
+
+  const [showPassword, setShowPassword] = useState(false)
 
   const getStrengthColour = (level: number) => {
     if (level === 0) return 'bg-gray-200'
@@ -289,16 +404,31 @@ function PasswordInput({
       <label htmlFor={id} className="sr-only">
         비밀번호
       </label>
-      <input
-        id={id}
-        type="password"
-        placeholder="비밀번호"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        autoComplete="new-password"
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-        {...inputProps}
-      />
+      <div className="relative">
+        <input
+          id={id}
+          type={showPassword ? 'text' : 'password'}
+          placeholder="비밀번호"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          onBlur={onBlur}
+          autoComplete="new-password"
+          className={`w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+          {...inputProps}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+        >
+          {showPassword ? (
+            <EyeOff className="h-5 w-5" />
+          ) : (
+            <Eye className="h-5 w-5" />
+          )}
+        </button>
+      </div>
 
       {value && (
         <>
@@ -321,14 +451,14 @@ function PasswordInput({
             </div>
           </div>
 
-          {!isPasswordValid && (
+          {!isPasswordValid && showValidation && (
             <div className="mt-2 space-y-1 text-xs">
               <p
                 className={
                   passwordValidation.length ? 'text-green-600' : 'text-gray-500'
                 }
               >
-                ✓ {MIN_PASSWORD_LENGTH}자 이상
+                ✓ {MIN_PASSWORD_LENGTH}자 이상 (필수)
               </p>
               <p
                 className={
@@ -337,7 +467,7 @@ function PasswordInput({
                     : 'text-gray-500'
                 }
               >
-                ✓ 영문 대소문자 포함
+                ✓ 영문 대소문자 포함 (필수)
               </p>
               <p
                 className={
@@ -346,7 +476,7 @@ function PasswordInput({
                     : 'text-gray-500'
                 }
               >
-                ✓ 숫자 포함
+                ✓ 숫자 포함 (선택사항)
               </p>
               <p
                 className={
@@ -361,6 +491,16 @@ function PasswordInput({
           )}
         </>
       )}
+
+      {!value && showValidation && (
+        <p
+          role="alert"
+          aria-live="polite"
+          className="mt-3 text-xs text-red-500"
+        >
+          비밀번호를 입력해주세요
+        </p>
+      )}
     </div>
   )
 }
@@ -371,32 +511,56 @@ function PasswordInput({
 function PasswordConfirmInput({
   value,
   onChange,
+  onBlur,
   isPasswordMatch,
+  showError,
   inputProps,
 }: {
   value: string
   onChange: (value: string) => void
+  onBlur?: () => void
   isPasswordMatch: boolean
+  showError?: boolean
   inputProps?: ComponentProps<'input'>
 }) {
   const id = useId()
+
+  const hasError =
+    (!value && showError) || (value && !isPasswordMatch && showError)
+
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <div role="group" className="flex flex-col">
       <label htmlFor={id} className="sr-only">
         비밀번호 확인
       </label>
-      <input
-        id={id}
-        type="password"
-        placeholder="비밀번호 확인"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        autoComplete="new-password"
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-        {...inputProps}
-      />
-      {value && !isPasswordMatch && (
+      <div className="relative">
+        <input
+          id={id}
+          type={showPassword ? 'text' : 'password'}
+          placeholder="비밀번호 확인"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          onBlur={onBlur}
+          autoComplete="new-password"
+          className={`focus:ring-orange-500' w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+          {...inputProps}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+        >
+          {showPassword ? (
+            <EyeOff className="h-5 w-5" />
+          ) : (
+            <Eye className="h-5 w-5" />
+          )}
+        </button>
+      </div>
+      {value && showError && !isPasswordMatch && (
         <p
           role="alert"
           aria-live="polite"
@@ -405,13 +569,22 @@ function PasswordConfirmInput({
           비밀번호가 일치하지 않습니다
         </p>
       )}
-      {value && isPasswordMatch && (
+      {value && showError && isPasswordMatch && (
         <p
           role="alert"
           aria-live="polite"
           className="mt-3 text-xs text-green-600"
         >
           비밀번호가 일치합니다
+        </p>
+      )}
+      {!value && showError && (
+        <p
+          role="alert"
+          aria-live="polite"
+          className="mt-3 text-xs text-red-500"
+        >
+          비밀번호 확인을 입력해주세요
         </p>
       )}
     </div>
