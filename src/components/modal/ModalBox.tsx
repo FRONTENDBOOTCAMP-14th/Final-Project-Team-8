@@ -26,14 +26,19 @@
 import { PropsWithChildren, useState } from 'react'
 import useToggleState from '../../hooks/useToggleState'
 import Modal from './Modal'
-import ModalDetail from './Modal-detail'
+import ModalDetail, { ModalDetailInput } from './Modal-detail'
 
 type Props = PropsWithChildren<{
   /** 모달 상단 제목 */
   title: string
+  modalDetail: boolean
 }>
 
-export default function ModalBox({ title, children }: Props) {
+export default function ModalBox({
+  title,
+  modalDetail = true,
+  children,
+}: Props) {
   // ✅ 모달 열림/닫힘 상태 (토글 훅 사용)
   const [isOpen, toggleHandler] = useToggleState(false)
 
@@ -62,12 +67,44 @@ export default function ModalBox({ title, children }: Props) {
         isModify={isModify}
         setModify={setModify}
       >
-        {/* ✅ 주요 정보 섹션 */}
-        <h2 className="text-[18px] font-bold text-gray-800">상세</h2>
-
         {/* ✅ 상세 및 특이사항 컴포넌트 */}
-        <ModalDetail isModify={isModify}></ModalDetail>
+        {modalDetail && <ModalDetail isModify={isModify}></ModalDetail>}
+        <ModalDetailInput isModify={isModify}></ModalDetailInput>
+        {/* ✅ 하단 children 삽입영역 */}
+        <div>{children}</div>
+      </Modal>
+    </div>
+  )
+}
 
+type ModalBoxInputProps = PropsWithChildren<{
+  /** 모달 상단 제목 */
+  pleaceholder?: string
+}>
+
+export function ModalBoxInput({ pleaceholder, children }: ModalBoxInputProps) {
+  const [isOpen, toggleHandler] = useToggleState(false)
+  const { on, off } = toggleHandler
+  return (
+    <div>
+      {/* 모달 열기 버튼 */}
+      <button
+        type="button"
+        onClick={on}
+        className="m-3 cursor-pointer rounded-md bg-indigo-200 p-3 text-xl font-bold text-indigo-600 transition hover:bg-indigo-300 active:scale-[0.95]"
+      >
+        모달 {isOpen ? '닫기' : '열기'}
+      </button>
+
+      {/* Modal 컴포넌트 호출 */}
+      <Modal
+        open={isOpen}
+        onClose={off}
+        title={''}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalDetailInput isModify={isModify}></ModalDetailInput>
         {/* ✅ 하단 children 삽입영역 */}
         <div>{children}</div>
       </Modal>
