@@ -5,7 +5,7 @@ export { default as ImgCardButton } from './ui/button/ImgCardButton'
 
 export { default as DynamicImage } from './ui/dynamic-image'
 
-export { default as CalendarComponent } from './calendar/CalendarComponent'
+export { default as CalendarModal } from './calendar/CalendarModal'
 export { default as LearnSection } from './learn/section'
 
 export { default as Sidebar } from './ui/sidebar/Sidebar'

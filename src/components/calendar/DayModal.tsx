@@ -1,5 +1,5 @@
 import { useCallback, useMemo, type RefObject } from 'react'
-import { type CalendarDay } from './CalendarComponent'
+import { type CalendarDay } from './useCalendar'
 
 interface Props {
   dayData: CalendarDay

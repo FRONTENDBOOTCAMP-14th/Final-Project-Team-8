@@ -1,12 +1,31 @@
-'use client'
-
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import SelectDate from './SelectDate'
-import Week from './Week'
 
 export interface CalendarDay {
   date: number
   isCurrentMonth: boolean
+}
+
+export interface CalendarControls {
+  currentYear: number
+  currentMonth: number
+  setCurrentYear: React.Dispatch<React.SetStateAction<number>>
+  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>
+  selectedDate: Date | null
+  calendar: CalendarDay[][]
+  handleDayClick: (date: number) => void
+  selectedDateRef: React.RefObject<HTMLButtonElement | null>
+  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
+  focusDay: (row: number, col: number) => void
+}
+
+export interface DayProps {
+  currentYear: number
+  currentMonth: number
+  selectedDate: Date | null
+  onDayClick: (date: number) => void
+  selectedDateRef: React.RefObject<HTMLButtonElement | null>
+  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
+  focusDay: (row: number, col: number) => void
 }
 
 interface Props {
@@ -14,12 +33,10 @@ interface Props {
   initialSelectedDate?: Date | null
 }
 
-export default function CalendarComponent({
+export const useCalendar = ({
   onDayClick,
   initialSelectedDate = null,
-}: Props) {
-  const DAYS_OF_WEEK = ['일', '월', '화', '수', '목', '금', '토']
-
+}: Props): CalendarControls => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1)
   const [selectedDate, setSelectedDate] = useState<Date | null>(
@@ -27,6 +44,7 @@ export default function CalendarComponent({
   )
 
   const selectedDateRef = useRef<HTMLButtonElement>(null)
+  const dayButtonRefs = useRef(new Map<string, HTMLButtonElement>())
 
   useEffect(() => {
     if (!initialSelectedDate && !selectedDate) {
@@ -37,8 +55,6 @@ export default function CalendarComponent({
       selectedDateRef.current.focus()
     }
   }, [initialSelectedDate, selectedDate])
-
-  const dayButtonRefs = useRef(new Map<string, HTMLButtonElement>())
 
   const setDayButtonRef = useCallback(
     (key: string, node: HTMLButtonElement | null) => {
@@ -51,15 +67,14 @@ export default function CalendarComponent({
     []
   )
 
-  const focusDay = (row: number, col: number) => {
+  const focusDay = useCallback((row: number, col: number) => {
     const targetKey = `${row}-${col}`
     const targetElement = dayButtonRefs.current.get(targetKey)
 
     if (targetElement) {
       targetElement.focus()
-    } else {
     }
-  }
+  }, [])
 
   const calendar = useMemo(() => {
     // 이번 달 마지막 날짜 & 이번 달 총 일 수
@@ -135,42 +150,16 @@ export default function CalendarComponent({
     }
   }
 
-  return (
-    <section>
-      <h1 className="sr-only">캘린더 컴포넌트</h1>
-      <SelectDate
-        currentYear={currentYear}
-        currentMonth={currentMonth}
-        setCurrentYear={setCurrentYear}
-        setCurrentMonth={setCurrentMonth}
-      />
-      <table className="border-separate border-spacing-4 text-center">
-        <thead className="text-sm font-bold text-[#80809A]">
-          <tr>
-            {DAYS_OF_WEEK.map((day, index) => (
-              <td key={index} aria-label={`${day}요일`}>
-                {day}
-              </td>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="text-[#636073]">
-          {calendar.map((week, index) => (
-            <Week
-              key={index}
-              week={week}
-              currentYear={currentYear}
-              currentMonth={currentMonth}
-              selectedDate={selectedDate}
-              onDayClick={handleDayClick}
-              selectedDateRef={selectedDateRef}
-              weekIndex={index}
-              setDayButtonRef={setDayButtonRef}
-              focusDay={focusDay}
-            />
-          ))}
-        </tbody>
-      </table>
-    </section>
-  )
+  return {
+    currentYear,
+    currentMonth,
+    setCurrentYear,
+    setCurrentMonth,
+    selectedDate,
+    calendar,
+    handleDayClick,
+    selectedDateRef,
+    setDayButtonRef,
+    focusDay,
+  }
 }

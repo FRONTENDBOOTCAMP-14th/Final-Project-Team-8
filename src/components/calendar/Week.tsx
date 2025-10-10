@@ -1,34 +1,31 @@
-import { type RefObject } from 'react'
-import { type CalendarDay } from './CalendarComponent'
-import Day from './Day'
+import type { CalendarDay, DayProps } from './useCalendar'
 
-interface Props {
+interface Props extends DayProps {
   week: CalendarDay[]
-  currentYear: number
-  currentMonth: number
-  selectedDate: Date | null
-  onDayClick: (date: number) => void
-  selectedDateRef: RefObject<HTMLButtonElement | null>
   weekIndex: number
-  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
-  focusDay: (row: number, col: number) => void
+  DayComponent: React.ComponentType<any>
 }
 
 export default function Week({
   week,
-  currentYear,
-  currentMonth,
-  selectedDate,
-  onDayClick,
-  selectedDateRef,
   weekIndex,
-  setDayButtonRef,
-  focusDay,
+  DayComponent,
+  ...allProps
 }: Props) {
+  const {
+    currentYear,
+    currentMonth,
+    selectedDate,
+    onDayClick,
+    selectedDateRef,
+    setDayButtonRef,
+    focusDay,
+  } = allProps
+
   return (
     <tr>
       {week.map((dayData, index) => (
-        <Day
+        <DayComponent
           key={index}
           dayData={dayData}
           currentYear={currentYear}
