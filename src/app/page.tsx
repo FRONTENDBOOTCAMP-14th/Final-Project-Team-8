@@ -1,5 +1,4 @@
 import Accordion from '../components/accordion/accordion'
-import DevSignOut from '../libs/api/DevSignOut'
 
 export default function HomePage() {
   return (
@@ -7,7 +6,6 @@ export default function HomePage() {
       {/* <LearnSection title="랜덤 카운트 업">
         <RandomCountUp />
       </LearnSection> */}
-      <DevSignOut></DevSignOut>
       <Accordion type="vaccines" title="예방접종"></Accordion>
       <Accordion type="antiparasitic" title="구충 치료"></Accordion>
       <Accordion type="medical treatment" title="의료 처치"></Accordion>
