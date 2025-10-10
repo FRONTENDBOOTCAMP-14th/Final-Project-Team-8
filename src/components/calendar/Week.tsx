@@ -9,6 +9,9 @@ interface Props {
   selectedDate: Date | null
   onDayClick: (date: number) => void
   selectedDateRef: RefObject<HTMLButtonElement | null>
+  weekIndex: number
+  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
+  focusDay: (row: number, col: number) => void
 }
 
 export default function Week({
@@ -18,6 +21,9 @@ export default function Week({
   selectedDate,
   onDayClick,
   selectedDateRef,
+  weekIndex,
+  setDayButtonRef,
+  focusDay,
 }: Props) {
   return (
     <tr>
@@ -30,6 +36,10 @@ export default function Week({
           selectedDate={selectedDate}
           onDayClick={onDayClick}
           selectedDateRef={selectedDateRef}
+          rowIndex={weekIndex}
+          colIndex={index}
+          setDayButtonRef={setDayButtonRef}
+          focusDay={focusDay}
           aria-label={`${dayData.date}일`}
         />
       ))}

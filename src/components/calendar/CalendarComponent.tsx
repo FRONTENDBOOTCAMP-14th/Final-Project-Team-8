@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import SelectDate from './SelectDate'
 import Week from './Week'
 
@@ -37,6 +37,29 @@ export default function CalendarComponent({
       selectedDateRef.current.focus()
     }
   }, [initialSelectedDate, selectedDate])
+
+  const dayButtonRefs = useRef(new Map<string, HTMLButtonElement>())
+
+  const setDayButtonRef = useCallback(
+    (key: string, node: HTMLButtonElement | null) => {
+      if (node) {
+        dayButtonRefs.current.set(key, node)
+      } else {
+        dayButtonRefs.current.delete(key)
+      }
+    },
+    []
+  )
+
+  const focusDay = (row: number, col: number) => {
+    const targetKey = `${row}-${col}`
+    const targetElement = dayButtonRefs.current.get(targetKey)
+
+    if (targetElement) {
+      targetElement.focus()
+    } else {
+    }
+  }
 
   const calendar = useMemo(() => {
     // 이번 달 마지막 날짜 & 이번 달 총 일 수
@@ -141,6 +164,9 @@ export default function CalendarComponent({
               selectedDate={selectedDate}
               onDayClick={handleDayClick}
               selectedDateRef={selectedDateRef}
+              weekIndex={index}
+              setDayButtonRef={setDayButtonRef}
+              focusDay={focusDay}
             />
           ))}
         </tbody>

@@ -50,22 +50,6 @@ export default function SelectDate({
 
   return (
     <section className="flex flex-row items-center justify-between">
-      <Button
-        variant="white"
-        aria-label="이전 월 선택"
-        onClick={() => handleMonthChange(-1)}
-        className="!m-0 h-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
-      >
-        <ChevronLeft className="h-5 w-5 text-[#B5B3CD]" />
-      </Button>
-      <Button
-        variant="white"
-        aria-label="다음 월 선택"
-        onClick={() => handleMonthChange(1)}
-        className="order-1 !m-0 h-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
-      >
-        <ChevronRight className="h-5 w-5 text-[#B5B3CD]" />
-      </Button>
       <label htmlFor="year-select" className="sr-only">
         연도 선택
       </label>
@@ -99,6 +83,22 @@ export default function SelectDate({
           </option>
         ))}
       </select>
+      <Button
+        variant="white"
+        aria-label="이전 월 선택"
+        onClick={() => handleMonthChange(-1)}
+        className="order-first !m-0 h-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
+      >
+        <ChevronLeft className="h-5 w-5 text-[#B5B3CD]" />
+      </Button>
+      <Button
+        variant="white"
+        aria-label="다음 월 선택"
+        onClick={() => handleMonthChange(1)}
+        className="!m-0 h-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
+      >
+        <ChevronRight className="h-5 w-5 text-[#B5B3CD]" />
+      </Button>
     </section>
   )
 }

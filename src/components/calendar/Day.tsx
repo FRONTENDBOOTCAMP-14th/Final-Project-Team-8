@@ -1,4 +1,4 @@
-import { useMemo, type RefObject } from 'react'
+import { useCallback, useMemo, type RefObject } from 'react'
 import { type CalendarDay } from './CalendarComponent'
 
 interface Props {
@@ -8,6 +8,10 @@ interface Props {
   selectedDate: Date | null
   onDayClick: (date: number) => void
   selectedDateRef: RefObject<HTMLButtonElement | null>
+  rowIndex: number
+  colIndex: number
+  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
+  focusDay: (row: number, col: number) => void
   restProps?: boolean
 }
 
@@ -18,6 +22,10 @@ export default function Day({
   selectedDate,
   onDayClick,
   selectedDateRef,
+  rowIndex,
+  colIndex,
+  setDayButtonRef,
+  focusDay,
   ...restProps
 }: Props) {
   const { date, isCurrentMonth } = dayData
@@ -45,14 +53,54 @@ export default function Day({
     }
   }
 
+  const buttonRef = useCallback(
+    (node: HTMLButtonElement | null) => {
+      setDayButtonRef(`${rowIndex}-${colIndex}`, node)
+
+      if (isSelected && node) {
+        ;(selectedDateRef.current as any) = node
+      }
+    },
+    [rowIndex, colIndex, setDayButtonRef, isSelected, selectedDateRef]
+  )
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      return
+    }
+
+    e.preventDefault()
+
+    let newRow = rowIndex
+    let newCol = colIndex
+
+    switch (e.key) {
+      case 'ArrowRight':
+        newCol += 1
+        break
+      case 'ArrowLeft':
+        newCol -= 1
+        break
+      case 'ArrowUp':
+        newRow -= 1
+        break
+      case 'ArrowDown':
+        newRow += 1
+        break
+    }
+
+    focusDay(newRow, newCol)
+  }
+
   return (
     <td {...restProps}>
       <button
         type="button"
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
         disabled={!isCurrentMonth}
         aria-disabled={!isCurrentMonth}
-        ref={isSelected ? selectedDateRef : null}
+        ref={buttonRef}
         className={`aspect-square w-13.5 cursor-pointer rounded-xl border-1 border-[#DAD9E6] bg-white hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
           isCurrentMonth
             ? ''
