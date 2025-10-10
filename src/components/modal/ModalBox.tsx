@@ -69,7 +69,7 @@ export default function ModalBox({
       >
         {/* ✅ 상세 및 특이사항 컴포넌트 */}
         {modalDetail && <ModalDetail isModify={isModify}></ModalDetail>}
-        <ModalDetailInput isModify={isModify}></ModalDetailInput>
+
         {/* ✅ 하단 children 삽입영역 */}
         <div>{children}</div>
       </Modal>
@@ -77,14 +77,14 @@ export default function ModalBox({
   )
 }
 
-type ModalBoxInputProps = PropsWithChildren<{
-  /** 모달 상단 제목 */
-  pleaceholder?: string
-}>
+type ModalBoxInputProps = PropsWithChildren
 
-export function ModalBoxInput({ pleaceholder, children }: ModalBoxInputProps) {
+export function ModalBoxInput({ children }: ModalBoxInputProps) {
   const [isOpen, toggleHandler] = useToggleState(false)
   const { on, off } = toggleHandler
+
+  const [isModify, setModify] = useState<boolean>(true)
+
   return (
     <div>
       {/* 모달 열기 버튼 */}
@@ -100,7 +100,6 @@ export function ModalBoxInput({ pleaceholder, children }: ModalBoxInputProps) {
       <Modal
         open={isOpen}
         onClose={off}
-        title={''}
         isModify={isModify}
         setModify={setModify}
       >
