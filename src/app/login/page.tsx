@@ -21,7 +21,7 @@ export default function LoginPage() {
   }
 
   const handleSignUp = () => {
-    router.push('/signup')
+    router.push('/sign-up')
   }
 
   return <Login onLogin={handleLogin} onSignUp={handleSignUp} />

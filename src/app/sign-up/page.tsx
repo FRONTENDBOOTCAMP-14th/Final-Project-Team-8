@@ -8,8 +8,12 @@ import { signUpWithEmail } from '../../libs/api/auth'
 export default function SignupPage() {
   const router = useRouter()
 
-  const handleSignup = async (email: string, password: string) => {
-    const { data, error } = await signUpWithEmail(email, password)
+  const handleSignup = async (
+    email: string,
+    password: string,
+    name: string
+  ) => {
+    const { data, error } = await signUpWithEmail(email, password, { name })
 
     if (error) {
       toast.error(`오류 발생! ${error.message}`)
