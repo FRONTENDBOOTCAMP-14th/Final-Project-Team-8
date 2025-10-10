@@ -17,11 +17,11 @@ export const selectTypeIcon = (type: AccordionProps['type']): string => {
     case 'other treatments':
       return 'other-treatments-icon'
     case 'diet':
-      return 'food-journal-icon'
+      return 'food-journals-icon'
     case 'walks':
       return 'walk-icon'
     case 'other activities':
-      return 'other-jurnals-icon'
+      return 'other-journals-icon'
   }
 }
 
