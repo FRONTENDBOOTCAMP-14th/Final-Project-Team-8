@@ -274,11 +274,17 @@ export default function Signup({
               id={agreeToTermsId}
               checked={agreeToTerms}
               onChange={e => setAgreeToTerms(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  setAgreeToTerms(!agreeToTerms)
+                }
+              }}
+              className="h-4 w-4 cursor-pointer rounded border-gray-300 text-orange-500"
             />
             <label
               htmlFor={agreeToTermsId}
-              className="ml-2 text-sm text-gray-600"
+              className="ml-2 cursor-pointer text-sm text-gray-600"
             >
               이용약관에 동의합니다
             </label>
@@ -295,7 +301,7 @@ export default function Signup({
               onClick={handleSubmit}
               disabled={isPending}
               variant="orange"
-              className="w-full"
+              className="w-full focus:border-blue-600"
             >
               {isPending ? '계정 만드는 중...' : '계정 만들기'}
             </Button>
