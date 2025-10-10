@@ -24,7 +24,7 @@ export type Database = {
           title: string
         }
         Insert: {
-          id: string
+          id?: string
           intake_date: string
           next_date?: string | null
           notes?: string | null
@@ -59,7 +59,7 @@ export type Database = {
         }
         Insert: {
           date: string
-          id: string
+          id?: string
           pet_id: string
           time: string
           title: string
@@ -93,7 +93,7 @@ export type Database = {
         }
         Insert: {
           category?: string | null
-          id: string
+          id?: string
           next_date?: string | null
           notes?: string | null
           pet_id: string
@@ -130,7 +130,7 @@ export type Database = {
         }
         Insert: {
           date: string
-          id: string
+          id?: string
           notes?: string | null
           pet_id: string
           time: string
@@ -166,7 +166,7 @@ export type Database = {
         Insert: {
           date: string
           detail?: string | null
-          id: string
+          id?: string
           notes?: string | null
           pet_id: string
           title: string
@@ -199,6 +199,7 @@ export type Database = {
           gender: string | null
           id: string
           name: string
+          profile_img: string | null
           size: number | null
           species: string
           user_id: string
@@ -213,6 +214,7 @@ export type Database = {
           gender?: string | null
           id?: string
           name: string
+          profile_img?: string | null
           size?: number | null
           species: string
           user_id?: string
@@ -227,6 +229,7 @@ export type Database = {
           gender?: string | null
           id?: string
           name?: string
+          profile_img?: string | null
           size?: number | null
           species?: string
           user_id?: string
@@ -252,7 +255,7 @@ export type Database = {
           weekday: string
         }
         Insert: {
-          id: string
+          id?: string
           pet_id: string
           time: string
           title: string
@@ -284,7 +287,7 @@ export type Database = {
           email: string
           gender: string | null
           id: string
-          nickname: string
+          nickname: string | null
           phone: string | null
           profile_img: string | null
         }
@@ -294,7 +297,7 @@ export type Database = {
           email: string
           gender?: string | null
           id: string
-          nickname: string
+          nickname?: string | null
           phone?: string | null
           profile_img?: string | null
         }
@@ -304,7 +307,7 @@ export type Database = {
           email?: string
           gender?: string | null
           id?: string
-          nickname?: string
+          nickname?: string | null
           phone?: string | null
           profile_img?: string | null
         }
@@ -361,7 +364,7 @@ export type Database = {
         Insert: {
           date: string
           distance?: number | null
-          id: string
+          id?: string
           pet_id: string
           start_time: string
           title: string
