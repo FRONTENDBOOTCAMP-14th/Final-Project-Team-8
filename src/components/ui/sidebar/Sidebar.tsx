@@ -2,7 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import { getUserPets } from '../../../libs/api/pet'
+import PetProfileList from './PetProfileList'
 
 /**
  * 사이드바 메뉴 옵션
@@ -15,6 +17,23 @@ interface MenuOption {
 
 export default function Sidebar() {
   const currentPath = usePathname()
+
+  const [pets, setPets] = useState<any[]>([])
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  // 임시 userId 사용
+  const userId = 'f0c0ff2f-a89f-411e-a8fe-6acebe0ccfd4'
+
+  useEffect(() => {
+    async function fetchPets(userId: string) {
+      try {
+        const data = await getUserPets(userId)
+        setPets(data)
+      } catch (error) {
+        console.log('불러오기 실패: ' + error)
+      }
+    }
+    fetchPets(userId)
+  }, [userId])
 
   const menuoptions: MenuOption[] = [
     {
@@ -94,9 +113,14 @@ export default function Sidebar() {
           className="p-auto my-6"
         />
       </Link>
-      <div>
-        <p>Your Pets</p>
-        <p>반려동물 프로필 사진</p>
+      {/* 등록된 반려동물 프로필버튼, 반려동물 추가등록 버튼 */}
+      <div className="flex flex-col justify-center gap-3">
+        <div>Your Pets</div>
+        <PetProfileList
+          pets={pets}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+        ></PetProfileList>
       </div>
       <div className="border-[1.5px] border-b border-[#636073]"></div>
       {/* 메뉴 영역 */}
