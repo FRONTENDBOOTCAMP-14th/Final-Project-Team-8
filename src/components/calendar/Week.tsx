@@ -37,7 +37,6 @@ export default function Week({
           colIndex={index}
           setDayButtonRef={setDayButtonRef}
           focusDay={focusDay}
-          aria-label={`${dayData.date}일`}
         />
       ))}
     </tr>

@@ -1,22 +1,16 @@
-import { useCallback, useMemo, type RefObject } from 'react'
-import { type CalendarDay } from './useCalendar'
+import { useCallback, useMemo } from 'react'
+import type { CalendarDay, DayProps } from './useCalendar'
 
-interface Props {
+interface Props extends Omit<DayProps, 'restProps'> {
   dayData: CalendarDay
-  currentYear: number
-  currentMonth: number
-  selectedDate: Date | null
-  onDayClick: (date: number) => void
-  selectedDateRef: RefObject<HTMLButtonElement | null>
+  // schedule: Schedule[]
   rowIndex: number
   colIndex: number
-  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
-  focusDay: (row: number, col: number) => void
-  restProps?: boolean
 }
 
-export default function Day({
+export default function DaySchedule({
   dayData,
+  // schedule,
   currentYear,
   currentMonth,
   selectedDate,
@@ -102,13 +96,21 @@ export default function Day({
         aria-disabled={!isCurrentMonth}
         aria-label={`${currentYear}년 ${currentMonth}월 ${date}일 ${isSelected ? '선택됨' : ''} ${isToday ? '오늘' : ''}`}
         ref={buttonRef}
-        className={`aspect-square w-13.5 cursor-pointer rounded-xl border-1 border-[#C6C6D9] bg-white hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
+        className={`flex aspect-square w-22.5 cursor-pointer flex-col items-end justify-between rounded-xl border-1 border-[#C6C6D9] bg-white p-2.5 text-right hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
           isCurrentMonth
             ? ''
             : 'pointer-events-none border-[#DAD9E6] !bg-[#F7F7FC] text-[#A3A0C0]'
         } ${isSelected ? 'border-[#FF6000] !bg-[#FFD8C080] text-[#FF6000]' : ''} ${isToday ? 'border-[#FF6000] text-[#FF6000]' : ''}`}
       >
-        {date}
+        <span>{date}</span>
+        {/* {schedule ? (
+          <span className="flex gap-1">
+            <span className="aspect-square w-3 rounded-2xl bg-[#82C43C]"></span>
+            <span className="aspect-square w-3 rounded-2xl bg-[#A461D8]"></span>
+          </span>
+        ) : (
+          ''
+        )} */}
       </button>
     </td>
   )

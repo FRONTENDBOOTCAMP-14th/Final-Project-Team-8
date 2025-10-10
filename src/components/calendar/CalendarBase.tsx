@@ -37,7 +37,8 @@ export default function CalendarBase({
         setCurrentYear={setCurrentYear}
         setCurrentMonth={setCurrentMonth}
       />
-      <table className="border-separate border-spacing-4 text-center">
+      <hr className="m-4 border-[#DAD9E6]" />
+      <table className="w-full border-separate border-spacing-4 text-center">
         <thead className="text-sm font-bold text-[#80809A]">
           <tr>
             {DAYS_OF_WEEK.map((day, index) => (

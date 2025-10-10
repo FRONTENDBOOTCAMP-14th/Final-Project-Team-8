@@ -49,7 +49,7 @@ export default function SelectDate({
   }
 
   return (
-    <section className="flex flex-row items-center justify-between">
+    <section className="flex flex-row items-center justify-between p-4">
       <div>
         <label htmlFor="year-select" className="sr-only">
           연도 선택
