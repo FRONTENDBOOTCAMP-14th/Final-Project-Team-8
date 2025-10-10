@@ -1,12 +1,11 @@
 'use client'
 
 import { UserProfileCard } from '@/components'
-import { getUserPets } from '@/libs/api/pet'
+import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
-import { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 import PetProfileList from './PetProfileList'
 
 // 사이드바 메뉴
@@ -19,25 +18,15 @@ interface MenuOption {
 export default function Sidebar() {
   const currentPath = usePathname()
   const { user, setUser } = useUserStore()
-  const [pets, setPets] = useState<any[]>([])
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const { pets, selectedPetId, setSelectedPetId, fetchPets } = usePetStore()
 
   // user를 useUserStore로 가져옴
   useEffect(() => {
-    setUser()
-  }, [setUser])
+    if (!user) setUser()
+  }, [user, setUser])
 
   useEffect(() => {
     if (!user) return
-
-    async function fetchPets(user: User) {
-      try {
-        const data = await getUserPets(user)
-        setPets(data)
-      } catch (error) {
-        console.log('불러오기 실패: ' + error)
-      }
-    }
 
     fetchPets(user)
   }, [user])
@@ -62,7 +51,7 @@ export default function Sidebar() {
           />
         </svg>
       ),
-      path: '/',
+      path: '/login',
     },
     {
       name: '캘린더',
@@ -83,7 +72,7 @@ export default function Sidebar() {
           />
         </svg>
       ),
-      path: '/calendar',
+      path: '/sign-up',
     },
     {
       name: '계정',
@@ -125,8 +114,8 @@ export default function Sidebar() {
         <div>Your Pets</div>
         <PetProfileList
           pets={pets}
-          selectedId={selectedId}
-          onSelect={setSelectedId}
+          selectedId={selectedPetId}
+          onSelect={setSelectedPetId}
         ></PetProfileList>
       </div>
       <div className="border-[1.5px] border-b border-[#636073]"></div>
