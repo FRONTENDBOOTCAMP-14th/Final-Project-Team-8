@@ -50,39 +50,41 @@ export default function SelectDate({
 
   return (
     <section className="flex flex-row items-center justify-between">
-      <label htmlFor="year-select" className="sr-only">
-        연도 선택
-      </label>
-      <select
-        id="year-select"
-        value={currentYear}
-        onChange={handleYearSelectChange}
-        className="text-center text-[26px] text-[#3A394F]"
-      >
-        {Array.from(
-          { length: END_YEAR - START_YEAR + 1 },
-          (_, i) => START_YEAR + i
-        ).map(year => (
-          <option key={year} value={year}>
-            {year}년
-          </option>
-        ))}
-      </select>
-      <label htmlFor="month-select" className="sr-only">
-        월 선택
-      </label>
-      <select
-        id="month-select"
-        value={currentMonth}
-        onChange={handleMonthSelectChange}
-        className="text-center text-[26px] font-bold text-[#3A394F]"
-      >
-        {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
-          <option key={month} value={month}>
-            {month}월
-          </option>
-        ))}
-      </select>
+      <div>
+        <label htmlFor="year-select" className="sr-only">
+          연도 선택
+        </label>
+        <select
+          id="year-select"
+          value={currentYear}
+          onChange={handleYearSelectChange}
+          className="mr-3 text-center text-[26px] text-[#3A394F]"
+        >
+          {Array.from(
+            { length: END_YEAR - START_YEAR + 1 },
+            (_, i) => START_YEAR + i
+          ).map(year => (
+            <option key={year} value={year}>
+              {year}년
+            </option>
+          ))}
+        </select>
+        <label htmlFor="month-select" className="sr-only">
+          월 선택
+        </label>
+        <select
+          id="month-select"
+          value={currentMonth}
+          onChange={handleMonthSelectChange}
+          className="text-center text-[26px] font-bold text-[#3A394F]"
+        >
+          {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
+            <option key={month} value={month}>
+              {month}월
+            </option>
+          ))}
+        </select>
+      </div>
       <Button
         variant="white"
         aria-label="이전 월 선택"

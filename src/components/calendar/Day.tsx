@@ -101,10 +101,10 @@ export default function Day({
         disabled={!isCurrentMonth}
         aria-disabled={!isCurrentMonth}
         ref={buttonRef}
-        className={`aspect-square w-13.5 cursor-pointer rounded-xl border-1 border-[#DAD9E6] bg-white hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
+        className={`aspect-square w-13.5 cursor-pointer rounded-xl border-1 border-[#C6C6D9] bg-white hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
           isCurrentMonth
             ? ''
-            : 'pointer-events-none bg-[#F7F7FC] text-[#A3A0C0]'
+            : 'pointer-events-none border-[#DAD9E6] bg-[#F7F7FC] text-[#A3A0C0]'
         } ${isSelected ? 'border-[#FF6000] !bg-[#FFD8C080] text-[#FF6000]' : ''} ${isToday ? 'border-[#FF6000] text-[#FF6000]' : ''}`}
       >
         {date}
