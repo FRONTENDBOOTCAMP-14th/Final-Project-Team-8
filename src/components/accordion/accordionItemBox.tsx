@@ -1,7 +1,7 @@
 'use client'
 
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { Suspense, useEffect, useMemo, useRef } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import {
   AllowedTableNames,
@@ -21,6 +21,7 @@ import {
   VaccinesCompo,
   WalksCompo,
 } from './accordionList'
+import ListLoading from './ListLoading'
 
 type Props<T extends AllowedTableNames> = { type: T; isOpen: boolean }
 
@@ -28,6 +29,12 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
   type,
   isOpen,
 }: Props<T>) {
+  // 최초로 한 번이라도 열리면 콘텐츠를 마운트 해 유지
+  const [oneceOpened, setOnceOpened] = useState(isOpen)
+  useEffect(() => {
+    if (isOpen) setOnceOpened(true)
+  }, [isOpen])
+
   return (
     <div
       aria-hidden={!isOpen}
@@ -47,7 +54,7 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
       </Button>
 
       {/* 아코디언이 열렸을 때만 쿼리 파트를 마운트 (v5: enabled 옵션 없음) */}
-      {isOpen && (
+      {oneceOpened && (
         <QueryErrorBoundary>
           <Suspense fallback={<ListLoading />}>
             <AccordionContent type={type} />
@@ -120,13 +127,4 @@ function AccordionContent<T extends AllowedTableNames>({ type }: { type: T }) {
   }, [type, rows])
 
   return list
-}
-
-function ListLoading() {
-  return (
-    <div>
-      <h2>로딩 중..</h2>
-      <p>잠시만 기다려 요세요.</p>
-    </div>
-  )
 }
