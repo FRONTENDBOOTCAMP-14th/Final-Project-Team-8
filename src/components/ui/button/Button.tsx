@@ -36,7 +36,7 @@ const variantStyle: Record<ButtonVariant, string> = {
   orange: [
     'bg-[#FF6000] text-white',
     'hover:bg-[#C85712]',
-    'focus:ring-[#FFD8C0] ',
+    'focus:ring-[#803C0C] ',
     'active:bg-[#803C0C]',
     'disabled:bg-[#FFD8C0] disabled:text-[#80809A]',
   ].join(' '),
