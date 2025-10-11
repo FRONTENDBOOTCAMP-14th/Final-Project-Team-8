@@ -25,7 +25,7 @@ export default function Accordion({
   type = 'antiparasitic',
   title,
 }: AccordionProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(true) // 아코디언 열림 여부 상태
+  const [isOpen, setIsOpen] = useState<boolean>(false) // 아코디언 열림 여부 상태
 
   // 아코디언 버튼 클릭 시 열림/닫힘 토글
   const handleClick = () => {
