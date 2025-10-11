@@ -1,11 +1,16 @@
 'use client'
 
-import { createClient } from '@/libs/supabase/client'
-import { Suspense, useEffect, useState } from 'react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { Suspense, useEffect, useMemo, useRef } from 'react'
 import { toast } from 'sonner'
-import { Database } from '../../libs/supabase/database.types'
+import {
+  AllowedTableNames,
+  getPetTableData,
+  RowMap,
+  TableRow,
+} from '../../libs/api/accordion'
+import QueryErrorBoundary from '../common/QueryErrorBoundary'
 import Button from '../ui/button/Button'
-import { AccordionProps } from './accordion'
 import { selectTypeButtonTitle } from './accordionFun'
 import {
   AntiparasiticCompo,
@@ -17,70 +22,19 @@ import {
   WalksCompo,
 } from './accordionList'
 
-type AccordionItemProps<T extends AccordionProps['type']> = {
-  type: T
-  isOpen: boolean
-}
-
-type AllowedTableNames = AccordionProps['type']
-
-type TableRow<T extends AllowedTableNames> =
-  Database['public']['Tables'][T]['Row']
+type Props<T extends AllowedTableNames> = { type: T; isOpen: boolean }
 
 export default function AccordionItemBox<T extends AllowedTableNames>({
   type,
   isOpen,
-}: AccordionItemProps<T>) {
-  const [rows, setRows] = useState<any[] | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  const handleSelectTypeAccordionListItem = () => {
-    switch (type) {
-      case 'antiparasitic':
-        return <AntiparasiticCompo dataList={rows}></AntiparasiticCompo>
-      case 'diet':
-        return <DietCompo dataList={rows}></DietCompo>
-      case 'medical treatment':
-        return <MedicalTreatmentCompo dataList={rows}></MedicalTreatmentCompo>
-      case 'other activities':
-        return <OtherActivitiesCompo dataList={rows}></OtherActivitiesCompo>
-      case 'other treatments':
-        return <OtherTreatmentsCompo dataList={rows}></OtherTreatmentsCompo>
-      case 'vaccines':
-        return <VaccinesCompo dataList={rows}></VaccinesCompo>
-      case 'walks':
-        return <WalksCompo dataList={rows}></WalksCompo>
-    }
-  }
-
-  useEffect(() => {
-    let mounted = true
-    async function fetchRows() {
-      setLoading(true)
-      const supabase = createClient()
-      const { data, error } = await supabase.from(type).select('*')
-
-      if (!mounted) return
-      if (error) setError(error.message)
-      else if (data && data.length === 0) toast.info('해당 기록이 없습니다.')
-      else if (data) setRows(data)
-      setLoading(false)
-    }
-
-    fetchRows()
-    return () => {
-      mounted = false
-    }
-  }, [type])
-
-  console.log(rows)
-
+}: Props<T>) {
   return (
     <div
       aria-hidden={!isOpen}
       inert={!isOpen}
-      className={`overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.79,0.14,0.15,0.86)] ${isOpen ? 'mb-3 max-h-[400px] overflow-y-auto' : 'max-h-0'}`}
+      className={`overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.79,0.14,0.15,0.86)] ${
+        isOpen ? 'mb-3 max-h-[400px] overflow-y-auto' : 'max-h-0'
+      }`}
     >
       <div className="relative ml-5 before:absolute before:left-0 before:h-px before:w-[590px] before:rounded-2xl before:bg-gray-300"></div>
 
@@ -91,15 +45,83 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
         <img src="/components/accordion/plus-button-icon.svg" alt="플러스" />
         <p>{selectTypeButtonTitle(type)}</p>
       </Button>
-      <Suspense fallback={<ListLoading></ListLoading>}>
-        {handleSelectTypeAccordionListItem()}
-      </Suspense>
-      {/* <JSONDataSpreed type={type} /> */}
+
+      {/* 아코디언이 열렸을 때만 쿼리 파트를 마운트 (v5: enabled 옵션 없음) */}
+      {isOpen && (
+        <QueryErrorBoundary>
+          <Suspense fallback={<ListLoading />}>
+            <AccordionContent type={type} />
+          </Suspense>
+        </QueryErrorBoundary>
+      )}
     </div>
   )
 }
 
-// 서스펜스 로딩 바운더리
+/** 실제 데이터 로딩/렌더 파트 (useSuspenseQuery 사용) */
+function AccordionContent<T extends AllowedTableNames>({ type }: { type: T }) {
+  const emptyToastRef = useRef(false)
+
+  // v5 규약: enabled/onError 옵션 없음 → ErrorBoundary/Suspense로 처리
+  const { data: rows } = useSuspenseQuery<
+    TableRow<T>[], // TQueryFnData
+    Error, // TError
+    TableRow<T>[], // TData (selector 미사용 시 동일)
+    readonly ['petTable', T] // TQueryKey
+  >({
+    queryKey: ['petTable', type] as const,
+    queryFn: () => getPetTableData(type),
+    retry: 1,
+  })
+
+  // 빈 배열 알림 (중복 방지)
+  useEffect(() => {
+    if (rows.length === 0 && !emptyToastRef.current) {
+      toast.info('해당 기록이 없습니다.')
+      emptyToastRef.current = true
+    }
+    if (rows.length > 0) emptyToastRef.current = false
+  }, [rows])
+
+  // 각 리스트 컴포넌트가 기대하는 정확한 타입으로 캐스팅
+  const list = useMemo(() => {
+    switch (type) {
+      case 'antiparasitic':
+        return (
+          <AntiparasiticCompo dataList={rows as RowMap['antiparasitic'][]} />
+        )
+      case 'diet':
+        return <DietCompo dataList={rows as RowMap['diet'][]} />
+      case 'medical treatment':
+        return (
+          <MedicalTreatmentCompo
+            dataList={rows as RowMap['medical treatment'][]}
+          />
+        )
+      case 'other activities':
+        return (
+          <OtherActivitiesCompo
+            dataList={rows as RowMap['other activities'][]}
+          />
+        )
+      case 'other treatments':
+        return (
+          <OtherTreatmentsCompo
+            dataList={rows as RowMap['other treatments'][]}
+          />
+        )
+      case 'vaccines':
+        return <VaccinesCompo dataList={rows as RowMap['vaccines'][]} />
+      case 'walks':
+        return <WalksCompo dataList={rows as RowMap['walks'][]} />
+      default:
+        return null
+    }
+  }, [type, rows])
+
+  return list
+}
+
 function ListLoading() {
   return (
     <div>
