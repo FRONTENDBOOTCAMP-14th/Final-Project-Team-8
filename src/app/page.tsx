@@ -1,3 +1,4 @@
+import Accordion from '../components/accordion/accordion'
 import ModalBox from '../components/modal/ModalBox'
 
 export default function HomePage() {
@@ -7,6 +8,7 @@ export default function HomePage() {
         {/* <LearnSection title="랜덤 카운트 업">
           <RandomCountUp />
         </LearnSection> */}
+        <Accordion type="antiparasitic" title="예방접종"></Accordion>
         <ModalBox title="모달" modalDetail={true}></ModalBox>
       </section>
 

@@ -1,6 +1,9 @@
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
+import useToggleState from '../../../hooks/useToggleState'
 import { Antiparasitic } from '../../../libs/supabase'
+import Modal from '../../modal/Modal'
+import ModalTypeAntheelmintic from '../../modal/ModalType/ModalTypeAnthelmintic'
 import { toISODate } from '../accordionFun'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
@@ -26,6 +29,10 @@ export function AntiparasiticTreatmentItem({
   const handleMouseOut = () => {
     setMouseState(false)
   }
+
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -41,6 +48,7 @@ export function AntiparasiticTreatmentItem({
         className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
       >
         <button
+          onClick={on}
           type="button"
           className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
         >
@@ -74,6 +82,15 @@ export function AntiparasiticTreatmentItem({
       </time>
       {/* 수정 및 삭제 버튼 */}
       {mouseState && <ItemEditButtonCompo title={title} />}
+      <Modal
+        open={isOpen}
+        onClose={off}
+        title={title}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeAntheelmintic isModify={isModify}></ModalTypeAntheelmintic>
+      </Modal>
     </li>
   )
 }
