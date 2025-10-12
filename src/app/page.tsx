@@ -1,4 +1,4 @@
-import ModalBox, { ModalBoxInput } from '../components/modal/ModalBox'
+import ModalBox from '../components/modal/ModalBox'
 
 export default function HomePage() {
   return (
@@ -8,7 +8,6 @@ export default function HomePage() {
           <RandomCountUp />
         </LearnSection> */}
         <ModalBox title="모달" modalDetail={true}></ModalBox>
-        <ModalBoxInput></ModalBoxInput>
       </section>
 
       <section id="modal-dialog-portal"></section>

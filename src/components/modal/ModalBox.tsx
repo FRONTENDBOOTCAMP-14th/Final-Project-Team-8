@@ -26,8 +26,7 @@
 import { PropsWithChildren, useState } from 'react'
 import useToggleState from '../../hooks/useToggleState'
 import Modal from './Modal'
-import { ModalDetailInput } from './Modal-detail'
-import ModalTypeDiet from './ModalType/ModalTypeDiet'
+import ModalTypeOtherTreatment from './modalType/ModalTypeOtherTreatment'
 
 type Props = PropsWithChildren<{
   /** 모달 상단 제목 */
@@ -70,44 +69,12 @@ export default function ModalBox({
       >
         {/* ✅ 상세 및 특이사항 컴포넌트 */}
         {/* {modalDetail && <ModalDetail isModify={isModify}></ModalDetail>} */}
-        {modalDetail && <ModalTypeDiet isModify={isModify}></ModalTypeDiet>}
+        {modalDetail && (
+          <ModalTypeOtherTreatment
+            isModify={isModify}
+          ></ModalTypeOtherTreatment>
+        )}
 
-        {/* ✅ 하단 children 삽입영역 */}
-        <div>{children}</div>
-      </Modal>
-    </div>
-  )
-}
-
-// ModalBoxInput
-// 기본 상태 Input 모달 사용
-type ModalBoxInputProps = PropsWithChildren
-
-export function ModalBoxInput({ children }: ModalBoxInputProps) {
-  const [isOpen, toggleHandler] = useToggleState(false)
-  const { on, off } = toggleHandler
-
-  const [isModify, setModify] = useState<boolean>(true)
-
-  return (
-    <div>
-      {/* 모달 열기 버튼 */}
-      <button
-        type="button"
-        onClick={on}
-        className="m-3 cursor-pointer rounded-md bg-indigo-200 p-3 text-xl font-bold text-indigo-600 transition hover:bg-indigo-300 active:scale-[0.95]"
-      >
-        모달 {isOpen ? '닫기' : '열기'}
-      </button>
-
-      {/* Modal 컴포넌트 호출 */}
-      <Modal
-        open={isOpen}
-        onClose={off}
-        isModify={isModify}
-        setModify={setModify}
-      >
-        <ModalDetailInput isModify={isModify}></ModalDetailInput>
         {/* ✅ 하단 children 삽입영역 */}
         <div>{children}</div>
       </Modal>
