@@ -7,13 +7,13 @@ import AccordionItemBox from './accordionItemBox'
 // Accordion 컴포넌트 Props 타입 정의
 export interface AccordionProps {
   type:
-    | 'vaccination'
-    | 'anthelmintic'
-    | 'medical'
-    | 'other-treatments'
-    | 'food-journal'
-    | 'walk'
-    | 'other-journals'
+    | 'antiparasitic'
+    | 'diet'
+    | 'medical treatment'
+    | 'other activities'
+    | 'other treatments'
+    | 'vaccines'
+    | 'walks'
   title: string
 }
 
@@ -22,7 +22,7 @@ export interface AccordionProps {
  * 클릭 시 열리고 닫히는 아코디언 UI
  */
 export default function Accordion({
-  type = 'vaccination',
+  type = 'antiparasitic',
   title,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false) // 아코디언 열림 여부 상태
