@@ -1,12 +1,16 @@
 'use client'
 
 import { UserProfileCard } from '@/components'
+import PetProfileList from '@/components/ui/sidebar/PetProfileList'
+import {
+  PetProfileListSkeleton,
+  UserProfileCardSkeleton,
+} from '@/components/ui/skeleton/SidebarSkeleton'
 import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ReactNode, useEffect } from 'react'
-import PetProfileList from './PetProfileList'
+import { ReactNode, useEffect, useState } from 'react'
 
 // 사이드바 메뉴
 interface MenuOption {
@@ -19,10 +23,12 @@ export default function Sidebar() {
   const currentPath = usePathname()
   const { user, setUser } = useUserStore()
   const { pets, selectedPetId, setSelectedPetId, fetchPets } = usePetStore()
+  const [isLoading, setIsLoading] = useState(true)
 
   // user를 useUserStore로 가져옴
   useEffect(() => {
     if (!user) setUser()
+    setIsLoading(false)
   }, [user, setUser])
 
   useEffect(() => {
@@ -112,11 +118,15 @@ export default function Sidebar() {
       {/* 등록된 반려동물 프로필버튼, 반려동물 추가등록 버튼 */}
       <div className="flex flex-col justify-center gap-3">
         <div>Your Pets</div>
-        <PetProfileList
-          pets={pets}
-          selectedId={selectedPetId}
-          onSelect={setSelectedPetId}
-        ></PetProfileList>
+        {isLoading ? (
+          <PetProfileListSkeleton />
+        ) : (
+          <PetProfileList
+            pets={pets}
+            selectedId={selectedPetId}
+            onSelect={setSelectedPetId}
+          ></PetProfileList>
+        )}
       </div>
       <div className="border-[1.5px] border-b border-[#636073]"></div>
       {/* 메뉴 영역 */}
@@ -139,12 +149,13 @@ export default function Sidebar() {
         })}
       </nav>
       {/* 유저 프로필영역 */}
-
-      {user && (
-        <div className="mt-auto flex items-center justify-center">
-          <UserProfileCard user={user}></UserProfileCard>
-        </div>
-      )}
+      <div className="mt-auto flex items-center justify-center">
+        {isLoading ? (
+          <UserProfileCardSkeleton />
+        ) : (
+          user && <UserProfileCard user={user} />
+        )}
+      </div>
     </aside>
   )
 }

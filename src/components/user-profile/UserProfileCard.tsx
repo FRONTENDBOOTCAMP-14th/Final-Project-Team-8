@@ -24,8 +24,12 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
   const [userData, setUserData] = useState<UserData | null>(null)
   useEffect(() => {
     const fetchUSerData = async () => {
-      const data = await getUserData(user)
-      setUserData(data)
+      try {
+        const data = await getUserData(user)
+        setUserData(data)
+      } catch (error) {
+        toast.error('로딩 실패')
+      }
     }
     fetchUSerData()
   }, [user])
@@ -56,7 +60,7 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
   }
 
   return (
-    <div className="flex w-full max-w-max items-center justify-between rounded-2xl bg-gray-500 p-4">
+    <div className="flex w-full items-center justify-between rounded-2xl bg-gray-500 p-4">
       <div className="flex items-center gap-3">
         {avatarUrl ? (
           <img
