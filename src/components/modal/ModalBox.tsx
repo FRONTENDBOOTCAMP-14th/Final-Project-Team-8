@@ -26,7 +26,8 @@
 import { PropsWithChildren, useState } from 'react'
 import useToggleState from '../../hooks/useToggleState'
 import Modal from './Modal'
-import ModalDetail, { ModalDetailInput } from './Modal-detail'
+import { ModalDetailInput } from './Modal-detail'
+import ModalTypeDiet from './ModalType/ModalTypeDiet'
 
 type Props = PropsWithChildren<{
   /** 모달 상단 제목 */
@@ -68,7 +69,8 @@ export default function ModalBox({
         setModify={setModify}
       >
         {/* ✅ 상세 및 특이사항 컴포넌트 */}
-        {modalDetail && <ModalDetail isModify={isModify}></ModalDetail>}
+        {/* {modalDetail && <ModalDetail isModify={isModify}></ModalDetail>} */}
+        {modalDetail && <ModalTypeDiet isModify={isModify}></ModalTypeDiet>}
 
         {/* ✅ 하단 children 삽입영역 */}
         <div>{children}</div>
@@ -77,6 +79,8 @@ export default function ModalBox({
   )
 }
 
+// ModalBoxInput
+// 기본 상태 Input 모달 사용
 type ModalBoxInputProps = PropsWithChildren
 
 export function ModalBoxInput({ children }: ModalBoxInputProps) {

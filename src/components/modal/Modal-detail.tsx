@@ -83,6 +83,7 @@ export default function ModalDetail({ isModify }: ModalDetailProps) {
   )
 }
 
+// Modal Input type
 interface ModalDetailInputProps {
   isModify: boolean
 }
