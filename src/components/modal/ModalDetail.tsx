@@ -1,7 +1,8 @@
 // components/modal/ModalDetail.tsx
-import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import { CalendarDays, Clock } from 'lucide-react'
+import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react'
 
-type FieldType = 'text' | 'date' | 'time'
+type FieldType = 'text' | 'date' | 'time' | 'number'
 
 type BaseField = {
   /** 고유 키 (리스트 렌더링용) */
@@ -11,9 +12,9 @@ type BaseField = {
   /** 입력 타입 */
   type: FieldType
   /** 읽기(테이블) 모드에서 노출할 값 (문자열) */
-  tableValue?: string
+  tableValue?: string | number | null
   /** 입력 모드에서 기본값 */
-  defaultValue?: string
+  defaultValue?: string | number | null
   /** time 입력의 step 등 세부 속성이 필요할 때 */
   inputProps?: InputHTMLAttributes<HTMLInputElement>
 }
@@ -41,6 +42,15 @@ export default function ModalDetail({
   defaultNote = '특이 사항 없음',
   noteTextareaProps,
 }: ModalDetailProps) {
+  const selectIconType = (type: FieldType): ReactNode => {
+    if (type === 'text') return null
+    else if (type === 'date')
+      return <CalendarDays size={20} className="text-gray-600" />
+    else if (type === 'time' || type === 'number')
+      return <Clock size={20} className="text-gray-600" />
+    return null
+  }
+
   return (
     <div>
       {/* 섹션 타이틀 */}
@@ -57,8 +67,9 @@ export default function ModalDetail({
 
               {/* 모드별 렌더링 */}
               {!isModify ? (
-                <div className="mt-1 text-base font-bold text-gray-800">
+                <div className="mt-1 flex items-center gap-2 text-base font-bold text-gray-800">
                   {/* 시간/날짜/텍스트 모두 tableValue로 표현 */}
+                  {selectIconType(f.type)}
                   {f.tableValue ?? f.defaultValue ?? '-'}
                 </div>
               ) : (
@@ -70,7 +81,7 @@ export default function ModalDetail({
                   <input
                     id={`field-${f.key}`}
                     type={f.type}
-                    defaultValue={f.defaultValue}
+                    defaultValue={f.defaultValue ?? ''}
                     className="w-full rounded-md border-2 border-amber-400 p-1 focus:border-orange-500 focus:outline-none"
                     {...f.inputProps}
                   />
@@ -98,7 +109,7 @@ export default function ModalDetail({
               </label>
               <textarea
                 id="detail-note"
-                defaultValue={defaultNote}
+                defaultValue={defaultNote === '-' ? '' : defaultNote}
                 className="w-full rounded-md border-2 border-amber-400 p-2 focus:border-orange-500 focus:outline-none"
                 rows={3}
                 {...noteTextareaProps}
