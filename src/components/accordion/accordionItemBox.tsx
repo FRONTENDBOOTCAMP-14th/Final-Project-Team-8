@@ -9,6 +9,7 @@ import {
   RowMap,
   TableRow,
 } from '../../libs/api/accordion'
+import { useModal } from '../../store/modalStore'
 import QueryErrorBoundary from '../common/QueryErrorBoundary'
 import Button from '../ui/button/Button'
 import { selectTypeButtonTitle } from './accordionFun'
@@ -21,6 +22,7 @@ import {
   VaccinesCompo,
   WalksCompo,
 } from './accordionList'
+import AccordionListAdd from './accordionListAdd'
 import ListLoading from './ListLoading'
 
 type Props<T extends AllowedTableNames> = { type: T; isOpen: boolean }
@@ -35,6 +37,8 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
     if (isOpen) setOnceOpened(true)
   }, [isOpen])
 
+  const onToState = useModal(state => state.onToState)
+
   return (
     <div
       aria-hidden={!isOpen}
@@ -48,6 +52,7 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
       <Button
         variant="white"
         className="!m-5 !w-[calc(100%-40px)] gap-1 !p-[13px] font-bold !text-orange-500"
+        onClick={() => onToState('isToggle')}
       >
         <img src="/components/accordion/plus-button-icon.svg" alt="플러스" />
         <p>{selectTypeButtonTitle(type)}</p>
@@ -58,6 +63,7 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
         <QueryErrorBoundary>
           <Suspense fallback={<ListLoading />}>
             <AccordionContent type={type} />
+            <AccordionListAdd></AccordionListAdd>
           </Suspense>
         </QueryErrorBoundary>
       )}

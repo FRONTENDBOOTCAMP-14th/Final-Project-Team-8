@@ -56,9 +56,7 @@ type Props = PropsWithChildren<{
   describe?: string
   /** 수정 모드 여부 */
   isModify: boolean
-  /** 수정 모드 상태 setter */
   setModify: Dispatch<SetStateAction<boolean>>
-  // 제목 input Placeholder
 }>
 
 export default function Modal({
@@ -66,9 +64,9 @@ export default function Modal({
   onClose,
   title,
   describe,
-  children,
-  setModify,
   isModify,
+  setModify,
+  children,
 }: Props) {
   /** 🔹 Portal 루트 요소 (layout.tsx 안의 <div id="modal-dialog-portal" />) */
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null)

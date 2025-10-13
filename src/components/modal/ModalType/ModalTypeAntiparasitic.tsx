@@ -36,3 +36,5 @@ export default function ModalTypeAntiparasitic({
     />
   )
 }
+
+export function ModalTypeAntiparasiticInput() {}
