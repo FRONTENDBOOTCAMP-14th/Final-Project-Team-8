@@ -25,9 +25,9 @@ interface ContentCardProps {
  */
 export default function ContentCard({ title, children }: ContentCardProps) {
   return (
-    <div className="flex h-auto w-[620px] flex-col items-center justify-center gap-10 rounded-[20px] bg-white px-12 py-6">
+    <div className="flex h-auto w-full max-w-[620px] min-w-fit flex-col items-center justify-center gap-10 rounded-[20px] bg-white px-12 py-6">
       <div className="flex flex-col items-center gap-5 text-[18px] text-gray-600">
-        <p className="text-[34px] font-bold">{title}</p>
+        <p className="text-[34px] font-bold whitespace-nowrap">{title}</p>
         <div className="flex flex-col items-center justify-center">
           {children}
         </div>
