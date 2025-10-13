@@ -1,5 +1,6 @@
 import Image, { type ImageProps } from 'next/image'
-import { getImage, tw } from '@/utils'
+import { getImage } from '../../utils/server'
+import { tw } from '../../utils/shared'
 
 type Props = Omit<ImageProps, 'src' | 'alt'> & {
   src: string
