@@ -9,7 +9,7 @@ interface IconButtonProps {
 export default function IconButton({ onClick, selected }: IconButtonProps) {
   return (
     <Link
-      href="#"
+      href="/"
       id="add"
       className="inline-flex flex-col items-center gap-2"
       aria-label="Add pet"
