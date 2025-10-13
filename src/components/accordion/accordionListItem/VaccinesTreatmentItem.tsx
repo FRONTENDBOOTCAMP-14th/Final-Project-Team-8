@@ -1,7 +1,10 @@
+import useToggleState from '@/hooks/useToggleState'
 import { Vaccines } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
+import Modal from '../../modal/Modal'
+import ModalTypeVaccination from '../../modal/ModalType/ModalTypeVaccination'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
@@ -27,6 +30,10 @@ export function VaccinesTreatmentItem({
   const handleMouseOut = () => {
     setMouseState(false)
   }
+
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -38,12 +45,13 @@ export function VaccinesTreatmentItem({
       id={id}
     >
       <h3
+        onClick={on}
         id={headingId}
         className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
       >
         <button
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
@@ -73,6 +81,28 @@ export function VaccinesTreatmentItem({
       >
         {expiry_date ?? '다음 예정일이 없습니다.'}
       </time>
+
+      <Modal
+        title={title}
+        open={isOpen}
+        onClose={off}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeVaccination
+          isModify={isModify}
+          restProps={{
+            expiry_date,
+            id,
+            lot,
+            notes,
+            pet_id,
+            title,
+            vaccinated_date,
+          }}
+        />
+      </Modal>
+
       {/* 수정 및 삭제 버튼 */}
       {mouseState && <ItemEditButtonCompo title={title} />}
     </li>

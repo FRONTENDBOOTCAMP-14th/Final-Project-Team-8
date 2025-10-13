@@ -2,6 +2,9 @@ import { OtherTreatment } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
+import useToggleState from '../../../hooks/useToggleState'
+import Modal from '../../modal/Modal'
+import ModalTypeOtherTreatment from '../../modal/ModalType/ModalTypeOtherTreatment'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
@@ -26,6 +29,10 @@ export function OtherTreatmentItem({
   const handleMouseOut = () => {
     setMouseState(false)
   }
+
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -41,8 +48,9 @@ export function OtherTreatmentItem({
         className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
       >
         <button
+          onClick={on}
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
@@ -65,6 +73,26 @@ export function OtherTreatmentItem({
         />
         {date}
       </time>
+
+      <Modal
+        title={title}
+        open={isOpen}
+        onClose={off}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeOtherTreatment
+          isModify={isModify}
+          restProps={{
+            date,
+            detail,
+            id,
+            notes,
+            pet_id,
+            title,
+          }}
+        />
+      </Modal>
 
       {/* 수정 및 삭제 버튼 */}
       {mouseState && <ItemEditButtonCompo title={title} />}

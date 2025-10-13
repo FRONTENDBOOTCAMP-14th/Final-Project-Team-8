@@ -2,6 +2,9 @@ import { Diet } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
+import useToggleState from '../../../hooks/useToggleState'
+import Modal from '../../modal/Modal'
+import { ModalTypeDite } from '../../modal/ModalType/ModalTypeDiet'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
@@ -9,7 +12,15 @@ import ItemEditButtonCompo from './ItemEditButtonCompo'
  * 년도별 기록(제목, 시간, 일) 한 줄 렌더링
  * 식단 일지 ...
  */
-export function DietItem({ date, id, pet_id, time, title }: Diet) {
+export function DietItem({
+  date,
+  id,
+  pet_id,
+  time,
+  title,
+  snack_type,
+  notes,
+}: Diet) {
   const [mouseState, setMouseState] = useState<boolean>(false)
   const headingId = useId()
   const handleMouseIn = () => {
@@ -19,6 +30,9 @@ export function DietItem({ date, id, pet_id, time, title }: Diet) {
   const handleMouseOut = () => {
     setMouseState(false)
   }
+
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -30,8 +44,9 @@ export function DietItem({ date, id, pet_id, time, title }: Diet) {
     >
       <h3 id={headingId} className="grow text-base font-bold text-gray-800">
         <button
+          onClick={on}
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
         >
           {title}
         </button>
@@ -56,6 +71,18 @@ export function DietItem({ date, id, pet_id, time, title }: Diet) {
         />
         {date}
       </time>
+      <Modal
+        title={title}
+        open={isOpen}
+        onClose={off}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeDite
+          isModify={isModify}
+          restProps={{ date, id, pet_id, time, title, snack_type, notes }}
+        />
+      </Modal>
       {/* 수정 및 삭제 버튼 */}
       {mouseState && <ItemEditButtonCompo title={title} />}
     </li>

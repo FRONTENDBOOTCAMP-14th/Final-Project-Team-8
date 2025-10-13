@@ -54,7 +54,7 @@ export function AntiparasiticTreatmentItem({
         <button
           onClick={on}
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
