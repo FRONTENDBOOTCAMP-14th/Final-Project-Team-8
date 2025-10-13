@@ -1,16 +1,29 @@
 import { useCallback, useMemo } from 'react'
+import type { ScheduleEvent } from '../../libs/api/schedules'
 import type { CalendarDay, DayProps } from './useCalendar'
 
 interface Props extends Omit<DayProps, 'restProps'> {
   dayData: CalendarDay
-  // schedule: Schedule[]
   rowIndex: number
   colIndex: number
+  getSchedulesForDate?: (
+    year: number,
+    month: number,
+    day: number
+  ) => ScheduleEvent[]
+}
+
+const CATEGORY_COLORS: Record<string, string> = {
+  birthday: 'bg-[#FF8630]',
+  adoption: 'bg-[#6AA9F3]',
+  vaccine: 'bg-[#897EE6]',
+  antiparasitic: 'bg-[#FF9AD5]',
+  medical: 'bg-[#FFC542]',
+  walk: 'bg-[#82C43C]',
 }
 
 export default function DaySchedule({
   dayData,
-  // schedule,
   currentYear,
   currentMonth,
   selectedDate,
@@ -20,9 +33,22 @@ export default function DaySchedule({
   colIndex,
   setDayButtonRef,
   focusDay,
+  getSchedulesForDate,
   ...restProps
 }: Props) {
   const { date, isCurrentMonth } = dayData
+
+  // 해당 날짜의 스케줄 가져오기
+  const schedules = useMemo(() => {
+    if (!getSchedulesForDate || !isCurrentMonth) return []
+    return getSchedulesForDate(currentYear, currentMonth, date)
+  }, [getSchedulesForDate, isCurrentMonth, currentYear, currentMonth, date])
+
+  // 스캐줄 카테고리 목록(중복 제거, 최대 5개까지만 표시)
+  const uniqueCategories = useMemo(() => {
+    const categories = new Set(schedules.map(s => s.category))
+    return Array.from(categories).slice(0, 5)
+  }, [schedules])
 
   const isSelected = selectedDate
     ? isCurrentMonth &&
@@ -86,6 +112,15 @@ export default function DaySchedule({
     focusDay(newRow, newCol)
   }
 
+  // aria-label에 스케줄 정보 추가
+  const ariaLabel = useMemo(() => {
+    let label = `${currentYear}년 ${currentMonth}월 ${date}일`
+    if (isSelected) label += ' 선택됨'
+    if (isToday) label += ' 오늘'
+    if (schedules.length > 0) label += `${schedules.length}개의 일정`
+    return label
+  }, [currentYear, currentMonth, date, isSelected, isToday, schedules.length])
+
   return (
     <td {...restProps}>
       <button
@@ -94,23 +129,26 @@ export default function DaySchedule({
         onKeyDown={handleKeyDown}
         disabled={!isCurrentMonth}
         aria-disabled={!isCurrentMonth}
-        aria-label={`${currentYear}년 ${currentMonth}월 ${date}일 ${isSelected ? '선택됨' : ''} ${isToday ? '오늘' : ''}`}
+        aria-label={ariaLabel}
         ref={buttonRef}
-        className={`flex aspect-square w-22.5 cursor-pointer flex-col items-end justify-between rounded-xl border-1 border-[#C6C6D9] bg-white p-2.5 text-right hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
+        className={`m-auto flex aspect-square w-22.5 cursor-pointer flex-col items-center justify-between rounded-xl border-1 border-[#C6C6D9] bg-white p-2.5 hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
           isCurrentMonth
             ? ''
             : 'pointer-events-none border-[#DAD9E6] !bg-[#F7F7FC] text-[#A3A0C0]'
         } ${isSelected ? 'border-[#FF6000] !bg-[#FFD8C080] text-[#FF6000]' : ''} ${isToday ? 'border-[#FF6000] text-[#FF6000]' : ''}`}
       >
         <span>{date}</span>
-        {/* {schedule ? (
-          <span className="flex gap-1">
-            <span className="aspect-square w-3 rounded-2xl bg-[#82C43C]"></span>
-            <span className="aspect-square w-3 rounded-2xl bg-[#A461D8]"></span>
+        {uniqueCategories.length > 0 && (
+          <span className="flex gap-1" aria-hidden="true">
+            {uniqueCategories.map((category, index) => (
+              <span
+                key={index}
+                className={`aspect-square w-3 rounded-2xl ${CATEGORY_COLORS[category] || 'bg-[#A3A0C0]'}`}
+                title={category}
+              ></span>
+            ))}
           </span>
-        ) : (
-          ''
-        )} */}
+        )}
       </button>
     </td>
   )

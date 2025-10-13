@@ -1,11 +1,12 @@
-'use client'
+import { getScheduleData } from '@/libs/api/schedules'
+import CalendarScheduleClient from './CalendarScheduleClient'
 
-import CalendarBase from './CalendarBase'
-import DaySchedule from './DaySchedule'
-import { useCalendar } from './useCalendar'
+interface Props {
+  petId?: string
+}
 
-export default function CalendarSchedule(props: any) {
-  const controls = useCalendar(props)
+export default async function CalendarSchedule({ petId }: Props) {
+  const schedules = await getScheduleData(petId)
 
-  return <CalendarBase {...controls} DayComponent={DaySchedule} />
+  return <CalendarScheduleClient schedules={schedules} />
 }

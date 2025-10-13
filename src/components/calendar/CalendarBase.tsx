@@ -1,5 +1,6 @@
 'use client'
 
+import type { ScheduleEvent } from '../../libs/api/schedules'
 import SelectDate from './SelectDate'
 import type { CalendarControls, CalendarDay } from './useCalendar'
 import Week from './Week'
@@ -8,10 +9,16 @@ export type DayComponentProps = CalendarControls & {
   week: CalendarDay[]
   weekIndex: number
   onDayClick: (date: number) => void
+  getSchedulesForDate?:
+    | ((year: number, month: number, day: number) => ScheduleEvent[])
+    | undefined
 }
 
 interface Props extends CalendarControls {
   DayComponent: React.ComponentType<any>
+  getSchedulesForDate?:
+    | ((year: number, month: number, day: number) => ScheduleEvent[])
+    | undefined
 }
 
 const DAYS_OF_WEEK = ['일', '월', '화', '수', '목', '금', '토']
@@ -28,6 +35,7 @@ export default function CalendarBase({
   setDayButtonRef,
   focusDay,
   DayComponent,
+  getSchedulesForDate,
 }: Props) {
   return (
     <section>
@@ -62,6 +70,7 @@ export default function CalendarBase({
               selectedDateRef={selectedDateRef}
               setDayButtonRef={setDayButtonRef}
               focusDay={focusDay}
+              getSchedulesForDate={getSchedulesForDate}
             />
           ))}
         </tbody>
