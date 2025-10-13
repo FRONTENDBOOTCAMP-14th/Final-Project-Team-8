@@ -26,7 +26,7 @@
 import { PropsWithChildren, useState } from 'react'
 import useToggleState from '../../hooks/useToggleState'
 import Modal from './Modal'
-import ModalTypeOtherTreatment from './modalType/ModalTypeOtherTreatment'
+import ModalTypeOtherTreatment from './ModalType/ModalTypeOtherTreatment'
 
 type Props = PropsWithChildren<{
   /** 모달 상단 제목 */

@@ -1,15 +1,13 @@
-import Accordion from '../components/accordion/accordion'
-import ModalBox from '../components/modal/ModalBox'
+import { LearnSection } from '../components'
+import RandomCountUp from '../demo'
 
 export default function HomePage() {
   return (
     <div>
       <section>
-        {/* <LearnSection title="랜덤 카운트 업">
+        <LearnSection title="랜덤 카운트 업">
           <RandomCountUp />
-        </LearnSection> */}
-        <Accordion type="antiparasitic" title="예방접종"></Accordion>
-        <ModalBox title="모달" modalDetail={true}></ModalBox>
+        </LearnSection>
       </section>
 
       <section id="modal-dialog-portal"></section>
