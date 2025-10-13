@@ -10,3 +10,17 @@ export default function LandingPage() {
     </div>
   )
 }
+
+export const metadata = {
+  title: 'Paw Buddy - 랜딩페이지',
+  description: '반려동물의 프로필을 만들고 통합 관리 사이트를 이용해보세요.',
+  openGraph: {
+    title: 'Paw Buddy',
+    description: '반려동물 종합 관리 사이트',
+    url: 'https://pawbuddy.example.com/landing',
+    siteName: 'Paw Buddy',
+    type: 'website',
+    // 추후변경
+    images: ['/assets/logo/Logo-Paw-Buddy-col.svg'],
+  },
+}
