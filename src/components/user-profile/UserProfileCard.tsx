@@ -10,7 +10,6 @@ import { toast } from 'sonner'
 
 interface UserProfileCardProps {
   user: User
-  userId: string
 }
 
 interface UserData {
@@ -18,21 +17,22 @@ interface UserData {
   profile_img?: string | null
 }
 
-export default function UserProfileCard({
-  user,
-  userId,
-}: UserProfileCardProps) {
+export default function UserProfileCard({ user }: UserProfileCardProps) {
   const router = useRouter()
 
   // user 테이블에서 유저정보 가져오기
   const [userData, setUserData] = useState<UserData | null>(null)
   useEffect(() => {
     const fetchUSerData = async () => {
-      const data = await getUserData(userId)
-      setUserData(data)
+      try {
+        const data = await getUserData(user)
+        setUserData(data)
+      } catch (error) {
+        toast.error('로딩 실패')
+      }
     }
     fetchUSerData()
-  }, [userId])
+  }, [user])
 
   // user테이블에서 이름 가져오기
   // 없으면 이메일 앞부분 사용
@@ -60,7 +60,7 @@ export default function UserProfileCard({
   }
 
   return (
-    <div className="flex max-w-max items-center justify-between rounded-2xl bg-gray-500 p-4">
+    <div className="flex w-full items-center justify-between rounded-2xl bg-gray-500 p-4">
       <div className="flex items-center gap-3">
         {avatarUrl ? (
           <img

@@ -1,19 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import { selectTypeIcon } from './accordionFun'
-import AccordionItemBox from './accordionItemBox'
+import { selectTypeIcon } from '../../../src/components/accordion/accordionFun'
+import AccordionItemBox from '../../../src/components/accordion/accordionItemBox'
 
 // Accordion 컴포넌트 Props 타입 정의
 export interface AccordionProps {
   type:
-    | 'antiparasitic'
-    | 'diet'
-    | 'medical treatment'
-    | 'other activities'
-    | 'other treatments'
-    | 'vaccines'
-    | 'walks'
+    | 'vaccination'
+    | 'anthelmintic'
+    | 'medical'
+    | 'other-treatments'
+    | 'food-journal'
+    | 'walk'
+    | 'other-journals'
   title: string
 }
 
@@ -22,7 +22,7 @@ export interface AccordionProps {
  * 클릭 시 열리고 닫히는 아코디언 UI
  */
 export default function Accordion({
-  type = 'antiparasitic',
+  type = 'vaccination',
   title,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false) // 아코디언 열림 여부 상태
