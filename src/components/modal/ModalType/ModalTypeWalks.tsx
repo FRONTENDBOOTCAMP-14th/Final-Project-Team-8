@@ -1,32 +1,45 @@
+import { Walks } from '@/libs/supabase'
 import ModalDetail from '../ModalDetail'
+import { minTohour } from '../timeHandler'
 
-type Props = { isModify: boolean }
+type Props = { isModify: boolean; restProps: Walks }
 
-export default function ModalTypeWalks({ isModify }: Props) {
+export default function ModalTypeWalks({
+  isModify,
+  restProps: { date, distance, id, start_time, total_time },
+}: Props) {
   return (
     <ModalDetail
+      key={id}
       isModify={isModify}
       fields={[
         {
-          key: 'walks',
+          key: 'start_time',
           label: '다녀온 곳',
-          type: 'text',
-          tableValue: '음파 호수공원',
-          defaultValue: '음파 호수공원',
+          type: 'time',
+          tableValue: start_time,
+          defaultValue: start_time,
         },
         {
           key: 'distance',
           label: '산책 거리',
-          type: 'text',
-          tableValue: '2.5',
-          defaultValue: '2.5',
+          type: 'number',
+          tableValue: distance,
+          defaultValue: distance,
         },
         {
           key: 'duration',
           label: '산책 시간',
-          type: 'time',
-          tableValue: '00:24',
-          defaultValue: '00:24',
+          type: 'number',
+          tableValue: minTohour(total_time),
+          defaultValue: total_time,
+        },
+        {
+          key: 'date',
+          label: '산책 날짜',
+          type: 'date',
+          tableValue: date,
+          defaultValue: date,
         },
       ]}
     />

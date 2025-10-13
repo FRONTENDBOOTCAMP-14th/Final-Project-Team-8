@@ -1,5 +1,4 @@
 import { Antiparasitic } from '../../../libs/supabase'
-import { toISODate } from '../../../utils/client/toISODate'
 import ModalDetail from '../ModalDetail'
 
 type Props = {
@@ -9,13 +8,11 @@ type Props = {
 
 export default function ModalTypeAntiparasitic({
   isModify,
-  restProps: { id, intake_date, next_date, notes, pet_id, title },
+  restProps: { id, intake_date, next_date, notes },
 }: Props) {
-  const returnToNull = data => {}
-  if (data === null) return '-'
-  return toISODate(data)
   return (
     <ModalDetail
+      key={id}
       isModify={isModify}
       fields={[
         {
@@ -33,6 +30,9 @@ export default function ModalTypeAntiparasitic({
           defaultValue: next_date,
         },
       ]}
+      noteLabel="특이 사항"
+      defaultNote={notes ?? '-'}
+      noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
     />
   )
 }

@@ -1,30 +1,38 @@
+import { OtherTreatment } from '../../../libs/supabase'
 import ModalDetail from '../ModalDetail'
 
-type Props = { isModify: boolean }
+type Props = {
+  isModify: boolean
+  restProps: OtherTreatment
+}
 
-export default function ModalTypeOtherTreatment({ isModify }: Props) {
+export default function ModalTypeOtherTreatment({
+  isModify,
+  restProps: { date, detail, id, notes },
+}: Props) {
   return (
     <ModalDetail
+      key={id}
       isModify={isModify}
       fields={[
         {
-          key: 'content',
+          key: 'detail',
           label: '처치 내용',
           type: 'text',
-          tableValue: '발바닥에 반창코 붙임',
-          defaultValue: '발바닥에 반창코 붙임',
+          tableValue: detail,
+          defaultValue: detail,
           inputProps: { placeholder: '처치 내용을 입력해주세요' },
         },
         {
           key: 'date',
           label: '처치 날짜',
           type: 'date',
-          tableValue: '2023-05-18',
-          defaultValue: '2023-05-18',
+          tableValue: date,
+          defaultValue: date,
         },
       ]}
       noteLabel="특이 사항"
-      defaultNote="특이 사항 없음"
+      defaultNote={notes ?? '-'}
       noteTextareaProps={{ placeholder: '특이사항을 입력해주요' }}
     />
   )
