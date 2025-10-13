@@ -54,7 +54,7 @@ export default function Signup({
     setPasswordConfirm,
     setAgreeToTerms,
     setFieldTouched,
-    setAlllTouched: setAllTouched,
+    setAllTouched: setAllTouched,
   } = useSignupForm()
 
   // 비밀번호 강도

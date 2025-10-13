@@ -41,7 +41,7 @@ export const useSignupForm = () => {
     []
   )
 
-  const setAlllTouched = useCallback(() => {
+  const setAllTouched = useCallback(() => {
     setTouched({
       name: true,
       email: true,
@@ -68,6 +68,6 @@ export const useSignupForm = () => {
     setPasswordConfirm,
     setAgreeToTerms,
     setFieldTouched,
-    setAlllTouched,
+    setAllTouched: setAllTouched,
   }
 }
