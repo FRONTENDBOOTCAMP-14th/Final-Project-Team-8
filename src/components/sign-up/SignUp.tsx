@@ -3,9 +3,12 @@
 import { Eye, EyeOff, User } from 'lucide-react'
 import {
   type ComponentProps,
+  forwardRef,
   useCallback,
+  useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
   useTransition,
 } from 'react'
@@ -20,18 +23,35 @@ const PASSWORD_RULES = {
   hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/,
 }
 
+// 이름 검증 : 한글, 영문만 허용 (숫자, 특수문자, 공백 불가)
+const NAME_REGEX = /^[가-힣a-zA-Z]+$/
+
 export interface SignupProps {
-  onSignup?: (email: string, password: string, name: string) => void
+  onSignup?: (
+    email: string,
+    password: string,
+    name: string
+  ) => Promise<void> | void
   onLogin?: () => void
+  signupError?: string
+  onErrorChange?: (error: string) => void
 }
 
-export default function Signup({ onSignup, onLogin }: SignupProps) {
+export default function Signup({
+  onSignup,
+  onLogin,
+  signupError,
+  onErrorChange,
+}: SignupProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [isPending, startTransition] = useTransition()
+
+  // 이메일 input에 접근하기 위한 ref
+  const emailInputRef = useRef<HTMLInputElement>(null)
 
   // 각 필드(이메일, 비밀번호 등)의 방문 여부를 추적하는 touched 상태
   // - 사용자가 입력 중일 때는 에러를 보여주지 않고
@@ -45,6 +65,13 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
   })
 
   const agreeToTermsId = useId()
+
+  // 중복 이메일로 가입 시도(에러 발생) 시, 이메일 필드로 포커싱
+  useEffect(() => {
+    if (signupError && emailInputRef.current) {
+      emailInputRef.current.focus()
+    }
+  }, [signupError])
 
   // 비밀번호 강도 계산
   const passwordStrength = useMemo(() => {
@@ -81,6 +108,23 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
     return passwordValidation.length && passwordValidation.hasLetters
   }, [passwordValidation])
 
+  // 비밀번호 에러 메시지
+  const passwordErrorMessage = useMemo(() => {
+    if (!password) return ''
+
+    // 비밀번호가 6자 이상인지
+    if (!passwordValidation.length) {
+      return '비밀번호는 6자 이상이어야 합니다'
+    }
+
+    // 영문 대소문자를 포함하고 있는지
+    if (!passwordValidation.hasLetters) {
+      return '비밀번호는 영문 대소문자를 포함해야 합니다'
+    }
+
+    return ''
+  }, [password, passwordValidation])
+
   const isPasswordMatch = useMemo(() => {
     return password === passwordConfirm && passwordConfirm.length > 0
   }, [password, passwordConfirm])
@@ -88,6 +132,7 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
   const isFormValid = useMemo(() => {
     return (
       name.trim().length > 0 &&
+      NAME_REGEX.test(name) &&
       EMAIL_REGEX.test(email) &&
       isPasswordValid &&
       isPasswordMatch &&
@@ -148,18 +193,33 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
         <div className="space-y-6">
           <NameInput
             value={name}
-            onChange={setName}
+            onChange={value => {
+              setName(value)
+              setTouched(prev => ({ ...prev, name: false }))
+            }}
             onBlur={() => setTouched(prev => ({ ...prev, name: true }))}
             error={
-              touched.name && name.trim().length === 0
-                ? '이름을 입력해주세요'
+              touched.name
+                ? name.trim().length === 0
+                  ? '이름을 입력해주세요'
+                  : !NAME_REGEX.test(name)
+                    ? '한글, 영문 대/소문자를 사용해주세요 (특수기호, 공백, 숫자 사용 불가)'
+                    : ''
                 : ''
             }
           />
 
           <EmailInput
+            ref={emailInputRef}
             value={email}
-            onChange={setEmail}
+            onChange={value => {
+              setEmail(value)
+              // 이메일 입력 시작하면 touched 해제 (사용자가 수정 중일 때는 에러 숨김)
+              setTouched(prev => ({ ...prev, email: false }))
+              if (signupError && onErrorChange) {
+                onErrorChange('')
+              }
+            }}
             onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
             error={
               touched.email && !EMAIL_REGEX.test(email)
@@ -169,6 +229,17 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
                 : ''
             }
           />
+
+          {/* 에러 메시지 표시 */}
+          {signupError && (
+            <div
+              role="alert"
+              aria-live="polite"
+              className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600"
+            >
+              {signupError}
+            </div>
+          )}
 
           {/* showValidation prop으로 유효성 비밀번호 검사 메시지 표시 시점 제어
           - touched.password가 false일 때: 비밀번호 강도만 표시
@@ -182,6 +253,7 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
             passwordValidation={passwordValidation}
             isPasswordValid={isPasswordValid}
             showValidation={touched.password}
+            errorMessage={touched.password ? passwordErrorMessage : ''}
           />
 
           {/* showError prop으로 비밀번호 일치/불일치 메시지 표시 시점 제어 */}
@@ -202,11 +274,17 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
               id={agreeToTermsId}
               checked={agreeToTerms}
               onChange={e => setAgreeToTerms(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  setAgreeToTerms(!agreeToTerms)
+                }
+              }}
+              className="h-4 w-4 cursor-pointer rounded border-gray-300 text-orange-500"
             />
             <label
               htmlFor={agreeToTermsId}
-              className="ml-2 text-sm text-gray-600"
+              className="ml-2 cursor-pointer text-sm text-gray-600"
             >
               이용약관에 동의합니다
             </label>
@@ -223,7 +301,7 @@ export default function Signup({ onSignup, onLogin }: SignupProps) {
               onClick={handleSubmit}
               disabled={isPending}
               variant="orange"
-              className="w-full"
+              className="w-full focus:border-blue-600"
             >
               {isPending ? '계정 만드는 중...' : '계정 만들기'}
             </Button>
@@ -302,20 +380,29 @@ function NameInput({
 
 /**
  * 이메일 입력 컴포넌트
+ *
+ * forwardRef
+ * - 부모 컴포넌트가 자식의 DOM 요소에 직접 접근할 수 있게 해주는 통로
+ * - React가 막아놓았기 때문에 일반 함수 컴포넌트는 ref를 받을 수 없음
+ * - forwardRef로 감싸면 ref를 받을 수 있게 됨
+ *
+ * 매개변수
+ * - props: 일반적인 props (value, onChange 등)
+ * - ref: 부모가 전달한 ref (부모의 useRef로 만든 것)
  */
-function EmailInput({
-  value,
-  onChange,
-  onBlur,
-  error,
-  inputProps,
-}: {
-  value: string
-  onChange: (value: string) => void
-  onBlur?: () => void
-  error?: string
-  inputProps?: ComponentProps<'input'>
-}) {
+const EmailInput = forwardRef<
+  HTMLInputElement, // ref가 가리킬 DOM 요소 타입
+  {
+    value: string
+    onChange: (value: string) => void
+    onBlur?: () => void
+    error?: string
+    inputProps?: ComponentProps<'input'>
+  }
+>(function EmailInput(
+  { value, onChange, onBlur, error, inputProps },
+  ref // 여기가 부모가 준 ref
+) {
   const id = useId()
   const hasError = !!error
 
@@ -325,6 +412,8 @@ function EmailInput({
         이메일 주소
       </label>
       <input
+        ref={ref} // 부모가 준 ref를 여기에 연결
+        // 이제 부모가 emailInputRef.current로 이 input을 제어할 수 있음
         id={id}
         type="email"
         placeholder="이메일 주소"
@@ -349,7 +438,7 @@ function EmailInput({
       )}
     </div>
   )
-}
+})
 
 /**
  * 비밀번호 입력 컴포넌트
@@ -362,6 +451,7 @@ function PasswordInput({
   passwordValidation,
   isPasswordValid,
   showValidation,
+  errorMessage,
   inputProps,
 }: {
   value: string
@@ -376,6 +466,7 @@ function PasswordInput({
   }
   isPasswordValid: boolean
   showValidation?: boolean
+  errorMessage?: string
   inputProps?: ComponentProps<'input'>
 }) {
   const id = useId()
@@ -450,6 +541,17 @@ function PasswordInput({
               ))}
             </div>
           </div>
+
+          {/* 에러 메시지 표시 */}
+          {errorMessage && (
+            <p
+              role="alert"
+              aria-live="polite"
+              className="mt-2 text-xs font-medium text-red-500"
+            >
+              {errorMessage}
+            </p>
+          )}
 
           {!isPasswordValid && showValidation && (
             <div className="mt-2 space-y-1 text-xs">

@@ -1,5 +1,5 @@
-import { LearnSection } from '@/components'
-import RandomCountUp from '@/demo'
+import { LearnSection } from '../components'
+import RandomCountUp from '../demo'
 
 export default function HomePage() {
   return (
