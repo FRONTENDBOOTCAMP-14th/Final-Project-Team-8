@@ -1,6 +1,6 @@
 import type { Walks } from '@/libs/supabase'
+import { toISODate } from '@/utils/client/toISODate'
 import { useId, useState } from 'react'
-import { toISODate } from '../accordionFun'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 // Walk 리스트 아이템 (거리/시간 표시)

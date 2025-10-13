@@ -1,10 +1,10 @@
+import useToggleState from '@/hooks/useToggleState'
+import { Antiparasitic } from '@/libs/supabase'
+import { toISODate } from '@/utils/client/toISODate'
 import { CalendarIcon } from 'lucide-react'
-import { useId, useState } from 'react'
-import useToggleState from '../../../hooks/useToggleState'
-import { Antiparasitic } from '../../../libs/supabase'
+import { useEffect, useId, useState } from 'react'
 import Modal from '../../modal/Modal'
-import ModalTypeAntheelmintic from '../../modal/ModalType/ModalTypeAnthelmintic'
-import { toISODate } from '../accordionFun'
+import ModalTypeAntiparasitic from '../../modal/ModalType/ModalTypeAntiparasitic'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
@@ -32,6 +32,10 @@ export function AntiparasiticTreatmentItem({
 
   const [isOpen, { on, off }] = useToggleState(false)
   const [isModify, setModify] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log(intake_date)
+  }, [])
 
   return (
     <li
@@ -89,7 +93,10 @@ export function AntiparasiticTreatmentItem({
         isModify={isModify}
         setModify={setModify}
       >
-        <ModalTypeAntheelmintic isModify={isModify}></ModalTypeAntheelmintic>
+        <ModalTypeAntiparasitic
+          isModify={isModify}
+          restProps={{ id, intake_date, next_date, notes, pet_id, title }}
+        ></ModalTypeAntiparasitic>
       </Modal>
     </li>
   )

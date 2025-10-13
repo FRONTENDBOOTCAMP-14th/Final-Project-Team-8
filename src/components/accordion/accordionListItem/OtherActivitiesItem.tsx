@@ -1,7 +1,7 @@
+import { toISODate } from '@/utils/client/toISODate'
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
 import { OtherActivities } from '../../../libs/supabase'
-import { toISODate } from '../accordionFun'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 // 기타 활동 일지 아이템 (내용 미리보기)
