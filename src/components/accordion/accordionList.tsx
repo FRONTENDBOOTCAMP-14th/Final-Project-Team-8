@@ -124,7 +124,7 @@ export function DietCompo({ dataList }: DietProps) {
 
   return (
     <div>
-      {dataList.map(({ date, id, pet_id, time, title }) => (
+      {dataList.map(({ date, id, pet_id, time, title, snack_type, notes }) => (
         <DietItem
           date={date}
           id={id}
@@ -132,6 +132,8 @@ export function DietCompo({ dataList }: DietProps) {
           time={time}
           title={title}
           key={id}
+          snack_type={snack_type}
+          notes={notes}
         />
       ))}
     </div>
@@ -151,17 +153,20 @@ export function OtherActivitiesCompo({ dataList }: OtherActivitiesProps) {
 
   return (
     <div>
-      {dataList.map(({ date, id, notes, pet_id, time, title }) => (
-        <OtherActivitiesItem
-          date={date}
-          id={id}
-          notes={notes}
-          pet_id={pet_id}
-          time={time}
-          title={title}
-          key={id}
-        />
-      ))}
+      {dataList.map(
+        ({ date, id, notes, pet_id, start_time, duration_time, title }) => (
+          <OtherActivitiesItem
+            date={date}
+            id={id}
+            notes={notes}
+            pet_id={pet_id}
+            start_time={start_time}
+            duration_time={duration_time}
+            title={title}
+            key={id}
+          />
+        )
+      )}
     </div>
   )
 }

@@ -53,21 +53,27 @@ export type Database = {
         Row: {
           date: string
           id: string
+          notes: string | null
           pet_id: string
+          snack_type: string
           time: string
           title: string
         }
         Insert: {
           date: string
           id?: string
+          notes?: string | null
           pet_id: string
+          snack_type?: string
           time: string
           title: string
         }
         Update: {
           date?: string
           id?: string
+          notes?: string | null
           pet_id?: string
+          snack_type?: string
           time?: string
           title?: string
         }
@@ -122,26 +128,29 @@ export type Database = {
       'other activities': {
         Row: {
           date: string
+          duration_time: number
           id: string
           notes: string | null
           pet_id: string
-          time: string
+          start_time: string
           title: string
         }
         Insert: {
           date: string
+          duration_time?: number
           id?: string
           notes?: string | null
           pet_id: string
-          time: string
+          start_time: string
           title: string
         }
         Update: {
           date?: string
+          duration_time?: number
           id?: string
           notes?: string | null
           pet_id?: string
-          time?: string
+          start_time?: string
           title?: string
         }
         Relationships: [
