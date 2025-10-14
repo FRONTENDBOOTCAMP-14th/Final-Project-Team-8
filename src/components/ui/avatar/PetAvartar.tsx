@@ -1,8 +1,8 @@
 interface PetAvatarProps {
   pet: {
     id: string
-    profileImg: string
     name: string
+    profileImg: string
   }
   selected?: boolean
   onClick?: (id: string) => void
