@@ -51,7 +51,7 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
 
       <Button
         variant="white"
-        className="!m-5 !w-[calc(100%-40px)] gap-1 !p-[13px] font-bold !text-orange-500"
+        className="m-5 max-w-[calc(100%-40px)] gap-1 p-[13px] font-bold"
         onClick={() => onToState('isToggle')}
       >
         <img src="/components/accordion/plus-button-icon.svg" alt="플러스" />
