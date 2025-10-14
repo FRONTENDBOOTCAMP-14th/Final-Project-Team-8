@@ -1,4 +1,3 @@
-import { Sidebar } from '@/components'
 import '@/styles/main.css'
 import { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
@@ -12,7 +11,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ko-KR">
       <body>
-        <Sidebar></Sidebar>
         <main>{children}</main>
         <Toaster position="top-center" richColors />
       </body>

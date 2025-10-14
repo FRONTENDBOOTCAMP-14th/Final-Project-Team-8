@@ -18,7 +18,7 @@ export async function getSelectedPet(id: string) {
   const { data, error } = await supabase
     .from('pets')
     .select('*')
-    .eq('pet_id', id)
+    .eq('id', id)
     .single()
 
   if (error) throw new Error(error.message)

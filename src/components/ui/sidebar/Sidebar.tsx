@@ -111,7 +111,7 @@ export default function Sidebar() {
         className="flex flex-row justify-center border-b-[2px] border-[#636073]"
       >
         <img
-          src="assets/logo/Logo-Paw-Buddy.svg"
+          src="/assets/logo/Logo-Paw-Buddy.svg"
           alt="로고이미지"
           className="p-auto my-6"
         />
