@@ -22,7 +22,8 @@ interface MenuOption {
 export default function Sidebar() {
   const currentPath = usePathname()
   const { user, setUser } = useUserStore()
-  const { pets, selectedPetId, setSelectedPetId, fetchPets } = usePetStore()
+  const { petList, selectedPetId, setSelectedPetId, fetchPetSummary } =
+    usePetStore()
   const [isLoading, setIsLoading] = useState(true)
 
   // user를 useUserStore로 가져옴
@@ -34,7 +35,7 @@ export default function Sidebar() {
   useEffect(() => {
     if (!user) return
 
-    fetchPets(user)
+    fetchPetSummary(user)
   }, [user])
 
   const menuoptions: MenuOption[] = [
@@ -110,7 +111,7 @@ export default function Sidebar() {
         className="flex flex-row justify-center border-b-[2px] border-[#636073]"
       >
         <img
-          src="assets/logo/Logo-Paw-Buddy.svg"
+          src="/assets/logo/Logo-Paw-Buddy.svg"
           alt="로고이미지"
           className="p-auto my-6"
         />
@@ -122,7 +123,7 @@ export default function Sidebar() {
           <PetProfileListSkeleton />
         ) : (
           <PetProfileList
-            pets={pets}
+            pets={petList}
             selectedId={selectedPetId}
             onSelect={setSelectedPetId}
           ></PetProfileList>

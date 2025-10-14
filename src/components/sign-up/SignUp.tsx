@@ -26,7 +26,7 @@ import PasswordConfirmInput from './components/PasswordConfirmInput'
 import PasswordInput from './components/PasswordInput'
 
 // 버튼 공통 컴포넌트
-import Button from '../ui/button/Button'
+import Button from '@/components/ui/button/Button'
 
 export default function Signup({
   onSignup,
@@ -89,8 +89,8 @@ export default function Signup({
   }, [onLogin])
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 pt-20 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-[70px] pt-20 shadow-lg">
         {/* Profile Icon */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 transform">
           <div className="flex h-20 w-20 items-center justify-center rounded-full border-none bg-white">
@@ -194,7 +194,7 @@ export default function Signup({
           </div>
 
           {/* Signup Button */}
-          <div className="-m-[30px] flex justify-center">
+          <div className="flex justify-center">
             <Button
               onClick={handleSubmit}
               disabled={isPending}

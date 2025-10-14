@@ -9,6 +9,12 @@ interface UserState {
 
 const supabase = createClient()
 
+/**
+ * 현재 로그인한 사용자 상태를 관리하는 Zustand 스토어
+ *
+ * {User | null} user - 현재 로그인한 사용자 정보, 로그인 안됐으면 null
+ * {() => Promise<void>} setUser - Supabase에서 사용자 정보를 가져와 상태를 업데이트하는 함수
+ */
 export const useUserStore = create<UserState>(set => ({
   user: null,
   setUser: async () => {

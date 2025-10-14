@@ -1,13 +1,10 @@
-import { LearnSection } from '../components'
-import RandomCountUp from '../demo'
+import { Sidebar } from '../components'
 
 export default function HomePage() {
   return (
     <div>
       <section>
-        <LearnSection title="랜덤 카운트 업">
-          <RandomCountUp />
-        </LearnSection>
+        <Sidebar></Sidebar>
       </section>
 
       <section id="modal-dialog-portal"></section>
