@@ -72,7 +72,6 @@ export default function DietItem({
         {date}
       </time>
       <Modal
-        title={title}
         open={isOpen}
         onClose={off}
         isModify={isModify}

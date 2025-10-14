@@ -75,7 +75,6 @@ export default function WalksItem({
       </div>
 
       <Modal
-        title={title}
         open={isOpen}
         onClose={off}
         isModify={isModify}

@@ -83,7 +83,6 @@ export default function VaccinesTreatmentItem({
       </time>
 
       <Modal
-        title={title}
         open={isOpen}
         onClose={off}
         isModify={isModify}

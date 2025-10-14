@@ -6,8 +6,6 @@ import { Toaster } from 'sonner'
 type DialogInnerProps = PropsWithChildren<{
   isModify: boolean
   setModify: Dispatch<SetStateAction<boolean>>
-  title?: string | undefined
-  titleId: string
   close: () => void
   describe?: string | undefined
   describeId: string
@@ -17,8 +15,6 @@ type DialogInnerProps = PropsWithChildren<{
 export function DialogInner({
   isModify,
   setModify,
-  title,
-  titleId,
   close,
   describe,
   describeId,
@@ -48,24 +44,7 @@ export function DialogInner({
       {/* 🔸 모달 콘텐츠 영역 */}
       <div className="flex min-h-55 w-170 flex-col p-[30px]">
         {/* 🔹 헤더 영역 (제목 + 닫기 버튼) */}
-        <div className="mb-3 flex gap-6">
-          {!isModify ? (
-            <h1
-              id={titleId}
-              className="mt-[30px] mb-[18px] grow text-[28px] font-bold text-gray-800"
-            >
-              {title ?? '다이얼로그 제목'}
-            </h1>
-          ) : (
-            <input
-              id={titleId}
-              type="text"
-              defaultValue={title}
-              placeholder="제목을 입력해주세요"
-              className="grow rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
-            />
-          )}
-
+        <div className="flex justify-end gap-6">
           {/* 🔹 닫기 버튼 (수정 중엔 비활성화) */}
           <button
             type="button"

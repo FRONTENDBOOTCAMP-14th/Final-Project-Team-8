@@ -75,7 +75,6 @@ export default function OtherTreatmentItem({
       </time>
 
       <Modal
-        title={title}
         open={isOpen}
         onClose={off}
         isModify={isModify}

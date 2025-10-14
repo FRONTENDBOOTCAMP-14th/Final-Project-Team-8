@@ -76,7 +76,6 @@ export default function OtherActivitiesItem({
       </div>
 
       <Modal
-        title={title}
         open={isOpen}
         onClose={off}
         isModify={isModify}

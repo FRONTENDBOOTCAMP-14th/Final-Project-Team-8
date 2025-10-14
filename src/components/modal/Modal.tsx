@@ -46,8 +46,6 @@ import { tabbableSelector } from '../../utils/client'
 import { DialogInner } from './DialogInner'
 
 type Props = PropsWithChildren<{
-  /** 모달 제목 */
-  title?: string
   /** 모달 열림 여부 */
   open: boolean
   /** 모달 닫기 콜백 */
@@ -63,7 +61,6 @@ type Props = PropsWithChildren<{
 export default function Modal({
   open = false,
   onClose,
-  title,
   describe,
   isModify,
   setModify,
@@ -107,19 +104,10 @@ export default function Modal({
         else onClose?.()
       }
     }
-    const handleCloseByBackdropKey = (e: KeyboardEvent) => {
-      e.preventDefault()
-      console.log(e.key)
-      if (e.key === 'Escape') {
-        console.log('esc키 누름!')
-      }
-    }
 
     dialog.addEventListener('click', handleCloseByBackdrop)
-    dialog.addEventListener('keyup', handleCloseByBackdropKey)
     return () => {
       dialog.removeEventListener('click', handleCloseByBackdrop)
-      dialog.removeEventListener('keyup', handleCloseByBackdropKey)
     }
   }, [open, onClose, isModify])
 
@@ -153,7 +141,14 @@ export default function Modal({
       const first = tabbables[0] as HTMLElement
       const last = tabbables[tabbables.length - 1] as HTMLElement
 
-      if (key === 'Escape') return close()
+      if (key === 'Escape') {
+        if (isModify) {
+          e.preventDefault()
+          toast.error('완료 버튼을 먼저 눌러주세요')
+        } else {
+          return close()
+        }
+      }
 
       if (key === 'Tab') {
         if (shiftKey && activeElement === first) {
@@ -205,8 +200,6 @@ export default function Modal({
       <DialogInner
         isModify={isModify}
         setModify={setModify}
-        title={title}
-        titleId={titleId}
         close={close}
         describe={describe}
         describeId={describeId}

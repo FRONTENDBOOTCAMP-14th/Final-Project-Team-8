@@ -80,7 +80,6 @@ export default function MedicalTreatmentItem({
         {next_date ?? '다음 예정일이 없습니다.'}
       </time>
       <Modal
-        title={title}
         open={isOpen}
         onClose={off}
         isModify={isModify}

@@ -54,7 +54,7 @@ export default function AntiparasiticTreatmentItem({
         <button
           onClick={on}
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
@@ -89,7 +89,6 @@ export default function AntiparasiticTreatmentItem({
       <Modal
         open={isOpen}
         onClose={off}
-        title={title}
         isModify={isModify}
         setModify={setModify}
       >
