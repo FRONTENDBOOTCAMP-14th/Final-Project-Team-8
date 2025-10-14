@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { useModal } from '../../store/modalStore'
 import Modal from '../modal/Modal'
-import ModalTypeAntiparasitic from '../modal/ModalType/ModalTypeAntiparasitic'
+import { ModalTypeAntiparasiticInput } from '../modal/ModalType/ModalTypeAntiparasitic'
+import { AccordionProps } from './accordion'
 
-export default function AccordionListAdd() {
+interface AccordionListAddProps {
+  type: AccordionProps['type']
+}
+
+export default function NewAccordionListAdd({ type }: AccordionListAddProps) {
   const [isModify, setModify] = useState(true)
   const isToggle = useModal(state => state.isToggle)
   const offToState = useModal(state => state.offToState)
@@ -17,7 +22,7 @@ export default function AccordionListAdd() {
         isModify={isModify}
         setModify={setModify}
       >
-        <ModalTypeAntiparasitic
+        <ModalTypeAntiparasiticInput
           isModify={isModify}
           restProps={{
             id: '',
@@ -27,7 +32,7 @@ export default function AccordionListAdd() {
             pet_id: '',
             title: '',
           }}
-        ></ModalTypeAntiparasitic>
+        />
       </Modal>
     </div>
   )

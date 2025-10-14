@@ -121,3 +121,69 @@ export default function ModalDetail({
     </div>
   )
 }
+
+export function ModalDetailInput({
+  isModify,
+  title = '상세',
+  fields,
+  noteLabel = '특이 사항',
+  defaultNote = '특이 사항 없음',
+  noteTextareaProps,
+}: ModalDetailProps) {
+  return (
+    <form>
+      {/* 섹션 타이틀 */}
+      <h2 className="text-[18px] font-bold text-gray-800">{title}</h2>
+
+      {/* 필드 리스트 */}
+      <ul className="flex flex-wrap items-start gap-4">
+        {fields.map(f => (
+          <li key={f.key} className="mt-3 flex min-w-[220px] flex-1 basis-0">
+            {/* 각 컬럼 좌측 세로 구분선 */}
+            <div className="mr-3 h-[70px] w-[1px] flex-shrink-0 bg-gray-300" />
+            <div className="mt-1 flex w-full flex-col">
+              <div className="text-base text-gray-700">{f.label}</div>
+
+              {/* 모드별 렌더링 */}
+
+              <div className="mt-1">
+                {/* 입력 컨트롤 */}
+                <label htmlFor={`field-${f.key}`} className="sr-only">
+                  {f.label} 입력
+                </label>
+                <input
+                  id={`field-${f.key}`}
+                  type={f.type}
+                  defaultValue={f.defaultValue ?? ''}
+                  className="w-full rounded-md border-2 border-amber-400 p-1 focus:border-orange-500 focus:outline-none"
+                  {...f.inputProps}
+                />
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {/* 특이 사항 섹션 */}
+      <h2 className="mt-4 text-[18px] font-bold text-gray-800">{noteLabel}</h2>
+
+      <div className="relative mt-3 mb-3 flex w-full">
+        {/* 왼쪽 세로 구분선 */}
+        <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
+
+        <div className="ml-4 w-full">
+          <label htmlFor="detail-note" className="sr-only">
+            {noteLabel} 입력
+          </label>
+          <textarea
+            id="detail-note"
+            defaultValue={defaultNote === '-' ? '' : defaultNote}
+            className="w-full rounded-md border-2 border-amber-400 p-2 focus:border-orange-500 focus:outline-none"
+            rows={3}
+            {...noteTextareaProps}
+          />
+        </div>
+      </div>
+    </form>
+  )
+}
