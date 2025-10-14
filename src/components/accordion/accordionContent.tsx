@@ -7,10 +7,6 @@ import {
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef } from 'react'
 import { toast } from 'sonner'
-import { useModal } from '../../store/modalStore'
-import Modal from '../modal/Modal'
-import { ModalTypeAntiparasiticInput } from '../modal/ModalType/ModalTypeAntiparasitic'
-import Button from '../ui/button/Button'
 import {
   AntiparasiticCompo,
   DietCompo,
@@ -87,37 +83,4 @@ export default function AccordionContent<T extends AllowedTableNames>({
   }, [type, rows])
 
   return list
-}
-
-export function NewListitemAdd() {
-  const offToState = useModal(state => state.offToState)
-  const isToggle = useModal(state => state.isToggle)
-  return (
-    <div>
-      <Modal
-        open={isToggle}
-        onClose={() => offToState('isToggle')}
-        title=""
-        isModify={true}
-        setModify={() => {}}
-        buttonNone={true}
-      >
-        <ModalTypeAntiparasiticInput
-          isModify={false}
-          restProps={{
-            id: '',
-            intake_date: '',
-            next_date: null,
-            notes: null,
-            pet_id: '',
-            title: '',
-          }}
-        />
-        <div className="flex gap-5">
-          <Button>취소</Button>
-          <Button>저장</Button>
-        </div>
-      </Modal>
-    </div>
-  )
 }

@@ -5,10 +5,10 @@ import { useModal } from '@/store/modalStore'
 import { Suspense, useEffect, useState } from 'react'
 import QueryErrorBoundary from '../common/QueryErrorBoundary'
 import Button from '../ui/button/Button'
-import AccordionContent, { NewListitemAdd } from './accordionContent'
+import AccordionContent from './accordionContent'
 import { selectTypeButtonTitle } from './accordionFun'
 import ListLoading from './ListLoading'
-
+import NewListitemAdd from './newListitemAdd'
 type Props<T extends AllowedTableNames> = { type: T; isOpen: boolean }
 
 export default function AccordionItemBox<T extends AllowedTableNames>({
