@@ -1,21 +1,22 @@
 import { Diet } from '@/libs/supabase'
-import ModalDetail from '../ModalDetail'
+import ModalDetail from '../modal-detail/ModalDetail'
 import { removeSecond } from '../timeHandler'
+import { ModalTypeProps } from './ModalType'
 
-type Props = {
-  isModify: boolean
+interface ModalTypeDietProps extends ModalTypeProps {
   restProps: Diet
 }
 
 export function ModalTypeDiet({
   isModify,
-  restProps: { date, id, time, snack_type, notes },
-}: Props) {
+  restProps: { date, id, time, snack_type, notes, title },
+}: ModalTypeDietProps) {
   console.log(removeSecond(time))
 
   return (
     <ModalDetail
       key={id}
+      title={title}
       isModify={isModify}
       fields={[
         {

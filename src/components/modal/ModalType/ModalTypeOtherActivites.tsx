@@ -1,19 +1,20 @@
 import { OtherActivities } from '@/libs/supabase'
-import ModalDetail from '../ModalDetail'
+import ModalDetail from '../modal-detail/ModalDetail'
 import { minTohour, removeSecond } from '../timeHandler'
+import { ModalTypeProps } from './ModalType'
 
-type Props = {
-  isModify: boolean
+interface ModalTypeOtherActivitesProps extends ModalTypeProps {
   restProps: OtherActivities
 }
 
 export default function ModalTypeOtherActivites({
   isModify,
-  restProps: { date, id, notes, start_time, duration_time },
-}: Props) {
+  restProps: { date, id, notes, start_time, duration_time, title },
+}: ModalTypeOtherActivitesProps) {
   return (
     <ModalDetail
       key={id}
+      title={title}
       isModify={isModify}
       fields={[
         {

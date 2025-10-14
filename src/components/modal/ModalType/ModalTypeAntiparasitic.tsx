@@ -1,18 +1,20 @@
 import { Antiparasitic } from '@/libs/supabase'
-import ModalDetail, { ModalDetailInput } from '../ModalDetail'
+import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import { ModalTypeProps } from './ModalType'
 
-type Props = {
-  isModify: boolean
+interface ModalTypeAntiparasiticProps extends ModalTypeProps {
   restProps: Antiparasitic
 }
 
 export default function ModalTypeAntiparasitic({
   isModify,
-  restProps: { id, intake_date, next_date, notes },
-}: Props) {
+  restProps: { id, intake_date, next_date, notes, title },
+}: ModalTypeAntiparasiticProps) {
   return (
     <ModalDetail
       key={id}
+      title={title}
       isModify={isModify}
       fields={[
         {
@@ -37,27 +39,35 @@ export default function ModalTypeAntiparasitic({
   )
 }
 
+interface ModalTypeAntiparasiticInputProps {
+  restProps: {
+    title: string
+    intake_date: string
+    next_date: string
+    notes: string
+  }
+}
+
 export function ModalTypeAntiparasiticInput({
-  isModify,
-  restProps: { id, intake_date, next_date, notes },
-}: Props) {
+  restProps: { intake_date, next_date, notes, title },
+}: ModalTypeAntiparasiticInputProps) {
   return (
     <ModalDetailInput
-      key={id}
-      isModify={isModify}
+      title={title}
+      isModify={false}
       fields={[
         {
           key: 'intake_date',
           label: '복용 날짜',
           type: 'date',
-          tableValue: intake_date,
+          // tableValue: intake_date,
           defaultValue: intake_date,
         },
         {
           key: 'next_date',
           label: '다음 복용',
           type: 'date',
-          tableValue: next_date,
+          // tableValue: next_date,
           defaultValue: next_date,
         },
       ]}

@@ -1,18 +1,19 @@
 import { Vaccines } from '@/libs/supabase'
-import ModalDetail from '../ModalDetail'
+import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalTypeProps } from './ModalType'
 
-type Props = {
-  isModify: boolean
+interface ModalTypeVaccinationProps extends ModalTypeProps {
   restProps: Vaccines
 }
 
 export default function ModalTypeVaccination({
   isModify,
-  restProps: { expiry_date, id, lot, notes, vaccinated_date },
-}: Props) {
+  restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
+}: ModalTypeVaccinationProps) {
   return (
     <ModalDetail
       key={id}
+      title={title}
       isModify={isModify}
       fields={[
         {
