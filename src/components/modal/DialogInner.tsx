@@ -1,7 +1,7 @@
+import Button from '@/components/ui/button/Button'
 import { X } from 'lucide-react'
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
 import { Toaster } from 'sonner'
-import Button from '../ui/button/Button'
 
 type DialogInnerProps = PropsWithChildren<{
   isModify: boolean
@@ -84,7 +84,7 @@ export function DialogInner({
         {children}
 
         {/* 🔹 수정/완료 버튼 */}
-        <Button className="!m-0" onClick={() => setModify(prev => !prev)}>
+        <Button onClick={() => setModify(prev => !prev)}>
           {!isModify ? '수정' : '완료'}
         </Button>
       </div>

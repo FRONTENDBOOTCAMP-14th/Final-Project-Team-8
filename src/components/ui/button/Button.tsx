@@ -25,10 +25,11 @@ interface ButtonProps extends ComponentProps<'button'> {
 }
 
 const baseStyle = `
-flex flex-row items-center justify-center      /* Layout */
-min-w-40 w-full h-[54px] p-[17px]    /* Box Mode */
-text-[14px]                                    /* Typography */
-rounded-[14px]                                 /* Visual */
+cursor-pointer
+flex flex-row items-center justify-center
+min-w-40 w-full h-[54px] p-[17px]
+text-[14px]
+rounded-[14px]
 focus:outline-none focus:ring-2 focus:ring-offset-0
 `
 

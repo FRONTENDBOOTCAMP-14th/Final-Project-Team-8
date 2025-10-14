@@ -26,7 +26,7 @@ import PasswordConfirmInput from './components/PasswordConfirmInput'
 import PasswordInput from './components/PasswordInput'
 
 // 버튼 공통 컴포넌트
-import Button from '../ui/button/Button'
+import Button from '@/components/ui/button/Button'
 
 export default function Signup({
   onSignup,
@@ -194,7 +194,7 @@ export default function Signup({
           </div>
 
           {/* Signup Button */}
-          <div className="-m-[30px] flex justify-center">
+          <div className="flex justify-center">
             <Button
               onClick={handleSubmit}
               disabled={isPending}
