@@ -57,6 +57,7 @@ type Props = PropsWithChildren<{
   /** 수정 모드 여부 */
   isModify: boolean
   setModify: Dispatch<SetStateAction<boolean>>
+  buttonNone?: boolean
 }>
 
 export default function Modal({
@@ -67,6 +68,7 @@ export default function Modal({
   isModify,
   setModify,
   children,
+  buttonNone = false,
 }: Props) {
   /** 🔹 Portal 루트 요소 (layout.tsx 안의 <div id="modal-dialog-portal" />) */
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null)
@@ -105,9 +107,20 @@ export default function Modal({
         else onClose?.()
       }
     }
+    const handleCloseByBackdropKey = (e: KeyboardEvent) => {
+      e.preventDefault()
+      console.log(e.key)
+      if (e.key === 'Escape') {
+        console.log('esc키 누름!')
+      }
+    }
 
     dialog.addEventListener('click', handleCloseByBackdrop)
-    return () => dialog.removeEventListener('click', handleCloseByBackdrop)
+    dialog.addEventListener('keyup', handleCloseByBackdropKey)
+    return () => {
+      dialog.removeEventListener('click', handleCloseByBackdrop)
+      dialog.removeEventListener('keyup', handleCloseByBackdropKey)
+    }
   }, [open, onClose, isModify])
 
   // ------------------------------------------------------------
@@ -197,6 +210,7 @@ export default function Modal({
         close={close}
         describe={describe}
         describeId={describeId}
+        buttonNone={buttonNone}
       >
         {children}
       </DialogInner>
