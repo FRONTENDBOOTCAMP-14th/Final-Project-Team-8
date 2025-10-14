@@ -3,6 +3,7 @@ import { create } from 'zustand'
 type State = {
   isToggle: boolean
   isSubmit: boolean
+  formData: object
 }
 
 type Action = {
@@ -17,6 +18,9 @@ export const useModal = create<State & Action>(set => ({
 
   // 모달의 수정 상태 On/Off
   isSubmit: true,
+
+  // 폼 데이터 저장 객체
+  formData: {},
 
   // 위 State 전달시 => True 변환
   onToState: state => {
