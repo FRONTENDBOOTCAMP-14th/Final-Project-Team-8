@@ -22,6 +22,11 @@ export async function getScheduleData(
   const supabase = await createClient()
   const schedules: ScheduleEvent[] = []
 
+  // petId가 없으면 빈 배열 반환
+  if (!petId) {
+    return []
+  }
+
   try {
     // 반려동물 정보 가져오기(생일, 입양일)
     const { data: pets } = await supabase
