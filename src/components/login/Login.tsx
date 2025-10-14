@@ -1,15 +1,10 @@
 'use client'
 
 import { User } from 'lucide-react'
-import {
-  type ComponentProps,
-  useCallback,
-  useId,
-  useMemo,
-  useState,
-  useTransition,
-} from 'react'
+import { useCallback, useId, useMemo, useState, useTransition } from 'react'
 import Button from '../ui/button/Button'
+import EmailInput from './components/EmailInput'
+import PasswordInput from './components/PasswordInput'
 
 export interface LoginProps {
   onLogin?: (email: string, password: string) => void
@@ -78,7 +73,6 @@ export default function Login({
 
           <PasswordInput value={password} onChange={setPassword} />
 
-          {/* 서버 에러만 표시 */}
           {loginError && (
             <div
               role="alert"
@@ -133,74 +127,6 @@ export default function Login({
           </div>
         </div>
       </div>
-    </div>
-  )
-}
-
-/**
- * 이메일 입력 컴포넌트
- */
-function EmailInput({
-  value,
-  onChange,
-  inputProps,
-}: {
-  value: string
-  onChange: (value: string) => void
-  inputProps?: ComponentProps<'input'>
-}) {
-  const id = useId()
-
-  return (
-    <div role="group" className="flex flex-col">
-      <label htmlFor={id} className="sr-only">
-        이메일 주소
-      </label>
-      <input
-        id={id}
-        type="email"
-        placeholder="이메일 주소"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        autoComplete="email"
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
-        {...inputProps}
-      />
-    </div>
-  )
-}
-
-/**
- * 패스워드 입력 컴포넌트
- */
-function PasswordInput({
-  value,
-  onChange,
-  inputProps,
-}: {
-  value: string
-  onChange: (value: string) => void
-  inputProps?: ComponentProps<'input'>
-}) {
-  const id = useId()
-
-  return (
-    <div role="group" className="flex flex-col">
-      <label htmlFor={id} className="sr-only">
-        비밀번호
-      </label>
-      <input
-        id={id}
-        type="password"
-        placeholder="비밀번호"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        autoComplete="current-password"
-        className={
-          'rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
-        }
-        {...inputProps}
-      />
     </div>
   )
 }
