@@ -12,7 +12,7 @@ import ItemEditButtonCompo from './ItemEditButtonCompo'
  * 년도별 백신 기록 한 줄 렌더링
  * 예방접종, 구충치료, 의료처치, 기타치료 itme 컴포넌트
  */
-export function AntiparasiticTreatmentItem({
+export default function AntiparasiticTreatmentItem({
   id,
   intake_date,
   next_date,

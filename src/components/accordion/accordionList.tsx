@@ -7,17 +7,18 @@ import type {
   OtherTreatment,
   Vaccines,
   Walks,
-} from '../../libs/supabase'
+} from '@/libs/supabase'
+import {
+  AntiparasiticTreatmentItem,
+  DietItem,
+  MedicalTreatmentItem,
+  OtherActivitiesItem,
+  OtherTreatmentItem,
+  VaccinesTreatmentItem,
+  WalksItem,
+} from './accordionListItem'
 
 // 📦 관련 리스트 아이템 컴포넌트 import
-
-import { AntiparasiticTreatmentItem } from './accordionListItem/AntiparasiticTreatmentItem'
-import { DietItem } from './accordionListItem/DietItem'
-import { MedicalTreatmentItem } from './accordionListItem/MedicalTreatmentItem'
-import { OtherActivitiesItem } from './accordionListItem/OtherActivitiesItem'
-import { OtherTreatmentItem } from './accordionListItem/OtherTreatmentItem'
-import { VaccinesTreatmentItem } from './accordionListItem/VaccinesTreatmentItem'
-import { WalksItem } from './accordionListItem/WalksItem'
 
 /* -------------------------------------------------------------------------- */
 /*                                   타입 정의                                 */

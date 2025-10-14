@@ -12,7 +12,7 @@ import ItemEditButtonCompo from './ItemEditButtonCompo'
  * 년도별 기록(제목, 시간, 일) 한 줄 렌더링
  * 식단 일지 ...
  */
-export function DietItem({
+export default function DietItem({
   date,
   id,
   pet_id,

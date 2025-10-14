@@ -7,7 +7,7 @@ import ModalTypeWalks from '../../modal/ModalType/ModalTypeWalks'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 // Walk 리스트 아이템 (거리/시간 표시)
-export function WalksItem({
+export default function WalksItem({
   date,
   distance,
   id,

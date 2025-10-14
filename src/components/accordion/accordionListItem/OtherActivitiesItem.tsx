@@ -8,7 +8,7 @@ import ModalTypeOtherActivites from '../../modal/ModalType/ModalTypeOtherActivit
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 // 기타 활동 일지 아이템 (내용 미리보기)
-export function OtherActivitiesItem({
+export default function OtherActivitiesItem({
   date,
   id,
   notes,

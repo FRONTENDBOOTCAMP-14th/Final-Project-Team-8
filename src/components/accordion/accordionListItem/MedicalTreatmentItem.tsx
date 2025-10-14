@@ -11,7 +11,7 @@ import ItemEditButtonCompo from './ItemEditButtonCompo'
  * MedicalTreatmentItem 컴포넌트
  * 아코디언에서 필요로 하는 props : title, visit_date
  */
-export function MedicalTreatmentItem({
+export default function MedicalTreatmentItem({
   category,
   id,
   next_date,
