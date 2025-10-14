@@ -1,5 +1,6 @@
 'use client'
 
+import Button from '@/components/ui/button/Button'
 import { User } from 'lucide-react'
 import {
   type ComponentProps,
@@ -9,7 +10,6 @@ import {
   useState,
   useTransition,
 } from 'react'
-import Button from '../ui/button/Button'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MIN_PASSWORD_LENGTH = 6
@@ -105,7 +105,7 @@ export default function Login({ onLogin, onSignUp }: LoginProps) {
           </div>
 
           {/* Login Button */}
-          <div className="-m-[30px] flex justify-center">
+          <div className="flex justify-center">
             <Button
               onClick={handleSubmit}
               disabled={!isFormValid || isPending}

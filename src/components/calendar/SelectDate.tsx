@@ -1,5 +1,5 @@
+import Button from '@/components/ui/button/Button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import Button from '../ui/button/Button'
 
 interface Props {
   currentYear: number
@@ -89,7 +89,7 @@ export default function SelectDate({
         variant="white"
         aria-label="이전 월 선택"
         onClick={() => handleMonthChange(-1)}
-        className="order-first !m-0 h-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
+        className="order-first h-fit w-fit max-w-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
       >
         <ChevronLeft className="h-5 w-5 text-[#B5B3CD]" />
       </Button>
@@ -97,7 +97,7 @@ export default function SelectDate({
         variant="white"
         aria-label="다음 월 선택"
         onClick={() => handleMonthChange(1)}
-        className="!m-0 h-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
+        className="h-fit max-w-fit min-w-fit p-[13px] !outline-[#A3A0C0]"
       >
         <ChevronRight className="h-5 w-5 text-[#B5B3CD]" />
       </Button>
