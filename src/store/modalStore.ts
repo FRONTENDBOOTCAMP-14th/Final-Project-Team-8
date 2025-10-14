@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 type State = {
   isToggle: boolean
-  isModify: boolean
+  isSubmit: boolean
 }
 
 type Action = {
@@ -16,7 +16,7 @@ export const useModal = create<State & Action>(set => ({
   isToggle: false,
 
   // 모달의 수정 상태 On/Off
-  isModify: true,
+  isSubmit: true,
 
   // 위 State 전달시 => True 변환
   onToState: state => {
