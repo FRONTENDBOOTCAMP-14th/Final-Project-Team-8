@@ -89,8 +89,8 @@ export default function Signup({
   }, [onLogin])
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="relative w-full max-w-lg rounded-2xl bg-white p-8 pt-20 shadow-lg">
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-[70px] pt-20 shadow-lg">
         {/* Profile Icon */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 transform">
           <div className="flex h-20 w-20 items-center justify-center rounded-full border-none bg-white">

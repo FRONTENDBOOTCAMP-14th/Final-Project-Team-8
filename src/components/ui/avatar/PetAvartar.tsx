@@ -1,7 +1,7 @@
 interface PetAvatarProps {
   pet: {
     id: string
-    profile_img: string
+    profileImg: string
     name: string
   }
   selected?: boolean
@@ -25,7 +25,7 @@ export default function PetAvartar({ pet, selected, onClick }: PetAvatarProps) {
     >
       <img
         id={pet.id}
-        src={pet.profile_img}
+        src={pet.profileImg || '/assets/img/default-profile.png'}
         alt={pet.name}
         className={`${baseStyle} ${selected ? 'outline-[3px] outline-orange-500' : 'outline-[1.5px] outline-[#636073]'}`}
         onClick={() => onClick?.(pet.id)}
