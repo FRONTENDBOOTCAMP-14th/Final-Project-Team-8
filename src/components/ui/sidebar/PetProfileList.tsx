@@ -5,7 +5,7 @@ interface PetProfileListProps {
   pets: any[]
   selected?: boolean
   selectedId: string | null
-  onSelect: (id: string) => void
+  onSelect: (id: string | null) => void
 }
 
 export default function PetProfileList({
@@ -23,7 +23,9 @@ export default function PetProfileList({
           onClick={() => onSelect(pet.id)}
         ></PetAvatar>
       ))}
-      <IconButton onClick={id => onSelect(id)}></IconButton>
+      <IconButton onClick={() => onSelect(null)}></IconButton>
     </section>
   )
 }
+
+// export default React.memo(PetProfileList)

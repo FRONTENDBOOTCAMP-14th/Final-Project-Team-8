@@ -8,7 +8,21 @@ import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 
+// eslint.config.js
+import { FlatCompat } from '@eslint/eslintrc'
+import pluginQuery from '@tanstack/eslint-plugin-query' // 플러그인 설치는 필요
+
+const compat = new FlatCompat()
+
 export default [
+  // 레거시 extends들을 Flat로 변환 주입
+  ...compat.extends('plugin:@tanstack/eslint-plugin-query/recommended'),
+
+  // 필요하면 플러그인 네임스페이스도 등록
+  // (일부 세팅에서는 없어도 동작하지만 명시해두면 좋음)
+  {
+    plugins: { '@tanstack/query': pluginQuery },
+  },
   // 기본 JavaScript 권장 설정
   js.configs.recommended,
 

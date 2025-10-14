@@ -1,5 +1,6 @@
 'use client'
 
+import Button from '@/components/ui/button/Button'
 import { User } from 'lucide-react'
 import { useCallback, useId, useMemo, useState, useTransition } from 'react'
 import Button from '../ui/button/Button'
@@ -101,7 +102,7 @@ export default function Login({
           </div>
 
           {/* Login Button */}
-          <div className="-m-[30px] flex justify-center">
+          <div className="flex justify-center">
             <Button
               onClick={handleSubmit}
               disabled={!isFormValid || isPending}
