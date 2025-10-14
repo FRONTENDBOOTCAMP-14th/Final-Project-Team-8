@@ -3,7 +3,6 @@
 import Button from '@/components/ui/button/Button'
 import { User } from 'lucide-react'
 import { useCallback, useId, useMemo, useState, useTransition } from 'react'
-import Button from '../ui/button/Button'
 import EmailInput from './components/EmailInput'
 import PasswordInput from './components/PasswordInput'
 
