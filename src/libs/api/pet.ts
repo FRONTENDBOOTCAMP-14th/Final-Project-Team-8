@@ -13,3 +13,14 @@ export async function getUserPets(user: User) {
 
   return data
 }
+
+export async function getSelectedPet(id: string) {
+  const { data, error } = await supabase
+    .from('pets')
+    .select('*')
+    .eq('pet_id', id)
+    .single()
+
+  if (error) throw new Error(error.message)
+  return data
+}

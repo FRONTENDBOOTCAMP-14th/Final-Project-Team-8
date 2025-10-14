@@ -22,7 +22,8 @@ interface MenuOption {
 export default function Sidebar() {
   const currentPath = usePathname()
   const { user, setUser } = useUserStore()
-  const { pets, selectedPetId, setSelectedPetId, fetchPets } = usePetStore()
+  const { petList, selectedPetId, setSelectedPetId, fetchPetSummary } =
+    usePetStore()
   const [isLoading, setIsLoading] = useState(true)
 
   // user를 useUserStore로 가져옴
@@ -34,7 +35,7 @@ export default function Sidebar() {
   useEffect(() => {
     if (!user) return
 
-    fetchPets(user)
+    fetchPetSummary(user)
   }, [user])
 
   const menuoptions: MenuOption[] = [
@@ -122,7 +123,7 @@ export default function Sidebar() {
           <PetProfileListSkeleton />
         ) : (
           <PetProfileList
-            pets={pets}
+            pets={petList}
             selectedId={selectedPetId}
             onSelect={setSelectedPetId}
           ></PetProfileList>
