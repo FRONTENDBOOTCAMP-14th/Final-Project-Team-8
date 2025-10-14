@@ -4,7 +4,7 @@ import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
 import useToggleState from '../../../hooks/useToggleState'
 import Modal from '../../modal/Modal'
-import { ModalTypeDite } from '../../modal/ModalType/ModalTypeDiet'
+import { ModalTypeDiet } from '../../modal/ModalType/ModalTypeDiet'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
@@ -78,7 +78,7 @@ export default function DietItem({
         isModify={isModify}
         setModify={setModify}
       >
-        <ModalTypeDite
+        <ModalTypeDiet
           isModify={isModify}
           restProps={{ date, id, pet_id, time, title, snack_type, notes }}
         />

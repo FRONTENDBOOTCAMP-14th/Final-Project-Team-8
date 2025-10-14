@@ -1,6 +1,13 @@
 // components/modal/ModalDetail.tsx
 import { CalendarDays, Clock } from 'lucide-react'
-import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react'
+import {
+  InputHTMLAttributes,
+  ReactNode,
+  TextareaHTMLAttributes,
+  useCallback,
+  useState,
+} from 'react'
+import { useModal } from '../../store/modalStore'
 
 type FieldType = 'text' | 'date' | 'time' | 'number'
 
@@ -82,7 +89,7 @@ export default function ModalDetail({
                     id={`field-${f.key}`}
                     type={f.type}
                     defaultValue={f.defaultValue ?? ''}
-                    className="w-full rounded-md border-2 border-amber-400 p-1 focus:border-orange-500 focus:outline-none"
+                    className="w-full rounded-md border-2 border-gray-300 p-1 focus:border-amber-400 focus:outline-none"
                     {...f.inputProps}
                   />
                 </div>
@@ -110,7 +117,7 @@ export default function ModalDetail({
               <textarea
                 id="detail-note"
                 defaultValue={defaultNote === '-' ? '' : defaultNote}
-                className="w-full rounded-md border-2 border-amber-400 p-2 focus:border-orange-500 focus:outline-none"
+                className="w-full rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
                 rows={3}
                 {...noteTextareaProps}
               />
@@ -123,15 +130,18 @@ export default function ModalDetail({
 }
 
 export function ModalDetailInput({
-  isModify,
   title = '상세',
   fields,
   noteLabel = '특이 사항',
   defaultNote = '특이 사항 없음',
   noteTextareaProps,
 }: ModalDetailProps) {
+  const [inputData, setInputData] = useState<Object>({})
+  const isSubmit = useModal(state => state.isSubmit)
+  const handleSubmit = useCallback(() => {}, [])
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       {/* 섹션 타이틀 */}
       <h2 className="text-[18px] font-bold text-gray-800">{title}</h2>
 
@@ -155,7 +165,7 @@ export function ModalDetailInput({
                   id={`field-${f.key}`}
                   type={f.type}
                   defaultValue={f.defaultValue ?? ''}
-                  className="w-full rounded-md border-2 border-amber-400 p-1 focus:border-orange-500 focus:outline-none"
+                  className="w-full rounded-md border-2 border-gray-300 p-1 focus:border-amber-400 focus:outline-none"
                   {...f.inputProps}
                 />
               </div>
@@ -178,7 +188,7 @@ export function ModalDetailInput({
           <textarea
             id="detail-note"
             defaultValue={defaultNote === '-' ? '' : defaultNote}
-            className="w-full rounded-md border-2 border-amber-400 p-2 focus:border-orange-500 focus:outline-none"
+            className="w-full rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
             rows={3}
             {...noteTextareaProps}
           />
