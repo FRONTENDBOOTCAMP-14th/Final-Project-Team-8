@@ -1,4 +1,4 @@
-import { Diet } from '../../../libs/supabase'
+import { Diet } from '@/libs/supabase'
 import ModalDetail from '../ModalDetail'
 import { removeSecond } from '../timeHandler'
 
@@ -7,7 +7,7 @@ type Props = {
   restProps: Diet
 }
 
-export function ModalTypeDite({
+export function ModalTypeDiet({
   isModify,
   restProps: { date, id, time, snack_type, notes },
 }: Props) {

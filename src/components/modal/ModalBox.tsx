@@ -72,6 +72,14 @@ export default function ModalBox({
         {modalDetail && (
           <ModalTypeOtherTreatment
             isModify={isModify}
+            restProps={{
+              date: '',
+              detail: null,
+              id: '',
+              notes: null,
+              pet_id: '',
+              title: '',
+            }}
           ></ModalTypeOtherTreatment>
         )}
 

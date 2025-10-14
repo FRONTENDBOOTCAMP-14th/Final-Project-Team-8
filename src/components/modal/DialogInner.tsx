@@ -11,6 +11,7 @@ type DialogInnerProps = PropsWithChildren<{
   close: () => void
   describe?: string | undefined
   describeId: string
+  buttonNone: boolean
 }>
 
 export function DialogInner({
@@ -22,6 +23,7 @@ export function DialogInner({
   describe,
   describeId,
   children,
+  buttonNone,
 }: DialogInnerProps) {
   return (
     <>
@@ -60,7 +62,7 @@ export function DialogInner({
               type="text"
               defaultValue={title}
               placeholder="제목을 입력해주세요"
-              className="grow rounded-md border-2 border-amber-400 p-2 focus:border-orange-500 focus:outline-none"
+              className="grow rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
             />
           )}
 
@@ -84,9 +86,11 @@ export function DialogInner({
         {children}
 
         {/* 🔹 수정/완료 버튼 */}
-        <Button onClick={() => setModify(prev => !prev)}>
-          {!isModify ? '수정' : '완료'}
-        </Button>
+        {!buttonNone && (
+          <Button onClick={() => setModify(prev => !prev)}>
+            {!isModify ? '수정' : '완료'}
+          </Button>
+        )}
       </div>
     </>
   )

@@ -1,4 +1,4 @@
-import { Antiparasitic } from '../../../libs/supabase'
+import { Antiparasitic } from '@/libs/supabase'
 import ModalDetail, { ModalDetailInput } from '../ModalDetail'
 
 type Props = {
