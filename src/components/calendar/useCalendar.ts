@@ -1,3 +1,4 @@
+import { useCalendarStore } from '@/store/calendarStore'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 export interface CalendarDay {
@@ -36,8 +37,14 @@ interface Props {
 export const useCalendar = (props?: Props): CalendarControls => {
   const { onDayClick, initialSelectedDate = null } = props || {}
 
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1)
+  // Zustand 스토어에서 년/월 가져오기
+  const {
+    currentYear,
+    currentMonth,
+    setCurrentYear: setStoreYear,
+    setCurrentMonth: setStoreMonth,
+  } = useCalendarStore()
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     initialSelectedDate
   )
@@ -54,6 +61,29 @@ export const useCalendar = (props?: Props): CalendarControls => {
       selectedDateRef.current.focus()
     }
   }, [initialSelectedDate, selectedDate])
+
+  // Zustand 스토어 업데이트 함수를 React setState 형식으로 래핑
+  const setCurrentYear = useCallback(
+    (value: React.SetStateAction<number>) => {
+      if (typeof value === 'function') {
+        setStoreYear(value(currentYear))
+      } else {
+        setStoreYear(value)
+      }
+    },
+    [currentYear, setStoreYear]
+  )
+
+  const setCurrentMonth = useCallback(
+    (value: React.SetStateAction<number>) => {
+      if (typeof value === 'function') {
+        setStoreMonth(value(currentMonth))
+      } else {
+        setStoreMonth(value)
+      }
+    },
+    [currentMonth, setStoreMonth]
+  )
 
   const setDayButtonRef = useCallback(
     (key: string, node: HTMLButtonElement | null) => {

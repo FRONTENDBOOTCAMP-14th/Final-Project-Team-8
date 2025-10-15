@@ -22,7 +22,6 @@ interface ScheduleStore {
   clearSchedules: () => void
   setError: (error: string | null) => void
   setActiveFilters: (filters: ScheduleCategory[]) => void
-  getFilteredSchedules: () => ScheduleEvent[]
 }
 
 // 모든 카테고리(기본값)
@@ -50,7 +49,6 @@ const ALL_CATEGORIES: ScheduleCategory[] = [
  * - clearSchedules: 스케줄 초기화
  * - setError: 에러 설정
  * - setActiveFilters: 필터 설정
- * - getFilteredSchedules: 필터링된 스케줄 가져오기
  */
 export const useScheduleStore = create<ScheduleStore>((set, get) => ({
   // State
@@ -131,24 +129,5 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
    */
   setActiveFilters: (filters: ScheduleCategory[]) => {
     set({ activeFilters: filters })
-  },
-
-  /**
-   * 필터링된 스케줄 가져오기
-   * - activeFilters에 포함된 카테고리만 반환
-   */
-  getFilteredSchedules: () => {
-    const { schedules, activeFilters } = get()
-
-    // 필터가 비어있으면 빈 배열 반환
-    if (activeFilters.length === 0) return []
-
-    // 모든 필터가 선택되어 있으면 전체 반환
-    if (activeFilters.length === ALL_CATEGORIES.length) return schedules
-
-    // 선택된 필터에 해당하는 스케줄만 반환
-    return schedules.filter(schedule =>
-      activeFilters.includes(schedule.category)
-    )
   },
 }))

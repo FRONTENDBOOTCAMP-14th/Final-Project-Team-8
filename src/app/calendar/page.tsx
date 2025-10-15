@@ -1,15 +1,31 @@
 'use client'
 
 import { Button, CalendarSchedule, FilterModal, Sidebar } from '@/components'
+import { ScheduleEvent } from '@/libs/api/schedules'
+import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { AlertCircle, Funnel } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import ScheduleList from '../../components/calendar/scheduleList'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
   const { activeFilters, setActiveFilters } = useScheduleStore()
+  const { currentYear, currentMonth } = useCalendarStore()
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+
+  // 일정 추가 핸들러
+  const handleAddSchedule = () => {
+    console.log('일정 추가 클릭')
+    // 일정 추가 모달 열기
+  }
+
+  // 일정 클릭 핸들러
+  const handleScheduleClick = (schedule: ScheduleEvent) => {
+    console.log('일정 클릭:', schedule)
+    // 일정 상세 모달 열기
+  }
 
   // 선택된 반려동물 정보
   const selectedPet = useMemo(() => {
@@ -72,7 +88,18 @@ export default function CalendarPage() {
       </section>
 
       <section className="w-90 rounded-r-xl bg-[#F7F7FC] p-7.5">
-        <h3 className="text-lg font-semibold text-[#3A394F]">다가오는 일정</h3>
+        {selectedPetId ? (
+          <ScheduleList
+            currentYear={currentYear}
+            currentMonth={currentMonth}
+            onAddSchedule={handleAddSchedule}
+            onScheduleClick={handleScheduleClick}
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-sm text-[#A3A0C0]">반려동물을 선택해주세요.</p>
+          </div>
+        )}
       </section>
 
       {/* 필터 모달 */}

@@ -2,7 +2,7 @@
 
 import { useScheduleStore } from '@/store/scheduleStore'
 import { AlertCircle } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import Button from '../ui/button/Button'
 import CalendarSkeleton from '../ui/skeleton/CalendarSkeleton'
 import CalendarScheduleClient from './CalendarScheduleClient'
@@ -13,15 +13,22 @@ interface Props {
 
 export default function CalendarSchedule({ petId }: Props) {
   const {
+    schedules,
+    activeFilters,
     isLoading,
     error,
     fetchSchedules,
     clearSchedules,
-    getFilteredSchedules,
+    currentPetId,
   } = useScheduleStore()
 
-  // 필터링된 스케줄 가져오기
-  const filteredSchedules = getFilteredSchedules()
+  // 필터링된 스케줄
+  const filteredSchedules = useMemo(() => {
+    if (activeFilters.length === 0) return []
+    return schedules.filter(schedule =>
+      activeFilters.includes(schedule.category)
+    )
+  }, [schedules, activeFilters])
 
   useEffect(() => {
     if (!petId) {
