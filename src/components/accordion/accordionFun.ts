@@ -1,4 +1,5 @@
 import { Database } from '../../libs/supabase/database.types'
+import { ModalKind } from '../../store/modalStore'
 import { AccordionProps } from './accordion'
 
 export type TableName = keyof Database['public']['Tables']
@@ -46,4 +47,44 @@ export const selectTypeButtonTitle = (type: AccordionProps['type']): string => {
     default:
       return 'null'
   }
+}
+
+// ------
+// 아코디언 새 리스트 만들기 버튼 - 모달 연동
+// 매핑 함수 (컴포넌트 밖으로 빼두기)
+
+export const TYPE_TO_MODAL_KIND: Record<AccordionProps['type'], ModalKind> = {
+  antiparasitic: 'add:antiparasitic',
+  diet: 'add:diet',
+  'medical treatment': 'add:medical',
+  'other activities': 'add:otherActivities',
+  'other treatments': 'add:otherTreatment',
+  vaccines: 'add:vaccines',
+  walks: 'add:walks',
+} as const
+
+export function toModalKind(type: AccordionProps['type']): ModalKind {
+  switch (type) {
+    case 'antiparasitic':
+      return 'add:antiparasitic'
+    case 'diet':
+      return 'add:diet'
+    case 'medical treatment':
+      return 'add:medical'
+    case 'other activities':
+      return 'add:otherActivities'
+    case 'other treatments':
+      return 'add:otherTreatment'
+    case 'vaccines':
+      return 'add:vaccines'
+    case 'walks':
+      return 'add:walks'
+    default: {
+      // 타입이 바뀌어 누락되면 컴파일 타임에 에러 유도
+      const _exhaustive: never = type
+      return _exhaustive
+    }
+  }
+
+  // return TYPE_TO_MODAL_KIND[type]
 }
