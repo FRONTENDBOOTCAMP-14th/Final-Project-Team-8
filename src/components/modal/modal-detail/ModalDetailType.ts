@@ -1,10 +1,28 @@
 import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import { FieldPath } from 'react-hook-form'
+import {
+  Antiparasitic,
+  Diet,
+  MedicalTreatment,
+  OtherActivities,
+  OtherTreatment,
+  Vaccines,
+  Walks,
+} from '../../../libs/supabase'
 
 export type FieldType = 'text' | 'date' | 'time' | 'number'
 
-type BaseField = {
+export type BaseField = {
   /** 고유 키 (리스트 렌더링용) */
-  key: string
+  key: FieldPath<
+    | Antiparasitic
+    | Diet
+    | MedicalTreatment
+    | OtherTreatment
+    | OtherActivities
+    | Walks
+    | Vaccines
+  >
   /** 테이블/입력 공통 라벨 */
   label: string
   /** 입력 타입 */
@@ -34,12 +52,16 @@ export type ModalDetailProps = {
 }
 
 // ------------------------------------------------------------------
-interface InputBaseField extends BaseField {
-  required?: string
+
+type Replace<T, R> = Omit<T, keyof R> & R
+
+// fields Input 항목
+export interface InputBaseField extends BaseField {
+  // 필수 여부 : "폼 제출 시 에러 알림 문자열"
+  requiredSet?: string
 }
 
-export interface ModalDetailInpuProps extends ModalDetailProps {
-  title: string
-  /** 라인으로 구분된 필드들 */
-  fields: InputBaseField[]
-}
+export type ModalDetailInpuProps = Replace<
+  Omit<ModalDetailProps, 'isModify'>,
+  { fields: InputBaseField[] }
+>

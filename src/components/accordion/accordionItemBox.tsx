@@ -4,11 +4,11 @@ import { AllowedTableNames } from '@/libs/api/accordion'
 import { useModal } from '@/store/modalStore'
 import { Suspense, useEffect, useState } from 'react'
 import QueryErrorBoundary from '../common/QueryErrorBoundary'
+import ModalHost from '../modal/ModalHost'
 import Button from '../ui/button/Button'
 import AccordionContent from './accordionContent'
-import { selectTypeButtonTitle } from './accordionFun'
+import { selectTypeButtonTitle, toModalKind } from './accordionFun'
 import ListLoading from './ListLoading'
-import NewListitemAdd from './newListitemAdd'
 type Props<T extends AllowedTableNames> = { type: T; isOpen: boolean }
 
 export default function AccordionItemBox<T extends AllowedTableNames>({
@@ -21,7 +21,8 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
     if (isOpen) setOnceOpened(true)
   }, [isOpen])
 
-  const onToState = useModal(state => state.onToState)
+  const openModal = useModal(s => s.openModal)
+  const [isModalOpen, setModalOpen] = useState<boolean>(false)
 
   return (
     <div
@@ -37,7 +38,11 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
       <Button
         variant="white"
         className="m-5 max-w-[calc(100%-40px)] gap-1 p-[13px] font-bold"
-        onClick={() => onToState('isToggle')}
+        onClick={() => {
+          openModal({ kind: toModalKind(type) })
+          setModalOpen(true)
+          console.log('새 리스트 버튼 누름!')
+        }}
       >
         <img src="/components/accordion/plus-button-icon.svg" alt="플러스" />
         <p>{selectTypeButtonTitle(type)}</p>
@@ -49,7 +54,8 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
           <Suspense fallback={<ListLoading />}>
             {/* List to Read */}
             <AccordionContent type={type} />
-            <NewListitemAdd />
+            {/* <NewListitemAdd type={type} /> */}
+            <ModalHost open={isModalOpen}></ModalHost>
           </Suspense>
         </QueryErrorBoundary>
       )}

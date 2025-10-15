@@ -1,34 +1,29 @@
+// modalStore.ts
 import { create } from 'zustand'
 
-type State = {
-  isToggle: boolean
-  isSubmit: boolean
-  formData: object
+export type ModalKind =
+  | 'add:antiparasitic'
+  | 'add:diet'
+  | 'add:medical'
+  | 'add:otherActivities'
+  | 'add:otherTreatment'
+  | 'add:vaccines'
+  | 'add:walks'
+
+export type ModalEntry = {
+  kind: ModalKind
+  // 필요하면 여기에 아코디언 id, pet_id, 프리필 값 등 payload 추가
+  payload?: unknown
 }
 
-type Action = {
-  onToState: (state: keyof State) => void
-  offToState: (state: keyof State) => void
-  toggleToState: () => void
+type ModalState = {
+  active: ModalEntry | null
+  openModal: (entry: ModalEntry) => void
+  closeModal: () => void
 }
 
-export const useModal = create<State & Action>(set => ({
-  // 모달 On/Off
-  isToggle: false,
-
-  // 모달의 수정 상태 On/Off
-  isSubmit: true,
-
-  // 폼 데이터 저장 객체
-  formData: {},
-
-  // 위 State 전달시 => True 변환
-  onToState: state => {
-    set({ [state]: true })
-  },
-  // 위 State 전달시 => False 변환
-  offToState: () => set({ isToggle: false }),
-
-  // 위 State 전달시 => boolean 역변환
-  toggleToState: () => set(state => ({ isToggle: !state.isToggle })),
+export const useModal = create<ModalState>(set => ({
+  active: null,
+  openModal: entry => set({ active: entry }),
+  closeModal: () => set({ active: null }),
 }))
