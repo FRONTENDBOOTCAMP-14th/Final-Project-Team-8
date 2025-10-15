@@ -131,7 +131,7 @@ export default function DaySchedule({
         aria-disabled={!isCurrentMonth}
         aria-label={ariaLabel}
         ref={buttonRef}
-        className={`m-auto flex h-22.5 w-full cursor-pointer flex-col items-center justify-between rounded-xl border-1 border-[#C6C6D9] bg-white p-2.5 hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
+        className={`m-auto flex h-22.5 w-full cursor-pointer flex-col items-center justify-between rounded-xl border-1 border-[#C6C6D9] bg-white p-2.5 hover:border-[#FFA873] hover:text-[#FF6000] focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-2 focus:outline-[#FFA873] ${
           isCurrentMonth
             ? ''
             : 'pointer-events-none border-[#DAD9E6] !bg-[#F7F7FC] text-[#A3A0C0]'

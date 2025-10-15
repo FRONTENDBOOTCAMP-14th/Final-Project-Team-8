@@ -1,0 +1,229 @@
+'use client'
+
+import { X } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import Button from '../ui/button/Button'
+
+export type ScheduleCategory =
+  | 'birthday'
+  | 'adoption'
+  | 'vaccine'
+  | 'antiparasitic'
+  | 'medical'
+  | 'walk'
+
+interface FilterOption {
+  value: ScheduleCategory
+  label: string
+  color: string
+}
+
+interface Props {
+  isOpen: boolean
+  onClose: () => void
+  selectedFilters: ScheduleCategory[]
+  onFilterChange: (filters: ScheduleCategory[]) => void
+}
+
+const FILTER_OPTIONS: FilterOption[] = [
+  { value: 'birthday', label: '생일', color: '[#FF8630]' },
+  { value: 'adoption', label: '입양일', color: '[#6AA9F3]' },
+  { value: 'vaccine', label: '백신', color: '[#897EE6]' },
+  { value: 'antiparasitic', label: '구충제', color: '[#FF9AD5]' },
+  { value: 'medical', label: '진료', color: '[#FFC542]' },
+  { value: 'walk', label: '산책', color: '[#82C43C]' },
+]
+
+export default function FilterModal({
+  isOpen,
+  onClose,
+  selectedFilters,
+  onFilterChange,
+}: Props) {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const firstCheckboxRef = useRef<HTMLInputElement>(null)
+
+  // 모달 열기/닫기 제어
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    if (isOpen) {
+      if (!dialog.open) {
+        dialog.showModal()
+        // 모달이 열리면 첫 번째 체크박스 포커스
+        setTimeout(() => {
+          firstCheckboxRef.current?.focus()
+        }, 0)
+      }
+    } else {
+      if (dialog.open) {
+        dialog.close()
+      }
+    }
+  }, [isOpen])
+
+  // ESC 키와 backdrop 클릭 처리
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    const handleCancel = (e: Event) => {
+      e.preventDefault()
+      onClose()
+    }
+
+    const handleClick = (e: MouseEvent) => {
+      const rect = dialog.getBoundingClientRect()
+      const isInDialog =
+        rect.top <= e.clientY &&
+        e.clientY <= rect.top + rect.height &&
+        rect.left <= e.clientX &&
+        e.clientX <= rect.left + rect.width
+
+      // backdrop 클릭하면 닫기
+      if (!isInDialog) {
+        onClose()
+      }
+    }
+
+    dialog.addEventListener('cancel', handleCancel)
+    dialog.addEventListener('click', handleClick)
+
+    return () => {
+      dialog.removeEventListener('cancel', handleCancel)
+      dialog.removeEventListener('click', handleClick)
+    }
+  }, [onClose])
+
+  // 모두 선택 여부 확인
+  const isAllSelected = selectedFilters.length === FILTER_OPTIONS.length
+
+  // 모두 선택/해제 토글
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      onFilterChange([])
+    } else {
+      onFilterChange(FILTER_OPTIONS.map(option => option.value))
+    }
+  }
+
+  // 개별 필터 토글
+  const handleToggle = (value: ScheduleCategory) => {
+    if (selectedFilters.includes(value)) {
+      onFilterChange(selectedFilters.filter(f => f !== value))
+    } else {
+      onFilterChange([...selectedFilters, value])
+    }
+  }
+
+  // 필터 초기화
+  const handleReset = () => {
+    onFilterChange(FILTER_OPTIONS.map(option => option.value))
+  }
+
+  return (
+    <dialog
+      ref={dialogRef}
+      aria-modal
+      aria-labelledby="filter-modal-title"
+      className="fixed top-1/2 left-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border-0 bg-white p-7.5 shadow-xl backdrop:bg-[#32324D]/30 backdrop:blur-xl"
+    >
+      {/* 닫기 버튼 */}
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="닫기"
+        className="absolute top-7.5 right-7.5 size-8 cursor-pointer rounded-full border-0 bg-white p-1 text-[#80809A] hover:text-[#3A394F]"
+      >
+        <X className="h-full w-full" />
+      </button>
+
+      {/* 헤더 */}
+      <div className="mb-7.5">
+        <h2
+          id="filter-modal-title"
+          className="text-[26px] font-semibold text-[#3A394F]"
+        >
+          일정 필터
+        </h2>
+      </div>
+
+      {/* 모두 선택 */}
+      <div
+        className="mb-3 cursor-pointer rounded-lg bg-[#F7F7FC] p-4 transition-colors hover:bg-[#EEEDF5]"
+        onClick={handleSelectAll}
+      >
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="filter-all"
+            ref={firstCheckboxRef}
+            checked={isAllSelected}
+            onChange={handleSelectAll}
+            className="sr-only"
+          />
+          <span
+            className={`h-5 w-5 rounded-full border border-[#C6C6D9] ${isAllSelected && 'border-0 bg-[#FC5A5A]'}`}
+            aria-hidden="true"
+          ></span>
+          <label
+            htmlFor="filter-all"
+            className="flex-1 cursor-pointer font-medium text-[#3A394F]"
+            onClick={e => e.preventDefault()}
+          >
+            모두 선택
+          </label>
+        </div>
+      </div>
+
+      <hr className="my-4 border-[#DaD9E6]" />
+
+      {/* 필터 옵션 목록 */}
+      <ul className="space-y-3">
+        {FILTER_OPTIONS.map(option => {
+          const isChecked = selectedFilters.includes(option.value)
+          const bgColor = 'bg-' + option.color
+
+          return (
+            <li
+              key={option.value}
+              className="flex cursor-pointer items-center gap-3 rounded-lg p-3 transition-colors hover:bg-[#F7F7FC]"
+              onClick={() => handleToggle(option.value)}
+            >
+              <input
+                type="checkbox"
+                id={`filter-${option.value}`}
+                checked={isChecked}
+                onChange={() => handleToggle(option.value)}
+                onClick={e => e.stopPropagation()}
+                className="sr-only"
+              />
+              <span
+                className={`h-5 w-5 rounded-full border border-[#C6C6D9] ${isChecked && 'border-0'} ${isChecked && bgColor}`}
+                aria-hidden="true"
+              ></span>
+              <label
+                htmlFor={`filter-${option.value}`}
+                className="flex-1 cursor-pointer text-[#3A394F]"
+                onClick={e => e.preventDefault()}
+              >
+                {option.label}
+              </label>
+            </li>
+          )
+        })}
+      </ul>
+
+      {/* 하단 버튼 */}
+      <div className="mt-7.5 flex gap-3">
+        <Button variant="white" onClick={handleReset}>
+          초기화
+        </Button>
+        <Button variant="orange" onClick={onClose}>
+          적용
+        </Button>
+      </div>
+    </dialog>
+  )
+}

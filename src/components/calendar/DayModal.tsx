@@ -102,7 +102,7 @@ export default function Day({
         aria-disabled={!isCurrentMonth}
         aria-label={`${currentYear}년 ${currentMonth}월 ${date}일 ${isSelected ? '선택됨' : ''} ${isToday ? '오늘' : ''}`}
         ref={buttonRef}
-        className={`aspect-square h-13.5 w-full cursor-pointer rounded-xl border-1 border-[#C6C6D9] bg-white hover:border-[#FFA873] hover:text-[#FF6000] focus:border-2 focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-0 ${
+        className={`aspect-square h-13.5 w-full cursor-pointer rounded-xl border-1 border-[#C6C6D9] bg-white hover:border-[#FFA873] hover:text-[#FF6000] hover:outline-[#FFA873] focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-2 ${
           isCurrentMonth
             ? ''
             : 'pointer-events-none border-[#DAD9E6] !bg-[#F7F7FC] text-[#A3A0C0]'

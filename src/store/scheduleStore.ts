@@ -1,18 +1,39 @@
 import { getScheduleData, ScheduleEvent } from '@/libs/api/schedules'
 import { create } from 'zustand'
 
+export type ScheduleCategory =
+  | 'birthday'
+  | 'adoption'
+  | 'vaccine'
+  | 'antiparasitic'
+  | 'medical'
+  | 'walk'
+
 interface ScheduleStore {
   // State
   schedules: ScheduleEvent[]
   isLoading: boolean
   error: string | null
   currentPetId: string | null
+  activeFilters: ScheduleCategory[]
 
   // Actions
   fetchSchedules: (petId: string) => Promise<void>
   clearSchedules: () => void
   setError: (error: string | null) => void
+  setActiveFilters: (filters: ScheduleCategory[]) => void
+  getFilteredSchedules: () => ScheduleEvent[]
 }
+
+// 모든 카테고리(기본값)
+const ALL_CATEGORIES: ScheduleCategory[] = [
+  'birthday',
+  'adoption',
+  'vaccine',
+  'antiparasitic',
+  'medical',
+  'walk',
+]
 
 /**
  * Zustand ScheduleStore
@@ -22,11 +43,14 @@ interface ScheduleStore {
  * - isLoading: 로딩 상태
  * - error: 에러 메시지
  * - currentPetId: 현재 불러온 반려동물 ID(중복 요청 방지)
+ * - activeFilters: 활성화된 필터 목록
  *
  * Actions:
  * - fetchSchedules: 특정 반려동물의 스케줄 가져오기
  * - clearSchedules: 스케줄 초기화
  * - setError: 에러 설정
+ * - setActiveFilters: 필터 설정
+ * - getFilteredSchedules: 필터링된 스케줄 가져오기
  */
 export const useScheduleStore = create<ScheduleStore>((set, get) => ({
   // State
@@ -34,6 +58,7 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
   isLoading: false,
   error: null,
   currentPetId: null,
+  activeFilters: ALL_CATEGORIES, // 기본적으로 모두 표시
 
   // Actions
   /**
@@ -43,6 +68,7 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
    * - 에러 처리
    */
   fetchSchedules: async (petId: string) => {
+    // 이미 같은 petId의 데이터를 로딩 중이거나 가져온 경우 스킵
     const { currentPetId, isLoading } = get()
     if (currentPetId === petId && !isLoading) {
       console.log('Using cached schedules for pet:', petId)
@@ -98,5 +124,31 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
    */
   setError: (error: string | null) => {
     set({ error })
+  },
+
+  /**
+   * 활성 필터 설정
+   */
+  setActiveFilters: (filters: ScheduleCategory[]) => {
+    set({ activeFilters: filters })
+  },
+
+  /**
+   * 필터링된 스케줄 가져오기
+   * - activeFilters에 포함된 카테고리만 반환
+   */
+  getFilteredSchedules: () => {
+    const { schedules, activeFilters } = get()
+
+    // 필터가 비어있으면 빈 배열 반환
+    if (activeFilters.length === 0) return []
+
+    // 모든 필터가 선택되어 있으면 전체 반환
+    if (activeFilters.length === ALL_CATEGORIES.length) return schedules
+
+    // 선택된 필터에 해당하는 스케줄만 반환
+    return schedules.filter(schedule =>
+      activeFilters.includes(schedule.category)
+    )
   },
 }))

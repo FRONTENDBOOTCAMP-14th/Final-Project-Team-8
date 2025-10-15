@@ -13,5 +13,6 @@ export { default as UserProfileCard } from './user-profile/UserProfileCard'
 // 캘린더
 export { default as CalendarModal } from './calendar/CalendarModal'
 export { default as CalendarSchedule } from './calendar/CalendarSchedule'
+export { default as FilterModal } from './calendar/FilterModal'
 
 export { default as LearnSection } from './learn/section'

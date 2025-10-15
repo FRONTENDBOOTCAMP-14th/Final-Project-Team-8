@@ -12,8 +12,16 @@ interface Props {
 }
 
 export default function CalendarSchedule({ petId }: Props) {
-  const { schedules, isLoading, error, fetchSchedules, clearSchedules } =
-    useScheduleStore()
+  const {
+    isLoading,
+    error,
+    fetchSchedules,
+    clearSchedules,
+    getFilteredSchedules,
+  } = useScheduleStore()
+
+  // 필터링된 스케줄 가져오기
+  const filteredSchedules = getFilteredSchedules()
 
   useEffect(() => {
     if (!petId) {
@@ -56,19 +64,19 @@ export default function CalendarSchedule({ petId }: Props) {
     )
   }
 
-  // 스케줄이 없을 때
-  if (schedules.length === 0) {
+  // 필터링 후 스케줄이 없을 때
+  if (filteredSchedules.length === 0) {
     return (
       <div className="flex flex-col gap-6">
         <CalendarScheduleClient schedules={[]} />
         <div className="flex items-center justify-center rounded-xl bg-[#F7F7FC] p-6">
           <p className="text-center text-sm text-[#A3A0C0]">
-            아직 등록된 일정이 없습니다.
+            필터 조건에 맞는 일정이 없습니다.
           </p>
         </div>
       </div>
     )
   }
 
-  return <CalendarScheduleClient schedules={schedules} />
+  return <CalendarScheduleClient schedules={filteredSchedules} />
 }
