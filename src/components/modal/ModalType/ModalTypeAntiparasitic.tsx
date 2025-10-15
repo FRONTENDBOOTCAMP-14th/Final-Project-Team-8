@@ -39,13 +39,8 @@ export default function ModalTypeAntiparasitic({
   )
 }
 
-interface ModalTypeAntiparasiticInputProps {
-  restProps: {
-    title: string
-    intake_date: string
-    next_date: string
-    notes: string
-  }
+export interface ModalTypeAntiparasiticInputProps {
+  restProps: Antiparasitic
 }
 
 export function ModalTypeAntiparasiticInput({
@@ -54,7 +49,6 @@ export function ModalTypeAntiparasiticInput({
   return (
     <ModalDetailInput
       title={title}
-      isModify={false}
       fields={[
         {
           key: 'intake_date',
@@ -62,6 +56,8 @@ export function ModalTypeAntiparasiticInput({
           type: 'date',
           // tableValue: intake_date,
           defaultValue: intake_date,
+          // 필수 항목 지정
+          requiredSet: '아하 여기에 넣어야 하는구나',
         },
         {
           key: 'next_date',

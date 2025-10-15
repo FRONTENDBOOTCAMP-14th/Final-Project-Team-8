@@ -1,5 +1,6 @@
 import { OtherTreatment } from '../../../libs/supabase'
 import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { ModalTypeProps } from './ModalType'
 
 interface ModalTypeOtherTreatmentProps extends ModalTypeProps {
@@ -30,6 +31,41 @@ export default function ModalTypeOtherTreatment({
           type: 'date',
           tableValue: date,
           defaultValue: date,
+        },
+      ]}
+      noteLabel="특이 사항"
+      defaultNote={notes ?? '-'}
+      noteTextareaProps={{ placeholder: '특이사항을 입력해주요' }}
+    />
+  )
+}
+
+interface ModalTypeOtherTreatmentInput {
+  restProps: OtherTreatment
+}
+
+export function ModalTypeOtherTreatmentInput({
+  restProps: { date, detail, notes, title },
+}: ModalTypeOtherTreatmentInput) {
+  return (
+    <ModalDetailInput
+      title={title}
+      fields={[
+        {
+          key: 'detail',
+          label: '처치 내용',
+          type: 'text',
+          // tableValue: detail,
+          defaultValue: detail,
+          inputProps: { placeholder: '처치 내용을 입력해주세요' },
+        },
+        {
+          key: 'date',
+          label: '처치 날짜',
+          type: 'date',
+          // tableValue: date,
+          defaultValue: date,
+          requiredSet: '처치 날짜를 입력해주세요.',
         },
       ]}
       noteLabel="특이 사항"

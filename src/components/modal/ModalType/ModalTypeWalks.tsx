@@ -1,5 +1,6 @@
 import { Walks } from '@/libs/supabase'
 import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { minTohour } from '../timeHandler'
 import { ModalTypeProps } from './ModalType'
 
@@ -32,7 +33,7 @@ export default function ModalTypeWalks({
           defaultValue: distance,
         },
         {
-          key: 'duration',
+          key: 'total_time',
           label: '산책 시간',
           type: 'number',
           tableValue: minTohour(total_time),
@@ -44,6 +45,53 @@ export default function ModalTypeWalks({
           type: 'date',
           tableValue: date,
           defaultValue: date,
+        },
+      ]}
+    />
+  )
+}
+
+interface ModalTypeWalksInputProps {
+  restProps: Walks
+}
+
+// Input(Insert)
+export function ModalTypeWalksInput({
+  restProps: { date, distance, id, start_time, total_time, title },
+}: ModalTypeWalksInputProps) {
+  return (
+    <ModalDetailInput
+      title={title}
+      fields={[
+        {
+          key: 'start_time',
+          label: '시작 시간',
+          type: 'time',
+          // tableValue: start_time,
+          defaultValue: start_time,
+          requiredSet: '시작 시간을 입력해주세요.',
+        },
+        {
+          key: 'distance',
+          label: '산책 거리',
+          type: 'number',
+          // tableValue: distance,
+          defaultValue: distance,
+        },
+        {
+          key: 'total_time',
+          label: '산책 시간',
+          type: 'number',
+          // tableValue: minTohour(total_time),
+          defaultValue: total_time,
+        },
+        {
+          key: 'date',
+          label: '산책 날짜',
+          type: 'date',
+          // tableValue: date,S
+          defaultValue: date,
+          requiredSet: '산책 날짜를 입력해주세요.',
         },
       ]}
     />
