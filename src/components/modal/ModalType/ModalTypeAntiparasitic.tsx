@@ -40,14 +40,17 @@ export default function ModalTypeAntiparasitic({
 }
 
 export interface ModalTypeAntiparasiticInputProps {
+  onClose: () => void
   restProps: Antiparasitic
 }
 
 export function ModalTypeAntiparasiticInput({
+  onClose,
   restProps: { intake_date, next_date, notes, title },
 }: ModalTypeAntiparasiticInputProps) {
   return (
     <ModalDetailInput
+      onClose={onClose}
       title={title}
       fields={[
         {

@@ -50,14 +50,17 @@ export default function ModalTypeOtherActivites({
 }
 
 interface ModalTypeOtherActivitesInputProps {
+  onClose: () => void
   restProps: OtherActivities
 }
 
 export function ModalTypeOtherActivitesInput({
+  onClose,
   restProps: { date, notes, start_time, duration_time, title },
 }: ModalTypeOtherActivitesInputProps) {
   return (
     <ModalDetailInput
+      onClose={onClose}
       title={title}
       fields={[
         {
@@ -85,6 +88,8 @@ export function ModalTypeOtherActivitesInput({
           defaultValue: duration_time,
           inputProps: { step: 10 },
           requiredSet: '총 활동 시간을 입력해주세요.',
+          min: 0,
+          max: 360,
         },
       ]}
       noteLabel="특이 사항"

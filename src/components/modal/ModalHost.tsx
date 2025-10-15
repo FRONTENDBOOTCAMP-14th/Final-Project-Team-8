@@ -1,8 +1,7 @@
 // ModalHost.tsx (새 파일로 분리 추천)
 'use client'
 
-import { useModal } from '@/store/modalStore'
-import { useState } from 'react'
+import { AccordionProps } from '../accordion/accordion'
 import Modal from '../modal/Modal'
 import { ModalTypeAntiparasiticInput } from './ModalType/ModalTypeAntiparasitic'
 import { ModalTypeDietInput } from './ModalType/ModalTypeDiet'
@@ -14,131 +13,130 @@ import { ModalTypeWalksInput } from './ModalType/ModalTypeWalks'
 
 interface ModalHostProps {
   open: boolean
+  onClose: () => void
+  type: AccordionProps['type']
 }
 
-export default function ModalHost({ open }: ModalHostProps) {
-  const [isAntiparasitic, setAntiparasitic] = useState<boolean>(false)
-  const [isWalks, setWalks] = useState<boolean>(false)
-  const [isMedical, setMedical] = useState<boolean>(false)
-  const [isOtherTreatment, setOtherTreatMent] = useState<boolean>(false)
-  const closeModal = useModal(s => s.closeModal)
-  const active = useModal(s => s.active)
-  if (!active) return null
+export default function ModalHost({ open, onClose, type }: ModalHostProps) {
+  const selectTypeInputModal = () => {
+    switch (type) {
+      case 'antiparasitic':
+        return (
+          <ModalTypeAntiparasiticInput
+            onClose={onClose}
+            restProps={{
+              id: '',
+              intake_date: '',
+              next_date: null,
+              notes: null,
+              pet_id: '',
+              title: '',
+            }}
+          />
+        )
+      case 'diet':
+        return (
+          <ModalTypeDietInput
+            onClose={onClose}
+            restProps={{
+              date: '',
+              id: '',
+              notes: null,
+              pet_id: '',
+              snack_type: '',
+              time: '',
+              title: '',
+            }}
+          />
+        )
+      case 'medical treatment':
+        return (
+          <ModalTypeMedicalTreatmentInput
+            onClose={onClose}
+            restProps={{
+              category: null,
+              id: '',
+              next_date: null,
+              notes: null,
+              pet_id: '',
+              title: '',
+              visit_date: '',
+            }}
+          />
+        )
+      case 'other activities':
+        return (
+          <ModalTypeOtherActivitesInput
+            onClose={onClose}
+            restProps={{
+              date: '',
+              duration_time: 0,
+              id: '',
+              notes: null,
+              pet_id: '',
+              start_time: '',
+              title: '',
+            }}
+          />
+        )
+      case 'other treatments':
+        return (
+          <ModalTypeOtherTreatmentInput
+            onClose={onClose}
+            restProps={{
+              date: '',
+              detail: null,
+              id: '',
+              notes: null,
+              pet_id: '',
+              title: '',
+            }}
+          />
+        )
+      case 'vaccines':
+        return (
+          <ModalTypeVaccinationInput
+            onClose={onClose}
+            restProps={{
+              expiry_date: '',
+              id: '',
+              lot: '',
+              notes: null,
+              pet_id: '',
+              title: '',
+              vaccinated_date: '',
+            }}
+          />
+        )
+      case 'walks':
+        return (
+          <ModalTypeWalksInput
+            onClose={onClose}
+            restProps={{
+              date: '',
+              distance: null,
+              id: '',
+              pet_id: '',
+              start_time: '',
+              title: '',
+              total_time: null,
+            }}
+          />
+        )
+      default:
+        return null
+    }
+  }
+
   return (
     <Modal
       open={open}
-      onClose={closeModal}
+      onClose={() => onClose}
       isModify
       setModify={() => {}}
       buttonNone
     >
-      <RenderModalByKind />
+      {selectTypeInputModal()}
     </Modal>
   )
-}
-
-export function RenderModalByKind() {
-  const active = useModal(s => s.active)
-  if (!active) return
-  const { kind } = active
-  switch (kind) {
-    case 'add:antiparasitic':
-      return (
-        <ModalTypeAntiparasiticInput
-          restProps={{
-            id: '',
-            intake_date: '',
-            next_date: null,
-            notes: null,
-            pet_id: '',
-            title: '',
-          }}
-        />
-      )
-    case 'add:diet':
-      return (
-        <ModalTypeDietInput
-          restProps={{
-            date: '',
-            id: '',
-            notes: null,
-            pet_id: '',
-            snack_type: '',
-            time: '',
-            title: '',
-          }}
-        />
-      )
-    case 'add:medical':
-      return (
-        <ModalTypeMedicalTreatmentInput
-          restProps={{
-            category: null,
-            id: '',
-            next_date: null,
-            notes: null,
-            pet_id: '',
-            title: '',
-            visit_date: '',
-          }}
-        />
-      )
-    case 'add:otherActivities':
-      return (
-        <ModalTypeOtherActivitesInput
-          restProps={{
-            date: '',
-            duration_time: 0,
-            id: '',
-            notes: null,
-            pet_id: '',
-            start_time: '',
-            title: '',
-          }}
-        />
-      )
-    case 'add:otherTreatment':
-      return (
-        <ModalTypeOtherTreatmentInput
-          restProps={{
-            date: '',
-            detail: null,
-            id: '',
-            notes: null,
-            pet_id: '',
-            title: '',
-          }}
-        />
-      )
-    case 'add:vaccines':
-      return (
-        <ModalTypeVaccinationInput
-          restProps={{
-            expiry_date: '',
-            id: '',
-            lot: '',
-            notes: null,
-            pet_id: '',
-            title: '',
-            vaccinated_date: '',
-          }}
-        />
-      )
-    case 'add:walks':
-      return (
-        <ModalTypeWalksInput
-          restProps={{
-            date: '',
-            distance: null,
-            id: '',
-            pet_id: '',
-            start_time: '',
-            title: '',
-            total_time: null,
-          }}
-        />
-      )
-    default:
-      return null
-  }
 }

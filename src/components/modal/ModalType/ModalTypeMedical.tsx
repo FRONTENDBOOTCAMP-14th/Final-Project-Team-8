@@ -48,14 +48,17 @@ export default function ModalTypeMedicalTreatment({
 }
 
 export interface ModalTypeMedicalTreatmentInputProps {
+  onClose: () => void
   restProps: MedicalTreatment
 }
 
 export function ModalTypeMedicalTreatmentInput({
+  onClose,
   restProps: { category, next_date, notes, visit_date, title },
 }: ModalTypeMedicalTreatmentInputProps) {
   return (
     <ModalDetailInput
+      onClose={onClose}
       title={title}
       fields={[
         {

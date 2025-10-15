@@ -3,7 +3,6 @@ import { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
 import { Toaster } from 'sonner'
 import Providers from './providers'
-// import Providers from './providers'
 
 export const metadata: Metadata = {
   title: 'PAW BUDDY',

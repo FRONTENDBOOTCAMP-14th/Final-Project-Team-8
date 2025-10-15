@@ -53,13 +53,16 @@ export function ModalTypeDiet({
 
 export interface ModalTypeDietInputProps {
   restProps: Diet
+  onClose: () => void
 }
 
 export function ModalTypeDietInput({
+  onClose,
   restProps: { date, time, snack_type, notes, title },
 }: ModalTypeDietInputProps) {
   return (
     <ModalDetailInput
+      onClose={onClose}
       title={title}
       fields={[
         {

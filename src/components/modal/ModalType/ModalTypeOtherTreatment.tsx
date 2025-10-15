@@ -41,14 +41,17 @@ export default function ModalTypeOtherTreatment({
 }
 
 interface ModalTypeOtherTreatmentInput {
+  onClose: () => void
   restProps: OtherTreatment
 }
 
 export function ModalTypeOtherTreatmentInput({
+  onClose,
   restProps: { date, detail, notes, title },
 }: ModalTypeOtherTreatmentInput) {
   return (
     <ModalDetailInput
+      onClose={onClose}
       title={title}
       fields={[
         {

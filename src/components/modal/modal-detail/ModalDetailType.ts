@@ -1,5 +1,3 @@
-import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
-import { FieldPath } from 'react-hook-form'
 import {
   Antiparasitic,
   Diet,
@@ -8,7 +6,9 @@ import {
   OtherTreatment,
   Vaccines,
   Walks,
-} from '../../../libs/supabase'
+} from '@/libs/supabase'
+import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import { FieldPath } from 'react-hook-form'
 
 export type FieldType = 'text' | 'date' | 'time' | 'number'
 
@@ -53,15 +53,16 @@ export type ModalDetailProps = {
 
 // ------------------------------------------------------------------
 
-type Replace<T, R> = Omit<T, keyof R> & R
-
-// fields Input 항목
 export interface InputBaseField extends BaseField {
   // 필수 여부 : "폼 제출 시 에러 알림 문자열"
   requiredSet?: string
+  min?: number
+  max?: number
 }
+
+type Replace<T, R> = Omit<T, keyof R> & R
 
 export type ModalDetailInpuProps = Replace<
   Omit<ModalDetailProps, 'isModify'>,
-  { fields: InputBaseField[] }
+  { fields: InputBaseField[]; onClose: () => void }
 >

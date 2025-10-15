@@ -52,15 +52,18 @@ export default function ModalTypeWalks({
 }
 
 interface ModalTypeWalksInputProps {
+  onClose: () => void
   restProps: Walks
 }
 
 // Input(Insert)
 export function ModalTypeWalksInput({
+  onClose,
   restProps: { date, distance, id, start_time, total_time, title },
 }: ModalTypeWalksInputProps) {
   return (
     <ModalDetailInput
+      onClose={onClose}
       title={title}
       fields={[
         {
@@ -72,26 +75,26 @@ export function ModalTypeWalksInput({
           requiredSet: '시작 시간을 입력해주세요.',
         },
         {
-          key: 'distance',
-          label: '산책 거리',
-          type: 'number',
-          // tableValue: distance,
-          defaultValue: distance,
-        },
-        {
-          key: 'total_time',
-          label: '산책 시간',
-          type: 'number',
-          // tableValue: minTohour(total_time),
-          defaultValue: total_time,
-        },
-        {
           key: 'date',
           label: '산책 날짜',
           type: 'date',
           // tableValue: date,S
           defaultValue: date,
           requiredSet: '산책 날짜를 입력해주세요.',
+        },
+        {
+          key: 'distance',
+          label: '산책 거리  (Km)',
+          type: 'number',
+          // tableValue: distance,
+          defaultValue: distance,
+        },
+        {
+          key: 'total_time',
+          label: '산책 시간  (min)',
+          type: 'number',
+          // tableValue: minTohour(total_time),
+          defaultValue: total_time,
         },
       ]}
     />

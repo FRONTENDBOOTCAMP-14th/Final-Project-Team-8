@@ -48,14 +48,17 @@ export default function ModalTypeVaccination({
 }
 
 interface ModalTypeVaccinationInputProps {
+  onClose: () => void
   restProps: Vaccines
 }
 
 export function ModalTypeVaccinationInput({
+  onClose,
   restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
 }: ModalTypeVaccinationInputProps) {
   return (
     <ModalDetailInput
+      onClose={onClose}
       key={id}
       title={title}
       fields={[
