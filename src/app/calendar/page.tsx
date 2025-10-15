@@ -1,23 +1,29 @@
 'use client'
 
 import { Button, CalendarSchedule, Sidebar } from '@/components'
+import CalendarSkeleton from '@/components/ui/skeleton/CalendarSkeleton'
 import { usePetStore } from '@/store/petStore'
-import { Funnel } from 'lucide-react'
-import { Suspense, useEffect, useState } from 'react'
+import { useScheduleStore } from '@/store/scheduleStore'
+import { AlertCircle, Funnel } from 'lucide-react'
+import { Suspense, useMemo } from 'react'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
-  const [selectedPet, setSelectedPet] = useState<any>(null)
+  const { clearSchedules } = useScheduleStore()
 
-  // 선택된 반려동물 찾기
-  useEffect(() => {
-    if (selectedPetId && petList) {
-      const pet = petList.find(p => p.id === selectedPetId)
-      setSelectedPet(pet || null)
-    } else {
-      setSelectedPet(null)
-    }
+  // 선택된 반려동물 정보 찾기
+  const selectedPet = useMemo(() => {
+    if (!selectedPetId || petList.length === 0) return null
+    return petList.find(p => p.id === selectedPetId) || null
   }, [selectedPetId, petList])
+
+  // 에러 메시지
+  const errorMessage = useMemo(() => {
+    if (petList.length === 0) return '등록된 반려동물이 없습니다.'
+    if (selectedPetId && !selectedPet)
+      return '선택된 반려동물을 찾을 수 없습니다.'
+    return null
+  }, [petList.length, selectedPetId, selectedPet])
 
   return (
     <section className="flex h-lvh w-full flex-row overflow-hidden bg-[#2D2A40] p-2.5">
@@ -29,14 +35,28 @@ export default function CalendarPage() {
             ? `${selectedPet.name}의 모든 활동 기록 보기`
             : '반려동물을 선택해주세요.'}
         </p>
-        {selectedPetId ? (
-          <Suspense
-            fallback={
-              <div className="mt-2 mb-7.5 text-lg font-semibold text-[#80809A]">
-                캘린더 로딩...
-              </div>
-            }
-          >
+
+        {/* 오류 상태 */}
+        {errorMessage && (
+          <div className="mb-6 flex items-center gap-3 rounded-xl bg-[#FEDEDE] p-4 text-[#FC5A5A]">
+            <AlertCircle className="h-5 w-5 shrink-0" />
+            <p className="text-sm">{errorMessage}</p>
+          </div>
+        )}
+
+        {/* 반려동물 미선택 상태 */}
+        {!selectedPetId ? (
+          <div className="flex h-96 flex-col items-center justify-center gap-2">
+            <p className="text-lg font-semibold text-[#A3A0C0]">
+              사이드바에서 반려동물을 선택해주세요.
+            </p>
+            <p className="text-sm text-[#C6C6D9]">
+              캘린더를 보려면 먼저 반려동물을 선택하세요.
+            </p>
+          </div>
+        ) : (
+          // 캘린더 표시
+          <>
             <Button
               variant="white"
               className="absolute top-7.5 right-7.5 max-w-40 font-medium text-[#80809A] outline-[#80809A]"
@@ -44,14 +64,10 @@ export default function CalendarPage() {
               <Funnel className="mr-2.5 aspect-square w-5" />
               필터
             </Button>
-            <CalendarSchedule />
-          </Suspense>
-        ) : (
-          <div className="flex h-96 items-center justify-center">
-            <p className="text-lg font-semibold text-[#80809A]">
-              사이드바에서 반려동물을 선택해주세요.
-            </p>
-          </div>
+            <Suspense fallback={<CalendarSkeleton />}>
+              <CalendarSchedule petId={selectedPetId} />
+            </Suspense>
+          </>
         )}
       </section>
       <section className="w-90 rounded-r-xl bg-[#F7F7FC] p-7.5">
