@@ -34,7 +34,7 @@ interface Props {
 }
 
 export const useCalendar = (props?: Props): CalendarControls => {
-  const { onDayClick, initialSelectedDate = null } = props || {}
+  const { onDayClick, initialSelectedDate = null } = props ?? {}
 
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1)

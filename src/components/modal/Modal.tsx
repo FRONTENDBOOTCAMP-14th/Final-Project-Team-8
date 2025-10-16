@@ -30,16 +30,8 @@
  * - children: 모달 내부에 삽입할 콘텐츠
  */
 
-import {
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from 'react'
+import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { toast } from 'sonner'
 import { tabbableSelector } from '../../utils/client'

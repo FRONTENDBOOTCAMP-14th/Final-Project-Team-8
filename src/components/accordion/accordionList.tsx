@@ -25,31 +25,31 @@ import {
 /* -------------------------------------------------------------------------- */
 
 // 각 카테고리별 리스트 데이터 타입 정의
-type MedicalTreatmentProps = {
+interface MedicalTreatmentProps {
   dataList: MedicalTreatment[] | null
 }
 
-type AntiparasiticProps = {
+interface AntiparasiticProps {
   dataList: Antiparasitic[] | null
 }
 
-type DietProps = {
+interface DietProps {
   dataList: Diet[] | null
 }
 
-type OtherActivitiesProps = {
+interface OtherActivitiesProps {
   dataList: OtherActivities[] | null
 }
 
-type OtherTreatMentsProps = {
+interface OtherTreatMentsProps {
   dataList: OtherTreatment[] | null
 }
 
-type VaccinesProps = {
+interface VaccinesProps {
   dataList: Vaccines[] | null
 }
 
-type WalksProps = {
+interface WalksProps {
   dataList: Walks[] | null
 }
 

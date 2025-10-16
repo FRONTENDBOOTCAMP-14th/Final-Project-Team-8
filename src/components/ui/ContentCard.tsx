@@ -1,5 +1,5 @@
-import Button from '@/components/ui/button/Button'
 import React from 'react'
+import Button from '@/components/ui/button/Button'
 
 /**
  * ContentCard 컴포넌트 Props

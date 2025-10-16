@@ -1,6 +1,6 @@
-import { Database } from '../../libs/supabase/database.types'
-import { ModalKind } from '../../store/modalStore'
-import { AccordionProps } from './accordion'
+import type { Database } from '../../libs/supabase/database.types'
+import type { ModalKind } from '../../store/modalStore'
+import type { AccordionProps } from './accordion'
 
 export type TableName = keyof Database['public']['Tables']
 export type RowByTable<T extends TableName> =

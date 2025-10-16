@@ -1,7 +1,7 @@
 'use client'
 
-import { AllowedTableNames } from '@/libs/api/accordion'
 import { Suspense, useEffect, useState } from 'react'
+import type { AllowedTableNames } from '@/libs/api/accordion'
 import useToggleState from '../../hooks/useToggleState'
 import QueryErrorBoundary from '../common/QueryErrorBoundary'
 import ModalHost from '../modal/ModalHost'
@@ -9,7 +9,11 @@ import Button from '../ui/button/Button'
 import AccordionContent from './accordionContent'
 import { selectTypeButtonTitle } from './accordionFun'
 import ListLoading from './ListLoading'
-type Props<T extends AllowedTableNames> = { type: T; isOpen: boolean }
+
+interface Props<T extends AllowedTableNames> {
+  type: T
+  isOpen: boolean
+}
 
 export default function AccordionItemBox<T extends AllowedTableNames>({
   type,

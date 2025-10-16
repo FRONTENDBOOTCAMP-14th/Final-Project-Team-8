@@ -68,6 +68,6 @@ export const useSignupForm = () => {
     setPasswordConfirm,
     setAgreeToTerms,
     setFieldTouched,
-    setAllTouched: setAllTouched,
+    setAllTouched,
   }
 }

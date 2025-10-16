@@ -1,7 +1,7 @@
 // ModalHost.tsx (새 파일로 분리 추천)
 'use client'
 
-import { AccordionProps } from '../accordion/accordion'
+import type { AccordionProps } from '../accordion/accordion'
 import Modal from '../modal/Modal'
 import { ModalTypeAntiparasiticInput } from './ModalType/ModalTypeAntiparasitic'
 import { ModalTypeDietInput } from './ModalType/ModalTypeDiet'

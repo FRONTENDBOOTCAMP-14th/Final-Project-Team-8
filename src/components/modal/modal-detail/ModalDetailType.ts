@@ -1,4 +1,6 @@
-import {
+import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import type { FieldPath } from 'react-hook-form'
+import type {
   Antiparasitic,
   Diet,
   MedicalTreatment,
@@ -7,13 +9,11 @@ import {
   Vaccines,
   Walks,
 } from '@/libs/supabase'
-import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
-import { FieldPath } from 'react-hook-form'
-import { AccordionProps } from '../../accordion/accordion'
+import type { AccordionProps } from '../../accordion/accordion'
 
 export type FieldType = 'text' | 'date' | 'time' | 'number'
 
-export type BaseField = {
+export interface BaseField {
   /** 고유 키 (리스트 렌더링용) */
   key: FieldPath<
     | Antiparasitic
@@ -36,7 +36,7 @@ export type BaseField = {
   inputProps?: InputHTMLAttributes<HTMLInputElement>
 }
 
-export type ModalDetailProps = {
+export interface ModalDetailProps {
   title: string
   /** 수정 여부 (true = 입력 모드) */
   isModify: boolean

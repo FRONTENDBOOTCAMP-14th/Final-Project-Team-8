@@ -1,7 +1,7 @@
+import type { User } from '@supabase/supabase-js'
+import { create } from 'zustand'
 import { getSelectedPet, getUserPets } from '@/libs/api/pet'
 import type { Database } from '@/libs/supabase/database.types'
-import { User } from '@supabase/supabase-js'
-import { create } from 'zustand'
 
 /**
  * UI 리스트용 반려동물 요약 정보
@@ -92,7 +92,7 @@ export const usePetStore = create<PetStore>((set, get) => ({
 
     set({
       petList: summary,
-      selectedPetId: data[0]?.id || null,
+      selectedPetId: data[0]?.id ?? null,
       selectedPet: undefined,
     })
 

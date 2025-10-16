@@ -1,5 +1,5 @@
 import { createClient } from '../supabase/client'
-import { TablesInsert } from '../supabase/database.types'
+import type { TablesInsert } from '../supabase/database.types'
 
 /**
  * 이메일/비밀번호로 로그인
@@ -61,12 +61,12 @@ export const signUpWithEmail = async (
   }
 
   // 2. users 테이블에 닉네임 저장
-  const nickname = metadata?.name ? metadata.name : email.split('@')[0] // name이 없으면 이메일 앞 부분 사용
+  const nickname = metadata?.name ?? email.split('@')[0] // name이 없으면 이메일 앞 부분 사용
 
   const newUser: TablesInsert<'users'> = {
     id: authData.user.id,
-    email: email,
-    nickname: nickname || null,
+    email,
+    nickname: nickname ?? null,
   }
 
   const { error: profileError } = await supabase.from('users').insert(newUser)

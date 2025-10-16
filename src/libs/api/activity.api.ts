@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------
 
 import { toast } from 'sonner'
-import { AccordionProps } from '../../components/accordion/accordion'
+import type { AccordionProps } from '../../components/accordion/accordion'
 import type {
   AntiparasiticInsert,
   DietInsert,
@@ -42,7 +42,7 @@ export default async function createActivity({
 
   const { error, data: insertData } = await supabase
     .from(type)
-    .insert([{ ...setData, pet_id: pet_id }])
+    .insert([{ ...setData, pet_id }])
     .select('*')
     .single()
 

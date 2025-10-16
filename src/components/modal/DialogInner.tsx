@@ -1,7 +1,7 @@
-import Button from '@/components/ui/button/Button'
 import { X } from 'lucide-react'
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
 import { Toaster } from 'sonner'
+import Button from '@/components/ui/button/Button'
 
 type DialogInnerProps = PropsWithChildren<{
   isModify: boolean

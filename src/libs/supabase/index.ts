@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { Tables, TablesInsert, TablesUpdate } from './database.types'
+import type { Tables, TablesInsert, TablesUpdate } from './database.types'
 import { createClient } from './server'
 
 const cookieStore = await cookies()

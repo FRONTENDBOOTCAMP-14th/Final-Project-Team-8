@@ -1,9 +1,9 @@
-import { OtherActivities } from '@/libs/supabase'
-import { AccordionProps } from '../../accordion/accordion'
+import type { OtherActivities } from '@/libs/supabase'
+import type { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { minTohour, removeSecond } from '../timeHandler'
-import { ModalTypeProps } from './ModalType'
+import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeOtherActivitesProps extends ModalTypeProps {
   restProps: OtherActivities

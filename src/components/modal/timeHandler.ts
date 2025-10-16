@@ -1,7 +1,7 @@
 export const removeSecond = (time: string | null) => {
   if (time === null) return '-'
-  let hour = Number(time.slice(0, 2))
-  let min = time.slice(3, 5)
+  const hour = Number(time.slice(0, 2))
+  const min = time.slice(3, 5)
   console.log(hour, min)
   return `${hour / 12 < 1 ? '오전' : '오후'}  ${hour % 12}시 ${min}분`
 }

@@ -10,13 +10,13 @@ export type ModalKind =
   | 'add:vaccines'
   | 'add:walks'
 
-export type ModalEntry = {
+export interface ModalEntry {
   kind: ModalKind
   // 필요하면 여기에 아코디언 id, pet_id, 프리필 값 등 payload 추가
   payload?: unknown
 }
 
-type ModalState = {
+interface ModalState {
   active: ModalEntry | null
   openModal: (entry: ModalEntry) => void
   closeModal: () => void

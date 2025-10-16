@@ -1,12 +1,8 @@
-import {
-  AllowedTableNames,
-  getPetTableData,
-  RowMap,
-  TableRow,
-} from '@/libs/api/accordion'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef } from 'react'
 import { toast } from 'sonner'
+import { getPetTableData } from '@/libs/api/accordion'
+import type { AllowedTableNames, RowMap, TableRow } from '@/libs/api/accordion'
 import {
   AntiparasiticCompo,
   DietCompo,

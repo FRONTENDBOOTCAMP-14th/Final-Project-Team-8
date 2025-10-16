@@ -1,9 +1,9 @@
-import { Walks } from '@/libs/supabase'
-import { AccordionProps } from '../../accordion/accordion'
+import type { Walks } from '@/libs/supabase'
+import type { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { minTohour } from '../timeHandler'
-import { ModalTypeProps } from './ModalType'
+import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeWalksProps extends ModalTypeProps {
   restProps: Walks

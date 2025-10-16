@@ -1,7 +1,7 @@
 // components/modal/ModalDetail.tsx
 import { CalendarDays, Clock } from 'lucide-react'
-import { ReactNode } from 'react'
-import { FieldType, ModalDetailProps } from './ModalDetailType'
+import type { ReactNode } from 'react'
+import type { FieldType, ModalDetailProps } from './ModalDetailType'
 
 export default function ModalDetail({
   title,

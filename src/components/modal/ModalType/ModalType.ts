@@ -1,4 +1,4 @@
-import {
+import type {
   AntiparasiticInsert,
   DietInsert,
   MedicalTreatmentInsert,
@@ -8,7 +8,7 @@ import {
   WalksInsert,
 } from '@/libs/supabase'
 
-export type ModalTypeProps = {
+export interface ModalTypeProps {
   isModify: boolean
 }
 

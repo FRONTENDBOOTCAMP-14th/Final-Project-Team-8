@@ -1,8 +1,8 @@
-import { Vaccines } from '@/libs/supabase'
-import { AccordionProps } from '../../accordion/accordion'
+import type { Vaccines } from '@/libs/supabase'
+import type { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
-import { ModalTypeProps } from './ModalType'
+import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeVaccinationProps extends ModalTypeProps {
   restProps: Vaccines

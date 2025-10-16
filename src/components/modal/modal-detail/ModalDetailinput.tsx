@@ -1,14 +1,14 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import createActivity from '@/libs/api/activity.api'
 import { usePetStore } from '@/store/petStore'
 import { tw } from '@/utils/shared'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import ListLoading from '../../accordion/ListLoading'
 import Button from '../../ui/button/Button'
-import { ModalInputDataType } from '../ModalType/ModalType'
-import { ModalDetailInpuProps } from './ModalDetailType'
+import type { ModalInputDataType } from '../ModalType/ModalType'
+import type { ModalDetailInpuProps } from './ModalDetailType'
 
 export function ModalDetailInput({
   type,
@@ -106,12 +106,12 @@ export function ModalDetailInput({
                           ? 'border-red-400 ring-red-300'
                           : 'border-gray-300 ring-blue-300'
                       )}
-                      {...(type === 'number' ? { min: min, max: max } : {})}
+                      {...(type === 'number' ? { min, max } : {})}
                       {...inputProps}
                       {...register(key, {
-                        required: requiredSet || false,
+                        required: requiredSet ?? false,
                         ...(type === 'number'
-                          ? { valueAsNumber: true, min: min, max: max }
+                          ? { valueAsNumber: true, min, max }
                           : {}),
                       })}
                     />
