@@ -3,6 +3,7 @@
 import Button from '@/components/ui/button/Button'
 import { usePetStore } from '@/store/petStore'
 import { MoveLeft, MoveRight } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import PetProfileCard from './PetProfileCard'
 
@@ -24,7 +25,7 @@ export default function PetProfileCardCarousel() {
 
   console.log(petList)
   return (
-    <div className="flex w-full flex-row items-center justify-between gap-10">
+    <div className="flex h-full w-full flex-row items-center justify-between gap-10">
       <Button
         className="max-w-fit min-w-fit shadow-md"
         variant="transparent"
@@ -33,8 +34,8 @@ export default function PetProfileCardCarousel() {
         <MoveLeft />
       </Button>
       {/* 캐러셀 트랙 */}
-      <div className="flex w-full max-w-[720px] items-center justify-center overflow-visible">
-        <ul className="relative flex h-[280px] w-full items-center justify-center">
+      <div className="flex h-full w-full max-w-[720px] items-center justify-center overflow-visible">
+        <ul className="relative flex h-full w-full items-center justify-center">
           {petList.map((pet, index) => {
             // 가운데(활성화) 카드와 주변 카드 구분
             const isActive = index === currentIndex
@@ -50,7 +51,12 @@ export default function PetProfileCardCarousel() {
                   })`,
                 }}
               >
-                <PetProfileCard pet={pet} />
+                <Link
+                  href={'/pet-profile'}
+                  onClick={() => setSelectedPetId(pet.id)}
+                >
+                  <PetProfileCard pet={pet} />
+                </Link>
               </li>
             )
           })}

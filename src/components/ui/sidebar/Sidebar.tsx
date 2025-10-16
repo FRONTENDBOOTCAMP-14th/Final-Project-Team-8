@@ -58,7 +58,7 @@ export default function Sidebar() {
           />
         </svg>
       ),
-      path: '/login',
+      path: '/dashboard',
     },
     {
       name: '캘린더',
