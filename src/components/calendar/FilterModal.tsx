@@ -25,7 +25,7 @@ interface Props {
   onFilterChange: (filters: ScheduleCategory[]) => void
 }
 
-const FILTER_OPTIONS: FilterOption[] = [
+export const FILTER_OPTIONS: FilterOption[] = [
   { value: 'birthday', label: '생일', color: '[#FF8630]' },
   { value: 'adoption', label: '입양일', color: '[#6AA9F3]' },
   { value: 'vaccine', label: '백신', color: '[#897EE6]' },
@@ -115,11 +115,6 @@ export default function FilterModal({
     } else {
       onFilterChange([...selectedFilters, value])
     }
-  }
-
-  // 필터 초기화
-  const handleReset = () => {
-    onFilterChange(FILTER_OPTIONS.map(option => option.value))
   }
 
   return (
@@ -217,9 +212,6 @@ export default function FilterModal({
 
       {/* 하단 버튼 */}
       <div className="mt-7.5 flex gap-3">
-        <Button variant="white" onClick={handleReset}>
-          초기화
-        </Button>
         <Button variant="orange" onClick={onClose}>
           적용
         </Button>

@@ -7,6 +7,7 @@ import {
   Schedules,
   Sidebar,
 } from '@/components'
+import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
 import { ScheduleEvent } from '@/libs/api/schedules'
 import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
@@ -45,6 +46,13 @@ export default function CalendarPage() {
       return '선택된 반려동물을 찾을 수 없습니다.'
     return null
   }, [petList.length, selectedPetId, selectedPet])
+
+  // 필터 개수 표시(모두 선택이 아닐 때만)
+  const filterCount = useMemo(() => {
+    const totalFilters = FILTER_OPTIONS.length
+    if (activeFilters.length === totalFilters) return null
+    return activeFilters.length
+  }, [activeFilters.length])
 
   return (
     <section className="flex h-lvh w-full flex-row overflow-hidden bg-[#2D2A40] p-2.5">
@@ -86,6 +94,11 @@ export default function CalendarPage() {
             >
               <Funnel className="mr-2.5 aspect-square w-5" />
               필터
+              {filterCount !== null && (
+                <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#ff6000] text-xs font-bold text-white">
+                  {filterCount}
+                </span>
+              )}
             </Button>
             <CalendarSchedule petId={selectedPetId} />
           </>
