@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react'
-import type { ScheduleEvent } from '../../libs/api/schedules'
-import type { CalendarDay, DayProps } from './useCalendar'
+import type { CalendarDay, DayProps } from './hooks/useCalendar'
+import type { ScheduleEvent } from './types'
 
 interface Props extends Omit<DayProps, 'restProps'> {
   dayData: CalendarDay

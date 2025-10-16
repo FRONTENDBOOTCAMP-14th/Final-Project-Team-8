@@ -2,7 +2,7 @@
 
 import CalendarBase from './CalendarBase'
 import DayModal from './DayModal'
-import { useCalendar } from './useCalendar'
+import { useCalendar } from './hooks/useCalendar'
 
 export default function CalendarModal(props: any) {
   const controls = useCalendar(props)

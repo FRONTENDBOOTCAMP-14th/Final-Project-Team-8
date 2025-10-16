@@ -1,5 +1,6 @@
 import { useCalendarStore } from '@/store/calendarStore'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useCalendarGrid } from './useCalendarGrid'
 
 export interface CalendarDay {
   date: number
@@ -37,7 +38,6 @@ interface Props {
 export const useCalendar = (props?: Props): CalendarControls => {
   const { onDayClick, initialSelectedDate = null } = props || {}
 
-  // Zustand 스토어에서 년/월 가져오기
   const {
     currentYear,
     currentMonth,
@@ -83,7 +83,7 @@ export const useCalendar = (props?: Props): CalendarControls => {
       const newSelectedDate = new Date(currentYear, newMonth - 1, 1)
       setStoreSelectedDate(newSelectedDate)
     },
-    [currentMonth, setStoreMonth]
+    [currentMonth, setStoreMonth, setStoreSelectedDate]
   )
 
   const setDayButtonRef = useCallback(
@@ -106,69 +106,7 @@ export const useCalendar = (props?: Props): CalendarControls => {
     }
   }, [])
 
-  const calendar = useMemo(() => {
-    // 이번 달 마지막 날짜 & 이번 달 총 일 수
-    const lastDateOfCurrentMonth = new Date(
-      currentYear,
-      currentMonth,
-      0
-    ).getDate()
-    // 이번 달 시작 요일
-    const firstDayofCurrentMonth = new Date(
-      currentYear,
-      currentMonth - 1,
-      1
-    ).getDay()
-    // 이번 달 마지막 요일
-    const lastDayofCurrentMonth = new Date(
-      currentYear,
-      currentMonth - 1,
-      lastDateOfCurrentMonth
-    ).getDay()
-
-    // 이전 달 날짜 채우기
-    const prevMonthDays: CalendarDay[] = []
-    const lastDateofPrevMonth = new Date(
-      currentYear,
-      currentMonth - 1,
-      0
-    ).getDate()
-    const prevDaysToFill = lastDateofPrevMonth - firstDayofCurrentMonth + 1
-    for (let i = 0; i < firstDayofCurrentMonth; i++) {
-      prevMonthDays.push({
-        date: prevDaysToFill + i,
-        isCurrentMonth: false,
-      })
-    }
-
-    // 이번 달 날짜 채우기
-    const currentMonthDays: CalendarDay[] = []
-    for (let i = 0; i < lastDateOfCurrentMonth; i++) {
-      currentMonthDays.push({
-        date: i + 1,
-        isCurrentMonth: true,
-      })
-    }
-
-    // 다음 달 날짜 채우기
-    const nextMonthDays: CalendarDay[] = []
-    if (lastDayofCurrentMonth < 6) {
-      for (let i = 0; i < 6 - lastDayofCurrentMonth; i++) {
-        nextMonthDays.push({
-          date: i + 1,
-          isCurrentMonth: false,
-        })
-      }
-    }
-
-    const allDays = [...prevMonthDays, ...currentMonthDays, ...nextMonthDays]
-    const weeks: CalendarDay[][] = []
-    for (let i = 0; i < allDays.length; i += 7) {
-      weeks.push(allDays.slice(i, i + 7))
-    }
-
-    return weeks
-  }, [currentYear, currentMonth])
+  const calendar = useCalendarGrid(currentYear, currentMonth)
 
   const handleDayClick = (date: number) => {
     const newSelectedDate = new Date(currentYear, currentMonth - 1, date)

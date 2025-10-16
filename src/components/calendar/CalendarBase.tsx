@@ -1,8 +1,8 @@
 'use client'
 
-import type { ScheduleEvent } from '../../libs/api/schedules'
+import type { CalendarControls, CalendarDay } from './hooks/useCalendar'
 import SelectDate from './SelectDate'
-import type { CalendarControls, CalendarDay } from './useCalendar'
+import type { ScheduleEvent } from './types'
 import Week from './Week'
 
 export type DayComponentProps = CalendarControls & {

@@ -1,4 +1,3 @@
-import { ScheduleEvent } from '@/libs/api/schedules'
 import {
   Cake,
   Footprints,
@@ -8,6 +7,7 @@ import {
   Stethoscope,
   Syringe,
 } from 'lucide-react'
+import type { ScheduleEvent } from './types'
 
 interface Props {
   schedule: ScheduleEvent

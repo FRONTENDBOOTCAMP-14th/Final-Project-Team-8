@@ -3,14 +3,7 @@
 import { X } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import Button from '../ui/button/Button'
-
-export type ScheduleCategory =
-  | 'birthday'
-  | 'adoption'
-  | 'vaccine'
-  | 'antiparasitic'
-  | 'medical'
-  | 'walk'
+import type { ScheduleCategory } from './types'
 
 interface FilterOption {
   value: ScheduleCategory

@@ -1,11 +1,11 @@
 'use client'
 
-import { ScheduleEvent } from '@/libs/api/schedules'
 import { useCalendarStore } from '@/store/calendarStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { Plus } from 'lucide-react'
-import { useMemo } from 'react'
+import { useScheduleFilter } from './hooks/useScheduleFilter'
 import ScheduleListItem from './ScheduleListItem'
+import type { ScheduleEvent } from './types'
 
 interface Props {
   onAddSchedule?: () => void
@@ -19,61 +19,8 @@ export default function ScheduleList({
   const { schedules, activeFilters } = useScheduleStore()
   const { selectedDate } = useCalendarStore()
 
-  // 선택된 날짜의 일정만 필터링
-  const daySchedules = useMemo(() => {
-    if (!selectedDate) return []
-
-    // 필터링된 스케줄
-    const filteredSchedules = schedules.filter(schedule =>
-      activeFilters.includes(schedule.category)
-    )
-
-    const selectedYear = selectedDate.getFullYear()
-    const selectedMonth = selectedDate.getMonth() + 1
-    const selectedDay = selectedDate.getDate()
-
-    const selectedMonthStr = String(selectedMonth).padStart(2, '0')
-    const selectedDayStr = String(selectedDay).padStart(2, '0')
-
-    // 선택된 날짜의 스케줄만 선택
-    return filteredSchedules
-      .filter(schedule => {
-        const scheduleDate = new Date(schedule.date)
-        const scheduleYear = scheduleDate.getFullYear()
-        const scheduleMonth = scheduleDate.getMonth() + 1
-        const scheduleDay = scheduleDate.getDate()
-
-        // 정확한 날짜 매칭
-        if (
-          scheduleYear === selectedYear &&
-          scheduleMonth === selectedMonth &&
-          scheduleDay === selectedDay
-        ) {
-          return true
-        }
-
-        // 반복 일정 처리(월-일만 비교)
-        if (schedule.isRecurring) {
-          const [, scheduleMonthStr, scheduleDayStr] = schedule.date.split('-')
-
-          if (
-            scheduleMonthStr === selectedMonthStr &&
-            scheduleDayStr === selectedDayStr
-          ) {
-            const originalYear = parseInt(schedule.date.slice(0, 4))
-            if (selectedYear >= originalYear) {
-              return true
-            }
-          }
-        }
-
-        return false
-      })
-      .sort((a, b) => {
-        // 날짜순 정렬
-        return new Date(a.date).getTime() - new Date(b.date).getTime()
-      })
-  }, [schedules, activeFilters, selectedDate])
+  // 필터링된 스케줄(카테고리 + 날짜)
+  const daySchedules = useScheduleFilter(schedules, activeFilters, selectedDate)
 
   const formattedDate = selectedDate
     ? selectedDate.toLocaleDateString('ko-KR', {

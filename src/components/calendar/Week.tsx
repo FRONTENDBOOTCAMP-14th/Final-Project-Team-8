@@ -1,5 +1,5 @@
-import type { ScheduleEvent } from '@/libs/api/schedules'
-import type { CalendarDay, DayProps } from './useCalendar'
+import type { CalendarDay, DayProps } from './hooks/useCalendar'
+import type { ScheduleEvent } from './types'
 
 interface Props extends DayProps {
   week: CalendarDay[]

@@ -8,7 +8,7 @@ import {
   Sidebar,
 } from '@/components'
 import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
-import { ScheduleEvent } from '@/libs/api/schedules'
+import type { ScheduleEvent } from '@/components/calendar/types'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { AlertCircle, Funnel } from 'lucide-react'

@@ -1,10 +1,11 @@
 'use client'
 
-import { type ScheduleEvent } from '@/libs/api/schedules'
 import { useMemo } from 'react'
 import CalendarBase from './CalendarBase'
 import DaySchedule from './DaySchedule'
-import { useCalendar } from './useCalendar'
+import { useCalendar } from './hooks/useCalendar'
+import type { ScheduleEvent } from './types'
+import { getSchedulesForDate } from './utils/getSchedulesForDate'
 
 interface Props {
   schedules: ScheduleEvent[]
@@ -13,28 +14,9 @@ interface Props {
 export default function CalendarScheduleClient({ schedules }: Props) {
   const controls = useCalendar()
 
-  const getSchedulesForDate = useMemo(() => {
+  const getSchedulesForDateMemo = useMemo(() => {
     return (year: number, month: number, day: number) => {
-      const dateString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-      const monthDay = `${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-
-      const result: ScheduleEvent[] = []
-
-      schedules.forEach(schedule => {
-        if (schedule.date === dateString) {
-          result.push(schedule)
-        } else if (
-          schedule.isRecurring &&
-          schedule.date.slice(5) === monthDay
-        ) {
-          const originalYear = parseInt(schedule.date.slice(0, 4))
-          if (year >= originalYear) {
-            result.push(schedule)
-          }
-        }
-      })
-
-      return result
+      return getSchedulesForDate(schedules, year, month, day)
     }
   }, [schedules])
 
@@ -42,7 +24,7 @@ export default function CalendarScheduleClient({ schedules }: Props) {
     <CalendarBase
       {...controls}
       DayComponent={DaySchedule}
-      getSchedulesForDate={getSchedulesForDate}
+      getSchedulesForDate={getSchedulesForDateMemo}
     />
   )
 }
