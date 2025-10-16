@@ -1,10 +1,10 @@
 'use client'
 
-import Signup from '@/components/sign-up/SignUp'
-import { signUpWithEmail } from '@/libs/api/auth'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import Signup from '@/components/sign-up/SignUp'
+import { signUpWithEmail } from '@/libs/api/auth'
 
 // 에러 코드별 메시지
 const ERROR_MESSAGES: Record<string, string> = {
