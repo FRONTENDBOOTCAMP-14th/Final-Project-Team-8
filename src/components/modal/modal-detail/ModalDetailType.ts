@@ -9,6 +9,7 @@ import {
 } from '@/libs/supabase'
 import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { FieldPath } from 'react-hook-form'
+import { AccordionProps } from '../../accordion/accordion'
 
 export type FieldType = 'text' | 'date' | 'time' | 'number'
 
@@ -64,5 +65,9 @@ type Replace<T, R> = Omit<T, keyof R> & R
 
 export type ModalDetailInpuProps = Replace<
   Omit<ModalDetailProps, 'isModify'>,
-  { fields: InputBaseField[]; onClose: () => void }
+  {
+    type: AccordionProps['type']
+    fields: InputBaseField[]
+    onClose: () => void
+  }
 >

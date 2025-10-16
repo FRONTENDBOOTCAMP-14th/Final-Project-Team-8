@@ -1,4 +1,5 @@
 import { Diet } from '@/libs/supabase'
+import { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { removeSecond } from '../timeHandler'
@@ -52,16 +53,19 @@ export function ModalTypeDiet({
 }
 
 export interface ModalTypeDietInputProps {
+  type: AccordionProps['type']
   restProps: Diet
   onClose: () => void
 }
 
 export function ModalTypeDietInput({
+  type,
   onClose,
   restProps: { date, time, snack_type, notes, title },
 }: ModalTypeDietInputProps) {
   return (
     <ModalDetailInput
+      type={type}
       onClose={onClose}
       title={title}
       fields={[

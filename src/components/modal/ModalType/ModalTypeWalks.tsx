@@ -1,4 +1,5 @@
 import { Walks } from '@/libs/supabase'
+import { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { minTohour } from '../timeHandler'
@@ -52,17 +53,20 @@ export default function ModalTypeWalks({
 }
 
 interface ModalTypeWalksInputProps {
+  type: AccordionProps['type']
   onClose: () => void
   restProps: Walks
 }
 
 // Input(Insert)
 export function ModalTypeWalksInput({
+  type,
   onClose,
   restProps: { date, distance, id, start_time, total_time, title },
 }: ModalTypeWalksInputProps) {
   return (
     <ModalDetailInput
+      type={type}
       onClose={onClose}
       title={title}
       fields={[

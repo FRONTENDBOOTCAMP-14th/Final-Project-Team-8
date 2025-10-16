@@ -1,4 +1,5 @@
 import { Antiparasitic } from '@/libs/supabase'
+import { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { ModalTypeProps } from './ModalType'
@@ -40,16 +41,19 @@ export default function ModalTypeAntiparasitic({
 }
 
 export interface ModalTypeAntiparasiticInputProps {
+  type: AccordionProps['type']
   onClose: () => void
   restProps: Antiparasitic
 }
 
 export function ModalTypeAntiparasiticInput({
+  type,
   onClose,
   restProps: { intake_date, next_date, notes, title },
 }: ModalTypeAntiparasiticInputProps) {
   return (
     <ModalDetailInput
+      type={type}
       onClose={onClose}
       title={title}
       fields={[

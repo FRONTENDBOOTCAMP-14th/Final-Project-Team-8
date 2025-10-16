@@ -1,4 +1,5 @@
-import { OtherTreatment } from '../../../libs/supabase'
+import { OtherTreatment } from '@/libs/supabase'
+import { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { ModalTypeProps } from './ModalType'
@@ -41,16 +42,19 @@ export default function ModalTypeOtherTreatment({
 }
 
 interface ModalTypeOtherTreatmentInput {
+  type: AccordionProps['type']
   onClose: () => void
   restProps: OtherTreatment
 }
 
 export function ModalTypeOtherTreatmentInput({
+  type,
   onClose,
   restProps: { date, detail, notes, title },
 }: ModalTypeOtherTreatmentInput) {
   return (
     <ModalDetailInput
+      type={type}
       onClose={onClose}
       title={title}
       fields={[

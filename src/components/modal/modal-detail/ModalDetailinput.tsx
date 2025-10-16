@@ -1,18 +1,17 @@
-import {
-  Antiparasitic,
-  Diet,
-  MedicalTreatment,
-  OtherActivities,
-  OtherTreatment,
-  Vaccines,
-  Walks,
-} from '@/libs/supabase'
+'use client'
+
+import createActivity from '@/libs/api/activity.api'
+import { usePetStore } from '@/store/petStore'
 import { tw } from '@/utils/shared'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import ListLoading from '../../accordion/ListLoading'
 import Button from '../../ui/button/Button'
+import { ModalInputDataType } from '../ModalType/ModalType'
 import { ModalDetailInpuProps } from './ModalDetailType'
 
 export function ModalDetailInput({
+  type,
   title,
   fields,
   sectionTitle = '상세',
@@ -21,20 +20,25 @@ export function ModalDetailInput({
   noteTextareaProps,
   onClose,
 }: ModalDetailInpuProps) {
-  const { register, handleSubmit, formState, getFieldState } = useForm<
-    | Antiparasitic
-    | Diet
-    | MedicalTreatment
-    | OtherTreatment
-    | OtherActivities
-    | Walks
-    | Vaccines
-  >()
+  const { register, handleSubmit, formState, getFieldState } =
+    useForm<ModalInputDataType>()
 
   const { errors, isSubmitting } = formState
 
+  const pet_id = usePetStore(s => s.selectedPetId) as string
+  if (!pet_id) {
+    toast.error('해당 펫은 유효하지 않습니다. 펫을 다시 선택해주세요.')
+  }
+
+  if (isSubmitting) {
+    return <ListLoading />
+  }
   return (
-    <form onSubmit={handleSubmit(data => alert(JSON.stringify(data)))}>
+    <form
+      onSubmit={handleSubmit(setData =>
+        createActivity({ setData, type, pet_id })
+      )}
+    >
       <input
         id="title"
         type="text"
@@ -151,12 +155,7 @@ export function ModalDetailInput({
       </div>
       <div className="flex gap-5">
         <Button onClick={onClose}>취소</Button>
-        <Button
-          onSubmit={handleSubmit(data => alert(JSON.stringify(data)))}
-          type="submit"
-        >
-          저장
-        </Button>
+        <Button type="submit">저장</Button>
       </div>
     </form>
   )

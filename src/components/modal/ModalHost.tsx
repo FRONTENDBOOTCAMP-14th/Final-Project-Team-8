@@ -23,6 +23,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
       case 'antiparasitic':
         return (
           <ModalTypeAntiparasiticInput
+            type={type}
             onClose={onClose}
             restProps={{
               id: '',
@@ -37,6 +38,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
       case 'diet':
         return (
           <ModalTypeDietInput
+            type={type}
             onClose={onClose}
             restProps={{
               date: '',
@@ -52,6 +54,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
       case 'medical treatment':
         return (
           <ModalTypeMedicalTreatmentInput
+            type={type}
             onClose={onClose}
             restProps={{
               category: null,
@@ -67,6 +70,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
       case 'other activities':
         return (
           <ModalTypeOtherActivitesInput
+            type={type}
             onClose={onClose}
             restProps={{
               date: '',
@@ -82,6 +86,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
       case 'other treatments':
         return (
           <ModalTypeOtherTreatmentInput
+            type={type}
             onClose={onClose}
             restProps={{
               date: '',
@@ -96,6 +101,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
       case 'vaccines':
         return (
           <ModalTypeVaccinationInput
+            type={type}
             onClose={onClose}
             restProps={{
               expiry_date: '',
@@ -111,6 +117,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
       case 'walks':
         return (
           <ModalTypeWalksInput
+            type={type}
             onClose={onClose}
             restProps={{
               date: '',

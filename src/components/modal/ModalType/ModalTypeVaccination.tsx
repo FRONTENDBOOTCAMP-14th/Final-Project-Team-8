@@ -1,4 +1,5 @@
 import { Vaccines } from '@/libs/supabase'
+import { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { ModalTypeProps } from './ModalType'
@@ -48,16 +49,19 @@ export default function ModalTypeVaccination({
 }
 
 interface ModalTypeVaccinationInputProps {
+  type: AccordionProps['type']
   onClose: () => void
   restProps: Vaccines
 }
 
 export function ModalTypeVaccinationInput({
+  type,
   onClose,
   restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
 }: ModalTypeVaccinationInputProps) {
   return (
     <ModalDetailInput
+      type={type}
       onClose={onClose}
       key={id}
       title={title}

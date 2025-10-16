@@ -1,4 +1,5 @@
 import { MedicalTreatment } from '@/libs/supabase'
+import { AccordionProps } from '../../accordion/accordion'
 import ModalDetail from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { ModalTypeProps } from './ModalType'
@@ -48,16 +49,19 @@ export default function ModalTypeMedicalTreatment({
 }
 
 export interface ModalTypeMedicalTreatmentInputProps {
+  type: AccordionProps['type']
   onClose: () => void
   restProps: MedicalTreatment
 }
 
 export function ModalTypeMedicalTreatmentInput({
+  type,
   onClose,
   restProps: { category, next_date, notes, visit_date, title },
 }: ModalTypeMedicalTreatmentInputProps) {
   return (
     <ModalDetailInput
+      type={type}
       onClose={onClose}
       title={title}
       fields={[
