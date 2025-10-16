@@ -58,7 +58,7 @@ export default function Sidebar() {
           />
         </svg>
       ),
-      path: '/login',
+      path: '/dashboard',
     },
     {
       name: '캘린더',
@@ -105,7 +105,7 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="flex h-screen max-w-[280px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
+    <aside className="flex max-h-screen max-w-[280px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
       <Link
         href="#"
         className="flex flex-row justify-center border-b-[2px] border-[#636073]"

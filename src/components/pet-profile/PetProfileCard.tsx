@@ -1,18 +1,13 @@
+import type { PetSummary } from '@/store/petStore'
 import { Mars, Venus } from 'lucide-react'
 
 interface PetProfileCardProps {
-  pet: {
-    id: string
-    name: string
-    species: string
-    breed?: string
-    profile_img?: string
-    gender?: string
-    bio?: string
-  }
+  pet: PetSummary
 }
 
 export default function PetProfileCard({ pet }: PetProfileCardProps) {
+  if (!pet) return null
+
   const genderIcon = () => {
     if (pet.gender === '암컷') {
       return <Venus className="text-[#FF6000]"></Venus>
@@ -22,12 +17,12 @@ export default function PetProfileCard({ pet }: PetProfileCardProps) {
   }
 
   return (
-    <div className="flex max-h-[280px] max-w-[720px] flex-row items-center justify-between gap-15 rounded-[18px] bg-[#FF6000] p-10 text-white shadow-lg outline-1 outline-[#F7F7FC]">
-      <div className="flex max-w-[370px] flex-col gap-[20px]">
+    <div className="flex h-full min-w-fit flex-row items-center justify-between gap-15 rounded-[18px] bg-[#FF6000] p-10 text-white shadow-lg outline-1 outline-[#F7F7FC] sm:max-w-[720px]">
+      <div className="flex w-[200px] flex-col gap-[20px] sm:w-[370px]">
         <div className="flex aspect-square w-10 items-center justify-center rounded-full bg-[#FFD8C0]">
           {genderIcon()}
         </div>
-        <div>
+        <div className="whitespace-nowrap">
           <p className="text-2xl font-bold">{pet.name}</p>
           <p>
             {pet.species} | {pet.breed}
@@ -35,9 +30,9 @@ export default function PetProfileCard({ pet }: PetProfileCardProps) {
         </div>
         <p>{pet.bio}</p>
       </div>
-      <div className="shrink-0">
+      <div className="min-w-32">
         <img
-          src={pet.profile_img}
+          src={pet.profileImg || '/assets/img/default-profile.png'}
           alt={pet.name}
           className="aspect-square w-[164px] rounded-full object-cover"
         />
