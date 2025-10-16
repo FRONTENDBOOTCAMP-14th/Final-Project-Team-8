@@ -1,68 +1,101 @@
 'use client'
 
 import { ScheduleEvent } from '@/libs/api/schedules'
+import { useCalendarStore } from '@/store/calendarStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { Plus } from 'lucide-react'
 import { useMemo } from 'react'
 import ScheduleListItem from './ScheduleListItem'
 
 interface Props {
-  currentYear: number
-  currentMonth: number
   onAddSchedule?: () => void
   onScheduleClick?: (schedule: ScheduleEvent) => void
 }
 
 export default function ScheduleList({
-  currentYear,
-  currentMonth,
   onAddSchedule,
   onScheduleClick,
 }: Props) {
-  const { schedules, activeFilters, currentPetId } = useScheduleStore()
+  const { schedules, activeFilters } = useScheduleStore()
+  const { selectedDate } = useCalendarStore()
 
-  // 현재 월 일정만 필터링
-  const monthSchedules = useMemo(() => {
+  // 선택된 날짜의 일정만 필터링
+  const daySchedules = useMemo(() => {
+    if (!selectedDate) return []
+
     // 필터링된 스케줄
     const filteredSchedules = schedules.filter(schedule =>
       activeFilters.includes(schedule.category)
     )
 
-    // 현재 월의 스케줄만 선택
+    const selectedYear = selectedDate.getFullYear()
+    const selectedMonth = selectedDate.getMonth() + 1
+    const selectedDay = selectedDate.getDate()
+
+    const selectedMonthStr = String(selectedMonth).padStart(2, '0')
+    const selectedDayStr = String(selectedDay).padStart(2, '0')
+
+    // 선택된 날짜의 스케줄만 선택
     return filteredSchedules
       .filter(schedule => {
         const scheduleDate = new Date(schedule.date)
         const scheduleYear = scheduleDate.getFullYear()
         const scheduleMonth = scheduleDate.getMonth() + 1
+        const scheduleDay = scheduleDate.getDate()
 
-        // 반복 일정 처리
-        if (schedule.isRecurring) {
-          const [, month] = schedule.date.split('-').map(Number)
-          return month === currentMonth
+        // 정확한 날짜 매칭
+        if (
+          scheduleYear === selectedYear &&
+          scheduleMonth === selectedMonth &&
+          scheduleDay === selectedDay
+        ) {
+          return true
         }
 
-        // 일반 일정
-        return scheduleYear === currentYear && scheduleMonth === currentMonth
+        // 반복 일정 처리(월-일만 비교)
+        if (schedule.isRecurring) {
+          const [, scheduleMonthStr, scheduleDayStr] = schedule.date.split('-')
+
+          if (
+            scheduleMonthStr === selectedMonthStr &&
+            scheduleDayStr === selectedDayStr
+          ) {
+            const originalYear = parseInt(schedule.date.slice(0, 4))
+            if (selectedYear >= originalYear) {
+              return true
+            }
+          }
+        }
+
+        return false
       })
       .sort((a, b) => {
         // 날짜순 정렬
         return new Date(a.date).getTime() - new Date(b.date).getTime()
       })
-  }, [schedules, activeFilters, currentYear, currentMonth, currentPetId])
+  }, [schedules, activeFilters, selectedDate])
+
+  const formattedDate = selectedDate
+    ? selectedDate.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      })
+    : '날짜 미선택'
 
   return (
     <div className="flex flex-col gap-5">
       <h3 className="text-lg font-semibold text-[#3A394F]">
-        {currentYear}년 {currentMonth}월 일정
+        {formattedDate}의 일정
       </h3>
 
-      {monthSchedules.length === 0 ? (
+      {daySchedules.length === 0 ? (
         <div className="flex items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC] py-3">
-          <p className="text-sm text-[#A3A0C0]">이번 달 일정이 없습니다.</p>
+          <p className="text-sm text-[#A3A0C0]">일정이 없습니다.</p>
         </div>
       ) : (
         <ul className="flex flex-col gap-5 overflow-y-auto pr-2">
-          {monthSchedules.map(schedule => (
+          {daySchedules.map(schedule => (
             <ScheduleListItem
               key={schedule.id}
               schedule={schedule}

@@ -1,5 +1,5 @@
 import { useCalendarStore } from '@/store/calendarStore'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 export interface CalendarDay {
   date: number
@@ -41,28 +41,21 @@ export const useCalendar = (props?: Props): CalendarControls => {
   const {
     currentYear,
     currentMonth,
+    selectedDate,
     setCurrentYear: setStoreYear,
     setCurrentMonth: setStoreMonth,
+    setSelectedDate: setStoreSelectedDate,
   } = useCalendarStore()
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    initialSelectedDate
-  )
 
   const selectedDateRef = useRef<HTMLButtonElement>(null)
   const dayButtonRefs = useRef(new Map<string, HTMLButtonElement>())
 
   useEffect(() => {
     if (!initialSelectedDate && !selectedDate) {
-      setSelectedDate(new Date())
+      setStoreSelectedDate(new Date())
     }
+  }, [initialSelectedDate, selectedDate, setStoreSelectedDate])
 
-    if (selectedDateRef.current) {
-      selectedDateRef.current.focus()
-    }
-  }, [initialSelectedDate, selectedDate])
-
-  // Zustand 스토어 업데이트 함수를 React setState 형식으로 래핑
   const setCurrentYear = useCallback(
     (value: React.SetStateAction<number>) => {
       if (typeof value === 'function') {
@@ -76,11 +69,19 @@ export const useCalendar = (props?: Props): CalendarControls => {
 
   const setCurrentMonth = useCallback(
     (value: React.SetStateAction<number>) => {
+      let newMonth: number
+
       if (typeof value === 'function') {
-        setStoreMonth(value(currentMonth))
+        newMonth = value(currentMonth)
       } else {
-        setStoreMonth(value)
+        newMonth = value
       }
+
+      setStoreMonth(newMonth)
+
+      // 월을 변경하면 선택된 날짜를 해당 달 1일로 자동 설정
+      const newSelectedDate = new Date(currentYear, newMonth - 1, 1)
+      setStoreSelectedDate(newSelectedDate)
     },
     [currentMonth, setStoreMonth]
   )
@@ -172,7 +173,7 @@ export const useCalendar = (props?: Props): CalendarControls => {
   const handleDayClick = (date: number) => {
     const newSelectedDate = new Date(currentYear, currentMonth - 1, date)
 
-    setSelectedDate(newSelectedDate)
+    setStoreSelectedDate(newSelectedDate)
 
     if (onDayClick) {
       onDayClick(newSelectedDate)

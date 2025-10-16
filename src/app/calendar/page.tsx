@@ -9,7 +9,6 @@ import {
 } from '@/components'
 import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
 import { ScheduleEvent } from '@/libs/api/schedules'
-import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { AlertCircle, Funnel } from 'lucide-react'
@@ -18,7 +17,6 @@ import { useMemo, useState } from 'react'
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
   const { activeFilters, setActiveFilters } = useScheduleStore()
-  const { currentYear, currentMonth } = useCalendarStore()
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
   // 일정 추가 핸들러
@@ -108,8 +106,6 @@ export default function CalendarPage() {
       <section className="w-90 rounded-r-xl bg-[#F7F7FC] p-7.5">
         {selectedPetId ? (
           <Schedules
-            currentYear={currentYear}
-            currentMonth={currentMonth}
             onAddSchedule={handleAddSchedule}
             onScheduleClick={handleScheduleClick}
           />
