@@ -1,7 +1,7 @@
+import useToggleState from '@/hooks/useToggleState'
 import type { Walks } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
 import { useId, useState } from 'react'
-import useToggleState from '../../../hooks/useToggleState'
 import Modal from '../../modal/Modal'
 import ModalTypeWalks from '../../modal/ModalType/ModalTypeWalks'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
