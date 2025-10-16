@@ -1,13 +1,18 @@
 'use client'
 
-import { Button, CalendarSchedule, FilterModal, Sidebar } from '@/components'
+import {
+  Button,
+  CalendarSchedule,
+  FilterModal,
+  Schedules,
+  Sidebar,
+} from '@/components'
 import { ScheduleEvent } from '@/libs/api/schedules'
 import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { AlertCircle, Funnel } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import ScheduleList from '../../components/calendar/scheduleList'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
@@ -89,7 +94,7 @@ export default function CalendarPage() {
 
       <section className="w-90 rounded-r-xl bg-[#F7F7FC] p-7.5">
         {selectedPetId ? (
-          <ScheduleList
+          <Schedules
             currentYear={currentYear}
             currentMonth={currentMonth}
             onAddSchedule={handleAddSchedule}

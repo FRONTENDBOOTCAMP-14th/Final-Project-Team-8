@@ -57,7 +57,7 @@ export default function ScheduleList({
       </h3>
 
       {monthSchedules.length === 0 ? (
-        <div className="flex h-40 items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC]">
+        <div className="flex items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC] py-3">
           <p className="text-sm text-[#A3A0C0]">이번 달 일정이 없습니다.</p>
         </div>
       ) : (
@@ -79,7 +79,7 @@ export default function ScheduleList({
         className="flex w-full justify-center rounded-2xl border border-[#DAD9E6] bg-white p-4 transition-colors hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]"
         aria-label="일정 추가"
       >
-        <Plus className="h-6 w-6" />
+        <Plus className="h-6 w-6 text-[#80809A]" />
       </button>
     </div>
   )
