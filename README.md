@@ -24,12 +24,12 @@
 
 ## 📋 팀 요약 (한눈에 보기)
 
-|                                          ![김동규](/src/docs/images/profile-example.jpg)                                           |                                            ![장효정](/src/docs/images/profile-example.jpg)                                            |                                            ![정지은](/src/docs/images/profile-example.jpg)                                            |                                            ![우혜리](/src/docs/images/profile-example.jpg)                                            |
-| :--------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------: |
-|                                                             **김동규**                                                             |                                                              **장효정**                                                               |                                                              **정지은**                                                               |                                                              **우혜리**                                                               |
-|                                                          Frontend / 조장                                                           |                                                               Frontend                                                                |                                                               Frontend                                                                |                                                               Frontend                                                                |
-| <img src="/src/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/cit1566) | <img src="/src/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/{{github}}) | <img src="/src/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/{{github}}) | <img src="/src/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/{{github}}) |
-|                                                         cit1566@gmail.com                                                          |                                                          {{email@email.com}}                                                          |                                                          {{email@email.com}}                                                          |                                                          {{email@email.com}}                                                          |
+|                                         ![김동규](/docs/images/profile-example.jpg)                                         |                                          ![장효정](/docs/images/profile-example.jpg)                                           |                                          ![정지은](/docs/images/profile-example.jpg)                                           |                                          ![우혜리](/docs/images/profile-example.jpg)                                           |
+| :-------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------: |
+|                                                         **김동규**                                                          |                                                           **장효정**                                                           |                                                           **정지은**                                                           |                                                           **우혜리**                                                           |
+|                                                       Frontend / 조장                                                       |                                                            Frontend                                                            |                                                            Frontend                                                            |                                                            Frontend                                                            |
+| <img ="/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/cit1566) | <img ="/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/{{github}}) | <img ="/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/{{github}}) | <img ="/docs/images/git-icon.png" alt="git-icon" style="width:20px; margin-right:5px;">[GitHub](https://github.com/{{github}}) |
+|                                                      cit1566@gmail.com                                                      |                                                      {{email@email.com}}                                                       |                                                      {{email@email.com}}                                                       |                                                      {{email@email.com}}                                                       |
 
 ## 1️⃣ 프로젝트 개요
 
@@ -69,12 +69,13 @@
 
 ## 3️⃣ 기술 스택
 
-| 구분           | 기술/도구                                                                                                                                                                                                                                                                                      | 설명                                              |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| **Frontend**   | ![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js) ![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-skyblue?style=for-the-badge&logo=tailwind-css) | SSR/SSG 지원, 타입 안정성, 유틸리티 기반 스타일링 |
-| **Backend**    | ![Next.js API Routes](https://img.shields.io/badge/Next.js_API_Routes-black?style=for-the-badge&logo=next.js) ![Supabase](https://img.shields.io/badge/Supabase-blue?style=for-the-badge&logo=supabase)                                                                                        | 서버리스 API, 인증/실시간 DB 지원                 |
-| **Database**   | ![Supabase](https://img.shields.io/badge/Supabase-blue?style=for-the-badge&logo=supabase) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?style=for-the-badge&logo=postgresql)                                                                                                      | 관계형 DB, SQL 기반, 실시간 구독 가능             |
-| **Deployment** | ![Vercel](https://img.shields.io/badge/Vercel-black?style=for-the-badge&logo=vercel)                                                                                                                                                                                                           | Next.js 최적화 호스팅, 서버리스 함수, CI/CD 지원  |
+| 구분                                             | 기술/도구                                                                                                                                                                                                                                                                                      | 설명                                              |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| **Frontend**                                     | ![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js) ![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-skyblue?style=for-the-badge&logo=tailwind-css) | SSR/SSG 지원, 타입 안정성, 유틸리티 기반 스타일링 |
+| **Backend**                                      | ![Next.js API Routes](https://img.shields.io/badge/Next.js_API_Routes-black?style=for-the-badge&logo=next.js) ![Supabase](https://img.shields.io/badge/Supabase-blue?style=for-the-badge&logo=supabase)                                                                                        | 서버리스 API, 인증/실시간 DB 지원                 |
+| **Database**                                     | ![Supabase](https://img.shields.io/badge/Supabase-blue?style=for-the-badge&logo=supabase) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-blue?style=for-the-badge&logo=postgresql)                                                                                                      | 관계형 DB, SQL 기반, 실시간 구독 가능             |
+| **Deployment**                                   | ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)                                                                                                                                                                                       |
+| Next.js 최적화 호스팅, 서버리스 함수, CI/CD 지원 |
 
 - **Frontend:** Next.js, TypeScript, TailwindCSS
 - **Backend:** Next.js API Routes, Supabase
@@ -88,7 +89,7 @@
 ### 📂 파일 & 폴더 구조
 
 ```bash
-/src
+
 /app # Next.js 13 이상 App Router 구조
 /components # 공통 UI 컴포넌트
 /utils # 기능 단위 모듈 (예: health, life, schedule 등)
@@ -170,13 +171,13 @@
 
 ### 페이지 플로우(Diagram)
 
-![페이지 플로우](src/docs/images/page-flow.png)
+![페이지 플로우](/docs/images/page-flow.png)
 
 - 서비스 전반적인 **페이지 흐름** 시각화
 
 ### 페이지 플로우(시각화)
 
-![페이지 플로우 세부](src/docs/images/page-flow-page.png)
+![페이지 플로우 세부](/docs/images/page-flow-page.png)
 
 - 각 페이지별 **세부 구조** 정리
 
