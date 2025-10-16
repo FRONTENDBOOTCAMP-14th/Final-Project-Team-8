@@ -17,7 +17,7 @@ export default function PetProfileCard({ pet }: PetProfileCardProps) {
   }
 
   return (
-    <div className="flex h-[280px] w-[50px] min-w-fit flex-row items-center justify-between gap-15 rounded-[18px] bg-[#FF6000] p-10 text-white shadow-lg outline-1 outline-[#F7F7FC] sm:max-w-[720px]">
+    <div className="flex h-full min-w-fit flex-row items-center justify-between gap-15 rounded-[18px] bg-[#FF6000] p-10 text-white shadow-lg outline-1 outline-[#F7F7FC] sm:max-w-[720px]">
       <div className="flex w-[200px] flex-col gap-[20px] sm:w-[370px]">
         <div className="flex aspect-square w-10 items-center justify-center rounded-full bg-[#FFD8C0]">
           {genderIcon()}
