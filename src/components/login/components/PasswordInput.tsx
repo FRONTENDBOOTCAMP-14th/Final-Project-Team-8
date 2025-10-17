@@ -1,4 +1,5 @@
-import { useId, type ComponentProps } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
+import { useId, useState, type ComponentProps } from 'react'
 
 interface PasswordInputProps {
   value: string
@@ -12,24 +13,39 @@ export default function PasswordInput({
   inputProps,
 }: PasswordInputProps) {
   const id = useId()
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <div role="group" className="flex flex-col">
       <label htmlFor={id} className="sr-only">
         비밀번호
       </label>
-      <input
-        id={id}
-        type="password"
-        placeholder="비밀번호"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        autoComplete="current-password"
-        className={
-          'rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
-        }
-        {...inputProps}
-      />
+      <div className="relative w-full">
+        <input
+          id={id}
+          type={showPassword ? 'text' : 'password'}
+          placeholder="비밀번호"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          autoComplete="current-password"
+          className={
+            'w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+          }
+          {...inputProps}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
+        >
+          {showPassword ? (
+            <EyeOff className="h-5 w-5" />
+          ) : (
+            <Eye className="h-5 w-5" />
+          )}
+        </button>
+      </div>
     </div>
   )
 }
