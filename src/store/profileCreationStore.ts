@@ -39,7 +39,7 @@ export const useProfileCreationStore = create<ProfileCreationStore>()(
     set => ({
       // State
       draftPet: initialDraftPet,
-      currentStep: 3,
+      currentStep: 1,
 
       // Actions
       setCurrentStep: (step: number) => set({ currentStep: step }),
@@ -56,7 +56,7 @@ export const useProfileCreationStore = create<ProfileCreationStore>()(
 
       previousStep: () =>
         set(state => ({
-          currentStep: Math.min(state.currentStep - 1, 3),
+          currentStep: Math.max(state.currentStep - 1, 1),
         })),
 
       resetDraftPet: () =>
@@ -65,6 +65,6 @@ export const useProfileCreationStore = create<ProfileCreationStore>()(
           currentStep: 3,
         }),
     }),
-    { name: 'profile-creation-store' }
+    { name: 'profile-creation-storage', version: 1 }
   )
 )
