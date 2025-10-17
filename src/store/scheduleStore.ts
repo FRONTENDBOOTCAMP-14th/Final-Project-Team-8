@@ -1,9 +1,9 @@
+import { create } from 'zustand'
 import type {
   ScheduleCategory,
   ScheduleEvent,
 } from '@/components/calendar/types'
 import { getScheduleData } from '@/libs/api/schedules'
-import { create } from 'zustand'
 
 interface ScheduleStore {
   // State

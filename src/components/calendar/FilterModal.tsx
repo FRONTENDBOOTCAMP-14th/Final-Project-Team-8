@@ -171,7 +171,7 @@ export default function FilterModal({
       <ul className="space-y-3">
         {FILTER_OPTIONS.map(option => {
           const isChecked = selectedFilters.includes(option.value)
-          const bgColor = 'bg-' + option.color
+          const bgColor = `bg-${option.color}`
 
           return (
             <li

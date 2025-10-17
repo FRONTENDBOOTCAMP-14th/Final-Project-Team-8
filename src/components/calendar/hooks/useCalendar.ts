@@ -1,5 +1,5 @@
-import { useCalendarStore } from '@/store/calendarStore'
 import { useCallback, useEffect, useRef } from 'react'
+import { useCalendarStore } from '@/store/calendarStore'
 import { useCalendarGrid } from './useCalendarGrid'
 
 export interface CalendarDay {
@@ -36,7 +36,7 @@ interface Props {
 }
 
 export const useCalendar = (props?: Props): CalendarControls => {
-  const { onDayClick, initialSelectedDate = null } = props || {}
+  const { onDayClick, initialSelectedDate = null } = props ?? {}
 
   const {
     currentYear,

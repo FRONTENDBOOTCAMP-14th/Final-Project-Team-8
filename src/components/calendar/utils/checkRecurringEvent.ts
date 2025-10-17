@@ -1,4 +1,4 @@
-import { ScheduleEvent } from '../types'
+import type { ScheduleEvent } from '../types'
 
 interface RecurringEventMatch {
   isRecurring: boolean

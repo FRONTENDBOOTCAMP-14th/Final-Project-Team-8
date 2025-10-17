@@ -1,8 +1,8 @@
+import type { LucideIcon } from 'lucide-react'
 import {
   Cake,
   Footprints,
   Home,
-  LucideIcon,
   Pill,
   Stethoscope,
   Syringe,

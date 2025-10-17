@@ -1,4 +1,4 @@
-import { ScheduleEvent } from '../types'
+import type { ScheduleEvent } from '../types'
 
 /**
  * @param schedule - 스케줄 객체

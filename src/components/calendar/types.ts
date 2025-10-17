@@ -6,7 +6,7 @@ export type ScheduleCategory =
   | 'medical'
   | 'walk'
 
-export type ScheduleEvent = {
+export interface ScheduleEvent {
   id: string
   date: string
   title: string

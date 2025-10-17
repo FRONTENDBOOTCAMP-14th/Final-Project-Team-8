@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { ScheduleCategory, ScheduleEvent } from '../types'
+import type { ScheduleCategory, ScheduleEvent } from '../types'
 import { getSchedulesForDate } from '../utils/getSchedulesForDate'
 
 /**
