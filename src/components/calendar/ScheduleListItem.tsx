@@ -41,7 +41,7 @@ export default function ScheduleListItem({ schedule, onClick }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full flex-col gap-2 rounded-2xl border border-[#DAD9E6] bg-white p-4 text-left transition-colors hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]"
+      className="flex w-full flex-col gap-2 rounded-2xl border border-[#DAD9E6] bg-white p-4 text-left hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]"
     >
       <span className="overflow-hidden text-ellipsis text-[#80809A]">
         {formattedDate}

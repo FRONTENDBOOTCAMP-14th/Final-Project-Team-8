@@ -41,13 +41,14 @@ export default function ScheduleList({
           <p className="text-sm text-[#A3A0C0]">일정이 없습니다.</p>
         </div>
       ) : (
-        <ul className="flex flex-col gap-5 overflow-y-auto pr-2">
+        <ul className="flex flex-col gap-5 pr-2">
           {daySchedules.map(schedule => (
-            <ScheduleListItem
-              key={schedule.id}
-              schedule={schedule}
-              onClick={() => onScheduleClick?.(schedule)}
-            />
+            <li key={schedule.id}>
+              <ScheduleListItem
+                schedule={schedule}
+                onClick={() => onScheduleClick?.(schedule)}
+              />
+            </li>
           ))}
         </ul>
       )}

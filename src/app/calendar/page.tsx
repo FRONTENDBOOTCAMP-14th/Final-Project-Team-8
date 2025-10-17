@@ -97,7 +97,7 @@ export default function CalendarPage() {
           )}
         </div>
 
-        <section className="w-90 rounded-r-xl bg-[#F7F7FC] p-7.5">
+        <section className="w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-7.5">
           {selectedPetId ? (
             <Schedules
               onAddSchedule={handleAddSchedule}
