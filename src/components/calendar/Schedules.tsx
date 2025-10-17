@@ -3,6 +3,7 @@
 import { Plus } from 'lucide-react'
 import { useCalendarStore } from '@/store/calendarStore'
 import { useScheduleStore } from '@/store/scheduleStore'
+import { DAYS_OF_WEEK } from './CalendarBase'
 import { useScheduleFilter } from './hooks/useScheduleFilter'
 import ScheduleListItem from './ScheduleListItem'
 import type { ScheduleEvent } from './types'
@@ -12,10 +13,7 @@ interface Props {
   onScheduleClick?: (schedule: ScheduleEvent) => void
 }
 
-export default function ScheduleList({
-  onAddSchedule,
-  onScheduleClick,
-}: Props) {
+export default function Schedules({ onAddSchedule, onScheduleClick }: Props) {
   const { schedules, activeFilters } = useScheduleStore()
   const { selectedDate } = useCalendarStore()
 
@@ -23,18 +21,12 @@ export default function ScheduleList({
   const daySchedules = useScheduleFilter(schedules, activeFilters, selectedDate)
 
   const formattedDate = selectedDate
-    ? selectedDate.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      })
+    ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일 ${DAYS_OF_WEEK[selectedDate.getDay()]}요일 일정`
     : '날짜 미선택'
 
   return (
     <div className="flex flex-col gap-5">
-      <h3 className="text-lg font-semibold text-[#3A394F]">
-        {formattedDate}의 일정
-      </h3>
+      <h3 className="text-lg font-semibold text-[#3A394F]">{formattedDate}</h3>
 
       {daySchedules.length === 0 ? (
         <div className="flex items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC] py-3">

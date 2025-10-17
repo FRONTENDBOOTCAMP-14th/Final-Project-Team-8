@@ -56,6 +56,14 @@ export const useCalendar = (props?: Props): CalendarControls => {
     }
   }, [initialSelectedDate, selectedDate, setStoreSelectedDate])
 
+  useEffect(() => {
+    if (selectedDate) {
+      setTimeout(() => {
+        selectedDateRef.current?.focus()
+      }, 0)
+    }
+  }, [selectedDate])
+
   const setCurrentYear = useCallback(
     (value: React.SetStateAction<number>) => {
       if (typeof value === 'function') {
@@ -79,11 +87,23 @@ export const useCalendar = (props?: Props): CalendarControls => {
 
       setStoreMonth(newMonth)
 
-      // 월을 변경하면 선택된 날짜를 해당 달 1일로 자동 설정
-      const newSelectedDate = new Date(currentYear, newMonth - 1, 1)
+      // 오늘 날짜 확인
+      const today = new Date()
+      const todayYear = today.getFullYear()
+      const todayMonth = today.getMonth() + 1
+      const todayDate = today.getDate()
+
+      // 이동한 월이 오늘이 포함된 월이면 선택된 날짜를 오늘로 설정
+      // 아니면 선택된 날짜를 해당 월 1일로 자동 설정
+      const isCurrentMonthToday =
+        currentYear === todayYear && newMonth === todayMonth
+      const newSelectedDate = isCurrentMonthToday
+        ? new Date(currentYear, newMonth - 1, todayDate)
+        : new Date(currentYear, newMonth - 1, 1)
+
       setStoreSelectedDate(newSelectedDate)
     },
-    [currentMonth, setStoreMonth, setStoreSelectedDate]
+    [currentYear, currentMonth, setStoreMonth, setStoreSelectedDate]
   )
 
   const setDayButtonRef = useCallback(

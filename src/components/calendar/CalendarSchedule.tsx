@@ -19,7 +19,6 @@ export default function CalendarSchedule({ petId }: Props) {
     error,
     fetchSchedules,
     clearSchedules,
-    currentPetId,
   } = useScheduleStore()
 
   // 필터링된 스케줄
