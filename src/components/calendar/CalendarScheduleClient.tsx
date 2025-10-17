@@ -1,7 +1,7 @@
 'use client'
 
-import { type ScheduleEvent } from '@/libs/api/schedules'
 import { useMemo } from 'react'
+import type { ScheduleEvent } from '@/libs/api/schedules'
 import CalendarBase from './CalendarBase'
 import DaySchedule from './DaySchedule'
 import { useCalendar } from './useCalendar'

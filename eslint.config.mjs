@@ -1,3 +1,4 @@
+import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
 import tseslint from '@typescript-eslint/eslint-plugin'
 import tsparser from '@typescript-eslint/parser'
@@ -9,8 +10,6 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 
 // eslint.config.js
-import { FlatCompat } from '@eslint/eslintrc'
-import pluginQuery from '@tanstack/eslint-plugin-query' // 플러그인 설치는 필요
 
 const compat = new FlatCompat()
 
@@ -21,7 +20,7 @@ export default [
   // 필요하면 플러그인 네임스페이스도 등록
   // (일부 세팅에서는 없어도 동작하지만 명시해두면 좋음)
   {
-    plugins: { '@tanstack/query': pluginQuery },
+    // plugins: { '@tanstack/query': pluginQuery },
   },
   // 기본 JavaScript 권장 설정
   js.configs.recommended,
@@ -116,7 +115,7 @@ export default [
             'index', // 인덱스 파일 (./index)
           ],
           // 각 그룹 사이에 빈 줄 추가
-          'newlines-between': 'off',
+          'newlines-between': 'never',
           // 알파벳 순서로 정렬
           alphabetize: {
             order: 'asc', // 오름차순 정렬 (a → z)

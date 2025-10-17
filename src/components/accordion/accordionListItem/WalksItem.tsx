@@ -1,10 +1,13 @@
-import type { Walks } from '@/libs/supabase'
 import { useId, useState } from 'react'
-import { toISODate } from '../accordionFun'
+import useToggleState from '@/hooks/useToggleState'
+import type { Walks } from '@/libs/supabase'
+import { toISODate } from '@/utils/client/toISODate'
+import Modal from '../../modal/Modal'
+import ModalTypeWalks from '../../modal/ModalType/ModalTypeWalks'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 // Walk 리스트 아이템 (거리/시간 표시)
-export function WalksItem({
+export default function WalksItem({
   date,
   distance,
   id,
@@ -23,6 +26,9 @@ export function WalksItem({
     setMouseState(false)
   }
 
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -37,8 +43,9 @@ export function WalksItem({
           className="order-1 grow text-base font-bold text-gray-800"
         >
           <button
+            onClick={on}
             type="button"
-            className="line-clamp-1 flex grow origin-left cursor-pointer gap-2 transition hover:translate-y-[-3px] active:scale-[0.95]"
+            className="line-clamp-1 flex w-full grow origin-left cursor-pointer gap-2 transition hover:translate-y-[-3px] active:scale-[0.95]"
           >
             <img
               aria-hidden="true"
@@ -66,6 +73,27 @@ export function WalksItem({
           <span className="font-bold text-gray-800">{total_time}</span> min
         </span>
       </div>
+
+      <Modal
+        open={isOpen}
+        onClose={off}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeWalks
+          isModify={isModify}
+          restProps={{
+            date,
+            distance,
+            id,
+            pet_id,
+            start_time,
+            title,
+            total_time,
+          }}
+        />
+      </Modal>
+
       {mouseState && <ItemEditButtonCompo title={title} />}
     </li>
   )

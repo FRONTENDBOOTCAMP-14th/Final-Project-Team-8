@@ -1,5 +1,5 @@
-import type { PetSummary } from '@/store/petStore'
 import { Mars, Venus } from 'lucide-react'
+import type { PetSummary } from '@/store/petStore'
 
 interface PetProfileCardProps {
   pet: PetSummary
@@ -32,7 +32,7 @@ export default function PetProfileCard({ pet }: PetProfileCardProps) {
       </div>
       <div className="min-w-32">
         <img
-          src={pet.profileImg || '/assets/img/default-profile.png'}
+          src={pet.profileImg ?? '/assets/img/default-profile.png'}
           alt={pet.name}
           className="aspect-square w-[164px] rounded-full object-cover"
         />

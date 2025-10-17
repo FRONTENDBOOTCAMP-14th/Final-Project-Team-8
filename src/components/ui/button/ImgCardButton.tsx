@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 /**
  * ImgCardButton에서 사용할 버튼 종류
  * - 'species': 동물 종 선택 버튼

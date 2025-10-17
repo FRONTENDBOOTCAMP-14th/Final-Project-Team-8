@@ -1,37 +1,97 @@
-import ModalDetail from '../ModalDetail'
+import type { MedicalTreatment } from '@/libs/supabase'
+import type { AccordionProps } from '../../accordion/accordion'
+import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import type { ModalTypeProps } from './ModalType'
 
-type Props = { isModify: boolean }
+interface ModalTypeMedicalTreatmentProps extends ModalTypeProps {
+  restProps: MedicalTreatment
+}
 
-export default function ModalTypeMedicalTreatment({ isModify }: Props) {
+export default function ModalTypeMedicalTreatment({
+  isModify,
+  restProps: { category, id, next_date, notes, visit_date, title },
+}: ModalTypeMedicalTreatmentProps) {
   return (
     <ModalDetail
+      key={id}
+      title={title}
       isModify={isModify}
       fields={[
         {
-          key: 'item',
+          key: 'category',
           label: '항목',
           type: 'text',
-          tableValue: '피 검사',
-          defaultValue: '피 검사',
+          tableValue: category,
+          defaultValue: category ?? '',
           inputProps: { placeholder: '항목을 입력해주세요' },
         },
         {
-          key: 'visitedAt',
+          key: 'visit_date',
           label: '방문 날짜',
           type: 'date',
-          tableValue: '2018-05-23',
-          defaultValue: '2018-05-23',
+          tableValue: visit_date,
+          defaultValue: visit_date,
         },
         {
-          key: 'nextVisitAt',
+          key: 'next_date',
           label: '다음 진료',
           type: 'date',
-          tableValue: '2018-05-23',
-          defaultValue: '2018-05-23',
+          tableValue: next_date,
+          defaultValue: next_date,
         },
       ]}
       noteLabel="특이 사항"
-      defaultNote="특이 사항 없음"
+      defaultNote={notes ?? '-'}
+      noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+    />
+  )
+}
+
+export interface ModalTypeMedicalTreatmentInputProps {
+  type: AccordionProps['type']
+  onClose: () => void
+  restProps: MedicalTreatment
+}
+
+export function ModalTypeMedicalTreatmentInput({
+  type,
+  onClose,
+  restProps: { category, next_date, notes, visit_date, title },
+}: ModalTypeMedicalTreatmentInputProps) {
+  return (
+    <ModalDetailInput
+      type={type}
+      onClose={onClose}
+      title={title}
+      fields={[
+        {
+          key: 'category',
+          label: '항목',
+          type: 'text',
+          // tableValue: category,
+          defaultValue: category ?? '',
+          inputProps: { placeholder: '항목을 입력해주세요' },
+          requiredSet: '항목을 입력해주세요.',
+        },
+        {
+          key: 'visit_date',
+          label: '방문 날짜',
+          type: 'date',
+          // tableValue: visit_date,
+          defaultValue: visit_date,
+          requiredSet: '방문 날짜를 입력해주세요.',
+        },
+        {
+          key: 'next_date',
+          label: '다음 진료',
+          type: 'date',
+          // tableValue: next_date,
+          defaultValue: next_date,
+        },
+      ]}
+      noteLabel="특이 사항"
+      defaultNote={notes ?? '-'}
       noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
     />
   )

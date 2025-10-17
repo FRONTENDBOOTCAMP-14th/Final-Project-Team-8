@@ -1,7 +1,7 @@
 import { createClient } from '../supabase/client'
 
 // 스케줄 데이터 타입 정의
-export type ScheduleEvent = {
+export interface ScheduleEvent {
   id: string
   date: string
   title: string
@@ -27,7 +27,7 @@ export async function getScheduleData(
     const { data: pets } = await supabase
       .from('pets')
       .select('id, name, birthdate, adoption_date')
-      .eq(petId ? 'id' : '1', petId || '1')
+      .eq(petId ? 'id' : '1', petId ?? '1')
 
     if (pets) {
       pets.forEach(pet => {
@@ -59,7 +59,7 @@ export async function getScheduleData(
     const { data: vaccines } = await supabase
       .from('vaccines')
       .select('id, vaccinated_date, title')
-      .eq(petId ? 'pet_id' : '1', petId || '1')
+      .eq(petId ? 'pet_id' : '1', petId ?? '1')
 
     if (vaccines) {
       schedules.push(
@@ -76,7 +76,7 @@ export async function getScheduleData(
     const { data: antiparasitics } = await supabase
       .from('antiparasitic')
       .select('id, intake_date, next_date, title')
-      .eq(petId ? 'pet_id' : '1', petId || '1')
+      .eq(petId ? 'pet_id' : '1', petId ?? '1')
 
     if (antiparasitics) {
       antiparasitics.forEach(a => {
@@ -101,7 +101,7 @@ export async function getScheduleData(
     const { data: medicalTreatments } = await supabase
       .from('medical treatment')
       .select('id, visit_date, next_date, title, category')
-      .eq(petId ? 'pet_id' : '1', petId || '1')
+      .eq(petId ? 'pet_id' : '1', petId ?? '1')
 
     if (medicalTreatments) {
       medicalTreatments.forEach(m => {
@@ -127,7 +127,7 @@ export async function getScheduleData(
     const { data: walks } = await supabase
       .from('walks')
       .select('id, date, title')
-      .eq(petId ? 'pet_id' : '1', petId || '1')
+      .eq(petId ? 'pet_id' : '1', petId ?? '1')
 
     if (walks) {
       schedules.push(

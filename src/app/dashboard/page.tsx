@@ -1,9 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { Button } from '@/components'
 import PetProfileCardCarousel from '@/components/pet-profile/petProfileCardCarousel'
 import { usePetStore } from '@/store/petStore'
-import Link from 'next/link'
 
 export default function DashboardPage() {
   const { petList } = usePetStore()

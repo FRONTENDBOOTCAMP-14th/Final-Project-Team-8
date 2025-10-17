@@ -7,48 +7,49 @@ import type {
   OtherTreatment,
   Vaccines,
   Walks,
-} from '../../libs/supabase'
+} from '@/libs/supabase'
+import {
+  AntiparasiticTreatmentItem,
+  DietItem,
+  MedicalTreatmentItem,
+  OtherActivitiesItem,
+  OtherTreatmentItem,
+  VaccinesTreatmentItem,
+  WalksItem,
+} from './accordionListItem'
 
 // 📦 관련 리스트 아이템 컴포넌트 import
-
-import { AntiparasiticTreatmentItem } from './accordionListItem/AntiparasiticTreatmentItem'
-import { DietItem } from './accordionListItem/DietItem'
-import { MedicalTreatmentItem } from './accordionListItem/MedicalTreatmentItem'
-import { OtherActivitiesItem } from './accordionListItem/OtherActivitiesItem'
-import { OtherTreatmentItem } from './accordionListItem/OtherTreatmentItem'
-import { VaccinesTreatmentItem } from './accordionListItem/VaccinesTreatmentItem'
-import { WalksItem } from './accordionListItem/WalksItem'
 
 /* -------------------------------------------------------------------------- */
 /*                                   타입 정의                                 */
 /* -------------------------------------------------------------------------- */
 
 // 각 카테고리별 리스트 데이터 타입 정의
-type MedicalTreatmentProps = {
+interface MedicalTreatmentProps {
   dataList: MedicalTreatment[] | null
 }
 
-type AntiparasiticProps = {
+interface AntiparasiticProps {
   dataList: Antiparasitic[] | null
 }
 
-type DietProps = {
+interface DietProps {
   dataList: Diet[] | null
 }
 
-type OtherActivitiesProps = {
+interface OtherActivitiesProps {
   dataList: OtherActivities[] | null
 }
 
-type OtherTreatMentsProps = {
+interface OtherTreatMentsProps {
   dataList: OtherTreatment[] | null
 }
 
-type VaccinesProps = {
+interface VaccinesProps {
   dataList: Vaccines[] | null
 }
 
-type WalksProps = {
+interface WalksProps {
   dataList: Walks[] | null
 }
 
@@ -124,7 +125,7 @@ export function DietCompo({ dataList }: DietProps) {
 
   return (
     <div>
-      {dataList.map(({ date, id, pet_id, time, title }) => (
+      {dataList.map(({ date, id, pet_id, time, title, snack_type, notes }) => (
         <DietItem
           date={date}
           id={id}
@@ -132,6 +133,8 @@ export function DietCompo({ dataList }: DietProps) {
           time={time}
           title={title}
           key={id}
+          snack_type={snack_type}
+          notes={notes}
         />
       ))}
     </div>
@@ -151,17 +154,20 @@ export function OtherActivitiesCompo({ dataList }: OtherActivitiesProps) {
 
   return (
     <div>
-      {dataList.map(({ date, id, notes, pet_id, time, title }) => (
-        <OtherActivitiesItem
-          date={date}
-          id={id}
-          notes={notes}
-          pet_id={pet_id}
-          time={time}
-          title={title}
-          key={id}
-        />
-      ))}
+      {dataList.map(
+        ({ date, id, notes, pet_id, start_time, duration_time, title }) => (
+          <OtherActivitiesItem
+            date={date}
+            id={id}
+            notes={notes}
+            pet_id={pet_id}
+            start_time={start_time}
+            duration_time={duration_time}
+            title={title}
+            key={id}
+          />
+        )
+      )}
     </div>
   )
 }

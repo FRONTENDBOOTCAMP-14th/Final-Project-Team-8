@@ -1,7 +1,7 @@
-import { Sidebar } from '@/components'
 import '@/styles/main.css'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
+import { Sidebar } from '../../components'
 
 export const metadata: Metadata = {
   title: 'PAW BUDDY',

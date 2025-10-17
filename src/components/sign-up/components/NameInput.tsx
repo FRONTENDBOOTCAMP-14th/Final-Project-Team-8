@@ -1,4 +1,5 @@
-import { ComponentProps, useId } from 'react'
+import type { ComponentProps } from 'react'
+import { useId } from 'react'
 
 interface NameInputProps {
   value: string

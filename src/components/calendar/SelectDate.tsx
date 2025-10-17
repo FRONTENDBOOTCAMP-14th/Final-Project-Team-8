@@ -1,5 +1,5 @@
-import Button from '@/components/ui/button/Button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Button from '@/components/ui/button/Button'
 
 interface Props {
   currentYear: number

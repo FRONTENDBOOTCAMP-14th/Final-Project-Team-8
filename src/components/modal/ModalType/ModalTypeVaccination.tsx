@@ -1,37 +1,99 @@
-import ModalDetail from '../ModalDetail'
+import type { Vaccines } from '@/libs/supabase'
+import type { AccordionProps } from '../../accordion/accordion'
+import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import type { ModalTypeProps } from './ModalType'
 
-type Props = { isModify: boolean }
+interface ModalTypeVaccinationProps extends ModalTypeProps {
+  restProps: Vaccines
+}
 
-export default function ModalTypeVaccination({ isModify }: Props) {
+export default function ModalTypeVaccination({
+  isModify,
+  restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
+}: ModalTypeVaccinationProps) {
   return (
     <ModalDetail
+      key={id}
+      title={title}
       isModify={isModify}
       fields={[
         {
           key: 'lot',
           label: 'Lot(제조번호)',
           type: 'text',
-          tableValue: 'A583D01',
-          defaultValue: 'A583D01',
+          tableValue: lot,
+          defaultValue: lot,
           inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
         },
         {
-          key: 'injectedAt',
+          key: 'vaccinated_date',
           label: '접종 날짜',
           type: 'date',
-          tableValue: '2023-05-18',
-          defaultValue: '2023-05-18',
+          tableValue: vaccinated_date,
+          defaultValue: vaccinated_date,
         },
         {
-          key: 'expiredAt',
+          key: 'expiry_date',
           label: '유효 기간',
           type: 'date',
-          tableValue: '2023-05-18',
-          defaultValue: '2023-05-18',
+          tableValue: expiry_date,
+          defaultValue: expiry_date,
         },
       ]}
       noteLabel="특이 사항"
-      defaultNote="특이 사항 없음"
+      defaultNote={notes ?? '-'}
+      noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+    />
+  )
+}
+
+interface ModalTypeVaccinationInputProps {
+  type: AccordionProps['type']
+  onClose: () => void
+  restProps: Vaccines
+}
+
+export function ModalTypeVaccinationInput({
+  type,
+  onClose,
+  restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
+}: ModalTypeVaccinationInputProps) {
+  return (
+    <ModalDetailInput
+      type={type}
+      onClose={onClose}
+      key={id}
+      title={title}
+      fields={[
+        {
+          key: 'lot',
+          label: 'Lot(제조번호)',
+          type: 'text',
+          tableValue: lot,
+          defaultValue: lot,
+          inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
+          requiredSet: 'Lot(제조번호)를 작성해주세요.',
+        },
+        {
+          key: 'vaccinated_date',
+          label: '접종 날짜',
+          type: 'date',
+          tableValue: vaccinated_date,
+          defaultValue: vaccinated_date,
+          requiredSet: '접종 날짜를 입력해주세요.',
+        },
+        {
+          key: 'expiry_date',
+          label: '유효 기간',
+          type: 'date',
+          tableValue: expiry_date,
+          defaultValue: expiry_date,
+          requiredSet: '백신의 유효 기간을 입력해주세요.',
+        },
+      ]}
+      noteLabel="특이 사항"
+      defaultNote={notes ?? '-'}
       noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
     />
   )

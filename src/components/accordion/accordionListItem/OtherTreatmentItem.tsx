@@ -1,7 +1,10 @@
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
-import { OtherTreatment } from '../../../libs/supabase'
-import { toISODate } from '../accordionFun'
+import useToggleState from '@/hooks/useToggleState'
+import type { OtherTreatment } from '@/libs/supabase'
+import { toISODate } from '@/utils/client/toISODate'
+import Modal from '../../modal/Modal'
+import ModalTypeOtherTreatment from '../../modal/ModalType/ModalTypeOtherTreatment'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
@@ -9,7 +12,7 @@ import ItemEditButtonCompo from './ItemEditButtonCompo'
  * 년도별 백신 기록 한 줄 렌더링
  * 예방접종, 구충치료, 의료처치, 기타치료 itme 컴포넌트
  */
-export function OtherTreatmentItem({
+export default function OtherTreatmentItem({
   date,
   detail,
   id,
@@ -26,6 +29,10 @@ export function OtherTreatmentItem({
   const handleMouseOut = () => {
     setMouseState(false)
   }
+
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -41,8 +48,9 @@ export function OtherTreatmentItem({
         className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
       >
         <button
+          onClick={on}
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
@@ -65,6 +73,25 @@ export function OtherTreatmentItem({
         />
         {date}
       </time>
+
+      <Modal
+        open={isOpen}
+        onClose={off}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeOtherTreatment
+          isModify={isModify}
+          restProps={{
+            date,
+            detail,
+            id,
+            notes,
+            pet_id,
+            title,
+          }}
+        />
+      </Modal>
 
       {/* 수정 및 삭제 버튼 */}
       {mouseState && <ItemEditButtonCompo title={title} />}

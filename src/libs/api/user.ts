@@ -1,6 +1,6 @@
-//로그인한 유저 테이블 정보를 가져옵니다
+// 로그인한 유저 테이블 정보를 가져옵니다
 
-import { User } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 import { createClient } from '../supabase/client'
 
 const supabase = createClient()

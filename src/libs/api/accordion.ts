@@ -9,7 +9,7 @@ export type TableRow<T extends AllowedTableNames> =
   Database['public']['Tables'][T]['Row']
 
 // 각 컴포넌트 prop에 맞춘 테이블별 Row 맵(캐스팅에 사용)
-export type RowMap = {
+export interface RowMap {
   antiparasitic: Database['public']['Tables']['antiparasitic']['Row']
   diet: Database['public']['Tables']['diet']['Row']
   'medical treatment': Database['public']['Tables']['medical treatment']['Row']
