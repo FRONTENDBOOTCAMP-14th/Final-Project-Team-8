@@ -80,7 +80,7 @@ export default function Sidebar() {
           />
         </svg>
       ),
-      path: '/sign-up',
+      path: '/calendar',
     },
     {
       name: '계정',
