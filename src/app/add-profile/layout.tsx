@@ -1,0 +1,19 @@
+import { Sidebar } from '@/components'
+import '@/styles/main.css'
+import { Metadata } from 'next'
+import type { PropsWithChildren } from 'react'
+
+export const metadata: Metadata = {
+  title: 'PAW BUDDY',
+}
+
+export default function DashboardLayout({ children }: PropsWithChildren) {
+  return (
+    <div className="flex h-screen bg-[#2D2A40] p-[10px]">
+      <Sidebar></Sidebar>
+      <main className="flex h-full w-full rounded-2xl bg-[white] p-10">
+        {children}
+      </main>
+    </div>
+  )
+}
