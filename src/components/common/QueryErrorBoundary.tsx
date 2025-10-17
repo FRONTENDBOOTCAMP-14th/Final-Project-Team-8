@@ -1,6 +1,7 @@
 'use client'
 
-import { Component, ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { Component } from 'react'
 import { toast } from 'sonner'
 
 /**
@@ -24,8 +25,13 @@ import { toast } from 'sonner'
  *  - 단, 그 방식은 "React 전체 렌더 에러"는 잡지 못하고, "React Query 내부 fetch 에러"에만 동작합니다.
  */
 
-type Props = { children: ReactNode; fallback?: ReactNode }
-type State = { error: Error | null }
+interface Props {
+  children: ReactNode
+  fallback?: ReactNode
+}
+interface State {
+  error: Error | null
+}
 
 export default class QueryErrorBoundary extends Component<Props, State> {
   // 현재 발생한 에러를 저장할 state
@@ -44,7 +50,7 @@ export default class QueryErrorBoundary extends Component<Props, State> {
    * - side effect (toast 노출 등)를 수행할 수 있습니다.
    */
   componentDidCatch(error: Error) {
-    toast.error('데이터를 불러오지 못하였습니다. : ' + error.message)
+    toast.error(`데이터를 불러오지 못하였습니다. : ${error.message}`)
   }
 
   /**

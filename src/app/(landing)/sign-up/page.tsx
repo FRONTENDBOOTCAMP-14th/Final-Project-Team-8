@@ -1,10 +1,10 @@
 'use client'
 
-import Signup from '@/components/sign-up/SignUp'
-import { signUpWithEmail } from '@/libs/api/auth'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import Signup from '@/components/sign-up/SignUp'
+import { signUpWithEmail } from '@/libs/api/auth'
 
 // 에러 코드별 메시지
 const ERROR_MESSAGES: Record<string, string> = {
@@ -35,12 +35,12 @@ export default function SignupPage() {
 
   const handleSignupError = (error: any) => {
     // 에러 코드 추출 (code 또는 status)
-    const errorCode = error.code || error.status?.toString()
+    const errorCode = error.code ?? error.status?.toString()
 
     // 에러 코드에 맞는 메시지 찾기 (없으면 기본 메시지 보여짐)
     const errorMessage = errorCode
-      ? ERROR_MESSAGES[errorCode] ||
-        '회원가입 중 오류가 발생했습니다. 다시 시도해주세요.'
+      ? (ERROR_MESSAGES[errorCode] ??
+        '회원가입 중 오류가 발생했습니다. 다시 시도해주세요.')
       : '회원가입 중 오류가 발생했습니다. 다시 시도해주세요.'
 
     setSignupError(errorMessage)

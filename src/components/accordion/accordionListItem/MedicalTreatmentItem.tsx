@@ -1,14 +1,17 @@
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
-import { MedicalTreatment } from '../../../libs/supabase'
-import { toISODate } from '../accordionFun'
+import useToggleState from '@/hooks/useToggleState'
+import type { MedicalTreatment } from '@/libs/supabase'
+import { toISODate } from '@/utils/client/toISODate'
+import Modal from '../../modal/Modal'
+import ModalTypeMedicalTreatment from '../../modal/ModalType/ModalTypeMedical'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
  * MedicalTreatmentItem 컴포넌트
  * 아코디언에서 필요로 하는 props : title, visit_date
  */
-export function MedicalTreatmentItem({
+export default function MedicalTreatmentItem({
   category,
   id,
   next_date,
@@ -26,6 +29,10 @@ export function MedicalTreatmentItem({
   const handleMouseOut = () => {
     setMouseState(false)
   }
+
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -41,8 +48,9 @@ export function MedicalTreatmentItem({
         className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
       >
         <button
+          onClick={on}
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
@@ -50,7 +58,6 @@ export function MedicalTreatmentItem({
       </h3>
       {/* 구분선 */}
       <div className="relative mr-3 ml-3 flex items-center before:absolute before:left-0 before:h-4 before:w-px before:bg-gray-300"></div>
-
       <time
         dateTime={toISODate(visit_date)}
         className="ml-2 flex items-center gap-1 font-bold text-gray-500"
@@ -72,6 +79,25 @@ export function MedicalTreatmentItem({
       >
         {next_date ?? '다음 예정일이 없습니다.'}
       </time>
+      <Modal
+        open={isOpen}
+        onClose={off}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeMedicalTreatment
+          isModify={isModify}
+          restProps={{
+            category,
+            id,
+            next_date,
+            notes,
+            pet_id,
+            title,
+            visit_date,
+          }}
+        />
+      </Modal>
       {/* 수정 및 삭제 버튼 */}
       {mouseState && <ItemEditButtonCompo title={title} />}
     </li>

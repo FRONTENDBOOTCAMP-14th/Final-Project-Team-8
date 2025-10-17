@@ -1,16 +1,20 @@
 import { CalendarIcon } from 'lucide-react'
 import { useId, useState } from 'react'
-import { OtherActivities } from '../../../libs/supabase'
-import { toISODate } from '../accordionFun'
+import useToggleState from '@/hooks/useToggleState'
+import type { OtherActivities } from '@/libs/supabase'
+import { toISODate } from '@/utils/client/toISODate'
+import Modal from '../../modal/Modal'
+import ModalTypeOtherActivites from '../../modal/ModalType/ModalTypeOtherActivites'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 // 기타 활동 일지 아이템 (내용 미리보기)
-export function OtherActivitiesItem({
+export default function OtherActivitiesItem({
   date,
   id,
   notes,
   pet_id,
-  time,
+  start_time,
+  duration_time,
   title,
 }: OtherActivities) {
   const [mouseState, setMouseState] = useState<boolean>(false)
@@ -23,6 +27,10 @@ export function OtherActivitiesItem({
   const handleMouseOut = () => {
     setMouseState(false)
   }
+
+  const [isOpen, { on, off }] = useToggleState(false)
+  const [isModify, setModify] = useState<boolean>(false)
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -34,8 +42,9 @@ export function OtherActivitiesItem({
     >
       <div className="mb-1 flex">
         <button
+          onClick={on}
           type="button"
-          className="grow-1 origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="grow-1 origin-left cursor-pointer transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
         >
           {/* 제목은 너무 길면 줄 넘어감 */}
           <h3
@@ -65,6 +74,26 @@ export function OtherActivitiesItem({
         </p>
         {mouseState && <ItemEditButtonCompo title={title} key={id} />}
       </div>
+
+      <Modal
+        open={isOpen}
+        onClose={off}
+        isModify={isModify}
+        setModify={setModify}
+      >
+        <ModalTypeOtherActivites
+          isModify={isModify}
+          restProps={{
+            date,
+            id,
+            notes,
+            pet_id,
+            start_time,
+            duration_time,
+            title,
+          }}
+        />
+      </Modal>
     </li>
   )
 }

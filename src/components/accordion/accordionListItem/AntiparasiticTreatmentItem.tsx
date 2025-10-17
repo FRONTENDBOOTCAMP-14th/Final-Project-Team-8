@@ -1,10 +1,10 @@
 import { CalendarIcon } from 'lucide-react'
-import { useId, useState } from 'react'
-import useToggleState from '../../../hooks/useToggleState'
-import { Antiparasitic } from '../../../libs/supabase'
+import { useEffect, useId, useState } from 'react'
+import useToggleState from '@/hooks/useToggleState'
+import type { Antiparasitic } from '@/libs/supabase'
+import { toISODate } from '@/utils/client/toISODate'
 import Modal from '../../modal/Modal'
-import ModalTypeAntheelmintic from '../../modal/ModalType/ModalTypeAnthelmintic'
-import { toISODate } from '../accordionFun'
+import ModalTypeAntiparasitic from '../../modal/ModalType/ModalTypeAntiparasitic'
 import ItemEditButtonCompo from './ItemEditButtonCompo'
 
 /**
@@ -12,7 +12,7 @@ import ItemEditButtonCompo from './ItemEditButtonCompo'
  * 년도별 백신 기록 한 줄 렌더링
  * 예방접종, 구충치료, 의료처치, 기타치료 itme 컴포넌트
  */
-export function AntiparasiticTreatmentItem({
+export default function AntiparasiticTreatmentItem({
   id,
   intake_date,
   next_date,
@@ -33,6 +33,10 @@ export function AntiparasiticTreatmentItem({
   const [isOpen, { on, off }] = useToggleState(false)
   const [isModify, setModify] = useState<boolean>(false)
 
+  useEffect(() => {
+    console.log(intake_date)
+  }, [])
+
   return (
     <li
       onMouseEnter={handleMouseIn}
@@ -50,7 +54,7 @@ export function AntiparasiticTreatmentItem({
         <button
           onClick={on}
           type="button"
-          className="grow origin-left cursor-pointer transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
@@ -85,11 +89,13 @@ export function AntiparasiticTreatmentItem({
       <Modal
         open={isOpen}
         onClose={off}
-        title={title}
         isModify={isModify}
         setModify={setModify}
       >
-        <ModalTypeAntheelmintic isModify={isModify}></ModalTypeAntheelmintic>
+        <ModalTypeAntiparasitic
+          isModify={isModify}
+          restProps={{ id, intake_date, next_date, notes, pet_id, title }}
+        ></ModalTypeAntiparasitic>
       </Modal>
     </li>
   )

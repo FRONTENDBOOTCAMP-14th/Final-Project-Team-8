@@ -1,5 +1,5 @@
 import '@/styles/main.css'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
 import { Toaster } from 'sonner'
 import Providers from './providers'

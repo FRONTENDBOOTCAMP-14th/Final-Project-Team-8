@@ -1,5 +1,9 @@
 'use client'
 
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import type { ReactNode } from 'react'
+import { useEffect, useState } from 'react'
 import { UserProfileCard } from '@/components'
 import PetProfileList from '@/components/ui/sidebar/PetProfileList'
 import {
@@ -8,9 +12,6 @@ import {
 } from '@/components/ui/skeleton/SidebarSkeleton'
 import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { ReactNode, useEffect, useState } from 'react'
 
 // 사이드바 메뉴
 interface MenuOption {
@@ -107,7 +108,7 @@ export default function Sidebar() {
   return (
     <aside className="flex max-h-screen max-w-[280px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
       <Link
-        href="#"
+        href="/#"
         className="flex flex-row justify-center border-b-[2px] border-[#636073]"
       >
         <img
@@ -141,7 +142,7 @@ export default function Sidebar() {
               className={`rounded-lg p-3 ${isActive ? 'bg-[#FFD8C0] font-bold text-[#FF6000]' : 'hover:text-[#FFD8C0]'}`}
               aria-current={isActive ? 'page' : undefined}
             >
-              <div className={`flex flex-row items-center gap-3`}>
+              <div className={'flex flex-row items-center gap-3'}>
                 {option.icon}
                 {option.name}
               </div>

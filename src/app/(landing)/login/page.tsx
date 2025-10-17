@@ -1,10 +1,10 @@
 'use client'
 
-import { Login } from '@/components/login'
-import { loginWithEmail } from '@/libs/api/auth'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { Login } from '@/components/login'
+import { loginWithEmail } from '@/libs/api/auth'
 
 export default function LoginPage() {
   const router = useRouter()

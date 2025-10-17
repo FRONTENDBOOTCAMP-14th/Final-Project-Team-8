@@ -30,24 +30,14 @@
  * - children: 모달 내부에 삽입할 콘텐츠
  */
 
-import {
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from 'react'
+import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { toast } from 'sonner'
 import { tabbableSelector } from '../../utils/client'
 import { DialogInner } from './DialogInner'
 
 type Props = PropsWithChildren<{
-  /** 모달 제목 */
-  title?: string
   /** 모달 열림 여부 */
   open: boolean
   /** 모달 닫기 콜백 */
@@ -56,19 +46,18 @@ type Props = PropsWithChildren<{
   describe?: string
   /** 수정 모드 여부 */
   isModify: boolean
-  /** 수정 모드 상태 setter */
   setModify: Dispatch<SetStateAction<boolean>>
-  // 제목 input Placeholder
+  buttonNone?: boolean
 }>
 
 export default function Modal({
   open = false,
   onClose,
-  title,
   describe,
-  children,
-  setModify,
   isModify,
+  setModify,
+  children,
+  buttonNone = false,
 }: Props) {
   /** 🔹 Portal 루트 요소 (layout.tsx 안의 <div id="modal-dialog-portal" />) */
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null)
@@ -109,7 +98,9 @@ export default function Modal({
     }
 
     dialog.addEventListener('click', handleCloseByBackdrop)
-    return () => dialog.removeEventListener('click', handleCloseByBackdrop)
+    return () => {
+      dialog.removeEventListener('click', handleCloseByBackdrop)
+    }
   }, [open, onClose, isModify])
 
   // ------------------------------------------------------------
@@ -142,7 +133,14 @@ export default function Modal({
       const first = tabbables[0] as HTMLElement
       const last = tabbables[tabbables.length - 1] as HTMLElement
 
-      if (key === 'Escape') return close()
+      if (key === 'Escape') {
+        if (isModify) {
+          e.preventDefault()
+          toast.error('완료 버튼을 먼저 눌러주세요')
+        } else {
+          return close()
+        }
+      }
 
       if (key === 'Tab') {
         if (shiftKey && activeElement === first) {
@@ -194,11 +192,10 @@ export default function Modal({
       <DialogInner
         isModify={isModify}
         setModify={setModify}
-        title={title}
-        titleId={titleId}
         close={close}
         describe={describe}
         describeId={describeId}
+        buttonNone={buttonNone}
       >
         {children}
       </DialogInner>

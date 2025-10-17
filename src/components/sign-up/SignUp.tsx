@@ -2,14 +2,16 @@
 
 import { User } from 'lucide-react'
 import { useCallback, useEffect, useId, useRef, useTransition } from 'react'
-
 // 타입
-import type { SignupProps } from './types'
-
-// 훅
+import Button from '@/components/ui/button/Button'
+import EmailInput from './components/EmailInput'
+import NameInput from './components/NameInput'
+import PasswordConfirmInput from './components/PasswordConfirmInput'
+import PasswordInput from './components/PasswordInput'
 import { usePasswordStrength } from './hooks/usePasswordStrength'
 import { useSignupForm } from './hooks/useSignupForm'
-
+import type { SignupProps } from './types'
+// 훅
 // 유효성 검사
 import {
   isPasswordValid as checkPasswordValid,
@@ -20,13 +22,8 @@ import {
 } from './validation'
 
 // 하위 컴포넌트
-import EmailInput from './components/EmailInput'
-import NameInput from './components/NameInput'
-import PasswordConfirmInput from './components/PasswordConfirmInput'
-import PasswordInput from './components/PasswordInput'
 
 // 버튼 공통 컴포넌트
-import Button from '@/components/ui/button/Button'
 
 export default function Signup({
   onSignup,

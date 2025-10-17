@@ -1,12 +1,12 @@
 'use client'
 
-import { getUserData } from '@/libs/api/user'
-import { createClient } from '@/libs/supabase/client'
-import { User } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { getUserData } from '@/libs/api/user'
+import { createClient } from '@/libs/supabase/client'
 
 interface UserProfileCardProps {
   user: User
@@ -36,10 +36,10 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
 
   // user테이블에서 이름 가져오기
   // 없으면 이메일 앞부분 사용
-  const displayName = userData?.nickname || user.email?.split('@')[0] || 'User'
+  const displayName = userData?.nickname ?? user.email?.split('@')[0] ?? 'User'
 
   // 프로필 이미지
-  const avatarUrl = userData?.profile_img || user.user_metadata?.avatar_url
+  const avatarUrl = userData?.profile_img ?? user.user_metadata?.avatar_url
 
   // 이름의 첫 글자 가져오기 (기본 프로필에 들어감)
   const getInitial = (name: string) => {

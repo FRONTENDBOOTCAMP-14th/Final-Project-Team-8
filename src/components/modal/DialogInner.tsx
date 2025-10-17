@@ -1,27 +1,25 @@
-import Button from '@/components/ui/button/Button'
 import { X } from 'lucide-react'
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
 import { Toaster } from 'sonner'
+import Button from '@/components/ui/button/Button'
 
 type DialogInnerProps = PropsWithChildren<{
   isModify: boolean
   setModify: Dispatch<SetStateAction<boolean>>
-  title?: string | undefined
-  titleId: string
   close: () => void
   describe?: string | undefined
   describeId: string
+  buttonNone: boolean
 }>
 
 export function DialogInner({
   isModify,
   setModify,
-  title,
-  titleId,
   close,
   describe,
   describeId,
   children,
+  buttonNone,
 }: DialogInnerProps) {
   return (
     <>
@@ -46,24 +44,7 @@ export function DialogInner({
       {/* 🔸 모달 콘텐츠 영역 */}
       <div className="flex min-h-55 w-170 flex-col p-[30px]">
         {/* 🔹 헤더 영역 (제목 + 닫기 버튼) */}
-        <div className="mb-3 flex gap-6">
-          {!isModify ? (
-            <h1
-              id={titleId}
-              className="mt-[30px] mb-[18px] grow text-[28px] font-bold text-gray-800"
-            >
-              {title ?? '다이얼로그 제목'}
-            </h1>
-          ) : (
-            <input
-              id={titleId}
-              type="text"
-              defaultValue={title}
-              placeholder="제목을 입력해주세요"
-              className="grow rounded-md border-2 border-amber-400 p-2 focus:border-orange-500 focus:outline-none"
-            />
-          )}
-
+        <div className="flex justify-end gap-6">
           {/* 🔹 닫기 버튼 (수정 중엔 비활성화) */}
           <button
             type="button"
@@ -84,9 +65,11 @@ export function DialogInner({
         {children}
 
         {/* 🔹 수정/완료 버튼 */}
-        <Button onClick={() => setModify(prev => !prev)}>
-          {!isModify ? '수정' : '완료'}
-        </Button>
+        {!buttonNone && (
+          <Button onClick={() => setModify(prev => !prev)}>
+            {!isModify ? '수정' : '완료'}
+          </Button>
+        )}
       </div>
     </>
   )

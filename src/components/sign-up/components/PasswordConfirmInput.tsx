@@ -22,7 +22,7 @@ export default function PasswordConfirmInput({
   const [showPassword, setShowPassword] = useState(false)
 
   const hasError =
-    (!value && showError) || (value && !isPasswordMatch && showError)
+    (!value && showError) ?? (value && !isPasswordMatch && showError)
 
   return (
     <div role="group" className="flex flex-col">

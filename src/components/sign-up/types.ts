@@ -22,4 +22,3 @@ export interface PasswordValidation {
   hasNumber: boolean
   hasSpecialChar: boolean
 }
-;``

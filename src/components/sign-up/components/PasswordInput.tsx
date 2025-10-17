@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from 'lucide-react'
 import { useId, useState, type ComponentProps } from 'react'
-import { PasswordValidation } from '../types'
+import type { PasswordValidation } from '../types'
 import { MIN_PASSWORD_LENGTH } from '../validation'
 
 interface PasswordInputProps {
@@ -34,7 +34,7 @@ export default function PasswordInput({
   const [showPassword, setShowPassword] = useState(false)
 
   const hasError =
-    (!value && showValidation) || (value && !isPasswordValid && showValidation)
+    (!value && showValidation) ?? (value && !isPasswordValid && showValidation)
 
   return (
     <div role="group" className="flex flex-col">

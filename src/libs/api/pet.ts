@@ -1,9 +1,9 @@
 // 로그인한 유저가 등록한 반려동물 정보를 가져옵니다.
-import { User } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 import { createClient } from '../supabase/client'
 
-const supabase = createClient()
 export async function getUserPets(user: User) {
+  const supabase = createClient()
   const { data, error } = await supabase
     .from('pets')
     .select('*')
@@ -15,6 +15,7 @@ export async function getUserPets(user: User) {
 }
 
 export async function getSelectedPet(id: string) {
+  const supabase = createClient()
   const { data, error } = await supabase
     .from('pets')
     .select('*')

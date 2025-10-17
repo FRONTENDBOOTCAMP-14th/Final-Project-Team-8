@@ -1,10 +1,10 @@
 'use client'
 
-import Button from '@/components/ui/button/Button'
-import { usePetStore } from '@/store/petStore'
 import { MoveLeft, MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import Button from '@/components/ui/button/Button'
+import { usePetStore } from '@/store/petStore'
 import PetProfileCard from './PetProfileCard'
 
 export default function PetProfileCardCarousel() {
