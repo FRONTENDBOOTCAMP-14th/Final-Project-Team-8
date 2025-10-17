@@ -29,7 +29,7 @@ export default function PasswordInput({
           onChange={e => onChange(e.target.value)}
           autoComplete="current-password"
           className={
-            'w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+            'w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
           }
           {...inputProps}
         />
