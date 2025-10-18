@@ -1,6 +1,7 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useForm, useFormState } from 'react-hook-form'
 import { toast } from 'sonner'
 import createActivity from '@/libs/api/activity.api'
 import { usePetStore } from '@/store/petStore'
@@ -20,24 +21,51 @@ export function ModalDetailInput({
   noteTextareaProps,
   onClose,
 }: ModalDetailInpuProps) {
-  const { register, handleSubmit, formState, getFieldState } =
-    useForm<ModalInputDataType>()
+  const { register, handleSubmit, formState, getFieldState, reset } =
+    useForm<ModalInputDataType>({
+      mode: 'onSubmit',
+      defaultValues: {
+        title: title ?? '',
+        notes: defaultNote === '-' ? '' : defaultNote,
+      },
+    })
 
   const { errors, isSubmitting } = formState
 
   const pet_id = usePetStore(s => s.selectedPetId) as string
+  const queryClient = useQueryClient()
+
+  // createActivity는 실패 시 throw하도록 구현해두면 깔끔해요.
+  const mutation = useMutation({
+    mutationFn: (payload: ModalInputDataType) =>
+      createActivity({ setData: payload, type, pet_id }),
+    onSuccess: () => {
+      toast.success('저장 완료!')
+      reset()
+      onClose?.()
+      queryClient.invalidateQueries({ queryKey: ['activities', pet_id] })
+    },
+    onError: (err: unknown) => {
+      // 서버에서 필드 에러 내주면 여기 매핑
+      const message =
+        err instanceof Error ? err.message : '저장 중 오류가 발생했습니다.'
+      toast.error(message)
+    },
+  })
+
   if (!pet_id) {
     toast.error('해당 펫은 유효하지 않습니다. 펫을 다시 선택해주세요.')
   }
 
-  if (isSubmitting) {
+  if (isSubmitting || mutation.isPending) {
     return <ListLoading />
   }
+
   return (
     <form
-      onSubmit={handleSubmit(setData =>
-        createActivity({ setData, type, pet_id })
-      )}
+      onSubmit={handleSubmit(setData => {
+        mutation.mutate(setData)
+      })}
     >
       <input
         id="title"
@@ -81,6 +109,7 @@ export function ModalDetailInput({
             max,
           }) => {
             const { error } = getFieldState(key, formState)
+            // const error = get(errors, key)
             return (
               <li key={key} className="mt-3 flex min-w-[220px] flex-1 basis-0">
                 {/* 각 컬럼 좌측 세로 구분선 */}
@@ -106,14 +135,14 @@ export function ModalDetailInput({
                           ? 'border-red-400 ring-red-300'
                           : 'border-gray-300 ring-blue-300'
                       )}
-                      {...(type === 'number' ? { min, max } : {})}
-                      {...inputProps}
                       {...register(key, {
                         required: requiredSet ?? false,
                         ...(type === 'number'
                           ? { valueAsNumber: true, min, max }
                           : {}),
                       })}
+                      {...(type === 'number' ? { min, max } : {})}
+                      {...inputProps}
                     />
                     {error && (
                       <div
@@ -121,7 +150,7 @@ export function ModalDetailInput({
                         id="Modal-title-error"
                         className="mt-2 ml-3 text-sm text-red-500"
                       >
-                        {error?.message}
+                        {error.message}
                       </div>
                     )}
                   </div>
