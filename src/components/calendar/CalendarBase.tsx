@@ -1,8 +1,8 @@
 'use client'
 
-import type { ScheduleEvent } from '../../libs/api/schedules'
+import type { CalendarControls, CalendarDay } from './hooks/useCalendar'
 import SelectDate from './SelectDate'
-import type { CalendarControls, CalendarDay } from './useCalendar'
+import type { ScheduleEvent } from './types'
 import Week from './Week'
 
 export type DayComponentProps = CalendarControls & {
@@ -45,7 +45,7 @@ export default function CalendarBase({
         setCurrentYear={setCurrentYear}
         setCurrentMonth={setCurrentMonth}
       />
-      <hr className="m-4 border-[#DAD9E6]" />
+      <hr className="mt-7.5 mb-3.5 border-[#DAD9E6]" />
       <table className="w-full border-separate border-spacing-4 text-center">
         <thead className="text-sm font-bold text-[#80809A]">
           <tr>
