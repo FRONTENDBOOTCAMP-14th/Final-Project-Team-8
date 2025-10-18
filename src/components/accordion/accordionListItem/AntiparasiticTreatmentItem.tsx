@@ -33,10 +33,6 @@ export default function AntiparasiticTreatmentItem({
   const [isOpen, { on, off }] = useToggleState(false)
   const [isModify, setModify] = useState<boolean>(false)
 
-  useEffect(() => {
-    console.log(intake_date)
-  }, [])
-
   return (
     <li
       onMouseEnter={handleMouseIn}
