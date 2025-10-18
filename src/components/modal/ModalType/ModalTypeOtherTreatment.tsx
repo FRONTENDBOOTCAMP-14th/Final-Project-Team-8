@@ -41,7 +41,7 @@ export default function ModalTypeOtherTreatment({
   )
 }
 
-interface ModalTypeOtherTreatmentInput {
+interface ModalTypeOtherTreatmentInputProps {
   type: AccordionProps['type']
   onClose: () => void
   restProps: OtherTreatment
@@ -51,7 +51,7 @@ export function ModalTypeOtherTreatmentInput({
   type,
   onClose,
   restProps: { date, detail, notes, title },
-}: ModalTypeOtherTreatmentInput) {
+}: ModalTypeOtherTreatmentInputProps) {
   return (
     <ModalDetailInput
       type={type}
@@ -62,15 +62,14 @@ export function ModalTypeOtherTreatmentInput({
           key: 'detail',
           label: '처치 내용',
           type: 'text',
-          // tableValue: detail,
           defaultValue: detail,
           inputProps: { placeholder: '처치 내용을 입력해주세요' },
+          requiredSet: null,
         },
         {
           key: 'date',
           label: '처치 날짜',
           type: 'date',
-          // tableValue: date,
           defaultValue: date,
           requiredSet: '처치 날짜를 입력해주세요.',
         },

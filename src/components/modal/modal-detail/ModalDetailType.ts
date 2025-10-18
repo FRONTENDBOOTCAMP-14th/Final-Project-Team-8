@@ -53,10 +53,9 @@ export interface ModalDetailProps {
 }
 
 // ------------------------------------------------------------------
-
 export interface InputBaseField extends BaseField {
   // 필수 여부 : "폼 제출 시 에러 알림 문자열"
-  requiredSet?: string
+  requiredSet: string | null
   min?: number
   max?: number
 }

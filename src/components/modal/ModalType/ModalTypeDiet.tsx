@@ -13,8 +13,6 @@ export function ModalTypeDiet({
   isModify,
   restProps: { date, id, time, snack_type, notes, title },
 }: ModalTypeDietProps) {
-  console.log(removeSecond(time))
-
   return (
     <ModalDetail
       key={id}

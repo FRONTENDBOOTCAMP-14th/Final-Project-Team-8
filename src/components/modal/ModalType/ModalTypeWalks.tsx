@@ -74,7 +74,6 @@ export function ModalTypeWalksInput({
           key: 'start_time',
           label: '시작 시간',
           type: 'time',
-          // tableValue: start_time,
           defaultValue: start_time,
           requiredSet: '시작 시간을 입력해주세요.',
         },
@@ -82,7 +81,6 @@ export function ModalTypeWalksInput({
           key: 'date',
           label: '산책 날짜',
           type: 'date',
-          // tableValue: date,S
           defaultValue: date,
           requiredSet: '산책 날짜를 입력해주세요.',
         },
@@ -90,15 +88,15 @@ export function ModalTypeWalksInput({
           key: 'distance',
           label: '산책 거리  (Km)',
           type: 'number',
-          // tableValue: distance,
           defaultValue: distance,
+          requiredSet: null,
         },
         {
           key: 'total_time',
           label: '산책 시간  (min)',
           type: 'number',
-          // tableValue: minTohour(total_time),
           defaultValue: total_time,
+          requiredSet: null,
         },
       ]}
     />
