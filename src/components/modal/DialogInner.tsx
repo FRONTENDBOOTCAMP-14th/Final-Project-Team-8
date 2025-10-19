@@ -65,7 +65,7 @@ export function DialogInner({
         {children}
 
         {/* 🔹 수정/완료 버튼 */}
-        {!buttonNone && (
+        {!buttonNone && !isModify && (
           <Button onClick={() => setModify(prev => !prev)}>
             {!isModify ? '수정' : '완료'}
           </Button>
