@@ -45,7 +45,7 @@ export default function WalksItem({
           <button
             onClick={on}
             type="button"
-            className="line-clamp-1 flex w-full grow origin-left cursor-pointer gap-2 transition hover:translate-y-[-3px] active:scale-[0.95]"
+            className="line-clamp-1 flex w-full grow origin-left cursor-pointer gap-2 transition active:scale-[0.95]"
           >
             <img
               aria-hidden="true"

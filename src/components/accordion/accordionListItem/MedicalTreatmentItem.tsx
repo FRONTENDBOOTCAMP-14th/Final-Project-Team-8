@@ -50,7 +50,7 @@ export default function MedicalTreatmentItem({
         <button
           onClick={on}
           type="button"
-          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition hover:text-orange-400 active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}

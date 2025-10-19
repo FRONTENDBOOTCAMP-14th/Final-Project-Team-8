@@ -44,7 +44,7 @@ export default function OtherActivitiesItem({
         <button
           onClick={on}
           type="button"
-          className="grow-1 origin-left cursor-pointer transition hover:translate-y-[-3px] hover:text-orange-400 active:scale-[0.95]"
+          className="grow-1 origin-left cursor-pointer transition hover:text-orange-400 active:scale-[0.95]"
         >
           {/* 제목은 너무 길면 줄 넘어감 */}
           <h3

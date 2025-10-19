@@ -51,7 +51,7 @@ export default function VaccinesTreatmentItem({
       >
         <button
           type="button"
-          className="w-full origin-left cursor-pointer text-start transition hover:translate-y-[-3px] active:scale-[0.95]"
+          className="w-full origin-left cursor-pointer text-start transition active:scale-[0.95]"
         >
           {/* 백신 이름 */}
           {title}
