@@ -92,9 +92,14 @@ export default function AccordionContent<T extends AllowedTableNames>({
           ></EmptyState>
         )
       case 'other treatments':
-        return (
+        return rows.length !== 0 ? (
           <OtherTreatmentsCompo
             dataList={rows as RowMap['other treatments'][]}
+          />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다."
+            message="첫 기록을 추가해 보세요"
           />
         )
       case 'vaccines':
