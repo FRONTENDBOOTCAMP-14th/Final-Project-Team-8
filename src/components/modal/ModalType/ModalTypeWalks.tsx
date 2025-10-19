@@ -1,11 +1,9 @@
 import type { Dispatch, SetStateAction } from 'react'
 import type { Walks } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import {
-  ModalDetailIsModify,
-  ModalDetailNonModify,
-} from '../modal-detail/ModalDetail'
+import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
 import { minTohour } from '../timeHandler'
 import type { ModalTypeProps } from './ModalType'
 
