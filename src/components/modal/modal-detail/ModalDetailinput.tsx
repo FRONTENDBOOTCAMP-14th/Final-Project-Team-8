@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useForm, useFormState } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import createActivity from '@/libs/api/activity.api'
 import { usePetStore } from '@/store/petStore'
@@ -22,28 +22,28 @@ export function ModalDetailInput({
   onClose,
 }: ModalDetailInpuProps) {
   const { register, handleSubmit, formState, getFieldState, reset } =
-    useForm<ModalInputDataType>({
-      mode: 'onSubmit',
-      defaultValues: {
-        title: title ?? '',
-        notes: defaultNote === '-' ? '' : defaultNote,
-      },
-    })
+    useForm<ModalInputDataType>()
 
   const { errors, isSubmitting } = formState
 
   const pet_id = usePetStore(s => s.selectedPetId) as string
+
   const queryClient = useQueryClient()
 
-  // createActivity는 실패 시 throw하도록 구현해두면 깔끔해요.
   const mutation = useMutation({
     mutationFn: (payload: ModalInputDataType) =>
       createActivity({ setData: payload, type, pet_id }),
     onSuccess: () => {
       toast.success('저장 완료!')
-      reset()
-      onClose?.()
-      queryClient.invalidateQueries({ queryKey: ['activities', pet_id] })
+      queryClient.invalidateQueries({
+        refetchType: 'active',
+        queryKey: [type, pet_id],
+      })
+      // 리렌더링이 완료된 후 모달 닫기
+      setTimeout(() => {
+        reset()
+        onClose?.()
+      }, 300)
     },
     onError: (err: unknown) => {
       // 서버에서 필드 에러 내주면 여기 매핑
@@ -68,7 +68,6 @@ export function ModalDetailInput({
       })}
     >
       <input
-        id="title"
         type="text"
         defaultValue={title}
         placeholder="제목을 입력해주세요"
@@ -79,7 +78,7 @@ export function ModalDetailInput({
             ? 'border-red-400 ring-red-300'
             : 'border-gray-300 ring-blue-300'
         )}
-        {...register('title', { required: '필수 입력요소입니다.' })}
+        {...register('title', { required: '제목을 작성해주세요.' })}
       />
       {errors.title && (
         <div
@@ -98,18 +97,8 @@ export function ModalDetailInput({
       {/* 필드 리스트 */}
       <ul className="flex flex-wrap items-start gap-4">
         {fields.map(
-          ({
-            requiredSet,
-            key,
-            label,
-            type,
-            defaultValue,
-            inputProps,
-            min,
-            max,
-          }) => {
+          ({ requiredSet, key, label, type, defaultValue, inputProps }) => {
             const { error } = getFieldState(key, formState)
-            // const error = get(errors, key)
             return (
               <li key={key} className="mt-3 flex min-w-[220px] flex-1 basis-0">
                 {/* 각 컬럼 좌측 세로 구분선 */}
@@ -125,7 +114,6 @@ export function ModalDetailInput({
                       {label} 입력
                     </label>
                     <input
-                      id={key}
                       type={type}
                       defaultValue={defaultValue ?? ''}
                       className={tw(
@@ -135,16 +123,12 @@ export function ModalDetailInput({
                           ? 'border-red-400 ring-red-300'
                           : 'border-gray-300 ring-blue-300'
                       )}
+                      {...inputProps}
                       {...register(key, {
                         required: requiredSet ?? false,
-                        ...(type === 'number'
-                          ? { valueAsNumber: true, min, max }
-                          : {}),
                       })}
-                      {...(type === 'number' ? { min, max } : {})}
-                      {...inputProps}
                     />
-                    {error && (
+                    {error?.message && (
                       <div
                         role="alert"
                         id="Modal-title-error"
@@ -161,27 +145,32 @@ export function ModalDetailInput({
         )}
       </ul>
 
-      {/* 특이 사항 섹션 */}
-      <h2 className="mt-4 text-[18px] font-bold text-gray-800">{noteLabel}</h2>
+      {type !== 'walks' && (
+        <>
+          {/* 특이 사항 섹션 */}
+          <h2 className="mt-4 text-[18px] font-bold text-gray-800">
+            {noteLabel}
+          </h2>
 
-      <div className="relative mt-3 mb-3 flex w-full">
-        {/* 왼쪽 세로 구분선 */}
-        <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
+          <div className="relative mt-3 mb-3 flex w-full">
+            {/* 왼쪽 세로 구분선 */}
+            <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
 
-        <div className="ml-4 w-full">
-          <label htmlFor="detail-note" className="sr-only">
-            {noteLabel} 입력
-          </label>
-          <textarea
-            id="notes"
-            defaultValue={defaultNote === '-' ? '' : defaultNote}
-            className="w-full rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
-            rows={3}
-            {...noteTextareaProps}
-            {...register('notes')}
-          />
-        </div>
-      </div>
+            <div className="ml-4 w-full">
+              <label htmlFor="detail-note" className="sr-only">
+                {noteLabel} 입력
+              </label>
+              <textarea
+                defaultValue={defaultNote === '-' ? '' : defaultNote}
+                className="w-full rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
+                rows={3}
+                {...noteTextareaProps}
+                {...register('notes')}
+              />
+            </div>
+          </div>
+        </>
+      )}
       <div className="flex gap-5">
         <Button onClick={onClose}>취소</Button>
         <Button type="submit">저장</Button>
