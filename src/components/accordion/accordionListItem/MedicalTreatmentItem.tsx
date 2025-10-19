@@ -87,6 +87,7 @@ export default function MedicalTreatmentItem({
       >
         <ModalTypeMedicalTreatment
           isModify={isModify}
+          setModify={setModify}
           restProps={{
             category,
             id,

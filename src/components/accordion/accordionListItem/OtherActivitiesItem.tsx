@@ -83,6 +83,7 @@ export default function OtherActivitiesItem({
       >
         <ModalTypeOtherActivites
           isModify={isModify}
+          setModify={setModify}
           restProps={{
             date,
             id,

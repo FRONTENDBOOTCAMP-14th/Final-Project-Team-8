@@ -82,6 +82,7 @@ export default function WalksItem({
       >
         <ModalTypeWalks
           isModify={isModify}
+          setModify={setModify}
           restProps={{
             date,
             distance,

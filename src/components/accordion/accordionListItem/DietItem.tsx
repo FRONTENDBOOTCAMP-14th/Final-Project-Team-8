@@ -79,6 +79,7 @@ export default function DietItem({
       >
         <ModalTypeDiet
           isModify={isModify}
+          setModify={setModify}
           restProps={{ date, id, pet_id, time, title, snack_type, notes }}
         />
       </Modal>

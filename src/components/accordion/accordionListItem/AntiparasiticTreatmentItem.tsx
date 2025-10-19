@@ -1,5 +1,5 @@
 import { CalendarIcon } from 'lucide-react'
-import { useEffect, useId, useState } from 'react'
+import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { Antiparasitic } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
@@ -90,6 +90,7 @@ export default function AntiparasiticTreatmentItem({
       >
         <ModalTypeAntiparasitic
           isModify={isModify}
+          setModify={setModify}
           restProps={{ id, intake_date, next_date, notes, pet_id, title }}
         ></ModalTypeAntiparasitic>
       </Modal>
