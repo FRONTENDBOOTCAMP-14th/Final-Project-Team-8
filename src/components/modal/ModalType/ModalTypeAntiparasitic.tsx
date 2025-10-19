@@ -2,6 +2,7 @@ import type { Antiparasitic } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
 import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeAntiparasiticProps extends ModalTypeProps {
