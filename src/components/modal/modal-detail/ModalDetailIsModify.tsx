@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form'
 import Button from '../../ui/button/Button'
+import type { ModalInputDataType } from '../ModalType/ModalType'
 import type { ModalDetailIsModifyProps } from './ModalDetailType'
 
 export function ModalDetailIsModify({
@@ -11,18 +12,28 @@ export function ModalDetailIsModify({
   defaultNote = '특이 사항 없음',
   noteTextareaProps,
 }: ModalDetailIsModifyProps) {
-  const { register, handleSubmit, formState, getFieldState, reset } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    getFieldState,
+    reset,
+  } = useForm<ModalInputDataType>()
   return (
-    <form>
+    <form onSubmit={handleSubmit(data => alert(JSON.stringify(data)))}>
       {/* 섹션 타이틀 */}
-
+      <label htmlFor="title" className="sr-only">
+        {title}
+      </label>
       <input
         id="title"
         type="text"
         defaultValue={title}
         placeholder="제목을 입력해주세요"
         className="mt-3 mb-8 w-full grow rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
+        {...register('title', { required: '제목을 완성해주세요.' })}
       />
+      {errors.title && <div>{errors.title.message}</div>}
 
       {/* 섹션 타이틀 */}
       <h2 className="text-[18px] font-bold text-gray-800">{sectionTitle}</h2>
