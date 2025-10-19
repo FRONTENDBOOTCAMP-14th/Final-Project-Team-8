@@ -1,19 +1,62 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { MedicalTreatment } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import ModalDetail from '../modal-detail/ModalDetail'
+import {
+  ModalDetailIsModify,
+  ModalDetailNonModify,
+} from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeMedicalTreatmentProps extends ModalTypeProps {
+  setModify: Dispatch<SetStateAction<boolean>>
   restProps: MedicalTreatment
 }
 
 export default function ModalTypeMedicalTreatment({
   isModify,
+  setModify,
   restProps: { category, id, next_date, notes, visit_date, title },
 }: ModalTypeMedicalTreatmentProps) {
+  if (isModify) {
+    return (
+      <ModalDetailIsModify
+        key={id}
+        title={title}
+        isModify={isModify}
+        setModify={setModify}
+        fields={[
+          {
+            key: 'category',
+            label: '항목',
+            type: 'text',
+            tableValue: category,
+            defaultValue: category ?? '',
+            inputProps: { placeholder: '항목을 입력해주세요' },
+          },
+          {
+            key: 'visit_date',
+            label: '방문 날짜',
+            type: 'date',
+            tableValue: visit_date,
+            defaultValue: visit_date,
+          },
+          {
+            key: 'next_date',
+            label: '다음 진료',
+            type: 'date',
+            tableValue: next_date,
+            defaultValue: next_date,
+          },
+        ]}
+        noteLabel="특이 사항"
+        defaultNote={notes ?? '-'}
+        noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+      />
+    )
+  }
   return (
-    <ModalDetail
+    <ModalDetailNonModify
       key={id}
       title={title}
       isModify={isModify}

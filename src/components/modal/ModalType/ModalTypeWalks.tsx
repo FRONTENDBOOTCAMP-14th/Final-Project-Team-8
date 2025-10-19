@@ -1,20 +1,67 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { Walks } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import ModalDetail from '../modal-detail/ModalDetail'
+import {
+  ModalDetailIsModify,
+  ModalDetailNonModify,
+} from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { minTohour } from '../timeHandler'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeWalksProps extends ModalTypeProps {
+  setModify: Dispatch<SetStateAction<boolean>>
   restProps: Walks
 }
 
 export default function ModalTypeWalks({
   isModify,
+  setModify,
   restProps: { date, distance, id, start_time, total_time, title },
 }: ModalTypeWalksProps) {
+  if (isModify) {
+    return (
+      <ModalDetailIsModify
+        key={id}
+        title={title}
+        isModify={isModify}
+        setModify={setModify}
+        fields={[
+          {
+            key: 'start_time',
+            label: '다녀온 곳',
+            type: 'time',
+            tableValue: start_time,
+            defaultValue: start_time,
+          },
+          {
+            key: 'distance',
+            label: '산책 거리',
+            type: 'number',
+            tableValue: distance,
+            defaultValue: distance,
+          },
+          {
+            key: 'total_time',
+            label: '산책 시간',
+            type: 'number',
+            tableValue: minTohour(total_time),
+            defaultValue: total_time,
+          },
+          {
+            key: 'date',
+            label: '산책 날짜',
+            type: 'date',
+            tableValue: date,
+            defaultValue: date,
+          },
+        ]}
+      />
+    )
+  }
+
   return (
-    <ModalDetail
+    <ModalDetailNonModify
       key={id}
       title={title}
       isModify={isModify}
@@ -62,7 +109,7 @@ interface ModalTypeWalksInputProps {
 export function ModalTypeWalksInput({
   type,
   onClose,
-  restProps: { date, distance, id, start_time, total_time, title },
+  restProps: { date, distance, start_time, total_time, title },
 }: ModalTypeWalksInputProps) {
   return (
     <ModalDetailInput

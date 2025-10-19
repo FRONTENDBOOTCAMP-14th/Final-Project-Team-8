@@ -1,20 +1,64 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { OtherActivities } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import ModalDetail from '../modal-detail/ModalDetail'
+import {
+  ModalDetailIsModify,
+  ModalDetailNonModify,
+} from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { minTohour, removeSecond } from '../timeHandler'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeOtherActivitesProps extends ModalTypeProps {
+  setModify: Dispatch<SetStateAction<boolean>>
   restProps: OtherActivities
 }
 
 export default function ModalTypeOtherActivites({
   isModify,
+  setModify,
   restProps: { date, id, notes, start_time, duration_time, title },
 }: ModalTypeOtherActivitesProps) {
+  if (isModify) {
+    return (
+      <ModalDetailIsModify
+        key={id}
+        title={title}
+        isModify={isModify}
+        setModify={setModify}
+        fields={[
+          {
+            key: 'date',
+            label: '활동 날짜',
+            type: 'date',
+            tableValue: date,
+            defaultValue: date,
+          },
+          {
+            key: 'start_time',
+            label: '활동 시작 시간',
+            type: 'time',
+            tableValue: removeSecond(start_time),
+            defaultValue: start_time,
+            inputProps: { step: 60 },
+          },
+          {
+            key: 'duration_time',
+            label: '활동 시간',
+            type: 'number',
+            tableValue: minTohour(duration_time),
+            defaultValue: duration_time,
+            inputProps: { step: 10 },
+          },
+        ]}
+        noteLabel="특이 사항"
+        defaultNote={notes ?? '-'}
+        noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+      />
+    )
+  }
   return (
-    <ModalDetail
+    <ModalDetailNonModify
       key={id}
       title={title}
       isModify={isModify}

@@ -1,20 +1,65 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { Diet } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import ModalDetail from '../modal-detail/ModalDetail'
+import {
+  ModalDetailIsModify,
+  ModalDetailNonModify,
+} from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { removeSecond } from '../timeHandler'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeDietProps extends ModalTypeProps {
+  setModify: Dispatch<SetStateAction<boolean>>
   restProps: Diet
 }
 
 export function ModalTypeDiet({
   isModify,
+  setModify,
   restProps: { date, id, time, snack_type, notes, title },
 }: ModalTypeDietProps) {
+  if (isModify) {
+    return (
+      <ModalDetailIsModify
+        key={id}
+        title={title}
+        isModify={isModify}
+        setModify={setModify}
+        fields={[
+          {
+            key: 'snack_type',
+            label: '간식 종류',
+            type: 'text',
+            tableValue: snack_type,
+            defaultValue: snack_type,
+            inputProps: { placeholder: '간식 이름을 작성해주세요' },
+          },
+          {
+            key: 'date',
+            label: '배급 날짜',
+            type: 'date',
+            tableValue: date,
+            defaultValue: date,
+          },
+          {
+            key: 'time',
+            label: '배급 시간',
+            type: 'time',
+            tableValue: removeSecond(time),
+            defaultValue: time,
+            inputProps: { step: 60 },
+          },
+        ]}
+        noteLabel="특이 사항"
+        defaultNote={notes ?? '-'}
+        noteTextareaProps={{ placeholder: '특이 사항을 입력해주세요' }}
+      />
+    )
+  }
+
   return (
-    <ModalDetail
+    <ModalDetailNonModify
       key={id}
       title={title}
       isModify={isModify}
