@@ -1,4 +1,9 @@
-import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import type {
+  Dispatch,
+  InputHTMLAttributes,
+  SetStateAction,
+  TextareaHTMLAttributes,
+} from 'react'
 import type { FieldPath } from 'react-hook-form'
 import type {
   Antiparasitic,
@@ -50,6 +55,10 @@ export interface ModalDetailProps {
   defaultNote?: string
   /** 특이 사항 textarea 커스텀 props */
   noteTextareaProps?: TextareaHTMLAttributes<HTMLTextAreaElement>
+}
+
+export interface ModalDetailIsModifyProps extends ModalDetailProps {
+  setModify: Dispatch<SetStateAction<boolean>>
 }
 
 // ------------------------------------------------------------------
