@@ -33,17 +33,14 @@ export function ModalDetailInput({
   const mutation = useMutation({
     mutationFn: (payload: ModalInputDataType) =>
       createActivity({ setData: payload, type, pet_id }),
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success('저장 완료!')
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         refetchType: 'active',
-        queryKey: [type, pet_id],
+        queryKey: ['petTable', type, pet_id],
       })
-      // 리렌더링이 완료된 후 모달 닫기
-      setTimeout(() => {
-        reset()
-        onClose?.()
-      }, 300)
+      reset()
+      onClose?.()
     },
     onError: (err: unknown) => {
       // 서버에서 필드 에러 내주면 여기 매핑

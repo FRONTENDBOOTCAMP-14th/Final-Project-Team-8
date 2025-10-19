@@ -91,9 +91,9 @@ export async function getPetTableData<T extends AllowedTableNames>(
   const { data, error } = await supabase
     .from(type)
     .select('*')
-    .eq('pet_id', pet_id as any) // ← 컬럼/값 존재 보장 단언
-    .returns<TableRow<T>[]>() // ← 반환 타입 명시
+    .eq('pet_id', pet_id as any)
+    .returns<TableRow<T>[]>()
 
   if (error) throw error
-  return data ?? null
+  return data ?? []
 }
