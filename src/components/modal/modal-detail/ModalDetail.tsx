@@ -1,6 +1,7 @@
 // components/modal/ModalDetail.tsx
 import { CalendarDays, Clock } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { useForm } from 'react-hook-form'
 import Button from '../../ui/button/Button'
 import type {
   FieldType,
@@ -83,10 +84,13 @@ export function ModalDetailIsModify({
   defaultNote = '특이 사항 없음',
   noteTextareaProps,
 }: ModalDetailIsModifyProps) {
+  const { register, handleSubmit, formState, getFieldState, reset } = useForm()
+
   return (
     <form>
       {/* 섹션 타이틀 */}
 
+      <label htmlFor="title">{title}</label>
       <input
         id="title"
         type="text"

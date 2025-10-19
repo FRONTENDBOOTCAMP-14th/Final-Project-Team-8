@@ -1,30 +1,26 @@
-import type { Dispatch, SetStateAction } from 'react'
 import type { Antiparasitic } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import {
-  ModalDetailIsModify,
-  ModalDetailNonModify,
-} from '../modal-detail/ModalDetail'
+import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeAntiparasiticProps extends ModalTypeProps {
-  setModify: Dispatch<SetStateAction<boolean>>
+  // setModify: Dispatch<SetStateAction<boolean>>
   restProps: Antiparasitic
 }
 
 export default function ModalTypeAntiparasitic({
   isModify,
-  setModify,
+  // setModify,
   restProps: { id, intake_date, next_date, notes, title },
 }: ModalTypeAntiparasiticProps) {
   if (isModify) {
     return (
-      <ModalDetailIsModify
+      <ModalDetailInput
         key={id}
+        type={'antiparasitic'}
+        // onClose={() => {}}
         title={title}
-        isModify={isModify}
-        setModify={setModify}
         fields={[
           {
             key: 'intake_date',
@@ -32,6 +28,7 @@ export default function ModalTypeAntiparasitic({
             type: 'date',
             tableValue: intake_date,
             defaultValue: intake_date,
+            requiredSet: null,
           },
           {
             key: 'next_date',
@@ -39,6 +36,7 @@ export default function ModalTypeAntiparasitic({
             type: 'date',
             tableValue: next_date,
             defaultValue: next_date,
+            requiredSet: null,
           },
         ]}
         noteLabel="특이 사항"
