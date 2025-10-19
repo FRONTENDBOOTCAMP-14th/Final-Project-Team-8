@@ -59,19 +59,19 @@ export function ModalTypeOtherTreatmentInput({
       title={title}
       fields={[
         {
+          key: 'date',
+          label: '처치 날짜',
+          type: 'date',
+          defaultValue: date,
+          requiredSet: '처치 날짜를 입력해주세요.',
+        },
+        {
           key: 'detail',
           label: '처치 내용',
           type: 'text',
           defaultValue: detail,
           inputProps: { placeholder: '처치 내용을 입력해주세요' },
           requiredSet: null,
-        },
-        {
-          key: 'date',
-          label: '처치 날짜',
-          type: 'date',
-          defaultValue: date,
-          requiredSet: '처치 날짜를 입력해주세요.',
         },
       ]}
       noteLabel="특이 사항"
