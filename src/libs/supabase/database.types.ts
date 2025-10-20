@@ -208,7 +208,7 @@ export interface Database {
           gender: string | null
           id: string
           name: string
-          profile_img: string | null
+          profile_img: string | undefined
           size: number | null
           species: string
           user_id: string
