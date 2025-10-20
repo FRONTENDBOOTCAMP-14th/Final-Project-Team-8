@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { Database } from '../libs/supabase/database.types'
+import type { Database } from '@/libs/supabase/database.types'
 
 /**
  * 반려동물 프로필 생성 전용 Store

@@ -1,14 +1,20 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components'
 import PetProfileCardCarousel from '@/components/pet-profile/petProfileCardCarousel'
 import { usePetStore } from '@/store/petStore'
 
 export default function DashboardPage() {
+  const router = useRouter()
   const { petList } = usePetStore()
 
   const hasPets = petList.length > 0
+
+  const handleAddPet = () => {
+    router.push('/add-profile/step2')
+  }
 
   return (
     <>
@@ -98,7 +104,7 @@ export default function DashboardPage() {
               <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
             </div>
           </div>
-          <Button variant="orange" className="max-w-105">
+          <Button variant="orange" className="max-w-105" onClick={handleAddPet}>
             반려동물 추가하기
           </Button>
         </div>

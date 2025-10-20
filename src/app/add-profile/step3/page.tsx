@@ -2,17 +2,21 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import type { ChangeEvent } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AddProfileLayout } from '../../../components/add-profile/AddProfileLayout'
+import { createClient } from '../../../libs/supabase/client'
 import { useProfileCreationStore } from '../../../store/profileCreationStore'
+
+const supabase = createClient()
 
 export default function Step3NamePage() {
   const router = useRouter()
   const { draftPet, updateDraftPet, nextStep, setCurrentStep } =
     useProfileCreationStore()
-  const [name, setName] = useState(draftPet.name || '')
+  const [name, setName] = useState(draftPet.name ?? '')
   const [imagePreview, setImagePreview] = useState<string | null>(
-    draftPet.profile_img || null
+    draftPet.profile_img ?? null
   )
   const fileInputRef = useRef<HTMLInputElement>(null)
   // 디바운스
@@ -64,15 +68,33 @@ export default function Step3NamePage() {
     [updateDraftPet]
   )
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     if (!name.trim()) {
       alert('반려동물의 이름을 입력해주세요.')
       return
     }
 
-    updateDraftPet({ name: name.trim() })
-    nextStep()
-    router.push('/add-profile/step4')
+    try {
+      // draftPet.id가 존재하면 update
+      if (draftPet.id) {
+        const { error } = await supabase
+          .from('pets')
+          .update({
+            name: name.trim(),
+            profile_img: draftPet.profile_img ?? null,
+          })
+          .eq('id', draftPet.id)
+
+        if (error) throw error
+      }
+
+      updateDraftPet({ name: name.trim() })
+      nextStep()
+      router.push('/add-profile/step4')
+    } catch (err) {
+      console.error('이름 업데이트 오류 :', err)
+      alert('이름 정보를 저장하는 중 문제가 발생했습니다')
+    }
   }
 
   const handleSkip = () => {

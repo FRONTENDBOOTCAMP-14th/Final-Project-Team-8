@@ -1,10 +1,10 @@
 import '@/styles/main.css'
 import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
-import { Sidebar } from '../../components'
+import { Sidebar } from '@/components'
 
 export const metadata: Metadata = {
-  title: 'PAW BUDDY',
+  title: '대시보드 - PAW BUDDY',
 }
 
 export default function DashboardLayout({ children }: PropsWithChildren) {

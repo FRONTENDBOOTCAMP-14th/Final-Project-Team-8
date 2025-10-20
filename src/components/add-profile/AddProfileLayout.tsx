@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
+import { useRouter } from 'next/navigation'
+import type { ReactNode } from 'react'
 import { useProfileCreationStore } from '../../store/profileCreationStore'
 import ProgressBar from './ProgressBar'
-import { useRouter } from 'next/navigation'
 
 interface AddProfileLayoutProps {
   children: ReactNode
@@ -11,6 +11,19 @@ interface AddProfileLayoutProps {
   nextDisabled?: boolean
 }
 
+/**
+ * AddProfileLayout 컴포넌트
+ *
+ * 반려동물 프로필 생성 단계 페이지의 공통 레이아웃을 제공합니다.
+ * Header에는 뒤로가기 버튼, 단계 정보, ProgressBar가 포함되며,
+ * Footer에는 '건너뛰기'와 '입력 완료' 버튼이 포함됩니다.
+ *
+ * @param {ReactNode} children - 각 단계 페이지의 컨텐츠
+ * @param {string} stepTitle - 현재 단계 제목
+ * @param {() => void} [onSkip] - 건너뛰기 버튼 클릭 시 호출되는 콜백
+ * @param {() => void} [onComplete] - 입력 완료 버튼 클릭 시 호출되는 콜백
+ * @param {boolean} [nextDisabled=false] - 입력 완료 버튼 비활성화 여부
+ */
 export function AddProfileLayout({
   children,
   stepTitle,
@@ -76,15 +89,15 @@ export function AddProfileLayout({
       </header>
 
       {/* Content Area */}
-      <div className="flex min-h-0 flex-1 items-center justify-center">
-        <div className="w-full max-w-2xl">{children}</div>
+      <div className="flex-1 overflow-y-auto">
+        <div className="h-full w-full">{children}</div>
       </div>
 
       {/* Footer Navigation */}
-      <footer className="mt-8 flex-shrink-0">
+      <footer className="sticky mt-8 flex-shrink-0">
         <div className="flex justify-between rounded-3xl border border-gray-100 bg-white p-6 shadow-md">
           <div className="flex items-center text-gray-500">
-            다음으로 넘어가시겠습니까?
+            다음 단계로 넘어갈까요?
           </div>
 
           <div className="flex items-center gap-3">
