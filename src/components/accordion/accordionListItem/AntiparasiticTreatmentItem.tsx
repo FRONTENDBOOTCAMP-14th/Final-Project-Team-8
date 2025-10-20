@@ -3,7 +3,6 @@ import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { Antiparasitic } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
-import { tw } from '@/utils/shared'
 import Modal from '../../modal/Modal'
 import ModalTypeAntiparasitic from '../../modal/ModalType/ModalTypeAntiparasitic'
 import ItemEditButtonCompo from './EditButton/ItemEditButtonCompo'
@@ -30,7 +29,6 @@ export default function AntiparasiticTreatmentItem({
   // States
   // ========================================================================
 
-  const [isHovered, setIsHovered] = useState(false)
   const [isModify, setIsModify] = useState(false)
   const [isModalOpen, { on: openModal, off: closeModal }] =
     useToggleState(false)
@@ -40,30 +38,9 @@ export default function AntiparasiticTreatmentItem({
   // Handlers
   // ========================================================================
 
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
-
-  const handleMouseLeave = () => {
-    // 모달이 열려있지 않으면 버튼 숨김 (300ms 후)
-    if (!isModalOpen) {
-      setTimeout(() => setIsHovered(false), 300)
-    }
-  }
-
   const handleCloseModal = () => {
     closeModal()
-    setIsHovered(false)
   }
-
-  // ========================================================================
-  // Styles
-  // ========================================================================
-
-  const buttonVisibility = tw(
-    'transition-opacity duration-300 right-4 flex',
-    isHovered ? 'opacity-100' : 'absolute opacity-0 pointer-events-none'
-  )
 
   // ========================================================================
   // Render
@@ -71,10 +48,6 @@ export default function AntiparasiticTreatmentItem({
 
   return (
     <li
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
       aria-labelledby={headingId}
       className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px]"
       id={id}
@@ -87,7 +60,7 @@ export default function AntiparasiticTreatmentItem({
         <button
           onClick={openModal}
           type="button"
-          className="w-full cursor-pointer text-start transition hover:text-orange-400 active:scale-[0.95]"
+          className="w-full cursor-pointer text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
         >
           {title}
         </button>
@@ -121,16 +94,12 @@ export default function AntiparasiticTreatmentItem({
       </time>
 
       {/* 편집/삭제 버튼 */}
-      <div className={buttonVisibility}>
-        <ItemEditButtonCompo
-          onClick={openModal}
-          setModify={setIsModify}
-          id={id}
-          type="antiparasitic"
-          pet_id={pet_id}
-          title={title}
-        />
-      </div>
+      <ItemEditButtonCompo
+        id={id}
+        type="antiparasitic"
+        pet_id={pet_id}
+        title={title}
+      />
 
       {/* 모달 */}
       <Modal

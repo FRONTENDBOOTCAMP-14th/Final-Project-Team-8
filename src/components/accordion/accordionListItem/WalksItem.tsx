@@ -2,7 +2,6 @@ import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { Walks } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
-import { tw } from '../../../utils/shared'
 import Modal from '../../modal/Modal'
 import ModalTypeWalks from '../../modal/ModalType/ModalTypeWalks'
 import ItemEditButtonCompo from './EditButton/ItemEditButtonCompo'
@@ -30,7 +29,6 @@ export default function WalksItem({
   // States
   // ========================================================================
 
-  const [isHovered, setIsHovered] = useState(false)
   const [isModify, setIsModify] = useState(false)
   const [isModalOpen, { on: openModal, off: closeModal }] =
     useToggleState(false)
@@ -40,30 +38,9 @@ export default function WalksItem({
   // Handlers
   // ========================================================================
 
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
-
-  const handleMouseLeave = () => {
-    // 모달이 열려있지 않으면 버튼 숨김 (300ms 후)
-    if (!isModalOpen) {
-      setTimeout(() => setIsHovered(false), 300)
-    }
-  }
-
   const handleCloseModal = () => {
     closeModal()
-    setIsHovered(false)
   }
-
-  // ========================================================================
-  // Styles
-  // ========================================================================
-
-  const buttonVisibility = tw(
-    'transition-opacity duration-300 right-4 flex',
-    isHovered ? 'opacity-100' : 'absolute opacity-0 pointer-events-none'
-  )
 
   // ========================================================================
   // Render
@@ -71,10 +48,6 @@ export default function WalksItem({
 
   return (
     <li
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
       aria-labelledby={headingId}
       className="m-5 flex h-[84px] items-center gap-4 rounded-xl border border-gray-300 px-4 py-[23px]"
     >
@@ -117,16 +90,7 @@ export default function WalksItem({
       </div>
 
       {/* 편집/삭제 버튼 */}
-      <div className={buttonVisibility}>
-        <ItemEditButtonCompo
-          onClick={openModal}
-          setModify={setIsModify}
-          id={id}
-          type="walks"
-          pet_id={pet_id}
-          title={title}
-        />
-      </div>
+      <ItemEditButtonCompo id={id} type="walks" pet_id={pet_id} title={title} />
 
       <Modal
         open={isModalOpen}
