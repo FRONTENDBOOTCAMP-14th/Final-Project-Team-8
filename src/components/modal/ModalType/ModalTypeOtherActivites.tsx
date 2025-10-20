@@ -8,22 +8,25 @@ import { minTohour, removeSecond } from '../timeHandler'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeOtherActivitesProps extends ModalTypeProps {
+  isModify: boolean
   setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
   restProps: OtherActivities
 }
 
 export default function ModalTypeOtherActivites({
   isModify,
   setModify,
+  onClose,
   restProps: { date, id, notes, start_time, duration_time, title },
 }: ModalTypeOtherActivitesProps) {
   if (isModify) {
     return (
       <ModalDetailIsModify
         key={id}
+        id={id}
+        type={'other activities'}
         title={title}
-        isModify={isModify}
-        setModify={setModify}
         fields={[
           {
             key: 'date',
@@ -52,6 +55,10 @@ export default function ModalTypeOtherActivites({
         noteLabel="특이 사항"
         defaultNote={notes ?? '-'}
         noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+        // 모달 버튼 기능 연결
+        setModify={setModify}
+        isModify={isModify}
+        onClose={onClose}
       />
     )
   }

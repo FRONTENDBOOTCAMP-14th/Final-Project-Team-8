@@ -8,22 +8,25 @@ import { minTohour } from '../timeHandler'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeWalksProps extends ModalTypeProps {
+  isModify: boolean
   setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
   restProps: Walks
 }
 
 export default function ModalTypeWalks({
   isModify,
   setModify,
+  onClose,
   restProps: { date, distance, id, start_time, total_time, title },
 }: ModalTypeWalksProps) {
   if (isModify) {
     return (
       <ModalDetailIsModify
         key={id}
+        id={id}
+        type={'walks'}
         title={title}
-        isModify={isModify}
-        setModify={setModify}
         fields={[
           {
             key: 'start_time',
@@ -54,6 +57,10 @@ export default function ModalTypeWalks({
             defaultValue: date,
           },
         ]}
+        // 모달 버튼 기능 연결
+        setModify={setModify}
+        isModify={isModify}
+        onClose={onClose}
       />
     )
   }

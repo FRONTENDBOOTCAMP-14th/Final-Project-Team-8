@@ -7,12 +7,19 @@ import type {
 import type { FieldPath } from 'react-hook-form'
 import type {
   Antiparasitic,
+  AntiparasiticUpdate,
   Diet,
+  DietUpdate,
   MedicalTreatment,
+  MedicalTreatmentUpdate,
   OtherActivities,
+  OtherActivitiesUpdate,
   OtherTreatment,
+  OtherTreatmentUpdate,
   Vaccines,
+  VaccinesUpdate,
   Walks,
+  WalksUpdate,
 } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
 
@@ -58,7 +65,10 @@ export interface ModalDetailProps {
 }
 
 export interface ModalDetailIsModifyProps extends ModalDetailProps {
+  id: string
+  type: AccordionProps['type']
   setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
 }
 
 // ------------------------------------------------------------------
@@ -79,3 +89,13 @@ export type ModalDetailInpuProps = Replace<
     onClose: () => void
   }
 >
+
+// updateFields
+export type UpdateFieldsProps =
+  | AntiparasiticUpdate
+  | DietUpdate
+  | MedicalTreatmentUpdate
+  | OtherTreatmentUpdate
+  | OtherActivitiesUpdate
+  | WalksUpdate
+  | VaccinesUpdate

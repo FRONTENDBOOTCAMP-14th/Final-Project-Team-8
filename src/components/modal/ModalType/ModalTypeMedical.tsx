@@ -7,22 +7,25 @@ import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeMedicalTreatmentProps extends ModalTypeProps {
+  isModify: boolean
   setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
   restProps: MedicalTreatment
 }
 
 export default function ModalTypeMedicalTreatment({
   isModify,
   setModify,
+  onClose,
   restProps: { category, id, next_date, notes, visit_date, title },
 }: ModalTypeMedicalTreatmentProps) {
   if (isModify) {
     return (
       <ModalDetailIsModify
         key={id}
+        id={id}
+        type={'medical treatment'}
         title={title}
-        isModify={isModify}
-        setModify={setModify}
         fields={[
           {
             key: 'category',
@@ -50,6 +53,10 @@ export default function ModalTypeMedicalTreatment({
         noteLabel="특이 사항"
         defaultNote={notes ?? '-'}
         noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+        // 모달 버튼 기능 연결
+        setModify={setModify}
+        isModify={isModify}
+        onClose={onClose}
       />
     )
   }

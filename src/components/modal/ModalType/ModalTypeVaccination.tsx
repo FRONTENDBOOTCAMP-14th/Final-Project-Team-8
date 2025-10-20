@@ -7,22 +7,25 @@ import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeVaccinationProps extends ModalTypeProps {
+  isModify: boolean
   setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
   restProps: Vaccines
 }
 
 export default function ModalTypeVaccination({
   isModify,
   setModify,
+  onClose,
   restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
 }: ModalTypeVaccinationProps) {
   if (isModify) {
     return (
       <ModalDetailIsModify
         key={id}
+        id={id}
+        type={'vaccines'}
         title={title}
-        isModify={isModify}
-        setModify={setModify}
         fields={[
           {
             key: 'lot',
@@ -50,6 +53,10 @@ export default function ModalTypeVaccination({
         noteLabel="특이 사항"
         defaultNote={notes ?? '-'}
         noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+        // 모달 버튼 기능 연결
+        setModify={setModify}
+        isModify={isModify}
+        onClose={onClose}
       />
     )
   }
