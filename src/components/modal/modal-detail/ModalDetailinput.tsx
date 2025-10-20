@@ -51,7 +51,7 @@ export function ModalDetailInput({
   })
 
   if (!pet_id) {
-    toast.error('해당 펫은 유효하지 않습니다. 펫을 다시 선택해주세요.')
+    toast.error('추가할 펫이 지정되지 않았습니다.')
   }
 
   if (isSubmitting || mutation.isPending) {
