@@ -45,7 +45,7 @@ export default function ModalTypeOtherActivites({
           },
           {
             key: 'duration_time',
-            label: '활동 시간',
+            label: '활동 시간 (min)',
             type: 'number',
             tableValue: minTohour(duration_time),
             defaultValue: duration_time,
@@ -85,7 +85,7 @@ export default function ModalTypeOtherActivites({
         },
         {
           key: 'duration_time',
-          label: '활동 시간',
+          label: '활동 시간 (min)',
           type: 'number',
           tableValue: minTohour(duration_time),
           defaultValue: duration_time,
