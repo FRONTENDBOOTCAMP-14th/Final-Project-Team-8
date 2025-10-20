@@ -48,7 +48,7 @@ export default function CalendarPage() {
 
   return (
     <>
-      <div className="flex w-full flex-row">
+      <div className="flex w-full flex-row p-[-40px]">
         <div className="relative grow p-7.5">
           <h2 className="text-[28px] font-bold text-[#3A394F]">캘린더</h2>
           <p className="mt-2 mb-7.5 font-medium text-[#80809A]">

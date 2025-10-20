@@ -1,0 +1,7 @@
+export default function UserAccountPage() {
+  return (
+    <>
+      <div>user account page</div>
+    </>
+  )
+}

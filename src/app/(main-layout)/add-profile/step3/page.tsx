@@ -4,9 +4,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import type { ChangeEvent } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AddProfileLayout } from '../../../components/add-profile/AddProfileLayout'
-import { createClient } from '../../../libs/supabase/client'
-import { useProfileCreationStore } from '../../../store/profileCreationStore'
+import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { createClient } from '@/libs/supabase/client'
+import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 const supabase = createClient()
 
