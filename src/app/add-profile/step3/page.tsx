@@ -2,7 +2,8 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import type { ChangeEvent } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AddProfileLayout } from '../../../components/add-profile/AddProfileLayout'
 import { useProfileCreationStore } from '../../../store/profileCreationStore'
 
@@ -10,9 +11,9 @@ export default function Step3NamePage() {
   const router = useRouter()
   const { draftPet, updateDraftPet, nextStep, setCurrentStep } =
     useProfileCreationStore()
-  const [name, setName] = useState(draftPet.name || '')
+  const [name, setName] = useState(draftPet.name ?? '')
   const [imagePreview, setImagePreview] = useState<string | null>(
-    draftPet.profile_img || null
+    draftPet.profile_img ?? null
   )
   const fileInputRef = useRef<HTMLInputElement>(null)
   // 디바운스

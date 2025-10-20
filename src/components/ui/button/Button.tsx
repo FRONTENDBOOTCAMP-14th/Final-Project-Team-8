@@ -5,9 +5,10 @@ import type { ComponentProps } from 'react'
  * - white: 흰색 배경, 주황 아웃라인, 주황 텍스트
  * - orange: 주황 배경, 흰색 텍스트 (기본값)
  * - transparent: 투명 배경, 주황 텍스트
+ *  - gray: 회색 배경, 회색 텍스트
  */
 
-type ButtonVariant = 'white' | 'orange' | 'transparent'
+type ButtonVariant = 'white' | 'orange' | 'transparent' | 'gray'
 
 /**
  * Button 컴포넌트 props
@@ -17,6 +18,7 @@ type ButtonVariant = 'white' | 'orange' | 'transparent'
  * - white: 흰색 배경, 주황 아웃라인, 주황 텍스트
  * - orange: 주황 배경, 흰색 텍스트 (기본값)
  * - transparent: 투명 배경, 주황 텍스트
+ * - gray: 회색 배경, 회색 텍스트
  * 기본값: orange
  */
 
@@ -46,13 +48,20 @@ const variantStyle: Record<ButtonVariant, string> = {
     'hover:text-[#C85712] hover:bg-[#ECECF2]',
     'focus:ring-[#FFA873] focus:text-[#C85712]',
     'active:text-[#803C0C]',
-    'disabled:text-[#FFA873],  outline-[#FFA873]',
+    'disabled:text-[#FFA873], outline-[#FFA873]',
   ].join(' '),
   transparent: [
     'bg-transparent text-[#FF6000]',
     'hover:text-[#C85712]',
     'focus:ring-[#FFA873] focus:text-[#C85712]',
     'active:text-[#803C0C]',
+    'disabled:text-[#FFA873]',
+  ].join(' '),
+  gray: [
+    'bg-[#ECECF2] outline-[#DAD9E6] text-[#80809A]',
+    'hover:text-[#524984]',
+    'focus:ring-[##524984] focus:text-[##524984]',
+    'active:text-white active:bg-[#524984]',
     'disabled:text-[#FFA873]',
   ].join(' '),
 }
