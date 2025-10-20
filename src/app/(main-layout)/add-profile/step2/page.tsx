@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { ImgCardButton } from '../../../components'
-import { AddProfileLayout } from '../../../components/add-profile/AddProfileLayout'
-import { useProfileCreationStore } from '../../../store/profileCreationStore'
+import { ImgCardButton } from '@/components'
+import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 const BREED_OPTIONS = [
   { id: 'mixed', value: 'mixed', label: '믹스견' },
