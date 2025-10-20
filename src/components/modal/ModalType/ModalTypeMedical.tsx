@@ -1,19 +1,67 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { MedicalTreatment } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeMedicalTreatmentProps extends ModalTypeProps {
+  isModify: boolean
+  setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
   restProps: MedicalTreatment
 }
 
 export default function ModalTypeMedicalTreatment({
   isModify,
+  setModify,
+  onClose,
   restProps: { category, id, next_date, notes, visit_date, title },
 }: ModalTypeMedicalTreatmentProps) {
+  if (isModify) {
+    return (
+      <ModalDetailIsModify
+        key={id}
+        id={id}
+        type={'medical treatment'}
+        title={title}
+        fields={[
+          {
+            key: 'category',
+            label: '항목',
+            type: 'text',
+            tableValue: category,
+            defaultValue: category ?? '',
+            inputProps: { placeholder: '항목을 입력해주세요' },
+          },
+          {
+            key: 'visit_date',
+            label: '방문 날짜',
+            type: 'date',
+            tableValue: visit_date,
+            defaultValue: visit_date,
+          },
+          {
+            key: 'next_date',
+            label: '다음 진료',
+            type: 'date',
+            tableValue: next_date,
+            defaultValue: next_date,
+          },
+        ]}
+        noteLabel="특이 사항"
+        defaultNote={notes ?? '-'}
+        noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+        // 모달 버튼 기능 연결
+        setModify={setModify}
+        isModify={isModify}
+        onClose={onClose}
+      />
+    )
+  }
   return (
-    <ModalDetail
+    <ModalDetailNonModify
       key={id}
       title={title}
       isModify={isModify}
@@ -69,7 +117,6 @@ export function ModalTypeMedicalTreatmentInput({
           key: 'category',
           label: '항목',
           type: 'text',
-          // tableValue: category,
           defaultValue: category ?? '',
           inputProps: { placeholder: '항목을 입력해주세요' },
           requiredSet: '항목을 입력해주세요.',
@@ -78,7 +125,6 @@ export function ModalTypeMedicalTreatmentInput({
           key: 'visit_date',
           label: '방문 날짜',
           type: 'date',
-          // tableValue: visit_date,
           defaultValue: visit_date,
           requiredSet: '방문 날짜를 입력해주세요.',
         },
@@ -86,8 +132,8 @@ export function ModalTypeMedicalTreatmentInput({
           key: 'next_date',
           label: '다음 진료',
           type: 'date',
-          // tableValue: next_date,
           defaultValue: next_date,
+          requiredSet: null,
         },
       ]}
       noteLabel="특이 사항"

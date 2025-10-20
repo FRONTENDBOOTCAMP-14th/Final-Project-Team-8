@@ -12,14 +12,19 @@ type CardButtonVariant = 'sm' | 'md' | 'lg'
 
 interface CardButtonProps extends ComponentProps<'button'> {
   dogSize?: CardButtonVariant
+  isSelected?: boolean
 }
 
 const baseStyle = `
+cursor-pointer
 flex flex-col items-center justify-center
-w-[156px] h-[200px] p-[30px]
-rounded-[18px] text-[#FF6000] bg-white
-focus:outline-none focus:ring-2 focus:ring-offset-0
+min-w-[156px] min-h-[200px] p-[30px]
+rounded-[18px] bg-white shadow-md outline-1 outline-gray-200
+focus:outline-none focus:ring-2 focus:ring-offset-0 focus:text-[#FF6000]
 `
+const selectedStyle = `
+min-w-[200px] min-h-[260px]
+text-[#FF6000] outline-none ring-2 ring-offset-0 `
 
 const variantStyle: Record<
   CardButtonVariant,
@@ -61,9 +66,9 @@ const variantStyle: Record<
  * ```
  */
 export default function CardButton({
-  children,
   dogSize = 'md',
   className,
+  isSelected,
   ...restProps
 }: CardButtonProps) {
   const { title, weight } = variantStyle[dogSize]
@@ -71,18 +76,25 @@ export default function CardButton({
   return (
     <button
       type="button"
-      className={`${baseStyle} group ${className}`}
+      className={`${baseStyle} ${isSelected ? selectedStyle : ''} group ${className}`}
       {...restProps}
     >
       <DogSizeIcon
         size={dogSize}
-        className="text-gray-600 group-focus:text-[#FF6000]"
-        rectColor="text-gray-100 group-focus:text-[#FFD8C0]"
+        data-selected={isSelected}
+        className={`${isSelected ? 'text-[#FF6000]' : 'text-gray-600'}`}
+        rectColor={`${
+          isSelected ? 'text-[#FFD8C0]' : 'text-gray-100'
+        } group-focus:text-[#FFD8C0]`}
       ></DogSizeIcon>
-      <span className="mt-3.5 text-[20px] font-bold text-gray-800 group-focus:text-[#FF6000]">
+      <span
+        className={`mt-3.5 text-[20px] font-bold ${isSelected ? 'text-[#FF6000]' : 'text-gray-800'}`}
+      >
         {title}
       </span>
-      <span className="text-[18px] text-gray-600 group-focus:text-[#FF6000]">
+      <span
+        className={`${isSelected ? 'text-[#FF6000]' : 'text-gray-600'} text-[18px]`}
+      >
         {weight}
       </span>
     </button>

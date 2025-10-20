@@ -2,9 +2,13 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { ImgCardButton } from '../../../components'
-import { AddProfileLayout } from '../../../components/add-profile/AddProfileLayout'
-import { useProfileCreationStore } from '../../../store/profileCreationStore'
+import { ImgCardButton } from '@/components'
+import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { createClient } from '@/libs/supabase/client'
+import type { TablesInsert } from '@/libs/supabase/database.types'
+import { useProfileCreationStore } from '@/store/profileCreationStore'
+
+const supabase = createClient()
 
 const BREED_OPTIONS = [
   { id: 'mixed', value: 'mixed', label: '믹스견' },
@@ -38,6 +42,47 @@ export default function Step2BreedPage() {
     setCurrentStep(2)
   }, [setCurrentStep])
 
+  // Supabase에 사용자가 선택한 품종 저장
+  const saveBreedToSupabase = async (breedValue: string) => {
+    try {
+      const user = (await supabase.auth.getUser()).data.user
+      if (!user) {
+        alert('로그인이 필요합니다')
+        return
+      }
+
+      // 이미 draftPet.id가 있으면 업데이트, 없으면 새로 생성
+      if (draftPet.id) {
+        const { error } = await supabase
+          .from('pets')
+          .update({ breed: breedValue })
+          .eq('id', draftPet.id)
+
+        if (error) throw error
+      } else {
+        const newPet: TablesInsert<'pets'> = {
+          name: draftPet.name ?? '이름 미정',
+          species: draftPet.species ?? 'dog',
+          breed: breedValue,
+          user_id: user.id,
+        }
+
+        const { data, error } = await supabase
+          .from('pets')
+          .insert(newPet)
+          .select()
+          .single()
+
+        if (error) throw error
+
+        updateDraftPet({ id: data.id, breed: data.breed })
+      }
+    } catch (err) {
+      console.error('품종 저장 오류 : ', err)
+      alert('품종 정보를 저장하는 중 문제가 발생했습니다')
+    }
+  }
+
   // 검색 필터링
   const filteredBreeds = BREED_OPTIONS.filter(breed =>
     breed.label.toLowerCase().includes(searchTerm.toLowerCase())
@@ -48,11 +93,13 @@ export default function Step2BreedPage() {
     updateDraftPet({ breed: breedValue })
   }
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     if (!selectedBreed) {
       alert('품종을 선택해주세요')
       return
     }
+
+    await saveBreedToSupabase(selectedBreed)
 
     nextStep()
     router.push('/add-profile/step3')
