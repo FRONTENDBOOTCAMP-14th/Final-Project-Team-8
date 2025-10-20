@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
+import { useRouter } from 'next/navigation'
+import type { ReactNode } from 'react'
 import { useProfileCreationStore } from '../../store/profileCreationStore'
 import ProgressBar from './ProgressBar'
-import { useRouter } from 'next/navigation'
 
 interface AddProfileLayoutProps {
   children: ReactNode
@@ -76,15 +76,15 @@ export function AddProfileLayout({
       </header>
 
       {/* Content Area */}
-      <div className="flex min-h-0 flex-1 items-center justify-center">
-        <div className="w-full max-w-2xl">{children}</div>
+      <div className="flex-1 overflow-y-auto">
+        <div className="w-full">{children}</div>
       </div>
 
       {/* Footer Navigation */}
-      <footer className="mt-8 flex-shrink-0">
+      <footer className="sticky mt-8 flex-shrink-0">
         <div className="flex justify-between rounded-3xl border border-gray-100 bg-white p-6 shadow-md">
           <div className="flex items-center text-gray-500">
-            다음으로 넘어가시겠습니까?
+            다음 단계로 넘어갈까요?
           </div>
 
           <div className="flex items-center gap-3">
