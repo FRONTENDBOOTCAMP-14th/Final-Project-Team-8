@@ -91,6 +91,7 @@ export default function VaccinesTreatmentItem({
         <ModalTypeVaccination
           isModify={isModify}
           setModify={setModify}
+          onClose={off}
           restProps={{
             expiry_date,
             id,

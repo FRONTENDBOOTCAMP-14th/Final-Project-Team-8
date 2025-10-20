@@ -84,6 +84,7 @@ export default function OtherActivitiesItem({
         <ModalTypeOtherActivites
           isModify={isModify}
           setModify={setModify}
+          onClose={off}
           restProps={{
             date,
             id,

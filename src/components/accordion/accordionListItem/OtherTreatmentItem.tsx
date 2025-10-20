@@ -83,6 +83,7 @@ export default function OtherTreatmentItem({
         <ModalTypeOtherTreatment
           isModify={isModify}
           setModify={setModify}
+          onClose={off}
           restProps={{
             date,
             detail,
