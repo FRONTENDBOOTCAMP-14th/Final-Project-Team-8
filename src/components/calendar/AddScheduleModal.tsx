@@ -8,8 +8,7 @@ import {
   Syringe,
   X,
 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import { tabbableSelector } from '@/utils/client'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ScheduleCategory } from './types'
 
 interface Props {
@@ -71,11 +70,27 @@ const CATEGORY_OPTIONS: CategoryOption[] = [
   },
 ]
 
+const GRID_COLUMNS = 4
+
 export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const firstCategoryButtonRef = useRef<HTMLButtonElement>(null)
+  const categoryButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const [selectedCategory, setSelectedCategory] =
     useState<ScheduleCategory | null>(null)
+
+  const handleClose = useCallback(() => {
+    setSelectedCategory(null)
+    onClose()
+  }, [onClose])
+
+  const handleBack = useCallback(() => {
+    setSelectedCategory(null)
+  }, [])
+
+  const handleSuccess = useCallback(() => {
+    handleClose()
+  }, [handleClose])
 
   // 모달 열기/닫기 제어
   useEffect(() => {
@@ -101,7 +116,7 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
     }
   }, [isOpen, selectedCategory])
 
-  // 캍고리가 변경되면 첫 번째 카테고리 버튼에 포커스(뒤로가기 눌렀을 때)
+  // 카테고리가 변경되면 첫 번째 카테고리 버튼에 포커스(뒤로가기 눌렀을 때)
   useEffect(() => {
     if (isOpen && !selectedCategory) {
       setTimeout(() => {
@@ -121,14 +136,7 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
     }
 
     const handleClick = (e: MouseEvent) => {
-      const rect = dialog.getBoundingClientRect()
-      const isInDialog =
-        rect.top <= e.clientY &&
-        e.clientY <= rect.top + rect.height &&
-        rect.left <= e.clientX &&
-        e.clientX <= rect.left + rect.width
-
-      if (!isInDialog) {
+      if (e.target === dialog) {
         handleClose()
       }
     }
@@ -140,9 +148,9 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
       dialog.removeEventListener('cancel', handleCancel)
       dialog.removeEventListener('click', handleClick)
     }
-  })
+  }, [handleClose])
 
-  // 포커스 트랩
+  // 포커스 트랩 + 스크롤 잠금
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog || !isOpen) return
@@ -150,7 +158,9 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return
 
-      const tabbableElements = dialog.querySelectorAll(tabbableSelector)
+      const tabbableElements = dialog.querySelectorAll(
+        'button:not([disabled]):not([tabindex="-1"]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex="0"]'
+      )
 
       const firstElement = tabbableElements[0] as HTMLElement
       const lastElement = tabbableElements[
@@ -179,17 +189,54 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
     }
   }, [isOpen, selectedCategory])
 
-  const handleClose = () => {
-    setSelectedCategory(null)
-    onClose()
+  // 카테고리 선택 핸들러(Enter/Space 처리)
+  const handleCategorySelect = (category: ScheduleCategory) => {
+    setSelectedCategory(category)
   }
 
-  const handleBack = () => {
-    setSelectedCategory(null)
-  }
+  // 키보드 방향키로 카테고리 포커스 이동
+  const handleArrowKeyDown = (
+    e: React.KeyboardEvent<HTMLButtonElement>,
+    currentIndex: number
+  ) => {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+      return
+    }
 
-  const handleSuccess = () => {
-    handleClose()
+    e.preventDefault()
+
+    let nextIndex = currentIndex
+
+    switch (e.key) {
+      case 'ArrowRight':
+        nextIndex = (currentIndex + 1) % CATEGORY_OPTIONS.length
+        break
+      case 'ArrowLeft':
+        nextIndex =
+          (currentIndex - 1 + CATEGORY_OPTIONS.length) % CATEGORY_OPTIONS.length
+        break
+      case 'ArrowUp':
+        nextIndex = currentIndex - GRID_COLUMNS
+        if (nextIndex < 0) {
+          const column = currentIndex % GRID_COLUMNS
+          const lastRowStartIndex =
+            Math.floor((CATEGORY_OPTIONS.length - 1) / GRID_COLUMNS) *
+            GRID_COLUMNS
+          nextIndex = lastRowStartIndex + column
+          if (nextIndex >= CATEGORY_OPTIONS.length) {
+            nextIndex = nextIndex - GRID_COLUMNS
+          }
+        }
+        break
+      case 'ArrowDown':
+        nextIndex = currentIndex + GRID_COLUMNS
+        if (nextIndex >= CATEGORY_OPTIONS.length) {
+          nextIndex = currentIndex % GRID_COLUMNS
+        }
+        break
+    }
+
+    categoryButtonRefs.current[nextIndex]?.focus()
   }
 
   return (
@@ -197,7 +244,7 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
       ref={dialogRef}
       aria-modal
       aria-labelledby="add-schedule-modal-title"
-      className="fixed top-1/2 left-1/2 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border-0 bg-white p-7.5 shadow-xl backdrop:bg-[#32324D]/30 backdrop:blur-xl"
+      className="fixed top-1/2 left-1/2 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border-0 bg-white p-7.5 shadow-xl backdrop:bg-[#32324D]/30 backdrop:backdrop-blur-[3px]"
     >
       {/* 헤더 */}
       <div className="mb-2 flex items-center">
@@ -206,7 +253,7 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
             type="button"
             onClick={handleBack}
             aria-label="뒤로 가기"
-            className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border-0 bg-transparent p-1 text-[#80809A] hover:text-[#3A394F]"
+            className="mr-3 flex h-8 w-8 items-center justify-center rounded-full border-0 bg-transparent p-1 text-[#80809A] hover:text-[#3A394F] focus:outline-[#FF6000]"
           >
             <ArrowLeft className="h-full w-full" />
           </button>
@@ -223,15 +270,6 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
               } 추가`
             : '일정 추가'}
         </h2>
-
-        <button
-          type="button"
-          onClick={handleClose}
-          aria-label="닫기"
-          className="flex h-8 w-8 items-center justify-center rounded-full border-0 bg-transparent p-1 text-[#80809A] hover:text-[#3A394F]"
-        >
-          <X className="h-full w-full" />
-        </button>
       </div>
 
       {/* 컨텐츠 */}
@@ -239,14 +277,21 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
         // 카테고리 선택 화면
         <div>
           <p className="mb-5 text-sm text-[#80809A]">어떤 일정을 추가할까요?</p>
-          <ul className="grid grid-cols-4 gap-3">
-            {CATEGORY_OPTIONS.map(option => {
+          <ul className={`grid grid-cols-${GRID_COLUMNS} gap-3`}>
+            {CATEGORY_OPTIONS.map((option, index) => {
               const { Icon } = option
               return (
                 <li key={option.value}>
                   <button
                     type="button"
-                    onClick={() => setSelectedCategory(option.value)}
+                    ref={el => {
+                      categoryButtonRefs.current[index] = el
+                      if (index === 0) {
+                        firstCategoryButtonRef.current = el
+                      }
+                    }}
+                    onClick={() => handleCategorySelect(option.value)}
+                    onKeyDown={e => handleArrowKeyDown(e, index)}
                     className="flex h-28 w-full flex-col items-center justify-center gap-3 rounded-xl border border-[#DAD9E6] bg-white hover:border-[#FF6000] hover:bg-[#FFF5F0] focus:border-[#FF6000] focus:outline-2 focus:outline-[#FF6000]"
                   >
                     <span
@@ -265,8 +310,26 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
         </div>
       ) : (
         // 선택된 카테고리의 폼 표시
-        <div className="h-30"></div>
+        <div className="h-30">
+          {/* TODO: react-hook-form 폼들 여기에 추가 */}
+          <p className="text-[#80809A]">
+            {
+              CATEGORY_OPTIONS.find(opt => opt.value === selectedCategory)
+                ?.label
+            }{' '}
+            폼 영역
+          </p>
+        </div>
       )}
+
+      <button
+        type="button"
+        onClick={handleClose}
+        aria-label="닫기"
+        className="absolute top-7.5 right-7.5 h-8 w-8 rounded-full border-0 bg-transparent p-1 text-[#80809A] hover:text-[#3A394F] focus:outline-[#FF6000]"
+      >
+        <X className="h-full w-full" />
+      </button>
     </dialog>
   )
 }

@@ -10,8 +10,8 @@ export interface CalendarDay {
  * 주어진 년/월에 대한 캘린더 그리드를 생성합니다.
  * 이전 달과 다음 달의 날짜도 포함되어 6주 형식으로 반환합니다.
  *
- * @param year -
- * @param month -
+ * @param year - 연도
+ * @param month - 월
  * @returns 6주 ✕ 7일 형식의 캘린더 그리드
  */
 export const useCalendarGrid = (year: number, month: number) => {
