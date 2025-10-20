@@ -3,11 +3,21 @@ import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { OtherActivities } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
+import { tw } from '../../../utils/shared'
 import Modal from '../../modal/Modal'
 import ModalTypeOtherActivites from '../../modal/ModalType/ModalTypeOtherActivites'
-import ItemEditButtonCompo from './ItemEditButtonCompo'
+import ItemEditButtonCompo from './EditButton/ItemEditButtonCompo'
 
-// 기타 활동 일지 아이템 (내용 미리보기)
+// ============================================================================
+// Component
+// ============================================================================
+
+/**
+ * OtherActivitiesItem 컴포넌트
+ * - 기타 활동 기록 항목 렌더링
+ * - 마우스 호버 시 편집/삭제 버튼 표시 (fadeIn 애니메이션)
+ * - 모달 열림 중에는 버튼 계속 표시 (작업 중단 방지)
+ */
 export default function OtherActivitiesItem({
   date,
   id,
@@ -17,32 +27,61 @@ export default function OtherActivitiesItem({
   duration_time,
   title,
 }: OtherActivities) {
-  const [mouseState, setMouseState] = useState<boolean>(false)
+  // ========================================================================
+  // States
+  // ========================================================================
+
+  const [isHovered, setIsHovered] = useState(false)
+  const [isModify, setIsModify] = useState(false)
+  const [isModalOpen, { on: openModal, off: closeModal }] =
+    useToggleState(false)
   const headingId = useId()
 
-  const handleMouseIn = () => {
-    setMouseState(true)
+  // ========================================================================
+  // Handlers
+  // ========================================================================
+
+  const handleMouseEnter = () => {
+    setIsHovered(true)
   }
 
-  const handleMouseOut = () => {
-    setMouseState(false)
+  const handleMouseLeave = () => {
+    // 모달이 열려있지 않으면 버튼 숨김 (300ms 후)
+    if (!isModalOpen) {
+      setTimeout(() => setIsHovered(false), 300)
+    }
   }
 
-  const [isOpen, { on, off }] = useToggleState(false)
-  const [isModify, setModify] = useState<boolean>(false)
+  const handleCloseModal = () => {
+    closeModal()
+    setIsHovered(false)
+  }
+
+  // ========================================================================
+  // Styles
+  // ========================================================================
+
+  const buttonVisibility = tw(
+    'transition-opacity duration-300 right-4 flex',
+    isHovered ? 'opacity-100' : 'absolute opacity-0 pointer-events-none'
+  )
+
+  // ========================================================================
+  // Render
+  // ========================================================================
 
   return (
     <li
-      onMouseEnter={handleMouseIn}
-      onMouseLeave={handleMouseOut}
-      onFocus={handleMouseIn}
-      onBlur={handleMouseOut}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
       aria-labelledby={headingId}
-      className="m-5 max-h-34 min-h-25 w-[calc(100%-40px)] list-none rounded-xl border border-gray-300 px-4 py-[16px]"
+      className="relative m-5 max-h-34 min-h-25 w-[calc(100%-40px)] list-none rounded-xl border border-gray-300 px-4 py-[16px]"
     >
       <div className="mb-1 flex">
         <button
-          onClick={on}
+          onClick={openModal}
           type="button"
           className="grow-1 origin-left cursor-pointer transition hover:text-orange-400 active:scale-[0.95]"
         >
@@ -72,19 +111,29 @@ export default function OtherActivitiesItem({
         <p className="line-clamp-4 grow text-start text-sm whitespace-pre-line text-gray-500">
           {notes}
         </p>
-        {mouseState && <ItemEditButtonCompo title={title} key={id} />}
+        {/* 편집/삭제 버튼 */}
+        <div className={buttonVisibility}>
+          <ItemEditButtonCompo
+            onClick={openModal}
+            setModify={setIsModify}
+            id={id}
+            type="other activities"
+            pet_id={pet_id}
+            title={title}
+          />
+        </div>
       </div>
 
       <Modal
-        open={isOpen}
-        onClose={off}
+        open={isModalOpen}
+        onClose={handleCloseModal}
         isModify={isModify}
-        setModify={setModify}
+        setModify={setIsModify}
       >
         <ModalTypeOtherActivites
           isModify={isModify}
-          setModify={setModify}
-          onClose={off}
+          setModify={setIsModify}
+          onClose={handleCloseModal}
           restProps={{
             date,
             id,

@@ -3,14 +3,20 @@ import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { OtherTreatment } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
+import { tw } from '../../../utils/shared'
 import Modal from '../../modal/Modal'
 import ModalTypeOtherTreatment from '../../modal/ModalType/ModalTypeOtherTreatment'
-import ItemEditButtonCompo from './ItemEditButtonCompo'
+import ItemEditButtonCompo from './EditButton/ItemEditButtonCompo'
+
+// ============================================================================
+// Component
+// ============================================================================
 
 /**
- * AccordionListItemTreatment 컴포넌트
- * 년도별 백신 기록 한 줄 렌더링
- * 예방접종, 구충치료, 의료처치, 기타치료 itme 컴포넌트
+ * OtherTreatmentItem 컴포넌트
+ * - 기타 치료 기록 항목 렌더링
+ * - 마우스 호버 시 편집/삭제 버튼 표시 (fadeIn 애니메이션)
+ * - 모달 열림 중에는 버튼 계속 표시 (작업 중단 방지)
  */
 export default function OtherTreatmentItem({
   date,
@@ -20,25 +26,55 @@ export default function OtherTreatmentItem({
   pet_id,
   title,
 }: OtherTreatment) {
-  const [mouseState, setMouseState] = useState<boolean>(false)
+  // ========================================================================
+  // States
+  // ========================================================================
+
+  const [isHovered, setIsHovered] = useState(false)
+  const [isModify, setIsModify] = useState(false)
+  const [isModalOpen, { on: openModal, off: closeModal }] =
+    useToggleState(false)
   const headingId = useId()
-  const handleMouseIn = () => {
-    setMouseState(true)
+
+  // ========================================================================
+  // Handlers
+  // ========================================================================
+
+  const handleMouseEnter = () => {
+    setIsHovered(true)
   }
 
-  const handleMouseOut = () => {
-    setMouseState(false)
+  const handleMouseLeave = () => {
+    // 모달이 열려있지 않으면 버튼 숨김 (300ms 후)
+    if (!isModalOpen) {
+      setTimeout(() => setIsHovered(false), 300)
+    }
   }
 
-  const [isOpen, { on, off }] = useToggleState(false)
-  const [isModify, setModify] = useState<boolean>(false)
+  const handleCloseModal = () => {
+    closeModal()
+    setIsHovered(false)
+  }
+
+  // ========================================================================
+  // Styles
+  // ========================================================================
+
+  const buttonVisibility = tw(
+    'transition-opacity duration-300 right-4 flex',
+    isHovered ? 'opacity-100' : 'absolute opacity-0 pointer-events-none'
+  )
+
+  // ========================================================================
+  // Render
+  // ========================================================================
 
   return (
     <li
-      onMouseEnter={handleMouseIn}
-      onMouseLeave={handleMouseOut}
-      onFocus={handleMouseIn}
-      onBlur={handleMouseOut}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
       aria-labelledby={headingId}
       className="m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 pt-[23px] pr-4 pb-[23px] pl-4"
       id={id}
@@ -48,7 +84,7 @@ export default function OtherTreatmentItem({
         className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
       >
         <button
-          onClick={on}
+          onClick={openModal}
           type="button"
           className="w-full origin-left cursor-pointer text-start transition active:scale-[0.95]"
         >
@@ -74,16 +110,28 @@ export default function OtherTreatmentItem({
         {date}
       </time>
 
+      {/* 편집/삭제 버튼 */}
+      <div className={buttonVisibility}>
+        <ItemEditButtonCompo
+          onClick={openModal}
+          setModify={setIsModify}
+          id={id}
+          type="other treatments"
+          pet_id={pet_id}
+          title={title}
+        />
+      </div>
+
       <Modal
-        open={isOpen}
-        onClose={off}
+        open={isModalOpen}
+        onClose={handleCloseModal}
         isModify={isModify}
-        setModify={setModify}
+        setModify={setIsModify}
       >
         <ModalTypeOtherTreatment
           isModify={isModify}
-          setModify={setModify}
-          onClose={off}
+          setModify={setIsModify}
+          onClose={handleCloseModal}
           restProps={{
             date,
             detail,
@@ -94,9 +142,6 @@ export default function OtherTreatmentItem({
           }}
         />
       </Modal>
-
-      {/* 수정 및 삭제 버튼 */}
-      {mouseState && <ItemEditButtonCompo title={title} />}
     </li>
   )
 }
