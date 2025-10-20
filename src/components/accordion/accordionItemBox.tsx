@@ -1,13 +1,18 @@
 'use client'
 
+import { UserRoundX } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
-import type { AllowedTableNames } from '@/libs/api/accordion'
 import useToggleState from '../../hooks/useToggleState'
+import type { AllowedTableNames } from '../../libs/api/activity.api'
+import { usePetStore } from '../../store/petStore'
+import { useUserStore } from '../../store/userStore'
 import QueryErrorBoundary from '../common/QueryErrorBoundary'
 import ModalHost from '../modal/ModalHost'
 import Button from '../ui/button/Button'
 import AccordionContent from './accordionContent'
 import { selectTypeButtonTitle } from './accordionFun'
+import EmptyState from './EmptyState'
 import ListLoading from './ListLoading'
 
 interface Props<T extends AllowedTableNames> {
@@ -25,6 +30,9 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
     if (isOpen) setOnceOpened(true)
   }, [isOpen])
 
+  const pet_id = usePetStore(s => s.selectedPetId)
+  const user = useUserStore(s => s.user)
+  const router = useRouter()
   const [isOepn, { on, off }] = useToggleState(false)
   return (
     <div
@@ -51,7 +59,26 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
         <QueryErrorBoundary>
           <Suspense fallback={<ListLoading />}>
             {/* List to Read */}
-            <AccordionContent type={type} />
+            {!user ? (
+              <EmptyState
+                title="사용자의 계정을 찾을 수 없습니다"
+                message="로그인을 먼저 해주세요"
+                actionLabel="로그인"
+                icon="custom"
+                customIcon={<UserRoundX />}
+                onAction={() => {
+                  router.push('/login')
+                }}
+              ></EmptyState>
+            ) : !pet_id ? (
+              <EmptyState
+                title="기록이 없습니다"
+                message="첫 기록을 추가해 보세요"
+                actionLabel="새 항목 추가"
+              ></EmptyState>
+            ) : (
+              <AccordionContent type={type} pet_id={pet_id} />
+            )}
             {/* <NewListitemAdd type={type} /> */}
             <ModalHost open={isOepn} onClose={off} type={type}></ModalHost>
           </Suspense>

@@ -1,8 +1,12 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef } from 'react'
 import { toast } from 'sonner'
-import { getPetTableData } from '@/libs/api/accordion'
-import type { AllowedTableNames, RowMap, TableRow } from '@/libs/api/accordion'
+import {
+  getPetTableData,
+  type RowMap,
+  type AllowedTableNames,
+  type TableRow,
+} from '../../libs/api/activity.api'
 import {
   AntiparasiticCompo,
   DietCompo,
@@ -12,12 +16,15 @@ import {
   VaccinesCompo,
   WalksCompo,
 } from './accordionList'
+import EmptyState from './EmptyState'
 
 /** 실제 데이터 로딩/렌더 파트 (useSuspenseQuery 사용) */
 export default function AccordionContent<T extends AllowedTableNames>({
   type,
+  pet_id,
 }: {
   type: T
+  pet_id: string
 }) {
   const emptyToastRef = useRef(false)
 
@@ -25,12 +32,11 @@ export default function AccordionContent<T extends AllowedTableNames>({
   const { data: rows } = useSuspenseQuery<
     TableRow<T>[], // TQueryFnData
     Error, // TError
-    TableRow<T>[], // TData (selector 미사용 시 동일)
-    readonly ['petTable', T] // TQueryKey
+    TableRow<T>[] // TData (selector 미사용 시 동일)
   >({
-    queryKey: ['petTable', type] as const,
-    queryFn: () => getPetTableData(type),
-    retry: 1,
+    queryKey: ['petTable', type, pet_id],
+    queryFn: () => getPetTableData(type, pet_id),
+    retry: 2,
   })
 
   // 빈 배열 알림 (중복 방지)
@@ -46,33 +52,74 @@ export default function AccordionContent<T extends AllowedTableNames>({
   const list = useMemo(() => {
     switch (type) {
       case 'antiparasitic':
-        return (
+        return rows.length !== 0 ? (
           <AntiparasiticCompo dataList={rows as RowMap['antiparasitic'][]} />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다"
+            message="첫 기록을 추가해 보세요"
+          ></EmptyState>
         )
       case 'diet':
-        return <DietCompo dataList={rows as RowMap['diet'][]} />
+        return rows.length !== 0 ? (
+          <DietCompo dataList={rows as RowMap['diet'][]} />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다"
+            message="첫 기록을 추가해 보세요"
+          ></EmptyState>
+        )
       case 'medical treatment':
-        return (
+        return rows.length !== 0 ? (
           <MedicalTreatmentCompo
             dataList={rows as RowMap['medical treatment'][]}
           />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다"
+            message="첫 기록을 추가해 보세요"
+          ></EmptyState>
         )
       case 'other activities':
-        return (
+        return rows.length !== 0 ? (
           <OtherActivitiesCompo
             dataList={rows as RowMap['other activities'][]}
           />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다"
+            message="첫 기록을 추가해 보세요"
+          ></EmptyState>
         )
       case 'other treatments':
-        return (
+        return rows.length !== 0 ? (
           <OtherTreatmentsCompo
             dataList={rows as RowMap['other treatments'][]}
           />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다."
+            message="첫 기록을 추가해 보세요"
+          />
         )
       case 'vaccines':
-        return <VaccinesCompo dataList={rows as RowMap['vaccines'][]} />
+        return rows.length !== 0 ? (
+          <VaccinesCompo dataList={rows as RowMap['vaccines'][]} />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다"
+            message="첫 기록을 추가해 보세요"
+          ></EmptyState>
+        )
       case 'walks':
-        return <WalksCompo dataList={rows as RowMap['walks'][]} />
+        return rows.length !== 0 ? (
+          <WalksCompo dataList={rows as RowMap['walks'][]} />
+        ) : (
+          <EmptyState
+            title="기록이 없습니다"
+            message="첫 기록을 추가해 보세요"
+          ></EmptyState>
+        )
       default:
         return null
     }

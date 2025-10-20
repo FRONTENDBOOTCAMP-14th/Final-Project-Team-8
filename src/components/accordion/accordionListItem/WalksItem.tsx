@@ -2,11 +2,21 @@ import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { Walks } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
+import { tw } from '../../../utils/shared'
 import Modal from '../../modal/Modal'
 import ModalTypeWalks from '../../modal/ModalType/ModalTypeWalks'
-import ItemEditButtonCompo from './ItemEditButtonCompo'
+import ItemEditButtonCompo from './EditButton/ItemEditButtonCompo'
 
-// Walk 리스트 아이템 (거리/시간 표시)
+// ============================================================================
+// Component
+// ============================================================================
+
+/**
+ * WalksItem 컴포넌트
+ * - 산책 항목 렌더링
+ * - 마우스 호버 시 편집/삭제 버튼 표시 (fadeIn 애니메이션)
+ * - 모달 열림 중에는 버튼 계속 표시 (작업 중단 방지)
+ */
 export default function WalksItem({
   date,
   distance,
@@ -16,23 +26,55 @@ export default function WalksItem({
   title,
   total_time,
 }: Walks) {
-  const [mouseState, setMouseState] = useState<boolean>(false)
+  // ========================================================================
+  // States
+  // ========================================================================
+
+  const [isHovered, setIsHovered] = useState(false)
+  const [isModify, setIsModify] = useState(false)
+  const [isModalOpen, { on: openModal, off: closeModal }] =
+    useToggleState(false)
   const headingId = useId()
-  const handleMouseIn = () => {
-    setMouseState(true)
+
+  // ========================================================================
+  // Handlers
+  // ========================================================================
+
+  const handleMouseEnter = () => {
+    setIsHovered(true)
   }
 
-  const handleMouseOut = () => {
-    setMouseState(false)
+  const handleMouseLeave = () => {
+    // 모달이 열려있지 않으면 버튼 숨김 (300ms 후)
+    if (!isModalOpen) {
+      setTimeout(() => setIsHovered(false), 300)
+    }
   }
 
-  const [isOpen, { on, off }] = useToggleState(false)
-  const [isModify, setModify] = useState<boolean>(false)
+  const handleCloseModal = () => {
+    closeModal()
+    setIsHovered(false)
+  }
+
+  // ========================================================================
+  // Styles
+  // ========================================================================
+
+  const buttonVisibility = tw(
+    'transition-opacity duration-300 right-4 flex',
+    isHovered ? 'opacity-100' : 'absolute opacity-0 pointer-events-none'
+  )
+
+  // ========================================================================
+  // Render
+  // ========================================================================
 
   return (
     <li
-      onMouseEnter={handleMouseIn}
-      onMouseLeave={handleMouseOut}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
       aria-labelledby={headingId}
       className="m-5 flex h-[84px] items-center gap-4 rounded-xl border border-gray-300 px-4 py-[23px]"
     >
@@ -43,9 +85,9 @@ export default function WalksItem({
           className="order-1 grow text-base font-bold text-gray-800"
         >
           <button
-            onClick={on}
+            onClick={openModal}
             type="button"
-            className="line-clamp-1 flex w-full grow origin-left cursor-pointer gap-2 transition hover:translate-y-[-3px] active:scale-[0.95]"
+            className="line-clamp-1 flex w-full grow origin-left cursor-pointer gap-2 transition active:scale-[0.95]"
           >
             <img
               aria-hidden="true"
@@ -74,14 +116,28 @@ export default function WalksItem({
         </span>
       </div>
 
+      {/* 편집/삭제 버튼 */}
+      <div className={buttonVisibility}>
+        <ItemEditButtonCompo
+          onClick={openModal}
+          setModify={setIsModify}
+          id={id}
+          type="walks"
+          pet_id={pet_id}
+          title={title}
+        />
+      </div>
+
       <Modal
-        open={isOpen}
-        onClose={off}
+        open={isModalOpen}
+        onClose={handleCloseModal}
         isModify={isModify}
-        setModify={setModify}
+        setModify={setIsModify}
       >
         <ModalTypeWalks
           isModify={isModify}
+          setModify={setIsModify}
+          onClose={handleCloseModal}
           restProps={{
             date,
             distance,
@@ -93,8 +149,6 @@ export default function WalksItem({
           }}
         />
       </Modal>
-
-      {mouseState && <ItemEditButtonCompo title={title} />}
     </li>
   )
 }

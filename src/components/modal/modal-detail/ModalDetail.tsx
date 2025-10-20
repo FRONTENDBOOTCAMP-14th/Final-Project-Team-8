@@ -3,14 +3,12 @@ import { CalendarDays, Clock } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { FieldType, ModalDetailProps } from './ModalDetailType'
 
-export default function ModalDetail({
+export function ModalDetailNonModify({
   title,
-  isModify,
   sectionTitle = '상세',
   fields,
   noteLabel = '특이 사항',
   defaultNote = '특이 사항 없음',
-  noteTextareaProps,
 }: ModalDetailProps) {
   const selectIconType = (type: FieldType): ReactNode => {
     if (type === 'text') return null
@@ -24,22 +22,13 @@ export default function ModalDetail({
   return (
     <div>
       {/* 섹션 타이틀 */}
-      {!isModify ? (
-        <h1
-          id="title"
-          className="mt-5 mb-10 grow text-[28px] font-bold text-gray-800"
-        >
-          {title ?? '다이얼로그 제목'}
-        </h1>
-      ) : (
-        <input
-          id="title"
-          type="text"
-          defaultValue={title}
-          placeholder="제목을 입력해주세요"
-          className="mt-3 mb-8 w-full grow rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
-        />
-      )}
+
+      <h1
+        id="title"
+        className="mt-5 mb-10 grow text-[28px] font-bold text-gray-800"
+      >
+        {title ?? '다이얼로그 제목'}
+      </h1>
 
       {/* 섹션 타이틀 */}
       <h2 className="text-[18px] font-bold text-gray-800">{sectionTitle}</h2>
@@ -54,27 +43,12 @@ export default function ModalDetail({
               <div className="text-base text-gray-700">{f.label}</div>
 
               {/* 모드별 렌더링 */}
-              {!isModify ? (
-                <div className="mt-1 flex items-center gap-2 text-base font-bold text-gray-800">
-                  {/* 시간/날짜/텍스트 모두 tableValue로 표현 */}
-                  {selectIconType(f.type)}
-                  {f.tableValue ?? f.defaultValue ?? '-'}
-                </div>
-              ) : (
-                <div className="mt-1">
-                  {/* 입력 컨트롤 */}
-                  <label htmlFor={`field-${f.key}`} className="sr-only">
-                    {f.label} 입력
-                  </label>
-                  <input
-                    id={`field-${f.key}`}
-                    type={f.type}
-                    defaultValue={f.defaultValue ?? ''}
-                    className="w-full rounded-md border-2 border-gray-300 p-1 focus:border-amber-400 focus:outline-none"
-                    {...f.inputProps}
-                  />
-                </div>
-              )}
+
+              <div className="mt-1 flex items-center gap-2 text-base font-bold text-gray-800">
+                {/* 시간/날짜/텍스트 모두 tableValue로 표현 */}
+                {selectIconType(f.type)}
+                {f.tableValue ?? f.defaultValue ?? '-'}
+              </div>
             </div>
           </li>
         ))}
@@ -88,22 +62,7 @@ export default function ModalDetail({
         <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
 
         <div className="ml-4 flex min-h-10 w-full items-center">
-          {!isModify ? (
-            <p className="font-bold">{defaultNote}</p>
-          ) : (
-            <>
-              <label htmlFor="detail-note" className="sr-only">
-                {noteLabel} 입력
-              </label>
-              <textarea
-                id="notes"
-                defaultValue={defaultNote === '-' ? '' : defaultNote}
-                className="w-full rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
-                rows={2}
-                {...noteTextareaProps}
-              />
-            </>
-          )}
+          <p className="font-bold">{defaultNote}</p>
         </div>
       </div>
     </div>

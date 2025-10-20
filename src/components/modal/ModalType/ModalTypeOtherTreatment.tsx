@@ -1,19 +1,60 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { OtherTreatment } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeOtherTreatmentProps extends ModalTypeProps {
+  isModify: boolean
+  setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
   restProps: OtherTreatment
 }
 
 export default function ModalTypeOtherTreatment({
   isModify,
+  setModify,
+  onClose,
   restProps: { date, detail, id, notes, title },
 }: ModalTypeOtherTreatmentProps) {
+  if (isModify) {
+    return (
+      <ModalDetailIsModify
+        key={id}
+        id={id}
+        type={'other treatments'}
+        title={title}
+        fields={[
+          {
+            key: 'detail',
+            label: '처치 내용',
+            type: 'text',
+            tableValue: detail,
+            defaultValue: detail,
+            inputProps: { placeholder: '처치 내용을 입력해주세요' },
+          },
+          {
+            key: 'date',
+            label: '처치 날짜',
+            type: 'date',
+            tableValue: date,
+            defaultValue: date,
+          },
+        ]}
+        noteLabel="특이 사항"
+        defaultNote={notes ?? '-'}
+        noteTextareaProps={{ placeholder: '특이사항을 입력해주요' }}
+        // 모달 버튼 기능 연결
+        setModify={setModify}
+        isModify={isModify}
+        onClose={onClose}
+      />
+    )
+  }
   return (
-    <ModalDetail
+    <ModalDetailNonModify
       key={id}
       title={title}
       isModify={isModify}
@@ -41,7 +82,7 @@ export default function ModalTypeOtherTreatment({
   )
 }
 
-interface ModalTypeOtherTreatmentInput {
+interface ModalTypeOtherTreatmentInputProps {
   type: AccordionProps['type']
   onClose: () => void
   restProps: OtherTreatment
@@ -51,7 +92,7 @@ export function ModalTypeOtherTreatmentInput({
   type,
   onClose,
   restProps: { date, detail, notes, title },
-}: ModalTypeOtherTreatmentInput) {
+}: ModalTypeOtherTreatmentInputProps) {
   return (
     <ModalDetailInput
       type={type}
@@ -59,20 +100,19 @@ export function ModalTypeOtherTreatmentInput({
       title={title}
       fields={[
         {
-          key: 'detail',
-          label: '처치 내용',
-          type: 'text',
-          // tableValue: detail,
-          defaultValue: detail,
-          inputProps: { placeholder: '처치 내용을 입력해주세요' },
-        },
-        {
           key: 'date',
           label: '처치 날짜',
           type: 'date',
-          // tableValue: date,
           defaultValue: date,
           requiredSet: '처치 날짜를 입력해주세요.',
+        },
+        {
+          key: 'detail',
+          label: '처치 내용',
+          type: 'text',
+          defaultValue: detail,
+          inputProps: { placeholder: '처치 내용을 입력해주세요' },
+          requiredSet: null,
         },
       ]}
       noteLabel="특이 사항"

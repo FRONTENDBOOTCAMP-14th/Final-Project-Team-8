@@ -1,13 +1,25 @@
-import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react'
+import type {
+  Dispatch,
+  InputHTMLAttributes,
+  SetStateAction,
+  TextareaHTMLAttributes,
+} from 'react'
 import type { FieldPath } from 'react-hook-form'
 import type {
   Antiparasitic,
+  AntiparasiticUpdate,
   Diet,
+  DietUpdate,
   MedicalTreatment,
+  MedicalTreatmentUpdate,
   OtherActivities,
+  OtherActivitiesUpdate,
   OtherTreatment,
+  OtherTreatmentUpdate,
   Vaccines,
+  VaccinesUpdate,
   Walks,
+  WalksUpdate,
 } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
 
@@ -52,11 +64,17 @@ export interface ModalDetailProps {
   noteTextareaProps?: TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 
-// ------------------------------------------------------------------
+export interface ModalDetailIsModifyProps extends ModalDetailProps {
+  id: string
+  type: AccordionProps['type']
+  setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
+}
 
+// ------------------------------------------------------------------
 export interface InputBaseField extends BaseField {
   // 필수 여부 : "폼 제출 시 에러 알림 문자열"
-  requiredSet?: string
+  requiredSet: string | null
   min?: number
   max?: number
 }
@@ -71,3 +89,13 @@ export type ModalDetailInpuProps = Replace<
     onClose: () => void
   }
 >
+
+// updateFields
+export type UpdateFieldsProps =
+  | AntiparasiticUpdate
+  | DietUpdate
+  | MedicalTreatmentUpdate
+  | OtherTreatmentUpdate
+  | OtherActivitiesUpdate
+  | WalksUpdate
+  | VaccinesUpdate

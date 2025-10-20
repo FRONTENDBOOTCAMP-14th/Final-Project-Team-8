@@ -1,22 +1,70 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { Diet } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
-import ModalDetail from '../modal-detail/ModalDetail'
+import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
+import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
 import { removeSecond } from '../timeHandler'
 import type { ModalTypeProps } from './ModalType'
 
 interface ModalTypeDietProps extends ModalTypeProps {
+  isModify: boolean
+  setModify: Dispatch<SetStateAction<boolean>>
+  onClose: () => void
   restProps: Diet
 }
 
 export function ModalTypeDiet({
   isModify,
+  setModify,
+  onClose,
   restProps: { date, id, time, snack_type, notes, title },
 }: ModalTypeDietProps) {
-  console.log(removeSecond(time))
+  if (isModify) {
+    return (
+      <ModalDetailIsModify
+        key={id}
+        id={id}
+        type={'diet'}
+        title={title}
+        fields={[
+          {
+            key: 'snack_type',
+            label: '간식 종류',
+            type: 'text',
+            tableValue: snack_type,
+            defaultValue: snack_type,
+            inputProps: { placeholder: '간식 이름을 작성해주세요' },
+          },
+          {
+            key: 'date',
+            label: '배급 날짜',
+            type: 'date',
+            tableValue: date,
+            defaultValue: date,
+          },
+          {
+            key: 'time',
+            label: '배급 시간',
+            type: 'time',
+            tableValue: removeSecond(time),
+            defaultValue: time,
+            inputProps: { step: 60 },
+          },
+        ]}
+        noteLabel="특이 사항"
+        defaultNote={notes ?? '-'}
+        noteTextareaProps={{ placeholder: '특이 사항을 입력해주세요' }}
+        // 모달 버튼 기능 연결
+        setModify={setModify}
+        isModify={isModify}
+        onClose={onClose}
+      />
+    )
+  }
 
   return (
-    <ModalDetail
+    <ModalDetailNonModify
       key={id}
       title={title}
       isModify={isModify}
