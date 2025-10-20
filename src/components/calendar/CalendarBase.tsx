@@ -45,7 +45,6 @@ export default function CalendarBase({
         setCurrentYear={setCurrentYear}
         setCurrentMonth={setCurrentMonth}
       />
-      <hr className="mt-7.5 mb-3.5 border-[#DAD9E6]" />
       <table className="w-full border-separate border-spacing-4 text-center">
         <thead className="text-sm font-bold text-[#80809A]">
           <tr>

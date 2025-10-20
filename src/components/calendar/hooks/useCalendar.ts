@@ -66,13 +66,31 @@ export const useCalendar = (props?: Props): CalendarControls => {
 
   const setCurrentYear = useCallback(
     (value: React.SetStateAction<number>) => {
+      let newYear: number
+
       if (typeof value === 'function') {
-        setStoreYear(value(currentYear))
+        newYear = value(currentYear)
       } else {
-        setStoreYear(value)
+        newYear = value
       }
+
+      setStoreYear(newYear)
+
+      // 오늘 날짜 확인
+      const today = new Date()
+      const todayYear = today.getFullYear()
+      const todayMonth = today.getMonth() + 1
+      const todayDate = today.getDate()
+
+      const isCurrentYearMonth =
+        newYear === todayYear && currentMonth === todayMonth
+      const newSelectedDate = isCurrentYearMonth
+        ? new Date(newYear, currentMonth - 1, todayDate)
+        : new Date(newYear, currentMonth - 1, 1)
+
+      setStoreSelectedDate(newSelectedDate)
     },
-    [currentYear, setStoreYear]
+    [currentYear, currentMonth, setStoreYear, setStoreSelectedDate]
   )
 
   const setCurrentMonth = useCallback(

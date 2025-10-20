@@ -20,10 +20,10 @@ export const useCalendarGrid = (year: number, month: number) => {
     const lastDateOfCurrentMonth = new Date(year, month, 0).getDate()
 
     // 현재 달 첫 날의 요일(0 = 일요일, 6 = 토요일)
-    const firstDayofCurrentMonth = new Date(year, month - 1, 1).getDay()
+    const firstDayOfCurrentMonth = new Date(year, month - 1, 1).getDay()
 
     // 현재 달 마지막 날의 요일
-    const lastDayofCurrentMonth = new Date(
+    const lastDayOfCurrentMonth = new Date(
       year,
       month - 1,
       lastDateOfCurrentMonth
@@ -32,9 +32,9 @@ export const useCalendarGrid = (year: number, month: number) => {
     // 이전 달 날짜 채우기
     const prevMonthDays: CalendarDay[] = []
     const lastDateofPrevMonth = new Date(year, month - 1, 0).getDate()
-    const prevDaysToFill = lastDateofPrevMonth - firstDayofCurrentMonth + 1
+    const prevDaysToFill = lastDateofPrevMonth - firstDayOfCurrentMonth + 1
 
-    for (let i = 0; i < firstDayofCurrentMonth; i++) {
+    for (let i = 0; i < firstDayOfCurrentMonth; i++) {
       prevMonthDays.push({
         date: prevDaysToFill + i,
         isCurrentMonth: false,
@@ -52,8 +52,8 @@ export const useCalendarGrid = (year: number, month: number) => {
 
     // 다음 달 날짜 채우기
     const nextMonthDays: CalendarDay[] = []
-    if (lastDateOfCurrentMonth < 6) {
-      for (let i = 0; i < 6 - lastDayofCurrentMonth; i++) {
+    if (lastDayOfCurrentMonth < 6) {
+      for (let i = 0; i < 6 - lastDayOfCurrentMonth; i++) {
         nextMonthDays.push({
           date: i + 1,
           isCurrentMonth: false,
