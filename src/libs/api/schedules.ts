@@ -1,4 +1,4 @@
-import { toast } from 'sonner'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import { createClient } from '../supabase/client'
 
@@ -60,7 +60,7 @@ export async function getScheduleData(
 
     return schedules
   } catch (error) {
-    toast.error(`Failed to fetch schedules: ${error}`)
+    console.error(`Failed to fetch schedules: ${error}`)
     throw error
   }
 }
@@ -68,7 +68,7 @@ export async function getScheduleData(
 /**
  * 반려동물의 생일과 입양일 스케줄 가져오기
  */
-async function getPetSchedules(supabase: any, petId: string) {
+async function getPetSchedules(supabase: SupabaseClient, petId: string) {
   const schedules: ScheduleEvent[] = []
 
   const { data: pets, error } = await supabase
@@ -78,7 +78,7 @@ async function getPetSchedules(supabase: any, petId: string) {
     .single()
 
   if (error) {
-    toast.error(`Pets fetch error: ${error}`)
+    console.error(`Pets fetch error: ${error}`)
     throw new Error(`반려동물 정보 조회 실패: ${error.message}`)
   }
 
@@ -112,7 +112,7 @@ async function getPetSchedules(supabase: any, petId: string) {
 /**
  * 예방접종 스케줄 가져오기
  */
-async function getVaccineSchedules(supabase: any, petId: string) {
+async function getVaccineSchedules(supabase: SupabaseClient, petId: string) {
   const schedules: ScheduleEvent[] = []
 
   const { data: vaccines, error } = await supabase
@@ -121,7 +121,7 @@ async function getVaccineSchedules(supabase: any, petId: string) {
     .eq('pet_id', petId)
 
   if (error) {
-    toast.error(`Vaccines fetch error: ${error}`)
+    console.error(`Vaccines fetch error: ${error}`)
     return schedules
   }
 
@@ -142,7 +142,10 @@ async function getVaccineSchedules(supabase: any, petId: string) {
 /**
  * 구충 치료 스케줄 가져오기
  */
-async function getAntiparasiticSchedules(supabase: any, petId: string) {
+async function getAntiparasiticSchedules(
+  supabase: SupabaseClient,
+  petId: string
+) {
   const schedules: ScheduleEvent[] = []
 
   const { data: antiparasitics, error } = await supabase
@@ -151,7 +154,7 @@ async function getAntiparasiticSchedules(supabase: any, petId: string) {
     .eq('pet_id', petId)
 
   if (error) {
-    toast.error(`Antiparasitics fetch error: ${error}`)
+    console.error(`Antiparasitics fetch error: ${error}`)
     return schedules
   }
 
@@ -180,16 +183,16 @@ async function getAntiparasiticSchedules(supabase: any, petId: string) {
 /**
  * 의료 처치 스케줄 가져오기
  */
-async function getMedicalSchedules(supabase: any, petId: string) {
+async function getMedicalSchedules(supabase: SupabaseClient, petId: string) {
   const schedules: ScheduleEvent[] = []
 
   const { data: medicalTreatments, error } = await supabase
     .from('medical treatment')
-    .select('id, visit_date, next_date, title, category')
+    .select('id, visit_date, next_date, title')
     .eq('pet_id', petId)
 
   if (error) {
-    toast.error(`Medical treatments fetch error: ${error}`)
+    console.error(`Medical treatments fetch error: ${error}`)
     return schedules
   }
 
@@ -219,37 +222,31 @@ async function getMedicalSchedules(supabase: any, petId: string) {
 /**
  * 기타 치료 스케줄 가져오기
  */
-async function getOtherTreatmentSchedules(supabase: any, petId: string) {
+async function getOtherTreatmentSchedules(
+  supabase: SupabaseClient,
+  petId: string
+) {
   const schedules: ScheduleEvent[] = []
 
   const { data: otherTreatments, error } = await supabase
-    .from('other treatment')
-    .select('id, visit_date, next_date, title, category')
+    .from('other treatments')
+    .select('id, date, title')
     .eq('pet_id', petId)
 
   if (error) {
-    toast.error(`Other treatments fetch error: ${error}`)
+    console.error(`Other treatments fetch error: ${error}`)
     return schedules
   }
 
   if (otherTreatments) {
-    otherTreatments.forEach((m: any) => {
-      schedules.push({
-        id: `${m.id}-visit`,
-        date: m.visit_date,
-        title: m.title,
+    schedules.push(
+      ...otherTreatments.map((ot: any) => ({
+        id: ot.id,
+        date: ot.date,
+        title: ot.title,
         category: 'other treatments' as const,
-      })
-
-      if (m.next_date) {
-        schedules.push({
-          id: `${m.id}-next`,
-          date: m.next_date,
-          title: m.title,
-          category: 'other treatments' as const,
-        })
-      }
-    })
+      }))
+    )
   }
 
   return schedules
@@ -258,7 +255,7 @@ async function getOtherTreatmentSchedules(supabase: any, petId: string) {
 /**
  * 산책 스케줄 가져오기
  */
-async function getWalkSchedules(supabase: any, petId: string) {
+async function getWalkSchedules(supabase: SupabaseClient, petId: string) {
   const schedules: ScheduleEvent[] = []
 
   const { data: walks, error } = await supabase
@@ -267,7 +264,7 @@ async function getWalkSchedules(supabase: any, petId: string) {
     .eq('pet_id', petId)
 
   if (error) {
-    toast.error(`Walks fetch error: ${error}`)
+    console.error(`Walks fetch error: ${error}`)
     return schedules
   }
 
@@ -288,37 +285,31 @@ async function getWalkSchedules(supabase: any, petId: string) {
 /**
  * 기타 활동 스케줄 가져오기
  */
-async function getOtherActivitiesSchedules(supabase: any, petId: string) {
+async function getOtherActivitiesSchedules(
+  supabase: SupabaseClient,
+  petId: string
+) {
   const schedules: ScheduleEvent[] = []
 
   const { data: otherActivities, error } = await supabase
     .from('other activities')
-    .select('id, visit_date, next_date, title, category')
+    .select('id, date, title')
     .eq('pet_id', petId)
 
   if (error) {
-    toast.error(`Other activities fetch error: ${error}`)
+    console.error(`Other activities fetch error: ${error}`)
     return schedules
   }
 
   if (otherActivities) {
-    otherActivities.forEach((m: any) => {
-      schedules.push({
-        id: `${m.id}-visit`,
-        date: m.visit_date,
-        title: m.title,
+    schedules.push(
+      ...otherActivities.map((oa: any) => ({
+        id: oa.id,
+        date: oa.date,
+        title: oa.title,
         category: 'other activities' as const,
-      })
-
-      if (m.next_date) {
-        schedules.push({
-          id: `${m.id}-next`,
-          date: m.next_date,
-          title: m.title,
-          category: 'other activities' as const,
-        })
-      }
-    })
+      }))
+    )
   }
 
   return schedules
@@ -424,7 +415,7 @@ export async function createVaccine(data: CreateVaccineData): Promise<string> {
     .single()
 
   if (error) {
-    toast.error(`Failed to create vaccine: ${error}`)
+    console.error(`Failed to create vaccine: ${error}`)
     throw new Error(`예방접종 일정 추가 실패: ${error.message}`)
   }
 
@@ -458,7 +449,7 @@ export async function createAntiparasitic(
     .single()
 
   if (error) {
-    toast.error(`Failed to create antiparasitic: ${error}`)
+    console.error(`Failed to create antiparasitic: ${error}`)
     throw new Error(`구충 치료 일정 추가 실패: ${error.message}`)
   }
 
@@ -491,7 +482,7 @@ export async function createMedical(data: CreateMedicalData): Promise<string> {
     .single()
 
   if (error) {
-    toast.error(`Failed to create medical: ${error}`)
+    console.error(`Failed to create medical: ${error}`)
     throw new Error(`의료 처치 일정 추가 실패: ${error.message}`)
   }
 
@@ -525,7 +516,7 @@ export async function createOtherTreatments(
     .single()
 
   if (error) {
-    toast.error(`Failed to create other treatments: ${error}`)
+    console.error(`Failed to create other treatments: ${error}`)
     throw new Error(`기타 치료 일정 추가 실패: ${error.message}`)
   }
 
@@ -558,7 +549,7 @@ export async function createWalk(data: CreateWalkData): Promise<string> {
     .single()
 
   if (error) {
-    toast.error(`Failed to create walk: ${error}`)
+    console.error(`Failed to create walk: ${error}`)
     throw new Error(`산책 일정 추가 실패: ${error.message}`)
   }
 
@@ -593,7 +584,7 @@ export async function createOtherActivities(
     .single()
 
   if (error) {
-    toast.error(`Failed to create other activities: ${error}`)
+    console.error(`Failed to create other activities: ${error}`)
     throw new Error(`기타 활동 일정 추가 실패: ${error.message}`)
   }
 
