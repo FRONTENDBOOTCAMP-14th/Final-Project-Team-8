@@ -19,12 +19,14 @@ interface Props {
 }
 
 export const FILTER_OPTIONS: FilterOption[] = [
-  { value: 'birthday', label: '생일', color: '[#FF8630]' },
-  { value: 'adoption', label: '입양일', color: '[#6AA9F3]' },
-  { value: 'vaccine', label: '백신', color: '[#897EE6]' },
-  { value: 'antiparasitic', label: '구충제', color: '[#FF9AD5]' },
-  { value: 'medical', label: '진료', color: '[#FFC542]' },
+  { value: 'birthday', label: '생일', color: '[#6AA9F3]' },
+  { value: 'adoption', label: '입양일', color: '[#A461D8]' },
+  { value: 'vaccine', label: '예방접종', color: '[#31AA7A]' },
+  { value: 'antiparasitic', label: '구충 치료', color: '[#FF9AD5]' },
+  { value: 'medical', label: '의료 처치', color: '[#FFC44A]' },
+  { value: 'other treatments', label: '기타 치료', color: '[#FD8C8C]' },
   { value: 'walk', label: '산책', color: '[#82C43C]' },
+  { value: 'other activities', label: '기타 활동', color: '[#FF6000]' },
 ]
 
 export default function FilterModal({

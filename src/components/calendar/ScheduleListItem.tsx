@@ -1,8 +1,10 @@
 import type { LucideIcon } from 'lucide-react'
 import {
+  Bandage,
   Cake,
   Footprints,
   Home,
+  PawPrint,
   Pill,
   Stethoscope,
   Syringe,
@@ -20,16 +22,20 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   vaccine: Syringe,
   antiparasitic: Pill,
   medical: Stethoscope,
+  otherTreatments: Bandage,
   walk: Footprints,
+  otherActivities: PawPrint,
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  birthday: 'text-[#FF8630]',
-  adoption: 'text-[#6AA9F3]',
+  birthday: 'text-[#6AA9F3]',
+  adoption: 'text-[#A461D8]',
   vaccine: 'text-[#897EE6]',
   antiparasitic: 'text-[#FF9AD5]',
   medical: 'text-[#FFC542]',
+  otherTreatments: 'text-[#FD8C8C]',
   walk: 'text-[#82C43C]',
+  otherActivities: 'text-[#FF6000]',
 }
 
 export default function ScheduleListItem({ schedule, onClick }: Props) {

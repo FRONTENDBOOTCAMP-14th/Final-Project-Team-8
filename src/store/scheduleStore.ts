@@ -1,9 +1,26 @@
+import { toast } from 'sonner'
 import { create } from 'zustand'
 import type {
   ScheduleCategory,
   ScheduleEvent,
 } from '@/components/calendar/types'
-import { getScheduleData } from '@/libs/api/schedules'
+import type {
+  CreateAntiparasiticData,
+  CreateMedicalData,
+  CreateOtherActivitiesData,
+  CreateOtherTreatmentsData,
+  CreateVaccineData,
+  CreateWalkData,
+} from '@/libs/api/schedules'
+import {
+  createAntiparasitic,
+  createMedical,
+  createOtherActivities,
+  createOtherTreatments,
+  createVaccine,
+  createWalk,
+  getScheduleData,
+} from '@/libs/api/schedules'
 
 interface ScheduleStore {
   // State
@@ -18,6 +35,10 @@ interface ScheduleStore {
   clearSchedules: () => void
   setError: (error: string | null) => void
   setActiveFilters: (filters: ScheduleCategory[]) => void
+  addVaccine: (data: CreateVaccineData) => Promise<void>
+  addAntiparasitic: (data: CreateAntiparasiticData) => Promise<void>
+  addMedical: (data: CreateMedicalData) => Promise<void>
+  addWalk: (data: CreateWalkData) => Promise<void>
 }
 
 // 모든 카테고리(기본값)
@@ -27,7 +48,9 @@ const ALL_CATEGORIES: ScheduleCategory[] = [
   'vaccine',
   'antiparasitic',
   'medical',
+  'other treatments',
   'walk',
+  'other activities',
 ]
 
 /**
@@ -45,6 +68,7 @@ const ALL_CATEGORIES: ScheduleCategory[] = [
  * - clearSchedules: 스케줄 초기화
  * - setError: 에러 설정
  * - setActiveFilters: 필터 설정
+ * - addVaccine/addAntiparasitic/addMedical/addWalk: 일정 추가
  */
 export const useScheduleStore = create<ScheduleStore>((set, get) => ({
   // State
@@ -65,11 +89,8 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
     // 이미 같은 petId의 데이터를 로딩 중이거나 가져온 경우 스킵
     const { currentPetId, isLoading } = get()
     if (currentPetId === petId && !isLoading) {
-      console.log('Using cached schedules for pet:', petId)
       return
     }
-
-    console.log('Fetching schedules for pet:', petId)
 
     set({
       isLoading: true,
@@ -79,7 +100,6 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
 
     try {
       const data = await getScheduleData(petId)
-      console.log('Fetched schedules:', data.length, 'items')
 
       set({
         schedules: data,
@@ -90,7 +110,7 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
       const errorMessage =
         err instanceof Error ? err.message : '일정을 불러올 수 없습니다.'
 
-      console.error('Failed to fetch Schedules:', err)
+      toast.error(`Failed to fetch Schedules: ${err}`)
 
       set({
         schedules: [],
@@ -125,5 +145,195 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
    */
   setActiveFilters: (filters: ScheduleCategory[]) => {
     set({ activeFilters: filters })
+  },
+
+  /**
+   * 예방접종 일정 추가
+   */
+  addVaccine: async (data: CreateVaccineData) => {
+    const { currentPetId } = get()
+
+    if (!currentPetId) {
+      throw new Error('반려동물을 선택해주세요.')
+    }
+
+    set({ isLoading: true, error: null })
+
+    try {
+      await createVaccine(data)
+      await get().fetchSchedules(currentPetId)
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : '예방접종 일정 추가에 실패했습니다.'
+
+      toast.error(`Failed to add vaccine: ${err}`)
+
+      set({
+        isLoading: false,
+        error: errorMessage,
+      })
+
+      throw err
+    }
+  },
+
+  /**
+   * 구충 치료 일정 추가
+   */
+  addAntiparasitic: async (data: CreateAntiparasiticData) => {
+    const { currentPetId } = get()
+
+    if (!currentPetId) {
+      throw new Error('반려동물을 선택해주세요.')
+    }
+
+    set({ isLoading: true, error: null })
+
+    try {
+      await createAntiparasitic(data)
+      await get().fetchSchedules(currentPetId)
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : '구충 치료 일정 추가에 실패했습니다.'
+
+      toast.error(`Failed to add antiparasitic: ${err}`)
+
+      set({
+        isLoading: false,
+        error: errorMessage,
+      })
+
+      throw err
+    }
+  },
+
+  /**
+   * 의료 처치 일정 추가
+   */
+  addMedical: async (data: CreateMedicalData) => {
+    const { currentPetId } = get()
+
+    if (!currentPetId) {
+      throw new Error('반려동물을 선택해주세요.')
+    }
+
+    set({ isLoading: true, error: null })
+
+    try {
+      await createMedical(data)
+      await get().fetchSchedules(currentPetId)
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : '의료 처치 일정 추가에 실패했습니다.'
+
+      toast.error(`Failed to add medical: ${err}`)
+
+      set({
+        isLoading: false,
+        error: errorMessage,
+      })
+
+      throw err
+    }
+  },
+
+  /**
+   * 기타 치료 일정 추가
+   */
+  addOtherTreatments: async (data: CreateOtherTreatmentsData) => {
+    const { currentPetId } = get()
+
+    if (!currentPetId) {
+      throw new Error('반려동물을 선택해주세요.')
+    }
+
+    set({ isLoading: true, error: null })
+
+    try {
+      await createOtherTreatments(data)
+      await get().fetchSchedules(currentPetId)
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : '기타 치료 일정 추가에 실패했습니다.'
+
+      toast.error(`Failed to add other treatments: ${err}`)
+
+      set({
+        isLoading: false,
+        error: errorMessage,
+      })
+
+      throw err
+    }
+  },
+
+  /**
+   * 산책 일정 추가
+   */
+  addWalk: async (data: CreateWalkData) => {
+    const { currentPetId } = get()
+
+    if (!currentPetId) {
+      throw new Error('반려동물을 선택해주세요.')
+    }
+
+    set({ isLoading: true, error: null })
+
+    try {
+      await createWalk(data)
+      await get().fetchSchedules(currentPetId)
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : '산책 일정 추가에 실패했습니다.'
+
+      toast.error(`Failed to add walk: ${err}`)
+
+      set({
+        isLoading: false,
+        error: errorMessage,
+      })
+
+      throw err
+    }
+  },
+
+  /**
+   * 기타 활동 일정 추가
+   */
+  addOtherActivities: async (data: CreateOtherActivitiesData) => {
+    const { currentPetId } = get()
+
+    if (!currentPetId) {
+      throw new Error('반려동물을 선택해주세요.')
+    }
+
+    set({ isLoading: true, error: null })
+
+    try {
+      await createOtherActivities(data)
+      await get().fetchSchedules(currentPetId)
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : '기타 치료 일정 추가에 실패했습니다.'
+
+      toast.error(`Failed to add other activities: ${err}`)
+
+      set({
+        isLoading: false,
+        error: errorMessage,
+      })
+
+      throw err
+    }
   },
 }))

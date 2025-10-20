@@ -4,7 +4,9 @@ export type ScheduleCategory =
   | 'vaccine'
   | 'antiparasitic'
   | 'medical'
+  | 'other treatments'
   | 'walk'
+  | 'other activities'
 
 export interface ScheduleEvent {
   id: string

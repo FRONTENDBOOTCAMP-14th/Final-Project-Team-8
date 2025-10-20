@@ -7,19 +7,24 @@ import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
+import AddScheduleModal from '../../components/calendar/AddScheduleModal'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
   const { activeFilters, setActiveFilters } = useScheduleStore()
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+  const [isAddScheduleModalOpen, setIsAddScheduleModalOpen] = useState(false)
 
   // 일정 추가 핸들러
   const handleAddSchedule = () => {
-    console.log('일정 추가 클릭')
-    // 일정 추가 모달 열기
+    if (!selectedPetId) {
+      alert('반려동물을 먼저 선택해주세요')
+      return
+    }
+    setIsAddScheduleModalOpen(true)
   }
 
-  // 일정 클릭 핸들러
+  // 일정 수정 핸들러
   const handleScheduleClick = (schedule: ScheduleEvent) => {
     console.log('일정 클릭:', schedule)
     // 일정 상세 모달 열기
@@ -97,6 +102,7 @@ export default function CalendarPage() {
           )}
         </div>
 
+        {/* 일정 목록 */}
         <section className="w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-7.5">
           {selectedPetId ? (
             <Schedules
@@ -105,7 +111,7 @@ export default function CalendarPage() {
             />
           ) : (
             <div className="flex h-full items-center justify-center">
-              <p className="text-sm text-[#A3A0C0]">반려동물을 선택해주세요.</p>
+              <p className="text-sm text-[#A3A0C0]">반려동물을 선택해주세요</p>
             </div>
           )}
         </section>
@@ -118,6 +124,15 @@ export default function CalendarPage() {
         selectedFilters={activeFilters}
         onFilterChange={setActiveFilters}
       />
+
+      {/* 일정 추가 모달 */}
+      {selectedPetId && (
+        <AddScheduleModal
+          isOpen={isAddScheduleModalOpen}
+          onClose={() => setIsAddScheduleModalOpen(false)}
+          petId={selectedPetId}
+        />
+      )}
     </>
   )
 }
