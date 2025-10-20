@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { ImgCardButton } from '../../../components'
-import { AddProfileLayout } from '../../../components/add-profile/AddProfileLayout'
-import { createClient } from '../../../libs/supabase/client'
-import type { TablesInsert } from '../../../libs/supabase/database.types'
-import { useProfileCreationStore } from '../../../store/profileCreationStore'
+import { ImgCardButton } from '@/components'
+import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { createClient } from '@/libs/supabase/client'
+import type { TablesInsert } from '@/libs/supabase/database.types'
+import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 const supabase = createClient()
 
