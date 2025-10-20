@@ -42,7 +42,7 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
         isOpen ? 'mb-3 max-h-[400px] overflow-y-auto' : 'max-h-0'
       }`}
     >
-      <div className="relative ml-5 before:absolute before:left-0 before:h-px before:w-[590px] before:rounded-2xl before:bg-gray-300"></div>
+      <div className="relative ml-5 before:absolute before:left-0 before:h-px before:w-[calc(100%-20px)] before:rounded-2xl before:bg-gray-300"></div>
 
       {/* 새 리스트 추가 버튼 */}
       <Button
