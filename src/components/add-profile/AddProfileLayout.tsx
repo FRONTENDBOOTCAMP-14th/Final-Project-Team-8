@@ -11,6 +11,19 @@ interface AddProfileLayoutProps {
   nextDisabled?: boolean
 }
 
+/**
+ * AddProfileLayout 컴포넌트
+ *
+ * 반려동물 프로필 생성 단계 페이지의 공통 레이아웃을 제공합니다.
+ * Header에는 뒤로가기 버튼, 단계 정보, ProgressBar가 포함되며,
+ * Footer에는 '건너뛰기'와 '입력 완료' 버튼이 포함됩니다.
+ *
+ * @param {ReactNode} children - 각 단계 페이지의 컨텐츠
+ * @param {string} stepTitle - 현재 단계 제목
+ * @param {() => void} [onSkip] - 건너뛰기 버튼 클릭 시 호출되는 콜백
+ * @param {() => void} [onComplete] - 입력 완료 버튼 클릭 시 호출되는 콜백
+ * @param {boolean} [nextDisabled=false] - 입력 완료 버튼 비활성화 여부
+ */
 export function AddProfileLayout({
   children,
   stepTitle,
@@ -77,7 +90,7 @@ export function AddProfileLayout({
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto">
-        <div className="w-full">{children}</div>
+        <div className="h-full w-full">{children}</div>
       </div>
 
       {/* Footer Navigation */}
