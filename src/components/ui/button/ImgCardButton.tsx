@@ -26,7 +26,7 @@ type BreedVariants =
   | 'mixed'
   | 'afghan hound'
   | 'akita'
-  | 'beagle '
+  | 'beagle'
   | 'maltese'
   | 'border collie'
   | 'boxer'
@@ -50,7 +50,7 @@ interface ImgCardButtonProps extends ComponentProps<'button'> {
 
 const baseStyle = `
 flex flex-col items-center position-relative
-w-[220px] h-[225px] pt-[20px] py-4
+ h-[225px] w-[220px] pt-[20px] py-4
 rounded-[18px] text-[#3A394F]  bg-white
 focus:outline-0 focus:ring-2 focus:ring-offset-0 focus:ring-[#FF6000]
 `
@@ -123,7 +123,6 @@ type VariantData = (typeof imgcardButtonVariants)['species']['other']
  * ```
  */
 export default function ImgCardButton({
-  children,
   kind = 'species',
   variant = 'other',
   className,
