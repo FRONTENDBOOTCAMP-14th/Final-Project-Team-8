@@ -65,7 +65,6 @@ export default function ItemEditButtonCompo({
         type="button"
         onClick={handleEditClick}
         aria-label={`${title} 편집`}
-        // disabled={deleteMutation.isPending}
         className="mr-3 ml-3 flex h-[38px] w-[38px] items-center justify-center rounded-[14px] border border-orange-500 p-[9px] text-orange-500 hover:cursor-pointer hover:bg-orange-50 active:scale-[0.95] disabled:cursor-not-allowed disabled:opacity-50"
       >
         <SquarePen
@@ -82,7 +81,6 @@ export default function ItemEditButtonCompo({
         type="button"
         onClick={openDeleteModal}
         aria-label={`${title} 삭제`}
-        // disabled={deleteMutation.isPending}
         className="flex h-[38px] w-[38px] items-center justify-center rounded-[14px] border border-orange-500 p-[9px] text-orange-500 hover:cursor-pointer hover:bg-orange-50 active:scale-[0.95] disabled:cursor-not-allowed disabled:opacity-50"
       >
         <X width={20} height={20} />
@@ -100,9 +98,7 @@ export default function ItemEditButtonCompo({
           type={type}
           id={id}
           pet_id={pet_id}
-          // onConfirm={handleConfirmDelete}
           onCancel={closeDeleteModal}
-          // isLoading={deleteMutation.isPending}
         />
       </Modal>
     </>

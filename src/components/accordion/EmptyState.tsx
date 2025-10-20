@@ -4,8 +4,6 @@
 import { AlertCircle, Inbox } from 'lucide-react'
 import type { ReactNode } from 'react'
 import Button from '@/components/ui/button/Button'
-import { getUserData } from '../../libs/api/user'
-import { createClient } from '../../libs/supabase/client'
 import { tw } from '../../utils/shared'
 
 type IconType = 'inbox' | 'alert' | 'custom'

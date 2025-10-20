@@ -76,6 +76,7 @@ export function ModalDetailIsModify({
       })
       reset()
       onClose()
+      setModify(false)
     },
     onError: (err: unknown) => {
       const message =
