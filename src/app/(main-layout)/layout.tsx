@@ -14,6 +14,7 @@ export default function MainLayout({ children }: PropsWithChildren) {
       <section className="relative flex grow rounded-xl bg-white p-10">
         {children}
       </section>
+      <section id="modal-dialog-portal"></section>
     </section>
   )
 }
