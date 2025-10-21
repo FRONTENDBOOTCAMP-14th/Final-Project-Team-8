@@ -3,36 +3,18 @@
 import type { User } from '@supabase/supabase-js'
 import { LogOut } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { getUserData } from '@/libs/api/user'
+import useUserData from '@/hooks/useUserData'
 import { createClient } from '@/libs/supabase/client'
 
 interface UserProfileCardProps {
   user: User
 }
 
-interface UserData {
-  nickname?: string | null
-  profile_img?: string | null
-}
-
 export default function UserProfileCard({ user }: UserProfileCardProps) {
   const router = useRouter()
 
-  // user 테이블에서 유저정보 가져오기
-  const [userData, setUserData] = useState<UserData | null>(null)
-  useEffect(() => {
-    const fetchUSerData = async () => {
-      try {
-        const data = await getUserData(user)
-        setUserData(data)
-      } catch (error) {
-        toast.error('로딩 실패')
-      }
-    }
-    fetchUSerData()
-  }, [user])
+  const { userData } = useUserData(user)
 
   // user테이블에서 이름 가져오기
   // 없으면 이메일 앞부분 사용
