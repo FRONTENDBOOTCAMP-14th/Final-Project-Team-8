@@ -39,11 +39,8 @@ interface InsertMap {
   vaccines: VaccinesInsert
 }
 
-/** 아코디언에서 사용하는 테이블명 유니언 */
-export type AllowedTableNames = AccordionProps['type']
-
 /** 테이블별 Row 타입 유틸 */
-export type TableRow<T extends AllowedTableNames> =
+export type TableRow<T extends TableType> =
   Database['public']['Tables'][T]['Row']
 
 /**
@@ -70,7 +67,7 @@ const supabase = createClient()
  * 테이블별 날짜 컬럼명 매핑
  * 데이터 조회 시 정렬에 사용됨 (최신순)
  */
-const dateColumnMap: Record<AllowedTableNames, string> = {
+const dateColumnMap: Record<TableType, string> = {
   antiparasitic: 'intake_date',
   diet: 'date',
   'medical treatment': 'visit_date',
@@ -125,7 +122,7 @@ export default async function createActivity<T extends TableType>(params: {
  * @param pet_id - 펫 ID
  * @returns 활동 기록 배열 (최신순)
  */
-export async function getPetTableData<T extends AllowedTableNames>(
+export async function getPetTableData<T extends TableType>(
   type: T,
   pet_id: string | UUID
 ): Promise<TableRow<T>[]> {
@@ -157,7 +154,7 @@ export async function getPetTableData<T extends AllowedTableNames>(
  * @param dataList - 수정할 필드 객체 (id, pet_id 제외)
  * @returns 수정된 레코드 데이터
  */
-export async function updateActivity<T extends AllowedTableNames>(
+export async function updateActivity<T extends TableType>(
   type: T,
   table_id: string,
   pet_id: string,
@@ -189,7 +186,7 @@ export async function updateActivity<T extends AllowedTableNames>(
  * @param pet_id - 펫 ID (보안 검증용)
  * @throws 삭제 실패 시 에러 발생
  */
-export async function deleteActivity<T extends AllowedTableNames>(
+export async function deleteActivity<T extends TableType>(
   type: T,
   table_id: string,
   pet_id: string
