@@ -106,7 +106,7 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="flex max-h-screen max-w-[280px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
+    <aside className="flex max-h-screen min-w-[280px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
       <Link
         href="/#"
         className="flex flex-row justify-center border-b-[2px] border-[#636073]"

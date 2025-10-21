@@ -155,11 +155,6 @@ export default function FilterModal({
     e: React.KeyboardEvent<HTMLInputElement>,
     currentIndex: number
   ) => {
-    // if (e.key === 'Enter') {
-    //   e.preventDefault()
-    //   return
-    // }
-
     if (!['ArrowUp', 'ArrowDown'].includes(e.key)) {
       return
     }

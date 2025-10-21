@@ -15,9 +15,15 @@ interface ModalHostProps {
   open: boolean
   onClose: () => void
   type: AccordionProps['type']
+  petId?: string
 }
 
-export default function ModalHost({ open, onClose, type }: ModalHostProps) {
+export default function ModalHost({
+  open,
+  onClose,
+  type,
+  petId = '',
+}: ModalHostProps) {
   const selectTypeInputModal = () => {
     switch (type) {
       case 'antiparasitic':
@@ -30,7 +36,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
               intake_date: '',
               next_date: null,
               notes: null,
-              pet_id: '',
+              pet_id: petId,
               title: '',
             }}
           />
@@ -44,7 +50,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
               date: '',
               id: '',
               notes: null,
-              pet_id: '',
+              pet_id: petId,
               snack_type: '',
               time: '',
               title: '',
@@ -61,7 +67,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
               id: '',
               next_date: null,
               notes: null,
-              pet_id: '',
+              pet_id: petId,
               title: '',
               visit_date: '',
             }}
@@ -77,7 +83,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
               duration_time: 0,
               id: '',
               notes: null,
-              pet_id: '',
+              pet_id: petId,
               start_time: '',
               title: '',
             }}
@@ -93,7 +99,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
               detail: null,
               id: '',
               notes: null,
-              pet_id: '',
+              pet_id: petId,
               title: '',
             }}
           />
@@ -108,7 +114,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
               id: '',
               lot: '',
               notes: null,
-              pet_id: '',
+              pet_id: petId,
               title: '',
               vaccinated_date: '',
             }}
@@ -123,7 +129,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
               date: '',
               distance: null,
               id: '',
-              pet_id: '',
+              pet_id: petId,
               start_time: '',
               title: '',
               total_time: null,
