@@ -2,12 +2,17 @@
 
 import { AlertCircle, Funnel } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { Button, CalendarSchedule, FilterModal, Schedules } from '@/components'
+import {
+  AddScheduleModal,
+  Button,
+  CalendarSchedule,
+  FilterModal,
+  Schedules,
+} from '@/components'
 import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
-import AddScheduleModal from '../../components/calendar/AddScheduleModal'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
@@ -103,7 +108,7 @@ export default function CalendarPage() {
         </div>
 
         {/* 일정 목록 */}
-        <section className="w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-7.5">
+        <section className="min-w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-7.5">
           {selectedPetId ? (
             <Schedules
               onAddSchedule={handleAddSchedule}
@@ -125,7 +130,7 @@ export default function CalendarPage() {
         onFilterChange={setActiveFilters}
       />
 
-      {/* 일정 추가 모달 */}
+      {/* 일정 추가 모달 - 카테고리 선택 */}
       {selectedPetId && (
         <AddScheduleModal
           isOpen={isAddScheduleModalOpen}
@@ -133,6 +138,9 @@ export default function CalendarPage() {
           petId={selectedPetId}
         />
       )}
+
+      {/* 일정 추가 모달 용 Portal 루트 */}
+      <div id="modal-dialog-portal" />
     </>
   )
 }
