@@ -47,7 +47,7 @@ export default function AccordionItemBox<T extends TableType>({
       {/* 새 리스트 추가 버튼 */}
       <Button
         variant="white"
-        className="m-5 max-w-[calc(100%-40px)] gap-1 p-[13px] font-bold shadow-sm transition hover:shadow-md active:scale-[0.99]"
+        className="m-5 max-w-[calc(100%-40px)] gap-1 p-[13px] font-bold transition hover:shadow-md active:scale-[0.99]"
         onClick={on}
       >
         <img src="/components/accordion/plus-button-icon.svg" alt="플러스" />
