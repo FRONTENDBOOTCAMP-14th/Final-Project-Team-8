@@ -92,7 +92,7 @@ export default function Step5WeightPage() {
               {draftPet.profile_img ? (
                 <Image
                   src={draftPet.profile_img}
-                  alt="Pet profile"
+                  alt={`${draftPet.name ?? '반려동물'}의 프로필 사진`}
                   width={80}
                   height={80}
                   className="h-full w-full object-cover"
@@ -118,7 +118,6 @@ export default function Step5WeightPage() {
           </div>
         </div>
 
-        {/* Question */}
         <div className="mt-6 mb-4 text-center">
           <p className="text-lg text-gray-800">
             우리 아이의 체중은 얼마인가요?
@@ -130,31 +129,49 @@ export default function Step5WeightPage() {
           </p>
         </div>
 
-        {/* Weight Display */}
         <div className="mt-6 mb-10">
-          <p className="text-center text-5xl font-bold text-orange-500">
-            {weight.toFixed(1)} {unit}
+          <p
+            className="text-center text-5xl font-bold text-orange-500"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <span className="sr-only">현재 선택된 체중 : </span>
+            {weight.toFixed(1)} {unit === 'kg' ? 'kg' : 'lb'}
+            <span className="sr-only">
+              {unit === 'kg' ? '킬로그램' : '파운드'}
+            </span>
           </p>
         </div>
 
-        {/* Slider */}
         <div className="mb-14 w-full max-w-full px-8">
           <div className="relative">
-            {/* Custom Slider */}
             <div className="relative">
+              <label htmlFor="weight-slider" className="sr-only">
+                체중 조절 슬라이더 : {weight.toFixed(1)}
+              </label>
               <input
                 type="range"
+                id="weight-slider"
+                name="weight-slider"
                 min={unit === 'kg' ? '0' : '0'}
                 max={unit === 'kg' ? '100' : '220'}
                 step="0.1"
                 value={weight}
                 onChange={handleWeightChange}
                 className="weight-slider"
+                aria-label={`반려동물 체중 슬라이더 : 현재 ${weight.toFixed(1)} ${unit === 'kg' ? '킬로그램' : '파운드'}`}
+                aria-valuemin={unit === 'kg' ? 0 : 0}
+                aria-valuemax={unit === 'kg' ? 100 : 220}
+                aria-valuenow={weight}
+                aria-valuetext={`${weight.toFixed(1)} ${unit === 'kg' ? '킬로그램' : '파운드'}`}
               />
             </div>
 
-            {/* Ruler marks */}
-            <div className="pointer-events-none absolute top-2 right-0 left-0 flex -translate-y-1/2 items-center justify-between px-0">
+            <div
+              className="pointer-events-none absolute top-2 right-0 left-0 flex -translate-y-1/2 items-center justify-between px-0"
+              aria-hidden="true"
+            >
               {Array.from({ length: 51 }).map((_, i) => (
                 <div key={i} className="flex flex-col items-center">
                   <div
@@ -166,10 +183,9 @@ export default function Step5WeightPage() {
           </div>
         </div>
 
-        {/* Unit Toggle */}
         <div className="flex items-center gap-3">
           <label htmlFor="weight-input" className="sr-only">
-            반려동물 체중 입력
+            반려동물 체중 직접 입력 ({unit === 'kg' ? '킬로그램' : '파운드'})
           </label>
           <input
             type="number"
@@ -186,12 +202,20 @@ export default function Step5WeightPage() {
             step="0.1"
             min="0"
             max={unit === 'kg' ? '100' : '220'}
+            aria-describedby="weight-unit-group"
           />
 
-          <div className="flex gap-3">
+          <div
+            className="flex gap-3"
+            role="group"
+            aria-label="체중 단위 선택"
+            id="weight-unit-group"
+          >
             <button
               type="button"
               onClick={() => handleUnitToggle('kg')}
+              aria-label="킬로그램 단위 선택"
+              aria-pressed={unit === 'kg'}
               className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all ${unit === 'kg' ? 'border border-orange-200 text-orange-500' : 'border border-gray-200 text-gray-400'}`}
             >
               <svg
@@ -200,6 +224,7 @@ export default function Step5WeightPage() {
                 viewBox="0 0 16 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
                 <path
                   d="M8 14.5C11.5899 14.5 14.5 11.5899 14.5 8C14.5 4.41015 11.5899 1.5 8 1.5C4.41015 1.5 1.5 4.41015 1.5 8C1.5 11.5899 4.41015 14.5 8 14.5Z"
@@ -216,6 +241,8 @@ export default function Step5WeightPage() {
             <button
               type="button"
               onClick={() => handleUnitToggle('lb')}
+              aria-label="파운드 단위 선택"
+              aria-pressed={unit === 'lb'}
               className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all ${unit === 'lb' ? 'border border-orange-500 text-orange-500' : 'border border-gray-200 text-gray-400'}`}
             >
               <svg
@@ -224,6 +251,7 @@ export default function Step5WeightPage() {
                 viewBox="0 0 16 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
               >
                 <path
                   d="M8 14.5C11.5899 14.5 14.5 11.5899 14.5 8C14.5 4.41015 11.5899 1.5 8 1.5C4.41015 1.5 1.5 4.41015 1.5 8C1.5 11.5899 4.41015 14.5 8 14.5Z"
