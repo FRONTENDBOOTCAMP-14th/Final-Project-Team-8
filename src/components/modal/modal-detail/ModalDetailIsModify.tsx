@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { updateActivity } from '@/libs/api/activity.api'
 import { usePetStore } from '@/store/petStore'
+import { useScheduleStore } from '@/store/scheduleStore'
 import { tw } from '@/utils/shared'
 import type { AccordionProps } from '../../accordion/accordion'
 import ListLoading from '../../accordion/ListLoading'
@@ -74,6 +75,11 @@ export function ModalDetailIsModify({
         refetchType: 'active',
         queryKey: ['petTable', type, pet_id],
       })
+
+      // 캘린더 갱신
+      const { refetchSchedules } = useScheduleStore.getState()
+      await refetchSchedules(pet_id)
+
       reset()
       onClose()
       setModify(false)

@@ -75,7 +75,7 @@ const CATEGORY_OPTIONS: CategoryOption[] = [
 
 const GRID_COLUMNS = 4
 
-export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
+export default function AddScheduleModal({ isOpen, onClose }: Props) {
   const modalRef = useRef<HTMLDivElement>(null)
   const firstCategoryButtonRef = useRef<HTMLButtonElement>(null)
   const categoryButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -157,9 +157,13 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
     on()
   }
 
-  const handleFormModalClose = () => {
+  const handleFormModalSave = () => {
     off()
     handleClose()
+  }
+
+  const handleFormModalCancel = () => {
+    off()
   }
 
   // backdrop 클릭 처리
@@ -291,9 +295,9 @@ export default function AddScheduleModal({ isOpen, onClose, petId }: Props) {
       {/* 일정 추가 폼 모달(ModalHost 사용) */}
       <ModalHost
         open={modalHostOpen}
-        onClose={handleFormModalClose}
+        onClose={handleFormModalCancel}
+        onSaveSuccess={handleFormModalSave}
         type={selectedApiType}
-        petId={petId}
       />
     </>
   )

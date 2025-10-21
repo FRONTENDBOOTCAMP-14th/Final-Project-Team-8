@@ -15,14 +15,14 @@ interface ModalHostProps {
   open: boolean
   onClose: () => void
   type: AccordionProps['type']
-  petId?: string
+  onSaveSuccess?: () => void
 }
 
 export default function ModalHost({
   open,
   onClose,
   type,
-  petId = '',
+  onSaveSuccess,
 }: ModalHostProps) {
   const selectTypeInputModal = () => {
     switch (type) {
@@ -31,12 +31,13 @@ export default function ModalHost({
           <ModalTypeAntiparasiticInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               id: '',
               intake_date: '',
               next_date: null,
               notes: null,
-              pet_id: petId,
+              pet_id: '',
               title: '',
             }}
           />
@@ -46,11 +47,12 @@ export default function ModalHost({
           <ModalTypeDietInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               id: '',
               notes: null,
-              pet_id: petId,
+              pet_id: '',
               snack_type: '',
               time: '',
               title: '',
@@ -62,12 +64,13 @@ export default function ModalHost({
           <ModalTypeMedicalTreatmentInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               category: null,
               id: '',
               next_date: null,
               notes: null,
-              pet_id: petId,
+              pet_id: '',
               title: '',
               visit_date: '',
             }}
@@ -78,12 +81,13 @@ export default function ModalHost({
           <ModalTypeOtherActivitesInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               duration_time: 0,
               id: '',
               notes: null,
-              pet_id: petId,
+              pet_id: '',
               start_time: '',
               title: '',
             }}
@@ -94,12 +98,13 @@ export default function ModalHost({
           <ModalTypeOtherTreatmentInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               detail: null,
               id: '',
               notes: null,
-              pet_id: petId,
+              pet_id: '',
               title: '',
             }}
           />
@@ -109,12 +114,13 @@ export default function ModalHost({
           <ModalTypeVaccinationInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               expiry_date: '',
               id: '',
               lot: '',
               notes: null,
-              pet_id: petId,
+              pet_id: '',
               title: '',
               vaccinated_date: '',
             }}
@@ -125,11 +131,12 @@ export default function ModalHost({
           <ModalTypeWalksInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               distance: null,
               id: '',
-              pet_id: petId,
+              pet_id: '',
               start_time: '',
               title: '',
               total_time: null,

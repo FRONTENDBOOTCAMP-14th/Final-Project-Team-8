@@ -105,17 +105,20 @@ export interface ModalTypeDietInputProps {
   type: AccordionProps['type']
   restProps: Diet
   onClose: () => void
+  onSaveSuccess?: () => void
 }
 
 export function ModalTypeDietInput({
   type,
   onClose,
+  onSaveSuccess,
   restProps: { date, time, snack_type, notes, title },
 }: ModalTypeDietInputProps) {
   return (
     <ModalDetailInput
       type={type}
       onClose={onClose}
+      {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
       fields={[
         {

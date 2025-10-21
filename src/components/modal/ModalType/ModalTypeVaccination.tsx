@@ -100,18 +100,21 @@ export default function ModalTypeVaccination({
 interface ModalTypeVaccinationInputProps {
   type: AccordionProps['type']
   onClose: () => void
+  onSaveSuccess?: () => void
   restProps: Vaccines
 }
 
 export function ModalTypeVaccinationInput({
   type,
   onClose,
+  onSaveSuccess,
   restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
 }: ModalTypeVaccinationInputProps) {
   return (
     <ModalDetailInput
       type={type}
       onClose={onClose}
+      {...(onSaveSuccess && { onSaveSuccess })}
       key={id}
       title={title}
       fields={[

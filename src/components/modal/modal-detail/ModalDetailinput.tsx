@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import createActivity from '@/libs/api/activity.api'
 import { usePetStore } from '@/store/petStore'
+import { useScheduleStore } from '@/store/scheduleStore'
 import { tw } from '@/utils/shared'
 import ListLoading from '../../accordion/ListLoading'
 import Button from '../../ui/button/Button'
@@ -20,6 +21,7 @@ export function ModalDetailInput({
   defaultNote = '특이 사항 없음',
   noteTextareaProps,
   onClose,
+  onSaveSuccess,
 }: ModalDetailInpuProps) {
   const { register, handleSubmit, formState, getFieldState, reset } =
     useForm<ModalInputDataType>()
@@ -39,8 +41,18 @@ export function ModalDetailInput({
         refetchType: 'active',
         queryKey: ['petTable', type, pet_id],
       })
+
+      // 캘린더 갱신
+      const { refetchSchedules } = useScheduleStore.getState()
+      await refetchSchedules(pet_id)
+
       reset()
-      onClose?.()
+
+      if (onSaveSuccess) {
+        onSaveSuccess()
+      } else {
+        onClose?.()
+      }
     },
     onError: (err: unknown) => {
       // 서버에서 필드 에러 내주면 여기 매핑

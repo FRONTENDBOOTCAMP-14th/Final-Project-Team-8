@@ -103,18 +103,21 @@ export default function ModalTypeOtherActivites({
 interface ModalTypeOtherActivitesInputProps {
   type: AccordionProps['type']
   onClose: () => void
+  onSaveSuccess?: () => void
   restProps: OtherActivities
 }
 
 export function ModalTypeOtherActivitesInput({
   type,
   onClose,
+  onSaveSuccess,
   restProps: { date, notes, start_time, duration_time, title },
 }: ModalTypeOtherActivitesInputProps) {
   return (
     <ModalDetailInput
       type={type}
       onClose={onClose}
+      {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
       fields={[
         {

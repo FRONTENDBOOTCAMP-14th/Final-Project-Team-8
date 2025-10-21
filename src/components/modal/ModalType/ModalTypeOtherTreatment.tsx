@@ -86,18 +86,21 @@ export default function ModalTypeOtherTreatment({
 interface ModalTypeOtherTreatmentInputProps {
   type: AccordionProps['type']
   onClose: () => void
+  onSaveSuccess?: () => void
   restProps: OtherTreatment
 }
 
 export function ModalTypeOtherTreatmentInput({
   type,
   onClose,
+  onSaveSuccess,
   restProps: { date, detail, notes, title },
 }: ModalTypeOtherTreatmentInputProps) {
   return (
     <ModalDetailInput
       type={type}
       onClose={onClose}
+      {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
       fields={[
         {
