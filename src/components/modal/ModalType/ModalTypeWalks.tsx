@@ -37,14 +37,14 @@ export default function ModalTypeWalks({
           },
           {
             key: 'distance',
-            label: '산책 거리',
+            label: '산책 거리 (km)',
             type: 'number',
             tableValue: distance,
             defaultValue: distance,
           },
           {
             key: 'total_time',
-            label: '산책 시간',
+            label: '산책 시간 (min)',
             type: 'number',
             tableValue: minTohour(total_time),
             defaultValue: total_time,
@@ -81,14 +81,14 @@ export default function ModalTypeWalks({
         },
         {
           key: 'distance',
-          label: '산책 거리',
+          label: '산책 거리 (km)',
           type: 'number',
           tableValue: distance,
           defaultValue: distance,
         },
         {
           key: 'total_time',
-          label: '산책 시간',
+          label: '산책 시간 (min)',
           type: 'number',
           tableValue: minTohour(total_time),
           defaultValue: total_time,

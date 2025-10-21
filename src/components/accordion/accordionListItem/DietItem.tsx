@@ -64,7 +64,9 @@ export default function DietItem({
           type="button"
           className="absolute top-0 left-0 z-1 h-full w-full cursor-pointer rounded-xl p-3 text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
         >
-          {title}
+          <span className="line-clamp-2 w-120 overflow-hidden text-ellipsis whitespace-nowrap transition">
+            {title}
+          </span>
         </button>
       </h3>
 

@@ -87,9 +87,9 @@ export function ModalDetailInput({
         </div>
       )}
       {/* 섹션 타이틀 */}
-      <h2 className="mt-8 text-[18px] font-bold text-gray-800">
+      <div className="mt-8 text-[18px] font-bold text-gray-800">
         {sectionTitle}
-      </h2>
+      </div>
 
       {/* 필드 리스트 */}
       <ul className="flex flex-wrap items-start gap-4">
@@ -97,9 +97,12 @@ export function ModalDetailInput({
           ({ requiredSet, key, label, type, defaultValue, inputProps }) => {
             const { error } = getFieldState(key, formState)
             return (
-              <li key={key} className="mt-3 flex min-w-[220px] flex-1 basis-0">
+              <li
+                key={key}
+                className="mt-3 flex min-w-[220px] flex-1 basis-0 items-center"
+              >
                 {/* 각 컬럼 좌측 세로 구분선 */}
-                <div className="mr-3 h-[80px] w-[1px] flex-shrink-0 bg-gray-300" />
+                <div className="mr-3 h-[70px] w-[2px] flex-shrink-0 rounded-xl bg-gray-200" />
                 <div className="mt-1 flex w-full flex-col">
                   <div className="text-base text-gray-700">{label}</div>
 
@@ -114,11 +117,8 @@ export function ModalDetailInput({
                       type={type}
                       defaultValue={defaultValue ?? ''}
                       className={tw(
-                        'w-full rounded-md border-2 border-gray-300 p-1 focus:border-amber-400 focus:outline-none',
-                        'h-10 pl-3 text-lg',
-                        error
-                          ? 'border-red-400 ring-red-300'
-                          : 'border-gray-300 ring-blue-300'
+                        'h-10 w-full rounded-md border-1 border-gray-400 p-1 pl-3 text-lg focus:border-amber-400 focus:outline-none',
+                        error && 'border-red-400 ring-red-300'
                       )}
                       {...inputProps}
                       {...register(key, {
@@ -145,21 +145,21 @@ export function ModalDetailInput({
       {type !== 'walks' && (
         <>
           {/* 특이 사항 섹션 */}
-          <h2 className="mt-4 text-[18px] font-bold text-gray-800">
+          <div className="mt-4 text-[18px] font-bold text-gray-800">
             {noteLabel}
-          </h2>
+          </div>
 
           <div className="relative mt-3 mb-3 flex w-full">
             {/* 왼쪽 세로 구분선 */}
-            <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
+            <span className="absolute left-0 inline-block h-full w-[2px] rounded-xl bg-gray-300" />
 
-            <div className="ml-4 w-full">
+            <div className="ml-4 flex w-full">
               <label htmlFor="detail-note" className="sr-only">
                 {noteLabel} 입력
               </label>
               <textarea
                 defaultValue={defaultNote === '-' ? '' : defaultNote}
-                className="w-full rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
+                className="w-full rounded-md border-1 border-gray-400 p-2 focus:border-amber-400 focus:outline-none"
                 rows={3}
                 {...noteTextareaProps}
                 {...register('notes')}

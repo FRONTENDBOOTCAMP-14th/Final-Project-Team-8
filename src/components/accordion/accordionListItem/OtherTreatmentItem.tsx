@@ -55,14 +55,16 @@ export default function OtherTreatmentItem({
       {/* 제목 */}
       <h3
         id={headingId}
-        className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
+        className="line-clamp-1 grow text-start text-lg font-bold text-gray-800"
       >
         <button
           onClick={openModal}
           type="button"
           className="absolute top-0 left-0 z-1 h-full w-full cursor-pointer rounded-xl p-3 text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
         >
-          {title}
+          <span className="line-clamp-2 w-130 overflow-hidden text-ellipsis whitespace-nowrap transition">
+            {title}
+          </span>
         </button>
       </h3>
 
