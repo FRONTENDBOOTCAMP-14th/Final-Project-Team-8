@@ -15,6 +15,15 @@ const nextConfig: NextConfig = {
     // 빌드 시, 타입 검사 결과 무시 설정
     // ignoreBuildErrors: false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'stxwbcobxhghrfxmpfrm.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
+  },
 }
 
 export default nextConfig
