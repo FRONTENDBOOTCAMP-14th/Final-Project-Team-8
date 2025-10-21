@@ -13,6 +13,7 @@ import type { ScheduleEvent } from './types'
 
 interface Props {
   schedule: ScheduleEvent
+  isClickable: boolean
   onClick?: () => void
 }
 
@@ -38,7 +39,11 @@ const CATEGORY_COLORS: Record<string, string> = {
   'other activities': 'text-[#FF6000]',
 }
 
-export default function ScheduleListItem({ schedule, onClick }: Props) {
+export default function ScheduleListItem({
+  schedule,
+  isClickable,
+  onClick,
+}: Props) {
   const Icon = CATEGORY_ICONS[schedule.category]
   const iconColor = CATEGORY_COLORS[schedule.category]
   const formattedDate = schedule.date.replace(/-/g, '.')
@@ -47,7 +52,9 @@ export default function ScheduleListItem({ schedule, onClick }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full flex-col gap-2 rounded-2xl border border-[#DAD9E6] bg-white p-4 text-left hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]"
+      disabled={isClickable}
+      aria-disabled={isClickable}
+      className={`flex w-full flex-col gap-2 rounded-2xl border border-[#DAD9E6] bg-white p-4 text-left ${isClickable ? 'hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]' : 'cursor-not-allowed opacity-60 focus:outline-2 focus:outline-[#80809A]'}`}
     >
       <span className="overflow-hidden text-ellipsis text-[#80809A]">
         {formattedDate}
