@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import type { FieldType, ModalDetailProps } from './ModalDetailType'
 
 export function ModalDetailNonModify({
+  type,
   title,
   sectionTitle = '상세',
   fields,
@@ -34,7 +35,7 @@ export function ModalDetailNonModify({
       <h2 className="text-[18px] font-bold text-gray-800">{sectionTitle}</h2>
 
       {/* 필드 리스트 */}
-      <ul className="flex flex-wrap items-start gap-4">
+      <ul className="mb-5 flex flex-wrap items-start gap-4">
         {fields.map(f => (
           <li key={f.key} className="mt-3 flex min-w-[220px] flex-1 basis-0">
             {/* 각 컬럼 좌측 세로 구분선 */}
@@ -53,18 +54,23 @@ export function ModalDetailNonModify({
           </li>
         ))}
       </ul>
-
       {/* 특이 사항 섹션 */}
-      <h2 className="mt-4 text-[18px] font-bold text-gray-800">{noteLabel}</h2>
+      {type !== 'walks' && (
+        <>
+          <h2 className="mt-4 text-[18px] font-bold text-gray-800">
+            {noteLabel}
+          </h2>
 
-      <div className="relative mt-3 mb-5 flex w-full">
-        {/* 왼쪽 세로 구분선 */}
-        <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
+          <div className="relative mt-3 mb-5 flex w-full">
+            {/* 왼쪽 세로 구분선 */}
+            <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
 
-        <div className="ml-4 flex min-h-10 w-full items-center">
-          <p className="font-bold">{defaultNote}</p>
-        </div>
-      </div>
+            <div className="ml-4 flex min-h-10 w-full items-center">
+              <p className="font-bold">{defaultNote}</p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

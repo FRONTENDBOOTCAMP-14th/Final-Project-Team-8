@@ -63,6 +63,7 @@ export default function ModalTypeMedicalTreatment({
   return (
     <ModalDetailNonModify
       key={id}
+      type="medical treatment"
       title={title}
       isModify={isModify}
       fields={[

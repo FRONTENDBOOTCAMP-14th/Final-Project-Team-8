@@ -66,6 +66,7 @@ export function ModalTypeDiet({
   return (
     <ModalDetailNonModify
       key={id}
+      type="diet"
       title={title}
       isModify={isModify}
       fields={[

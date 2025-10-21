@@ -68,6 +68,7 @@ export default function ModalTypeWalks({
   return (
     <ModalDetailNonModify
       key={id}
+      type="walks"
       title={title}
       isModify={isModify}
       fields={[

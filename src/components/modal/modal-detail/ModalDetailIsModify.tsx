@@ -116,7 +116,7 @@ export function ModalDetailIsModify({
       <TitleInput title={title} errors={errors} register={register} />
 
       {/* 상세 정보 섹션 */}
-      <section>
+      <section className={type === 'walks' ? 'mb-5' : ''}>
         <h2 className="mt-8 text-[18px] font-bold text-gray-800">
           {sectionTitle}
         </h2>
@@ -129,17 +129,19 @@ export function ModalDetailIsModify({
       </section>
 
       {/* 특이 사항 섹션 */}
-      <section>
-        <h2 className="mt-4 text-[18px] font-bold text-gray-800">
-          {noteLabel}
-        </h2>
-        <NoteTextarea
-          noteLabel={noteLabel}
-          defaultNote={defaultNote}
-          noteTextareaProps={noteTextareaProps}
-          register={register}
-        />
-      </section>
+      {type !== 'walks' && (
+        <section>
+          <h2 className="mt-4 text-[18px] font-bold text-gray-800">
+            {noteLabel}
+          </h2>
+          <NoteTextarea
+            noteLabel={noteLabel}
+            defaultNote={defaultNote}
+            noteTextareaProps={noteTextareaProps}
+            register={register}
+          />
+        </section>
+      )}
 
       {/* 액션 버튼 */}
       <ActionButtons
@@ -290,7 +292,7 @@ interface ActionButtonsProps {
 
 function ActionButtons({ isLoading, onCancel }: ActionButtonsProps) {
   return (
-    <div className="flex gap-5">
+    <div className="mt-5 flex gap-5">
       <Button type="button" onClick={onCancel} disabled={isLoading}>
         취소
       </Button>

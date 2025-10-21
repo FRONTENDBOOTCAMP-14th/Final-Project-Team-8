@@ -56,6 +56,7 @@ export default function ModalTypeOtherTreatment({
   return (
     <ModalDetailNonModify
       key={id}
+      type="other treatments"
       title={title}
       isModify={isModify}
       fields={[
