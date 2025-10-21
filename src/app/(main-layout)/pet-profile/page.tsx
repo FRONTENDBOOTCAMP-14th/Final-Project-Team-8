@@ -168,7 +168,7 @@ export default function PetProfilePage() {
           </h3>
         </nav>
         {/* 탭 컨텐츠 */}
-        <div className="h-full overflow-y-auto">
+        <div className="h-full overflow-y-scroll">
           <AccordionBox activeTab={activeTab}></AccordionBox>
         </div>
       </div>
