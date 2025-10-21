@@ -4,7 +4,7 @@ import { UserRoundX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 import useToggleState from '../../hooks/useToggleState'
-import type { AllowedTableNames } from '../../libs/api/activity.api'
+import type { TableType } from '../../libs/api/activity.api'
 import { usePetStore } from '../../store/petStore'
 import { useUserStore } from '../../store/userStore'
 import QueryErrorBoundary from '../common/QueryErrorBoundary'
@@ -15,12 +15,12 @@ import { selectTypeButtonTitle } from './accordionFun'
 import EmptyState from './EmptyState'
 import ListLoading from './ListLoading'
 
-interface Props<T extends AllowedTableNames> {
+interface Props<T extends TableType> {
   type: T
   isOpen: boolean
 }
 
-export default function AccordionItemBox<T extends AllowedTableNames>({
+export default function AccordionItemBox<T extends TableType>({
   type,
   isOpen,
 }: Props<T>) {
@@ -42,12 +42,12 @@ export default function AccordionItemBox<T extends AllowedTableNames>({
         isOpen ? 'mb-3 max-h-[400px] overflow-y-auto' : 'max-h-0'
       }`}
     >
-      <div className="relative ml-5 before:absolute before:left-0 before:h-px before:w-[590px] before:rounded-2xl before:bg-gray-300"></div>
+      <div className="relative ml-5 before:absolute before:left-0 before:h-px before:w-[calc(100%-20px)] before:rounded-2xl before:bg-gray-300"></div>
 
       {/* 새 리스트 추가 버튼 */}
       <Button
         variant="white"
-        className="m-5 max-w-[calc(100%-40px)] gap-1 p-[13px] font-bold"
+        className="m-5 max-w-[calc(100%-40px)] gap-1 p-[13px] font-bold shadow-sm transition hover:shadow-md active:scale-[0.99]"
         onClick={on}
       >
         <img src="/components/accordion/plus-button-icon.svg" alt="플러스" />

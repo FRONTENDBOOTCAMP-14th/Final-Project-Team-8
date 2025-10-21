@@ -56,6 +56,7 @@ export default function ModalTypeAntiparasitic({
   return (
     <ModalDetailNonModify
       key={id}
+      type="antiparasitic"
       title={title}
       isModify={isModify}
       fields={[

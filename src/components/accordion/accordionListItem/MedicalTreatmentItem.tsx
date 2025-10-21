@@ -3,7 +3,6 @@ import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { MedicalTreatment } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
-import { tw } from '@/utils/shared'
 import Modal from '../../modal/Modal'
 import ModalTypeMedicalTreatment from '../../modal/ModalType/ModalTypeMedical'
 import ItemEditButtonCompo from './EditButton/ItemEditButtonCompo'
@@ -31,7 +30,6 @@ export default function MedicalTreatmentItem({
   // States
   // ========================================================================
 
-  const [isHovered, setIsHovered] = useState(false)
   const [isModify, setIsModify] = useState(false)
   const [isModalOpen, { on: openModal, off: closeModal }] =
     useToggleState(false)
@@ -41,30 +39,9 @@ export default function MedicalTreatmentItem({
   // Handlers
   // ========================================================================
 
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
-
-  const handleMouseLeave = () => {
-    // 모달이 열려있지 않으면 버튼 숨김 (300ms 후)
-    if (!isModalOpen) {
-      setTimeout(() => setIsHovered(false), 300)
-    }
-  }
-
   const handleCloseModal = () => {
     closeModal()
-    setIsHovered(false)
   }
-
-  // ========================================================================
-  // Styles
-  // ========================================================================
-
-  const buttonVisibility = tw(
-    'transition-opacity duration-300 right-4 flex',
-    isHovered ? 'opacity-100' : 'absolute opacity-0 pointer-events-none'
-  )
 
   // ========================================================================
   // Render
@@ -72,25 +49,23 @@ export default function MedicalTreatmentItem({
 
   return (
     <li
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
       aria-labelledby={headingId}
-      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px]"
+      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px] shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
       id={id}
     >
       {/* 제목 */}
       <h3
         id={headingId}
-        className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
+        className="line-clamp-1 grow text-start text-lg font-bold text-gray-800"
       >
         <button
           onClick={openModal}
           type="button"
-          className="w-full cursor-pointer text-start transition hover:text-orange-400 active:scale-[0.95]"
+          className="absolute top-0 left-0 z-1 h-full w-full cursor-pointer rounded-xl p-3 text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
         >
-          {title}
+          <span className="line-clamp-2 w-130 overflow-hidden text-ellipsis whitespace-nowrap transition">
+            {title}
+          </span>
         </button>
       </h3>
 
@@ -127,16 +102,12 @@ export default function MedicalTreatmentItem({
       </span>
 
       {/* 편집/삭제 버튼 */}
-      <div className={buttonVisibility}>
-        <ItemEditButtonCompo
-          onClick={openModal}
-          setModify={setIsModify}
-          id={id}
-          type="medical treatment"
-          pet_id={pet_id}
-          title={title}
-        />
-      </div>
+      <ItemEditButtonCompo
+        id={id}
+        type="medical treatment"
+        pet_id={pet_id}
+        title={title}
+      />
 
       {/* 모달 */}
       <Modal

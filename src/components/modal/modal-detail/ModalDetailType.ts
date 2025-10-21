@@ -49,6 +49,7 @@ export interface BaseField {
 }
 
 export interface ModalDetailProps {
+  type: AccordionProps['type']
   title: string
   /** 수정 여부 (true = 입력 모드) */
   isModify: boolean
