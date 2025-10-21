@@ -16,12 +16,12 @@ interface Props extends Omit<DayProps, 'restProps'> {
 const CATEGORY_COLORS: Record<string, string> = {
   birthday: 'bg-[#6AA9F3]',
   adoption: 'bg-[#A461D8]',
-  vaccine: 'bg-[#897EE6]',
+  vaccine: 'bg-[#31AA7A]',
   antiparasitic: 'bg-[#FF9AD5]',
-  medical: 'bg-[#FFC542]',
-  otherTreatments: 'bg-[#FD8C8C]',
+  medical: 'bg-[#FFC44A]',
+  'other treatments': 'bg-[#FD8C8C]',
   walk: 'bg-[#82C43C]',
-  otherActivities: 'bg-[#FF6000]',
+  'other activities': 'bg-[#FF6000]',
 }
 
 export default function DaySchedule({
