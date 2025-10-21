@@ -50,7 +50,7 @@ export default function OtherActivitiesItem({
   return (
     <li
       aria-labelledby={headingId}
-      className="relative m-5 list-none rounded-xl border-1 border-gray-300 p-5 shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
+      className="relative m-5 list-none rounded-xl border-1 border-gray-300 p-5 transition hover:scale-[1.005] hover:border-gray-400"
     >
       <div className="">
         <h3
@@ -63,7 +63,7 @@ export default function OtherActivitiesItem({
             className="absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl text-start"
           >
             {/* 제목은 너무 길면 줄 넘어감 */}
-            <span className="absolute top-4.5 left-6 line-clamp-1 max-w-140">
+            <span className="absolute top-4.5 left-6 line-clamp-1 w-[calc(100%-200px)]">
               {title}
             </span>
           </button>

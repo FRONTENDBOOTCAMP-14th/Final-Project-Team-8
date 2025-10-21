@@ -50,7 +50,7 @@ export default function WalksItem({
   return (
     <li
       aria-labelledby={headingId}
-      className="relative m-5 flex h-24 items-center gap-4 rounded-xl border border-gray-300 px-4 py-[23px] shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
+      className="relative m-5 flex h-24 items-center gap-4 rounded-xl border border-gray-300 px-4 py-[23px] transition hover:scale-[1.005] hover:border-gray-400"
     >
       <div className="gap- flex h-full w-full grow flex-col">
         <h3
@@ -69,7 +69,7 @@ export default function WalksItem({
                 src="/components/accordion/walk-title-icon.svg"
                 alt=""
               />
-              <span className="line-clamp-2 w-130 overflow-hidden text-ellipsis whitespace-nowrap transition">
+              <span className="line-clamp-2 w-[calc(100%-100px)] overflow-hidden text-ellipsis whitespace-nowrap transition">
                 {title}
               </span>
             </span>

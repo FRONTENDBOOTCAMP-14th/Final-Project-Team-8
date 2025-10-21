@@ -51,7 +51,7 @@ export default function DietItem({
   return (
     <li
       aria-labelledby={headingId}
-      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px] shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
+      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px] transition hover:scale-[1.005] hover:border-gray-400"
       id={id}
     >
       {/* 제목 */}
@@ -62,9 +62,9 @@ export default function DietItem({
         <button
           onClick={openModal}
           type="button"
-          className="absolute top-0 left-0 z-1 h-full w-full cursor-pointer rounded-xl p-3 text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
+          className="absolute top-0 left-0 z-1 h-full w-full cursor-pointer rounded-xl p-3 text-start transition hover:text-orange-400 active:origin-left"
         >
-          <span className="line-clamp-2 w-120 overflow-hidden text-ellipsis whitespace-nowrap transition">
+          <span className="line-clamp-2 w-[calc(100%-250px)] overflow-hidden text-ellipsis whitespace-nowrap transition">
             {title}
           </span>
         </button>
