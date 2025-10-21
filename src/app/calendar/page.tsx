@@ -10,7 +10,9 @@ import {
   Schedules,
 } from '@/components'
 import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
+import RenderEditScheduleModal from '@/components/calendar/RenderEditScheduleModal'
 import type { ScheduleEvent } from '@/components/calendar/types'
+import Modal from '@/components/modal/Modal'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 
@@ -19,6 +21,10 @@ export default function CalendarPage() {
   const { activeFilters, setActiveFilters } = useScheduleStore()
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [isAddScheduleModalOpen, setIsAddScheduleModalOpen] = useState(false)
+  const [selectedSchedule, setSelectedSchedule] =
+    useState<ScheduleEvent | null>(null)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isModify, setIsModify] = useState(false)
 
   // 일정 추가 핸들러
   const handleAddSchedule = () => {
@@ -29,10 +35,21 @@ export default function CalendarPage() {
     setIsAddScheduleModalOpen(true)
   }
 
-  // 일정 수정 핸들러
+  // 일정 클릭 핸들러
   const handleScheduleClick = (schedule: ScheduleEvent) => {
-    console.log('일정 클릭:', schedule)
-    // 일정 상세 모달 열기
+    if (schedule.category === 'birthday' || schedule.category === 'adoption')
+      return
+
+    setSelectedSchedule(schedule)
+    setIsEditModalOpen(true)
+    setIsModify(false)
+  }
+
+  // 수정 모달 닫기
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false)
+    setSelectedSchedule(null)
+    setIsModify(false)
   }
 
   // 선택된 반려동물 정보
@@ -43,9 +60,9 @@ export default function CalendarPage() {
 
   // 에러 메시지
   const errorMessage = useMemo(() => {
-    if (petList.length === 0) return '등록된 반려동물이 없습니다.'
+    if (petList.length === 0) return '등록된 반려동물이 없습니다'
     if (selectedPetId && !selectedPet)
-      return '선택된 반려동물을 찾을 수 없습니다.'
+      return '선택된 반려동물을 찾을 수 없습니다'
     return null
   }, [petList.length, selectedPetId, selectedPet])
 
@@ -64,7 +81,7 @@ export default function CalendarPage() {
           <p className="mt-2 mb-7.5 font-medium text-[#80809A]">
             {selectedPet
               ? `${selectedPet.name}의 모든 활동 기록 보기`
-              : '반려동물을 선택해주세요.'}
+              : '반려동물을 선택해주세요'}
           </p>
 
           {/* 오류 상태 */}
@@ -79,10 +96,10 @@ export default function CalendarPage() {
           {!selectedPetId ? (
             <div className="flex h-96 flex-col items-center justify-center gap-2">
               <p className="text-lg font-semibold text-[#A3A0C0]">
-                사이드바에서 반려동물을 선택해주세요.
+                사이드바에서 반려동물을 선택해주세요
               </p>
               <p className="text-sm text-[#C6C6D9]">
-                캘린더를 보려면 먼저 반려동물을 선택하세요.
+                캘린더를 보려면 먼저 반려동물을 선택하세요
               </p>
             </div>
           ) : (
@@ -138,6 +155,22 @@ export default function CalendarPage() {
           petId={selectedPetId}
         />
       )}
+
+      {/* 일정 수정 모달 */}
+      <Modal
+        open={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        isModify={isModify}
+        setModify={setIsModify}
+      >
+        <RenderEditScheduleModal
+          selectedSchedule={selectedSchedule}
+          selectedPetId={selectedPetId}
+          isModify={isModify}
+          setModify={setIsModify}
+          onClose={handleCloseEditModal}
+        />
+      </Modal>
 
       {/* 일정 추가 모달 용 Portal 루트 */}
       <div id="modal-dialog-portal" />
