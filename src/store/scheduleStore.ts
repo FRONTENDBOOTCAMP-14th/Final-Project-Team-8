@@ -32,6 +32,7 @@ interface ScheduleStore {
 
   // Actions
   fetchSchedules: (petId: string) => Promise<void>
+  refetchSchedules: (petId: string) => Promise<void>
   clearSchedules: () => void
   setError: (error: string | null) => void
   setActiveFilters: (filters: ScheduleCategory[]) => void
@@ -65,6 +66,7 @@ const ALL_CATEGORIES: ScheduleCategory[] = [
  *
  * Actions:
  * - fetchSchedules: 특정 반려동물의 스케줄 가져오기
+ * - refetchSchedules: 스케줄 새로고침
  * - clearSchedules: 스케줄 초기화
  * - setError: 에러 설정
  * - setActiveFilters: 필터 설정
@@ -114,6 +116,37 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
 
       set({
         schedules: [],
+        isLoading: false,
+        error: errorMessage,
+      })
+    }
+  },
+
+  /**
+   * 스케줄 새로고침
+   * - 중복 체크 없이 항상 실행
+   */
+  refetchSchedules: async (petId: string) => {
+    set({
+      isLoading: true,
+      error: null,
+    })
+
+    try {
+      const data = await getScheduleData(petId)
+      set({
+        schedules: data,
+        isLoading: false,
+        error: null,
+        currentPetId: petId,
+      })
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : '일정을 불러올 수 없습니다.'
+
+      toast.error(`Failed to refetch Schedules: ${err}`)
+
+      set({
         isLoading: false,
         error: errorMessage,
       })
