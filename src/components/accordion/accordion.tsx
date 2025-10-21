@@ -34,7 +34,7 @@ export default function Accordion({
   const handleClick = () => setIsOpen(prev => !prev)
 
   return (
-    <section className="accordion-box m-5 flex w-full min-w-70 flex-col rounded-2xl border-2 border-gray-200 active:border-amber-300">
+    <section className="accordion-box flex w-full min-w-70 flex-col rounded-2xl border-2 border-gray-200 active:border-amber-300">
       <button
         onClick={handleClick}
         aria-label={isOpen ? '열림 전환' : '닫힘 전환'}
