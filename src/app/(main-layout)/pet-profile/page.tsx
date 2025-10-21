@@ -38,7 +38,7 @@ export default function PetProfilePage() {
   return (
     <div className="flex h-full w-full gap-10">
       {/* 왼쪽 */}
-      <main className="flex w-3/7 flex-col gap-5">
+      <div className="flex w-3/7 flex-col gap-5">
         <h1 className="w-full text-[28px] font-bold">반려동물 프로필</h1>
 
         {/* 프로필 사진 부분 */}
@@ -124,10 +124,10 @@ export default function PetProfilePage() {
             </dl>
           </div>
         </section>
-      </main>
+      </div>
       <div className="mx-2 w-px bg-neutral-200"></div>
       {/* 오른쪽 */}
-      <main className="flex w-4/7 flex-col gap-5">
+      <div className="flex w-4/7 flex-col gap-5">
         <h2 className="sr-only">추가 정보</h2>
         <nav className="flex w-full gap-5">
           <h3 className="w-full">
@@ -171,7 +171,7 @@ export default function PetProfilePage() {
         <div className="h-full overflow-y-scroll">
           <AccordionBox activeTab={activeTab}></AccordionBox>
         </div>
-      </main>
+      </div>
     </div>
   )
 }
