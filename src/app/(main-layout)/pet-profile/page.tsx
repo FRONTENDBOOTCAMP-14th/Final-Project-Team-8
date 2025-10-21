@@ -139,7 +139,7 @@ export default function PetProfilePage() {
                 activeTab === 'health' ? '!bg-[#524984] !text-white' : ''
               }
             >
-              건강 관리
+              <p className="text-xl font-bold">건강 관리</p>
             </Button>
           </h3>
           <h3 className="w-full">
@@ -151,7 +151,7 @@ export default function PetProfilePage() {
                 activeTab === 'nutrition' ? '!bg-[#524984] !text-white' : ''
               }
             >
-              영양 관리
+              <p className="text-xl font-bold">영양 관리</p>
             </Button>
           </h3>
           <h3 className="w-full">
@@ -163,12 +163,12 @@ export default function PetProfilePage() {
                 activeTab === 'activity' ? '!bg-[#524984] !text-white' : ''
               }
             >
-              활동 기록
+              <p className="text-xl font-bold">활동 기록</p>
             </Button>
           </h3>
         </nav>
         {/* 탭 컨텐츠 */}
-        <div className="h-full overflow-y-scroll">
+        <div className="h-full overflow-y-auto">
           <AccordionBox activeTab={activeTab}></AccordionBox>
         </div>
       </div>
