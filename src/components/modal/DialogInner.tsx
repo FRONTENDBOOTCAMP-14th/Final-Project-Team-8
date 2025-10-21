@@ -66,7 +66,7 @@ export function DialogInner({
 
         {/* 🔹 수정/완료 버튼 */}
         {!buttonNone && !isModify && (
-          <Button onClick={() => setModify(prev => !prev)}>
+          <Button onClick={() => setModify(prev => !prev)} className="mt-5">
             {!isModify ? '수정' : '완료'}
           </Button>
         )}

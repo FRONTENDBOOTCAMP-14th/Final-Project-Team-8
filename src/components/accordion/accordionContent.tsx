@@ -1,12 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef } from 'react'
 import { toast } from 'sonner'
-import {
-  getPetTableData,
-  type RowMap,
-  type AllowedTableNames,
-  type TableRow,
-} from '../../libs/api/activity.api'
+import type { RowMap, TableRow, TableType } from '../../libs/api/activity.api'
+import { getPetTableData } from '../../libs/api/activity.api'
 import {
   AntiparasiticCompo,
   DietCompo,
@@ -19,7 +15,7 @@ import {
 import EmptyState from './EmptyState'
 
 /** 실제 데이터 로딩/렌더 파트 (useSuspenseQuery 사용) */
-export default function AccordionContent<T extends AllowedTableNames>({
+export default function AccordionContent<T extends TableType>({
   type,
   pet_id,
 }: {

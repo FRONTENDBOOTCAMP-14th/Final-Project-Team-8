@@ -63,6 +63,7 @@ export default function ModalTypeVaccination({
   return (
     <ModalDetailNonModify
       key={id}
+      type="vaccines"
       title={title}
       isModify={isModify}
       fields={[

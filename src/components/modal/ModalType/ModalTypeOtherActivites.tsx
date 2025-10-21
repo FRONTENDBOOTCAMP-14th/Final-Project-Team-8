@@ -65,6 +65,7 @@ export default function ModalTypeOtherActivites({
   return (
     <ModalDetailNonModify
       key={id}
+      type="other activities"
       title={title}
       isModify={isModify}
       fields={[

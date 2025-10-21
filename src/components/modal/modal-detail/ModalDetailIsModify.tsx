@@ -116,7 +116,7 @@ export function ModalDetailIsModify({
       <TitleInput title={title} errors={errors} register={register} />
 
       {/* 상세 정보 섹션 */}
-      <section>
+      <section className={tw('', type === 'walks' ? 'mb-5' : '')}>
         <h2 className="mt-8 text-[18px] font-bold text-gray-800">
           {sectionTitle}
         </h2>
@@ -129,17 +129,19 @@ export function ModalDetailIsModify({
       </section>
 
       {/* 특이 사항 섹션 */}
-      <section>
-        <h2 className="mt-4 text-[18px] font-bold text-gray-800">
-          {noteLabel}
-        </h2>
-        <NoteTextarea
-          noteLabel={noteLabel}
-          defaultNote={defaultNote}
-          noteTextareaProps={noteTextareaProps}
-          register={register}
-        />
-      </section>
+      {type !== 'walks' && (
+        <section>
+          <h2 className="mt-4 text-[18px] font-bold text-gray-800">
+            {noteLabel}
+          </h2>
+          <NoteTextarea
+            noteLabel={noteLabel}
+            defaultNote={defaultNote}
+            noteTextareaProps={noteTextareaProps}
+            register={register}
+          />
+        </section>
+      )}
 
       {/* 액션 버튼 */}
       <ActionButtons
@@ -175,11 +177,9 @@ function TitleInput({ title, errors, register }: TitleInputProps) {
         defaultValue={title}
         placeholder="제목을 입력해주세요"
         className={tw(
-          'mt-3 w-full grow rounded-md border-2 p-2 focus:border-amber-400 focus:outline-none',
+          'mt-3 w-full grow rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none',
           'h-15 pl-3 text-2xl',
-          errors.title
-            ? 'border-red-400 ring-red-300'
-            : 'border-gray-300 ring-blue-300'
+          errors.title && 'border-red-400 ring-red-300'
         )}
         {...register('title', { required: '제목을 완성해주세요.' })}
       />
@@ -205,27 +205,33 @@ function FieldList({
   register,
 }: FieldListProps) {
   return (
-    <ul className="flex flex-wrap items-start gap-4">
+    <ul className="flex flex-wrap items-start gap-5">
       {fields.map(f => {
         const { error } = getFieldState(f.key, formState)
         return (
-          <li key={f.key} className="mt-3 flex min-w-[220px] flex-1 basis-0">
+          <li
+            key={f.key}
+            className="mt-3 flex min-w-[220px] flex-1 basis-0 items-end"
+          >
             {/* 좌측 구분선 */}
-            <div className="mr-3 h-[70px] w-[1px] flex-shrink-0 bg-gray-300" />
+            <div className="mr-3 h-[60px] w-[2px] flex-shrink-0 rounded-xl bg-gray-200" />
 
             <div className="mt-1 flex w-full flex-col">
-              <label className="text-base text-gray-700">{f.label}</label>
+              <label
+                htmlFor={`field-${f.key}`}
+                className="text-base text-gray-700"
+              >
+                {f.label}
+              </label>
 
-              <div className="mt-1">
+              <div className="mt-1 mr-3">
                 <input
                   id={`field-${f.key}`}
                   type={f.type}
                   defaultValue={f.defaultValue ?? ''}
                   className={tw(
-                    'w-full rounded-md border-2 p-1 focus:border-amber-400 focus:outline-none',
-                    error
-                      ? 'border-red-400 ring-red-300'
-                      : 'border-gray-300 ring-blue-300'
+                    'w-full rounded-md border-1 border-gray-400 p-1 focus:border-amber-400 focus:outline-none active:border-amber-400',
+                    error && 'border-red-400 ring-red-300'
                   )}
                   {...f.inputProps}
                   {...register(f.key, {
@@ -259,18 +265,18 @@ function NoteTextarea({
   register,
 }: NoteTextareaProps) {
   return (
-    <div className="relative mt-3 mb-5 flex w-full">
+    <div className="relative mt-3 mb-5 flex w-full items-center">
       {/* 좌측 구분선 */}
-      <span className="absolute left-0 inline-block h-full w-[1px] bg-gray-300" />
+      <span className="absolute left-0 inline-block h-full w-[2px] rounded-xl bg-gray-200" />
 
-      <div className="ml-4 flex min-h-10 w-full items-center">
+      <div className="ml-4 flex min-h-10 w-full">
         <label htmlFor="notes" className="sr-only">
           {noteLabel}
         </label>
         <textarea
           id="notes"
           defaultValue={defaultNote === '-' ? '' : defaultNote}
-          className="w-full rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none"
+          className="w-full rounded-md border-1 border-gray-400 p-2 focus:border-amber-400 focus:outline-none"
           rows={2}
           {...noteTextareaProps}
           {...register('notes')}
@@ -290,7 +296,7 @@ interface ActionButtonsProps {
 
 function ActionButtons({ isLoading, onCancel }: ActionButtonsProps) {
   return (
-    <div className="flex gap-5">
+    <div className="mt-5 flex gap-5">
       <Button type="button" onClick={onCancel} disabled={isLoading}>
         취소
       </Button>
