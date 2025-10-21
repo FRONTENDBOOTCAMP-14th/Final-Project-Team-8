@@ -50,7 +50,7 @@ export default function MedicalTreatmentItem({
   return (
     <li
       aria-labelledby={headingId}
-      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px]"
+      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px] shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
       id={id}
     >
       {/* 제목 */}
@@ -61,7 +61,7 @@ export default function MedicalTreatmentItem({
         <button
           onClick={openModal}
           type="button"
-          className="w-full cursor-pointer text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
+          className="absolute top-0 left-0 z-1 h-full w-full cursor-pointer rounded-xl p-3 text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
         >
           {title}
         </button>

@@ -1,5 +1,5 @@
 import { CalendarIcon } from 'lucide-react'
-import { useId, useState } from 'react'
+import { useId, useRef, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { Antiparasitic } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
@@ -28,7 +28,7 @@ export default function AntiparasiticTreatmentItem({
   // ========================================================================
   // States
   // ========================================================================
-
+  const listItemRef = useRef(null)
   const [isModify, setIsModify] = useState(false)
   const [isModalOpen, { on: openModal, off: closeModal }] =
     useToggleState(false)
@@ -48,19 +48,20 @@ export default function AntiparasiticTreatmentItem({
 
   return (
     <li
+      ref={listItemRef}
       aria-labelledby={headingId}
-      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px]"
+      className="relative m-5 flex max-h-[70px] items-center rounded-xl border border-gray-300 px-4 py-[23px] shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
       id={id}
     >
       {/* 제목 */}
       <h3
         id={headingId}
-        className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
+        className="line-clamp-1 grow text-start text-lg font-bold text-gray-800"
       >
         <button
           onClick={openModal}
           type="button"
-          className="w-full cursor-pointer text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
+          className="absolute top-0 left-0 z-1 h-full w-full cursor-pointer rounded-xl p-3 text-start transition hover:text-orange-400 active:origin-left active:scale-[0.95]"
         >
           {title}
         </button>

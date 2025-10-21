@@ -4,6 +4,7 @@ import type { Walks } from '@/libs/supabase'
 import { toISODate } from '@/utils/client/toISODate'
 import Modal from '../../modal/Modal'
 import ModalTypeWalks from '../../modal/ModalType/ModalTypeWalks'
+import { setHarfTime } from '../../modal/timeHandler'
 import ItemEditButtonCompo from './EditButton/ItemEditButtonCompo'
 
 // ============================================================================
@@ -49,9 +50,9 @@ export default function WalksItem({
   return (
     <li
       aria-labelledby={headingId}
-      className="m-5 flex h-[84px] items-center gap-4 rounded-xl border border-gray-300 px-4 py-[23px]"
+      className="relative m-5 flex h-24 items-center gap-4 rounded-xl border border-gray-300 px-4 py-[23px] shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
     >
-      <div className="flex grow flex-col gap-1">
+      <div className="gap- flex h-full w-full grow flex-col">
         <h3
           id={headingId}
           title={title}
@@ -60,31 +61,37 @@ export default function WalksItem({
           <button
             onClick={openModal}
             type="button"
-            className="line-clamp-1 flex w-full grow origin-left cursor-pointer gap-2 transition active:scale-[0.95]"
+            className="absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl hover:text-orange-400"
           >
-            <img
-              aria-hidden="true"
-              src="/components/accordion/walk-title-icon.svg"
-              alt=""
-            />
-            {title}
+            <span className="absolute top-12 left-4 line-clamp-1 flex h-5 w-130 gap-1 text-start">
+              <img
+                aria-hidden="true"
+                src="/components/accordion/walk-title-icon.svg"
+                alt=""
+              />
+              <span className="line-clamp-2 w-130 overflow-hidden text-ellipsis whitespace-nowrap transition">
+                {title}
+              </span>
+            </span>
           </button>
         </h3>
-        <div className="flex items-center justify-start gap-2">
+        <div className="flex h-full gap-2">
           <time dateTime={toISODate(date)} className="text-base text-gray-500">
             {date}
           </time>
           <div className="h-4 w-px bg-gray-300" />
-          <span className="text-base text-gray-500">{start_time}</span>
+          <span className="text-base text-gray-500">
+            {setHarfTime(start_time)}
+          </span>
         </div>
       </div>
 
       <div className="flex items-center justify-center gap-4">
-        <span className="text-gray-500">
+        <span className="flex gap-1 text-gray-500">
           <span className="font-bold text-gray-800">{distance}</span> km
         </span>
         <div className="h-4 w-px bg-gray-300" />
-        <span className="text-gray-500">
+        <span className="flex gap-1 text-gray-500">
           <span className="font-bold text-gray-800">{total_time}</span> min
         </span>
       </div>

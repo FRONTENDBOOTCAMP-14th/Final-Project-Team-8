@@ -50,26 +50,33 @@ export default function OtherActivitiesItem({
   return (
     <li
       aria-labelledby={headingId}
-      className="relative m-5 max-h-34 min-h-25 w-[calc(100%-40px)] list-none rounded-xl border border-gray-300 px-4 py-[16px]"
+      className="relative m-5 list-none rounded-xl border-1 border-gray-300 p-5 shadow-sm transition hover:scale-[1.005] hover:border-gray-400 hover:shadow-md"
     >
-      <div className="mb-1 flex">
-        <button
-          onClick={openModal}
-          type="button"
-          className="grow-1 origin-left cursor-pointer transition hover:text-orange-400 active:scale-[0.95]"
+      <div className="">
+        <h3
+          id={headingId}
+          className="text-xl font-bold text-gray-800 transition hover:text-orange-400"
         >
-          {/* 제목은 너무 길면 줄 넘어감 */}
-          <h3
-            id={headingId}
-            className="line-clamp-1 rounded-2xl text-start text-base font-bold text-gray-800"
+          <button
+            onClick={openModal}
+            type="button"
+            className="absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl text-start"
           >
-            {title}
-          </h3>
-        </button>
+            {/* 제목은 너무 길면 줄 넘어감 */}
+            <span className="absolute top-4.5 left-6 line-clamp-1 max-w-140">
+              {title}
+            </span>
+          </button>
+        </h3>
+      </div>
+
+      <div className="flex flex-col">
         <time
           dateTime={toISODate(date)}
-          className="flex min-w-26 items-center justify-center gap-1 text-sm font-bold text-gray-500"
+          className="flex w-full min-w-26 items-center justify-end gap-1 pr-1 text-sm font-bold text-gray-500"
         >
+          {/* 구분선 */}
+          <div className="relative mx-3 h-4 w-px bg-gray-300" />
           <CalendarIcon
             focusable="false"
             aria-hidden="true"
@@ -79,19 +86,24 @@ export default function OtherActivitiesItem({
           />
           {date}
         </time>
-      </div>
-      <div className="flex">
-        <p className="line-clamp-4 grow text-start text-sm whitespace-pre-line text-gray-500">
-          {notes}
-        </p>
-        {/* 편집/삭제 버튼 */}
 
-        <ItemEditButtonCompo
-          id={id}
-          type="other activities"
-          pet_id={pet_id}
-          title={title}
-        />
+        {/* 구분선(가로) */}
+        <div className="mt-5 mr-1 border-t-1 border-gray-100" />
+
+        {/* 본문 & 삭제 버튼 */}
+        <div className="mt-3 mr-5 flex items-center gap-10 p-1">
+          <p className="mr-5 line-clamp-2 max-w-200 grow rounded-xl border-gray-200 p-1 text-start text-sm whitespace-pre-line text-gray-500">
+            {notes}
+          </p>
+          {/* 편집/삭제 버튼 */}
+
+          <ItemEditButtonCompo
+            id={id}
+            type="other activities"
+            pet_id={pet_id}
+            title={title}
+          />
+        </div>
       </div>
 
       <Modal
