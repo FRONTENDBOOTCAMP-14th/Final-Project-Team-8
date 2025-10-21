@@ -22,20 +22,20 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   vaccine: Syringe,
   antiparasitic: Pill,
   medical: Stethoscope,
-  otherTreatments: Bandage,
+  'other treatments': Bandage,
   walk: Footprints,
-  otherActivities: PawPrint,
+  'other activities': PawPrint,
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
   birthday: 'text-[#6AA9F3]',
   adoption: 'text-[#A461D8]',
-  vaccine: 'text-[#897EE6]',
+  vaccine: 'text-[#31AA7A]',
   antiparasitic: 'text-[#FF9AD5]',
-  medical: 'text-[#FFC542]',
-  otherTreatments: 'text-[#FD8C8C]',
+  medical: 'text-[#FFC44A]',
+  'other treatments': 'text-[#FD8C8C]',
   walk: 'text-[#82C43C]',
-  otherActivities: 'text-[#FF6000]',
+  'other activities': 'text-[#FF6000]',
 }
 
 export default function ScheduleListItem({ schedule, onClick }: Props) {
