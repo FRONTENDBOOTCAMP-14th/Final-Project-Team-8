@@ -23,7 +23,7 @@ import type { Database } from '../supabase/database.types'
 // Types
 // ============================================================================
 
-type TableType = AccordionProps['type']
+export type TableType = AccordionProps['type']
 
 /**
  * 테이블명 → Insert 타입 매핑

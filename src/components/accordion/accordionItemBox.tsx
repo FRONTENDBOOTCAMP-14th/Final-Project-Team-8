@@ -4,7 +4,7 @@ import { UserRoundX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 import useToggleState from '../../hooks/useToggleState'
-import type { AllowedTableNames } from '../../libs/api/activity.api'
+import type { TableType } from '../../libs/api/activity.api'
 import { usePetStore } from '../../store/petStore'
 import { useUserStore } from '../../store/userStore'
 import QueryErrorBoundary from '../common/QueryErrorBoundary'
@@ -15,12 +15,12 @@ import { selectTypeButtonTitle } from './accordionFun'
 import EmptyState from './EmptyState'
 import ListLoading from './ListLoading'
 
-interface Props<T extends AllowedTableNames> {
+interface Props<T extends TableType> {
   type: T
   isOpen: boolean
 }
 
-export default function AccordionItemBox<T extends AllowedTableNames>({
+export default function AccordionItemBox<T extends TableType>({
   type,
   isOpen,
 }: Props<T>) {
