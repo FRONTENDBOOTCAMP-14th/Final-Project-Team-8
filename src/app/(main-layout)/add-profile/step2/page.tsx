@@ -75,7 +75,7 @@ export default function Step2BreedPage() {
 
         if (error) throw error
 
-        updateDraftPet({ id: data.id, breed: data.breed })
+        updateDraftPet({ id: data.id, breed: data.species })
       }
     } catch (err) {
       console.error('품종 저장 오류 : ', err)

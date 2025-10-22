@@ -204,13 +204,13 @@ export interface Database {
           bio: string | null
           birthdate: string | null
           breed: string | null
+          species: string | null
           created_at: string
           gender: string | null
           id: string
           name: string
-          profile_img: string | undefined
+          profile_img: string | null
           size: number | null
-          species: string
           user_id: string
           weight: number | null
         }
@@ -219,13 +219,13 @@ export interface Database {
           bio?: string | null
           birthdate?: string | null
           breed?: string | null
+          species?: string | null
           created_at?: string
           gender?: string | null
           id?: string
           name: string
           profile_img?: string | null
           size?: number | null
-          species: string
           user_id?: string
           weight?: number | null
         }
@@ -240,7 +240,7 @@ export interface Database {
           name?: string
           profile_img?: string | null
           size?: number | null
-          species?: string
+          species?: string | null
           user_id?: string
           weight?: number | null
         }
