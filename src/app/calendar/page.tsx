@@ -76,9 +76,9 @@ export default function CalendarPage() {
   return (
     <>
       <div className="flex w-full flex-row">
-        <div className="relative grow p-7.5">
+        <div className="relative grow p-10">
           <h2 className="text-[28px] font-bold text-[#3A394F]">캘린더</h2>
-          <p className="mt-2 mb-7.5 font-medium text-[#80809A]">
+          <p className="mb-3.5 font-medium text-[#80809A]">
             {selectedPet
               ? `${selectedPet.name}의 모든 활동 기록 보기`
               : '반려동물을 선택해주세요'}
@@ -109,7 +109,7 @@ export default function CalendarPage() {
               <Button
                 variant="white"
                 onClick={() => setIsFilterModalOpen(true)}
-                className="absolute top-7.5 right-7.5 max-w-40 font-medium !text-[#80809A] !outline-[#80809A]"
+                className="absolute top-10 right-10 max-w-40 font-medium !text-[#80809A] !outline-[#80809A]"
               >
                 <Funnel className="mr-2.5 aspect-square w-5" />
                 필터
@@ -125,7 +125,7 @@ export default function CalendarPage() {
         </div>
 
         {/* 일정 목록 */}
-        <section className="min-w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-7.5">
+        <section className="min-w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
           {selectedPetId ? (
             <Schedules
               onAddSchedule={handleAddSchedule}
