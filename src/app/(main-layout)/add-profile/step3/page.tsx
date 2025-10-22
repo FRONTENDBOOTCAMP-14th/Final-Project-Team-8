@@ -128,7 +128,7 @@ export default function Step3NamePage() {
     >
       <div className="flex flex-col items-center">
         {/* Image Upload */}
-        <div className="mb-16">
+        <div className="mb-10">
           <div className="flex flex-col items-center">
             {/* 이미지 영역 */}
             <div className="relative flex items-center justify-center">
@@ -136,7 +136,7 @@ export default function Step3NamePage() {
               <div className="absolute h-52 w-52 rounded-full border border-gray-100"></div>
 
               {/* Main profile circle */}
-              <div className="relative z-10">
+              <div className="relative z-10 m-15">
                 <div className="h-40 w-40 overflow-hidden rounded-full bg-gray-100">
                   {imagePreview ? (
                     <Image
@@ -196,7 +196,7 @@ export default function Step3NamePage() {
                       setImagePreview(null)
                       updateDraftPet({ profile_img: null })
                     }}
-                    className="absolute -top-0.5 -right-0.5 z-30 flex h-9 w-9 -translate-x-1 translate-y-1 items-center justify-center rounded-full bg-orange-500 text-white shadow-lg transition-colors hover:bg-orange-600"
+                    className="absolute -top-0.5 -right-0.5 z-30 flex h-9 w-9 -translate-x-1 translate-y-1 items-center justify-center rounded-full bg-[#FF6000] text-white shadow-lg transition-colors hover:bg-orange-600"
                   >
                     <svg
                       className="h-4 w-4"
@@ -240,7 +240,7 @@ export default function Step3NamePage() {
             value={name}
             onChange={handleNameChange}
             placeholder="반려동물 이름"
-            className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500"
+            className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#FF6000]"
             maxLength={20}
           />
         </div>

@@ -38,7 +38,7 @@ export default function PasswordConfirmInput({
           onChange={e => onChange(e.target.value)}
           onBlur={onBlur}
           autoComplete="new-password"
-          className={`focus:ring-orange-500' w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+          className={`focus:ring-[#FF6000]' w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[#FF6000] focus:ring-1 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
           {...inputProps}
         />
         <button

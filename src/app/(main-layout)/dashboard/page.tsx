@@ -38,7 +38,7 @@ export default function DashboardPage() {
           </div>
           <div className="cards relative flex h-1/2 w-full flex-col gap-5">
             <Link
-              href={'/health-card'}
+              href={'/pet-profile'}
               className="h-4/7 rounded-[18px] p-[30px] shadow-md outline-1 outline-gray-100"
             >
               <div className="flex h-full flex-row">

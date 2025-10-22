@@ -26,7 +26,7 @@ interface ButtonProps extends ComponentProps<'button'> {
   variant?: ButtonVariant
 }
 
-const baseStyle = `
+export const baseStyle = `
 cursor-pointer
 flex flex-row items-center justify-center
 min-w-40 w-full h-[54px] p-[17px]
@@ -35,7 +35,7 @@ rounded-[14px]
 focus:outline-none focus:ring-2 focus:ring-offset-0
 `
 
-const variantStyle: Record<ButtonVariant, string> = {
+export const variantStyle: Record<ButtonVariant, string> = {
   orange: [
     'bg-[#FF6000] text-white',
     'hover:bg-[#C85712]',
