@@ -5,9 +5,13 @@ import AccordionBox from '@/components/ui/accordionBox'
 import Button from '@/components/ui/button/Button'
 import { usePetStore } from '@/store/petStore'
 
-export default function PetProfilePage() {
+interface Props {
+  initialTab: 'health' | 'nutrition' | 'activity'
+}
+
+export default function PetProfilePage({ initialTab = 'health' }: Props) {
   const { selectedPet } = usePetStore()
-  const [activeTab, setActiveTab] = useState('health')
+  const [activeTab, setActiveTab] = useState(initialTab)
 
   if (!selectedPet) {
     return (

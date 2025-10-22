@@ -36,12 +36,12 @@ export default function Step1SpeciesPage() {
 
   // 검색 필터링
   const filteredSpecies = SPECIES_OPTIONS.filter(species =>
-    species.label.toLowerCase().includes(searchTerm.toLowerCase())
+    species.label.includes(searchTerm)
   )
 
-  const handleSpeciesSelect = (speciesValue: string) => {
-    setSelectedSpecies(speciesValue)
-    updateDraftPet({ species: speciesValue })
+  const handleSpeciesSelect = (speciesLabel: string) => {
+    setSelectedSpecies(speciesLabel)
+    updateDraftPet({ species: speciesLabel })
   }
 
   const handleComplete = () => {
@@ -101,28 +101,27 @@ export default function Step1SpeciesPage() {
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 placeholder="동물 이름으로 검색"
-                className="w-full rounded-xl border border-gray-300 py-3 pr-4 pl-12 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                className="w-full rounded-xl border border-gray-300 py-3 pr-4 pl-12 transition-all outline-none focus:border-transparent focus:outline-2 focus:outline-[#FF6000]"
               />
             </div>
           </div>
         </div>
 
-        <div className="m-15 grid max-h-[500px] grid-cols-4 place-items-center gap-6">
+        <div className="m-15 grid max-h-[500px] grid-cols-[repeat(auto-fit,minmax(280px,1fr))] content-between gap-10">
           {filteredSpecies.map(species => (
             <ImgCardButton
               key={species.id}
               kind="species"
               variant={species.value}
-              onClick={() => handleSpeciesSelect(species.value)}
+              onClick={() => handleSpeciesSelect(species.label)}
               className={
                 selectedSpecies === species.value
-                  ? 'ring-2 ring-orange-500 ring-offset-2'
+                  ? 'border-2 border-[#FF6000]'
                   : 'border border-gray-200 shadow'
               }
             />
           ))}
         </div>
-
         {filteredSpecies.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 text-gray-400">
             <svg

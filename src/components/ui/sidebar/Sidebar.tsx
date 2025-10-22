@@ -37,7 +37,7 @@ export default function Sidebar() {
     if (!user) return
 
     fetchPetSummary(user)
-  }, [user])
+  }, [user, fetchPetSummary])
 
   const menuoptions: MenuOption[] = [
     {
@@ -101,19 +101,20 @@ export default function Sidebar() {
           />
         </svg>
       ),
-      path: '/icon',
+      path: '/user-account',
     },
   ]
 
   return (
     <aside className="flex max-h-screen max-w-[280px] min-w-[280px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
       <Link
-        href="/#"
+        href="/dashboard"
         className="flex flex-row justify-center border-b-[2px] border-[#636073]"
+        aria-label="메인 페이지 이동"
       >
         <img
           src="/assets/logo/Logo-Paw-Buddy.svg"
-          alt="로고이미지"
+          alt="Paw Buddy 로고"
           className="p-auto my-6"
         />
       </Link>

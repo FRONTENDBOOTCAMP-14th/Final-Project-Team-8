@@ -49,10 +49,11 @@ interface ImgCardButtonProps extends ComponentProps<'button'> {
 }
 
 const baseStyle = `
+cursor-pointer
 flex flex-col items-center position-relative
- h-[225px] w-[220px] pt-[20px] py-4
+ h-full w-full pt-[20px]
 rounded-[18px] text-[#3A394F]  bg-white
-focus:outline-0 focus:ring-2 focus:ring-offset-0 focus:ring-[#FF6000]
+focus:outline-0 focus:outline-2 focus:outline-[#FF6000]
 `
 /**
  * 버튼에 표시할 이미지와 타이틀 데이터

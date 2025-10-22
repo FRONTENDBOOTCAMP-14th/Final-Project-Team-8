@@ -54,7 +54,7 @@ export default function ItemEditButtonCompo({
           'z-2' /* stacking */,
           'ml-2 h-[38px] w-[38px] p-[9px]' /* box model */,
           'rounded-[14px] border border-orange-400' /* border */,
-          'text-orange-500' /* text & color */,
+          'text-[#FF6000]' /* text & color */,
           'hover:cursor-pointer hover:bg-orange-50' /* hover states */,
           'active:scale-[0.95]' /* active state */,
           'disabled:cursor-not-allowed disabled:opacity-50' /* disabled state */

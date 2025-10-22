@@ -104,7 +104,7 @@ export function AddProfileLayout({
             {onSkip && (
               <button
                 onClick={onSkip}
-                className="rounded-xl border-1 border-orange-400 px-6 py-3 font-medium text-orange-500 transition-colors hover:bg-orange-500 hover:text-white"
+                className="rounded-xl border-1 border-orange-400 px-6 py-3 font-medium text-[#FF6000] transition-colors hover:bg-[#FF6000] hover:text-white"
               >
                 지금은 건너뛰기
               </button>
@@ -114,7 +114,7 @@ export function AddProfileLayout({
               <button
                 onClick={onComplete}
                 disabled={nextDisabled}
-                className="rounded-xl bg-orange-500 px-24 py-3 font-semibold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-gray-300"
+                className="rounded-xl bg-[#FF6000] px-24 py-3 font-semibold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-gray-300"
               >
                 입력 완료
               </button>

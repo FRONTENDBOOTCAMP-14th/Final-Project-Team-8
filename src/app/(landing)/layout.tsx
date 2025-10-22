@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react'
 
 export default function LandingPageLayout({ children }: PropsWithChildren) {
   return (
-    <div className="relative flex min-h-screen w-full flex-col gap-8 bg-gradient-to-b from-[#FFF5E1] to-[#FFE0B2] p-10">
+    <div className="relative flex h-screen w-full flex-col gap-8 bg-gradient-to-b from-[#FFF5E1] to-[#FFE0B2] p-10">
       {/* 상단 PAW BUDDY LOGO */}
       <div className="absolute">
         <img src="/assets/logo/Logo-Paw-Buddy-col.svg" alt="logo" />

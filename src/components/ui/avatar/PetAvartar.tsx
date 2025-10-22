@@ -27,7 +27,7 @@ export default function PetAvartar({ pet, selected, onClick }: PetAvatarProps) {
         id={pet.id}
         src={pet.profileImg ?? '/assets/img/default-profile.png'}
         alt={pet.name}
-        className={`${baseStyle} ${selected ? 'outline-[3px] outline-orange-500' : 'outline-[1.5px] outline-[#636073]'}`}
+        className={`${baseStyle} ${selected ? 'outline-[3px] outline-[#FF6000]' : 'outline-[1.5px] outline-[#636073]'}`}
         onClick={() => onClick?.(pet.id)}
       />
       <p
