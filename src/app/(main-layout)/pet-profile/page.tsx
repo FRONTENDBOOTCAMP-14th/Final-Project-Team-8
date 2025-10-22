@@ -59,7 +59,7 @@ export default function PetProfilePage() {
               </Button>
             </div>
             <p className="text-gray-500">
-              {selectedPet.species} | {selectedPet.breed}
+              {selectedPet.species} | {selectedPet.species}
             </p>
           </div>
         </section>

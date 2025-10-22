@@ -27,7 +27,6 @@ const initialDraftPet: DraftPet = {
   name: '',
   profile_img: null,
   species: '',
-  breed: null,
   birthdate: null,
   adoption_date: null,
   weight: null,
