@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import type { ChangeEvent } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
-import { CameraButton } from '@/components/ui/button/IconButton'
+import { CameraButton, XButton } from '@/components/ui/button/IconButton'
 import useImageUpload from '@/hooks/useImageUpload'
 import { createClient } from '@/libs/supabase/client'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
@@ -153,28 +153,12 @@ export default function Step3NamePage() {
 
                 {/* Delete button - only show when image exists */}
                 {imagePreview && (
-                  <button
-                    type="button"
+                  <XButton
                     onClick={() => {
                       removeImage()
                       updateDraftPet({ profile_img: null })
                     }}
-                    className="absolute -top-0.5 -right-0.5 z-30 flex h-9 w-9 -translate-x-1 translate-y-1 items-center justify-center rounded-full bg-orange-500 text-white shadow-lg transition-colors hover:bg-orange-600"
-                  >
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                  ></XButton>
                 )}
               </div>
             </div>
