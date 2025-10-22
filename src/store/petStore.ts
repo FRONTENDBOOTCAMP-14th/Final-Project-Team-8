@@ -11,7 +11,7 @@ export interface PetSummary {
   id: string
   name: string
   profileImg: string | null
-  species?: string
+  species: string | null
   breed?: string | null
   gender?: string | null
   bio?: string | null
@@ -84,10 +84,10 @@ export const usePetStore = create<PetStore>((set, get) => ({
       id: pet.id,
       name: pet.name,
       profileImg: pet.profile_img ?? null,
-      species: pet.species,
-      breed: pet.breed,
-      gender: pet.gender,
-      bio: pet.bio,
+      species: pet.species ?? null,
+      breed: pet.breed ?? null,
+      gender: pet.gender ?? null,
+      bio: pet.bio ?? null,
     }))
 
     set({
