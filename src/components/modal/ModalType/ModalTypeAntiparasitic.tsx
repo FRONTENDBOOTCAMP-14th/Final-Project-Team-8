@@ -85,18 +85,21 @@ export default function ModalTypeAntiparasitic({
 export interface ModalTypeAntiparasiticInputProps {
   type: AccordionProps['type']
   onClose: () => void
+  onSaveSuccess?: () => void
   restProps: Antiparasitic
 }
 
 export function ModalTypeAntiparasiticInput({
   type,
   onClose,
+  onSaveSuccess,
   restProps: { intake_date, next_date, notes, title },
 }: ModalTypeAntiparasiticInputProps) {
   return (
     <ModalDetailInput
       type={type}
       onClose={onClose}
+      {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
       fields={[
         {

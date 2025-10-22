@@ -15,6 +15,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <Providers>
           <main>{children}</main>
           <Toaster position="top-center" richColors />
+          <section id="modal-dialog-portal"></section>
         </Providers>
       </body>
     </html>

@@ -3,18 +3,21 @@
 import { Plus } from 'lucide-react'
 import { useCalendarStore } from '@/store/calendarStore'
 import { useScheduleStore } from '@/store/scheduleStore'
+import { DAYS_OF_WEEK } from './CalendarBase'
 import { useScheduleFilter } from './hooks/useScheduleFilter'
 import ScheduleListItem from './ScheduleListItem'
-import type { ScheduleEvent } from './types'
+import type { ScheduleCategory, ScheduleEvent } from './types'
 
 interface Props {
   onAddSchedule?: () => void
   onScheduleClick?: (schedule: ScheduleEvent) => void
+  onDeleteClick?: (schedule: ScheduleEvent) => void
 }
 
-export default function ScheduleList({
+export default function Schedules({
   onAddSchedule,
   onScheduleClick,
+  onDeleteClick,
 }: Props) {
   const { schedules, activeFilters } = useScheduleStore()
   const { selectedDate } = useCalendarStore()
@@ -23,18 +26,16 @@ export default function ScheduleList({
   const daySchedules = useScheduleFilter(schedules, activeFilters, selectedDate)
 
   const formattedDate = selectedDate
-    ? selectedDate.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      })
+    ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일 ${DAYS_OF_WEEK[selectedDate.getDay()]}요일 일정`
     : '날짜 미선택'
+
+  const isClickable = (category: ScheduleCategory) => {
+    return category !== 'birthday' && category !== 'adoption'
+  }
 
   return (
     <div className="flex flex-col gap-5">
-      <h3 className="text-lg font-semibold text-[#3A394F]">
-        {formattedDate}의 일정
-      </h3>
+      <h3 className="text-lg font-semibold text-[#3A394F]">{formattedDate}</h3>
 
       {daySchedules.length === 0 ? (
         <div className="flex items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC] py-3">
@@ -43,10 +44,24 @@ export default function ScheduleList({
       ) : (
         <ul className="flex flex-col gap-5 pr-2">
           {daySchedules.map(schedule => (
-            <li key={schedule.id}>
+            <li
+              key={schedule.id}
+              title={
+                !isClickable ? '생일과 입양일은 수정할 수 없습니다' : undefined
+              }
+              className="relative"
+            >
               <ScheduleListItem
                 schedule={schedule}
-                onClick={() => onScheduleClick?.(schedule)}
+                isClickable={isClickable(schedule.category)}
+                onClick={() => {
+                  if (isClickable(schedule.category)) {
+                    onScheduleClick?.(schedule)
+                  }
+                }}
+                openDeleteModal={() => {
+                  onDeleteClick?.(schedule)
+                }}
               />
             </li>
           ))}

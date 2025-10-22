@@ -14,12 +14,14 @@ interface Props extends Omit<DayProps, 'restProps'> {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  birthday: 'bg-[#FF8630]',
-  adoption: 'bg-[#6AA9F3]',
-  vaccine: 'bg-[#897EE6]',
+  birthday: 'bg-[#6AA9F3]',
+  adoption: 'bg-[#A461D8]',
+  vaccine: 'bg-[#31AA7A]',
   antiparasitic: 'bg-[#FF9AD5]',
-  medical: 'bg-[#FFC542]',
+  medical: 'bg-[#FFC44A]',
+  'other treatments': 'bg-[#FD8C8C]',
   walk: 'bg-[#82C43C]',
+  'other activities': 'bg-[#FF6000]',
 }
 
 export default function DaySchedule({
@@ -85,7 +87,7 @@ export default function DaySchedule({
   )
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+    if (!['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
       return
     }
 
@@ -131,13 +133,13 @@ export default function DaySchedule({
         aria-disabled={!isCurrentMonth}
         aria-label={ariaLabel}
         ref={buttonRef}
-        className={`m-auto flex h-22.5 w-full cursor-pointer flex-col items-center justify-between rounded-xl border-1 border-[#C6C6D9] bg-white p-2.5 hover:border-[#FFA873] hover:text-[#FF6000] focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-2 focus:outline-[#FFA873] ${
+        className={`flex h-22.5 w-full cursor-pointer flex-col items-center justify-between rounded-xl border-1 border-[#C6C6D9] bg-white p-2.5 hover:border-[#FFA873] hover:text-[#FF6000] focus:border-[#FFA873] focus:text-[#FF6000] focus:outline-2 focus:outline-[#FFA873] ${
           isCurrentMonth
             ? ''
             : 'pointer-events-none border-[#DAD9E6] !bg-[#F7F7FC] text-[#A3A0C0]'
         } ${isSelected ? 'border-[#FF6000] !bg-[#FFD8C080] text-[#FF6000]' : ''} ${isToday ? 'border-[#FF6000] text-[#FF6000]' : ''}`}
       >
-        <span>{date}</span>
+        <span className={`${isSelected && 'font-bold'}`}>{date}</span>
         {uniqueCategories.length > 0 && (
           <span className="flex gap-1" aria-hidden="true">
             {uniqueCategories.map((category, index) => (

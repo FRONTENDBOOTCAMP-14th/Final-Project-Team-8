@@ -1,7 +1,7 @@
 'use client'
 
 import { X } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import Button from '../ui/button/Button'
 import type { ScheduleCategory } from './types'
 
@@ -19,12 +19,14 @@ interface Props {
 }
 
 export const FILTER_OPTIONS: FilterOption[] = [
-  { value: 'birthday', label: '생일', color: '[#FF8630]' },
-  { value: 'adoption', label: '입양일', color: '[#6AA9F3]' },
-  { value: 'vaccine', label: '백신', color: '[#897EE6]' },
-  { value: 'antiparasitic', label: '구충제', color: '[#FF9AD5]' },
-  { value: 'medical', label: '진료', color: '[#FFC542]' },
+  { value: 'birthday', label: '생일', color: '[#6AA9F3]' },
+  { value: 'adoption', label: '입양일', color: '[#A461D8]' },
+  { value: 'vaccine', label: '예방접종', color: '[#31AA7A]' },
+  { value: 'antiparasitic', label: '구충 치료', color: '[#FF9AD5]' },
+  { value: 'medical', label: '의료 처치', color: '[#FFC44A]' },
+  { value: 'other treatments', label: '기타 치료', color: '[#FD8C8C]' },
   { value: 'walk', label: '산책', color: '[#82C43C]' },
+  { value: 'other activities', label: '기타 활동', color: '[#FF6000]' },
 ]
 
 export default function FilterModal({
@@ -35,6 +37,11 @@ export default function FilterModal({
 }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const firstCheckboxRef = useRef<HTMLInputElement>(null)
+  const checboxRefs = useRef<(HTMLInputElement | null)[]>([])
+
+  const handleClose = useCallback(() => {
+    onClose()
+  }, [onClose])
 
   // 모달 열기/닫기 제어
   useEffect(() => {
@@ -63,20 +70,12 @@ export default function FilterModal({
 
     const handleCancel = (e: Event) => {
       e.preventDefault()
-      onClose()
+      handleClose()
     }
 
     const handleClick = (e: MouseEvent) => {
-      const rect = dialog.getBoundingClientRect()
-      const isInDialog =
-        rect.top <= e.clientY &&
-        e.clientY <= rect.top + rect.height &&
-        rect.left <= e.clientX &&
-        e.clientX <= rect.left + rect.width
-
-      // backdrop 클릭하면 닫기
-      if (!isInDialog) {
-        onClose()
+      if (e.target === dialog) {
+        handleClose()
       }
     }
 
@@ -87,7 +86,48 @@ export default function FilterModal({
       dialog.removeEventListener('cancel', handleCancel)
       dialog.removeEventListener('click', handleClick)
     }
-  }, [onClose])
+  }, [handleClose])
+
+  // 포커스 트랩
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog || !isOpen) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+
+      const tabbableElements = dialog.querySelectorAll(
+        'button:not([disabled]):not([tabindex="-1"]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex="0"]'
+      )
+
+      if (tabbableElements.length === 0) return
+
+      const firstElement = tabbableElements[0] as HTMLElement
+      const lastElement = tabbableElements[
+        tabbableElements.length - 1
+      ] as HTMLElement
+
+      if (e.shiftKey) {
+        // Shift + Tab(역방향)
+        if (document.activeElement === firstElement) {
+          e.preventDefault()
+          lastElement?.focus()
+        }
+      } else {
+        // Tab(정방향)
+        if (document.activeElement === lastElement) {
+          e.preventDefault()
+          firstElement?.focus()
+        }
+      }
+    }
+
+    dialog.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      dialog.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
 
   // 모두 선택 여부 확인
   const isAllSelected = selectedFilters.length === FILTER_OPTIONS.length
@@ -110,23 +150,37 @@ export default function FilterModal({
     }
   }
 
+  // 키보드 방향키로 카테고리 포커스 이동
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    currentIndex: number
+  ) => {
+    if (!['ArrowUp', 'ArrowDown'].includes(e.key)) {
+      return
+    }
+
+    e.preventDefault()
+
+    let nextIndex = currentIndex
+
+    if (e.key === 'ArrowUp') {
+      nextIndex =
+        (currentIndex - 1 + FILTER_OPTIONS.length + 1) %
+        (FILTER_OPTIONS.length + 1)
+    } else if (e.key === 'ArrowDown') {
+      nextIndex = (currentIndex + 1) % (FILTER_OPTIONS.length + 1)
+    }
+
+    checboxRefs.current[nextIndex]?.focus()
+  }
+
   return (
     <dialog
       ref={dialogRef}
       aria-modal
       aria-labelledby="filter-modal-title"
-      className="fixed top-1/2 left-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border-0 bg-white p-7.5 shadow-xl backdrop:bg-[#32324D]/30 backdrop:blur-xl"
+      className="fixed top-1/2 left-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border-0 bg-white p-7.5 shadow-xl backdrop:bg-[#32324D]/30 backdrop:backdrop-blur-[3px]"
     >
-      {/* 닫기 버튼 */}
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="닫기"
-        className="absolute top-7.5 right-7.5 size-8 cursor-pointer rounded-full border-0 bg-white p-1 text-[#80809A] hover:text-[#3A394F]"
-      >
-        <X className="h-full w-full" />
-      </button>
-
       {/* 헤더 */}
       <div className="mb-7.5">
         <h2
@@ -139,56 +193,63 @@ export default function FilterModal({
 
       {/* 모두 선택 */}
       <div
-        className="mb-3 cursor-pointer rounded-lg bg-[#F7F7FC] p-4 transition-colors hover:bg-[#EEEDF5]"
+        className="mb-3 flex cursor-pointer items-center gap-3 rounded-lg p-4 hover:bg-[#F7F7FC] has-[:focus]:outline-2 has-[:focus]:outline-[#FF6000]"
         onClick={handleSelectAll}
       >
-        <div className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            id="filter-all"
-            ref={firstCheckboxRef}
-            checked={isAllSelected}
-            onChange={handleSelectAll}
-            className="sr-only"
-          />
-          <span
-            className={`h-5 w-5 rounded-full border border-[#C6C6D9] ${isAllSelected && 'border-0 bg-[#FC5A5A]'}`}
-            aria-hidden="true"
-          ></span>
-          <label
-            htmlFor="filter-all"
-            className="flex-1 cursor-pointer font-medium text-[#3A394F]"
-            onClick={e => e.preventDefault()}
-          >
-            모두 선택
-          </label>
-        </div>
+        <input
+          type="checkbox"
+          id="filter-all"
+          ref={el => {
+            checboxRefs.current[0] = el
+            firstCheckboxRef.current = el
+          }}
+          checked={isAllSelected}
+          onChange={handleSelectAll}
+          onKeyDown={e => handleKeyDown(e, 0)}
+          className="peer sr-only"
+        />
+        <span
+          className="h-5 w-5 rounded-full border border-[#C6C6D9] peer-checked:border-0 peer-checked:bg-[#FC5A5A]"
+          aria-hidden="true"
+        ></span>
+        <label
+          htmlFor="filter-all"
+          className="flex-1 cursor-pointer font-medium text-[#3A394F]"
+          onClick={e => e.preventDefault()}
+        >
+          모두 선택
+        </label>
       </div>
 
       <hr className="my-4 border-[#DaD9E6]" />
 
       {/* 필터 옵션 목록 */}
       <ul className="space-y-3">
-        {FILTER_OPTIONS.map(option => {
+        {FILTER_OPTIONS.map((option, index) => {
           const isChecked = selectedFilters.includes(option.value)
           const bgColor = `bg-${option.color}`
+          const arrayIndex = index + 1
 
           return (
             <li
               key={option.value}
-              className="flex cursor-pointer items-center gap-3 rounded-lg p-3 transition-colors hover:bg-[#F7F7FC]"
+              className="flex cursor-pointer items-center gap-3 rounded-lg p-3 hover:bg-[#F7F7FC] focus:bg-[#F7F7FC] has-[:focus]:outline-2 has-[:focus]:outline-[#FF6000]"
               onClick={() => handleToggle(option.value)}
             >
               <input
                 type="checkbox"
                 id={`filter-${option.value}`}
+                ref={el => {
+                  checboxRefs.current[arrayIndex] = el
+                }}
                 checked={isChecked}
                 onChange={() => handleToggle(option.value)}
+                onKeyDown={e => handleKeyDown(e, arrayIndex)}
                 onClick={e => e.stopPropagation()}
-                className="sr-only"
+                className="peer sr-only"
               />
               <span
-                className={`h-5 w-5 rounded-full border border-[#C6C6D9] ${isChecked && 'border-0'} ${isChecked && bgColor}`}
+                className={`h-5 w-5 rounded-full border border-[#C6C6D9] peer-checked:border-0 ${isChecked && bgColor}`}
                 aria-hidden="true"
               ></span>
               <label
@@ -205,10 +266,20 @@ export default function FilterModal({
 
       {/* 하단 버튼 */}
       <div className="mt-7.5 flex gap-3">
-        <Button variant="orange" onClick={onClose}>
+        <Button variant="orange" onClick={handleClose}>
           적용
         </Button>
       </div>
+
+      {/* 닫기 버튼 */}
+      <button
+        type="button"
+        onClick={handleClose}
+        aria-label="닫기"
+        className="absolute top-7.5 right-7.5 size-8 cursor-pointer rounded-full border-0 bg-white p-1 text-[#80809A] hover:text-[#3A394F] focus:outline-[#FF6000]"
+      >
+        <X className="h-full w-full" />
+      </button>
     </dialog>
   )
 }

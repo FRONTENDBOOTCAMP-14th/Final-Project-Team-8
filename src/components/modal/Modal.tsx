@@ -187,7 +187,7 @@ export default function Modal({
       aria-modal="true"
       aria-labelledby={titleId}
       aria-describedby={describe ? describeId : undefined}
-      className="m-auto rounded-3xl border-0 bg-white shadow-xl backdrop:backdrop-blur-[3px]"
+      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl border-0 bg-white shadow-xl backdrop:backdrop-blur-[3px]"
     >
       <DialogInner
         isModify={isModify}

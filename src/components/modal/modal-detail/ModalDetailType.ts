@@ -88,6 +88,7 @@ export type ModalDetailInpuProps = Replace<
     type: AccordionProps['type']
     fields: InputBaseField[]
     onClose: () => void
+    onSaveSuccess?: () => void
   }
 >
 

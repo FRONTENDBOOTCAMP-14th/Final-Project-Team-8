@@ -15,9 +15,15 @@ interface ModalHostProps {
   open: boolean
   onClose: () => void
   type: AccordionProps['type']
+  onSaveSuccess?: () => void
 }
 
-export default function ModalHost({ open, onClose, type }: ModalHostProps) {
+export default function ModalHost({
+  open,
+  onClose,
+  type,
+  onSaveSuccess,
+}: ModalHostProps) {
   const selectTypeInputModal = () => {
     switch (type) {
       case 'antiparasitic':
@@ -25,6 +31,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
           <ModalTypeAntiparasiticInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               id: '',
               intake_date: '',
@@ -40,6 +47,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
           <ModalTypeDietInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               id: '',
@@ -56,6 +64,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
           <ModalTypeMedicalTreatmentInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               category: null,
               id: '',
@@ -72,6 +81,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
           <ModalTypeOtherActivitesInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               duration_time: 0,
@@ -88,6 +98,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
           <ModalTypeOtherTreatmentInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               detail: null,
@@ -103,6 +114,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
           <ModalTypeVaccinationInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               expiry_date: '',
               id: '',
@@ -119,6 +131,7 @@ export default function ModalHost({ open, onClose, type }: ModalHostProps) {
           <ModalTypeWalksInput
             type={type}
             onClose={onClose}
+            {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               date: '',
               distance: null,

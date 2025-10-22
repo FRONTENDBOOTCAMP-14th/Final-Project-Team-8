@@ -108,6 +108,7 @@ export default function ModalTypeWalks({
 interface ModalTypeWalksInputProps {
   type: AccordionProps['type']
   onClose: () => void
+  onSaveSuccess?: () => void
   restProps: Walks
 }
 
@@ -115,12 +116,14 @@ interface ModalTypeWalksInputProps {
 export function ModalTypeWalksInput({
   type,
   onClose,
+  onSaveSuccess,
   restProps: { date, distance, start_time, total_time, title },
 }: ModalTypeWalksInputProps) {
   return (
     <ModalDetailInput
       type={type}
       onClose={onClose}
+      {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
       fields={[
         {
