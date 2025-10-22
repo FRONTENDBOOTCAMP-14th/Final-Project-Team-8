@@ -38,20 +38,20 @@ export default function UserAccountPage() {
       <UserProfileSection {...userData} />
       <div className="flex h-full w-full gap-10">
         {/* 왼쪽 */}
-        <main className="relative flex h-full w-3/7 flex-col gap-5">
+        <div className="relative flex h-full w-3/7 flex-col gap-5">
           {/* 상세정보 */}
           <h2 className="sr-only">상세 정보</h2>
           <UserDetailSection {...userData} />
           <Button variant="transparent" className="absolute bottom-0">
             계정 정보 수정하기
           </Button>
-        </main>
+        </div>
         <div className="mx-2 w-px bg-neutral-200"></div>
         {/* 오른쪽 */}
-        <main className="flex w-4/7 flex-col gap-5">
+        <div className="flex w-4/7 flex-col gap-5">
           <h2 className="text-xl text-[18px] font-bold">환경 설정</h2>
           <UserSettings />
-        </main>
+        </div>
       </div>
     </div>
   )
