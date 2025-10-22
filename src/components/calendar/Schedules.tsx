@@ -11,9 +11,14 @@ import type { ScheduleCategory, ScheduleEvent } from './types'
 interface Props {
   onAddSchedule?: () => void
   onScheduleClick?: (schedule: ScheduleEvent) => void
+  onDeleteClick?: (schedule: ScheduleEvent) => void
 }
 
-export default function Schedules({ onAddSchedule, onScheduleClick }: Props) {
+export default function Schedules({
+  onAddSchedule,
+  onScheduleClick,
+  onDeleteClick,
+}: Props) {
   const { schedules, activeFilters } = useScheduleStore()
   const { selectedDate } = useCalendarStore()
 
@@ -44,6 +49,7 @@ export default function Schedules({ onAddSchedule, onScheduleClick }: Props) {
               title={
                 !isClickable ? '생일과 입양일은 수정할 수 없습니다' : undefined
               }
+              className="relative"
             >
               <ScheduleListItem
                 schedule={schedule}
@@ -52,6 +58,9 @@ export default function Schedules({ onAddSchedule, onScheduleClick }: Props) {
                   if (isClickable(schedule.category)) {
                     onScheduleClick?.(schedule)
                   }
+                }}
+                openDeleteModal={() => {
+                  onDeleteClick?.(schedule)
                 }}
               />
             </li>
