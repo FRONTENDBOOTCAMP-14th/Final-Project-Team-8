@@ -216,9 +216,6 @@ export default function CalendarPage() {
           onClose={handleCloseDeleteModal}
         />
       </Modal>
-
-      {/* 일정 추가 모달 용 Portal 루트 */}
-      <div id="modal-dialog-portal" />
     </>
   )
 }
