@@ -150,7 +150,7 @@ async function getAntiparasiticSchedules(
 
   const { data: antiparasitics, error } = await supabase
     .from('antiparasitic')
-    .select('id, intake_date, next_date, title')
+    .select('id, intake_date, title')
     .eq('pet_id', petId)
 
   if (error) {
@@ -159,22 +159,14 @@ async function getAntiparasiticSchedules(
   }
 
   if (antiparasitics) {
-    antiparasitics.forEach((a: any) => {
-      schedules.push({
-        id: `${a.id}-intake`,
+    schedules.push(
+      ...antiparasitics.map((a: any) => ({
+        id: a.id,
         date: a.intake_date,
         title: a.title,
         category: 'antiparasitic' as const,
-      })
-      if (a.next_date) {
-        schedules.push({
-          id: `${a.id}-next`,
-          date: a.next_date,
-          title: a.title,
-          category: 'antiparasitic' as const,
-        })
-      }
-    })
+      }))
+    )
   }
 
   return schedules
@@ -188,7 +180,7 @@ async function getMedicalSchedules(supabase: SupabaseClient, petId: string) {
 
   const { data: medicalTreatments, error } = await supabase
     .from('medical treatment')
-    .select('id, visit_date, next_date, title')
+    .select('id, visit_date, title')
     .eq('pet_id', petId)
 
   if (error) {
@@ -197,23 +189,14 @@ async function getMedicalSchedules(supabase: SupabaseClient, petId: string) {
   }
 
   if (medicalTreatments) {
-    medicalTreatments.forEach((m: any) => {
-      schedules.push({
-        id: `${m.id}-visit`,
+    schedules.push(
+      ...medicalTreatments.map((m: any) => ({
+        id: m.id,
         date: m.visit_date,
         title: m.title,
         category: 'medical' as const,
-      })
-
-      if (m.next_date) {
-        schedules.push({
-          id: `${m.id}-next`,
-          date: m.next_date,
-          title: m.title,
-          category: 'medical' as const,
-        })
-      }
-    })
+      }))
+    )
   }
 
   return schedules

@@ -139,7 +139,7 @@ export default function DaySchedule({
             : 'pointer-events-none border-[#DAD9E6] !bg-[#F7F7FC] text-[#A3A0C0]'
         } ${isSelected ? 'border-[#FF6000] !bg-[#FFD8C080] text-[#FF6000]' : ''} ${isToday ? 'border-[#FF6000] text-[#FF6000]' : ''}`}
       >
-        <span className="focus:font-semibold">{date}</span>
+        <span className={`${isSelected && 'font-bold'}`}>{date}</span>
         {uniqueCategories.length > 0 && (
           <span className="flex gap-1" aria-hidden="true">
             {uniqueCategories.map((category, index) => (
