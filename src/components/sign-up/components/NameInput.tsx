@@ -34,7 +34,7 @@ export default function NameInput({
         aria-invalid={hasError}
         aria-describedby={hasError ? `${id}-error` : undefined}
         autoComplete="name"
-        className={`rounded-lg border px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 ${hasError ? 'border-red-500' : 'border-gray-300'}`}
+        className={`rounded-lg border px-4 py-3 outline-none focus:border-[#FF6000] focus:ring-1 focus:ring-[#FF6000] ${hasError ? 'border-red-500' : 'border-gray-300'}`}
         {...inputProps}
       />
       {error && (

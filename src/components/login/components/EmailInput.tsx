@@ -25,7 +25,7 @@ export default function EmailInput({
         value={value}
         onChange={e => onChange(e.target.value)}
         autoComplete="email"
-        className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+        className="rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-[#FF6000] focus:ring-1 focus:ring-[#FF6000]"
         {...inputProps}
       />
     </div>

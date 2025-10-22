@@ -21,7 +21,7 @@ export default function LoginPage() {
     }
 
     toast.success('로그인 성공!')
-    router.push('/')
+    router.push('/dashboard')
   }
 
   const handleSignUp = () => {

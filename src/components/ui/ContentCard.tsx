@@ -1,5 +1,6 @@
+import Link from 'next/link'
 import React from 'react'
-import Button from '@/components/ui/button/Button'
+import Button, { baseStyle, variantStyle } from '@/components/ui/button/Button'
 
 /**
  * ContentCard 컴포넌트 Props
@@ -24,8 +25,11 @@ interface ContentCardProps {
  * </ContentCard>
  */
 export default function ContentCard({ title, children }: ContentCardProps) {
+  const startLinkStyle = baseStyle + variantStyle.orange
+  const laterLinkStyle = baseStyle + variantStyle.white
+
   return (
-    <div className="flex h-auto w-full max-w-[620px] min-w-fit flex-col items-center justify-center gap-10 rounded-[20px] bg-white px-12 py-6">
+    <div className="flex h-auto w-full max-w-[620px] min-w-fit flex-col items-center justify-center gap-10 rounded-[20px] bg-white p-12">
       <div className="flex flex-col items-center gap-5 text-[18px] text-gray-600">
         <p className="text-[34px] font-bold whitespace-nowrap">{title}</p>
         <div className="flex flex-col items-center justify-center">
@@ -33,12 +37,12 @@ export default function ContentCard({ title, children }: ContentCardProps) {
         </div>
       </div>
       <div className="buttons flex w-full flex-col gap-4">
-        <Button variant="orange" className="m-0">
+        <Link href="/login" className={`${startLinkStyle}`}>
           지금 시작하기
-        </Button>
-        <Button variant="transparent" className="m-0 text-gray-400">
+        </Link>
+        <Link href="/dashboard" className={`${laterLinkStyle}`}>
           나중에 할게요
-        </Button>
+        </Link>
       </div>
     </div>
   )

@@ -86,19 +86,19 @@ export default function Signup({
   }, [onLogin])
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <div className="relative w-full max-w-lg rounded-2xl bg-white p-[70px] pt-20 shadow-lg">
+    <div className="flex w-[700px] translate-y-5">
+      <div className="relative w-full max-w-[580px] rounded-2xl bg-white p-[50px] pt-17 shadow-lg">
         {/* Profile Icon */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 transform">
           <div className="flex h-20 w-20 items-center justify-center rounded-full border-none bg-white">
             <div className="flex h-16 w-16 items-center justify-center rounded-full border-3 border-orange-200">
-              <User className="h-8 w-8 text-orange-500" />
+              <User className="h-8 w-8 text-[#FF6000]" />
             </div>
           </div>
         </div>
 
         {/* Title */}
-        <h1 className="mt-2 mb-5 text-center text-2xl font-bold text-gray-800">
+        <h1 className="mb-5 text-center text-2xl font-bold text-gray-800">
           계정 만들기
         </h1>
         <p className="text-center text-gray-500">
@@ -168,7 +168,7 @@ export default function Signup({
           />
 
           {/* Agree to Terms Checkbox */}
-          <div className="mb-32 flex items-center">
+          <div className="mb-15 flex items-center">
             <input
               type="checkbox"
               id={agreeToTermsId}
@@ -180,7 +180,7 @@ export default function Signup({
                   setAgreeToTerms(!agreeToTerms)
                 }
               }}
-              className="h-4 w-4 cursor-pointer rounded border-gray-300 text-orange-500"
+              className="h-4 w-4 cursor-pointer rounded border-gray-300 text-[#FF6000]"
             />
             <label
               htmlFor={agreeToTermsId}
@@ -210,7 +210,7 @@ export default function Signup({
             <button
               type="button"
               onClick={handleLogin}
-              className="inline cursor-pointer text-orange-500 transition-colors hover:text-orange-600"
+              className="inline cursor-pointer text-[#FF6000] transition-colors hover:text-orange-600"
             >
               로그인하기
             </button>

@@ -43,7 +43,7 @@ export default function Step2BreedPage() {
   }, [setCurrentStep])
 
   // Supabase에 사용자가 선택한 품종 저장
-  const saveBreedToSupabase = async (breedValue: string) => {
+  const saveBreedToSupabase = async (breedLabel: string) => {
     try {
       const user = (await supabase.auth.getUser()).data.user
       if (!user) {
@@ -55,7 +55,7 @@ export default function Step2BreedPage() {
       if (draftPet.id) {
         const { error } = await supabase
           .from('pets')
-          .update({ breed: breedValue })
+          .update({ breed: breedLabel })
           .eq('id', draftPet.id)
 
         if (error) throw error
@@ -63,7 +63,7 @@ export default function Step2BreedPage() {
         const newPet: TablesInsert<'pets'> = {
           name: draftPet.name ?? '이름 미정',
           species: draftPet.species ?? 'dog',
-          breed: breedValue,
+          breed: breedLabel,
           user_id: user.id,
         }
 
@@ -75,7 +75,7 @@ export default function Step2BreedPage() {
 
         if (error) throw error
 
-        updateDraftPet({ id: data.id, breed: data.species })
+        updateDraftPet({ id: data.id, breed: data.breed })
       }
     } catch (err) {
       console.error('품종 저장 오류 : ', err)
@@ -85,12 +85,12 @@ export default function Step2BreedPage() {
 
   // 검색 필터링
   const filteredBreeds = BREED_OPTIONS.filter(breed =>
-    breed.label.toLowerCase().includes(searchTerm.toLowerCase())
+    breed.label.includes(searchTerm)
   )
 
-  const handleBreedSelect = (breedValue: string) => {
-    setSelectedBreed(breedValue)
-    updateDraftPet({ breed: breedValue })
+  const handleBreedSelect = (breedLabel: string) => {
+    setSelectedBreed(breedLabel)
+    updateDraftPet({ breed: breedLabel })
   }
 
   const handleComplete = async () => {
@@ -119,7 +119,7 @@ export default function Step2BreedPage() {
     >
       <div className="flex flex-col">
         {/* Header */}
-        <div className="mt-5 mr-24 ml-24 flex items-center justify-between gap-8">
+        <div className="mt-5 mr-20 ml-20 flex items-center justify-between gap-8">
           <div className="flex-shrink-0">
             <h2 className="mb-2 text-2xl font-bold text-gray-800">
               우리 아이는 어떤 품종인가요?
@@ -151,22 +151,22 @@ export default function Step2BreedPage() {
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 placeholder="품종명으로 검색"
-                className="w-full rounded-xl border border-gray-300 py-3 pr-4 pl-12 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-orange-500"
+                className="w-full rounded-xl border border-gray-300 py-3 pr-4 pl-12 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#FF6000]"
               />
             </div>
           </div>
         </div>
 
-        <div className="m-15 grid max-h-[500px] grid-cols-6 place-items-center gap-6">
+        <div className="m-15 grid max-h-[500px] grid-cols-5 place-items-center gap-6">
           {filteredBreeds.map(breed => (
             <ImgCardButton
               key={breed.id}
               kind="breeds"
               variant={breed.value}
-              onClick={() => handleBreedSelect(breed.value)}
+              onClick={() => handleBreedSelect(breed.label)}
               className={
                 selectedBreed === breed.value
-                  ? 'ring-2 ring-orange-500 ring-offset-2'
+                  ? 'ring-2 ring-[#FF6000] ring-offset-2'
                   : 'border border-gray-200 shadow'
               }
             />

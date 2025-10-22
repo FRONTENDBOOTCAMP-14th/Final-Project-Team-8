@@ -35,7 +35,7 @@ const Input = ({
   const inputType = isPassword && showPassword ? 'text' : type
 
   const baseClassName = `
-    w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed
+    w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#FF6000] focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed
     ${isPassword ? 'pr-12' : ''}
     ${error ? 'border-red-200' : ''}
     ${className}

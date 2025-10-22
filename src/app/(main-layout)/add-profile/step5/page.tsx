@@ -131,7 +131,7 @@ export default function Step5WeightPage() {
 
         <div className="mt-6 mb-10">
           <p
-            className="text-center text-5xl font-bold text-orange-500"
+            className="text-center text-5xl font-bold text-[#FF6000]"
             role="status"
             aria-live="polite"
             aria-atomic="true"
@@ -198,7 +198,7 @@ export default function Step5WeightPage() {
                 setWeight(value)
               }
             }}
-            className="w-24 rounded-lg border border-gray-300 px-4 py-2 text-center text-sm transition-all outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+            className="w-24 rounded-lg border border-gray-300 px-4 py-2 text-center text-sm transition-all outline-none focus:border-[#FF6000] focus:ring-2 focus:ring-orange-200"
             step="0.1"
             min="0"
             max={unit === 'kg' ? '100' : '220'}
@@ -216,7 +216,7 @@ export default function Step5WeightPage() {
               onClick={() => handleUnitToggle('kg')}
               aria-label="킬로그램 단위 선택"
               aria-pressed={unit === 'kg'}
-              className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all ${unit === 'kg' ? 'border border-orange-200 text-orange-500' : 'border border-gray-200 text-gray-400'}`}
+              className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all ${unit === 'kg' ? 'border border-orange-200 text-[#FF6000]' : 'border border-gray-200 text-gray-400'}`}
             >
               <svg
                 width="16"
@@ -243,7 +243,7 @@ export default function Step5WeightPage() {
               onClick={() => handleUnitToggle('lb')}
               aria-label="파운드 단위 선택"
               aria-pressed={unit === 'lb'}
-              className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all ${unit === 'lb' ? 'border border-orange-500 text-orange-500' : 'border border-gray-200 text-gray-400'}`}
+              className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all ${unit === 'lb' ? 'border border-[#FF6000] text-[#FF6000]' : 'border border-gray-200 text-gray-400'}`}
             >
               <svg
                 width="16"

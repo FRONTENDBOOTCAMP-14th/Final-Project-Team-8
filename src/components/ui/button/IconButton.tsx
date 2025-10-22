@@ -9,13 +9,13 @@ interface IconButtonProps {
 export default function IconButton({ onClick, selected }: IconButtonProps) {
   return (
     <Link
-      href="/"
+      href="/add-profile/step1"
       id="add"
       className="inline-flex flex-col items-center gap-2"
       aria-label="Add pet"
     >
       <div
-        className={`flex aspect-square w-[60px] items-center justify-center rounded-full bg-gray-900 outline-[1.5px] outline-[#A3A0C0] ${selected ? 'outline-[3px] outline-orange-500' : ''}`}
+        className={`flex aspect-square w-[60px] items-center justify-center rounded-full bg-gray-900 outline-[1.5px] outline-[#A3A0C0] ${selected ? 'outline-[3px] outline-[#FF6000]' : ''}`}
         onClick={() => onClick?.('add')}
       >
         <Plus className="text-[#A3A0C0]"></Plus>
