@@ -1,7 +1,13 @@
 'use client'
 
 import { User } from 'lucide-react'
-import { useCallback, useId, useMemo, useState, useTransition } from 'react'
+import React, {
+  useCallback,
+  useId,
+  useMemo,
+  useState,
+  useTransition,
+} from 'react'
 import Button from '@/components/ui/button/Button'
 import EmailInput from './components/EmailInput'
 import PasswordInput from './components/PasswordInput'
@@ -30,16 +36,20 @@ export default function Login({
     return email.trim().length > 0 && password.length > 0
   }, [email, password])
 
-  const handleSubmit = useCallback(() => {
-    if (onLogin && isFormValid) {
-      if (loginError && onErrorChange) {
-        onErrorChange('')
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault()
+      if (onLogin && isFormValid) {
+        if (loginError && onErrorChange) {
+          onErrorChange('')
+        }
+        startTransition(() => {
+          onLogin(email, password)
+        })
       }
-      startTransition(() => {
-        onLogin(email, password)
-      })
-    }
-  }, [email, password, onLogin, isFormValid, loginError, onErrorChange])
+    },
+    [email, password, onLogin, isFormValid, loginError, onErrorChange]
+  )
 
   const handleSignUp = useCallback(() => {
     if (onSignUp) {
