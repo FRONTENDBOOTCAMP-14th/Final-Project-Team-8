@@ -77,7 +77,7 @@ export default function ScheduleListItem({
         </span>
         <span className="flex gap-2">
           {Icon && <Icon width={24} height={24} className={`${iconColor}`} />}
-          <span className="overflow-hidden font-semibold text-ellipsis text-[#3A394F]">
+          <span className="mr-11 grow overflow-hidden font-semibold text-ellipsis whitespace-nowrap text-[#3A394F]">
             {schedule.title}
           </span>
         </span>
