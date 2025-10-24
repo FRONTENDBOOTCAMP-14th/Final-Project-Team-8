@@ -1,7 +1,7 @@
 import '@/styles/main.css'
 import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
-import { Toaster } from 'sonner'
+import ToasterPortal from '../components/ui/ToasterPortal/ToasterPortal'
 import Providers from './providers'
 
 export const metadata: Metadata = {
@@ -14,8 +14,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <body className="overflow-hidden">
         <Providers>
           <main>{children}</main>
-          <Toaster position="top-center" richColors />
           <section id="modal-dialog-portal"></section>
+          <ToasterPortal />
         </Providers>
       </body>
     </html>
