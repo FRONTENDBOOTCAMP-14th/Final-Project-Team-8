@@ -97,7 +97,7 @@ export default function VaccinesTreatmentItem({
       {/* 편집/삭제 버튼 */}
       <ItemEditButtonCompo
         id={id}
-        type="antiparasitic"
+        type="vaccines"
         pet_id={pet_id}
         title={title}
       />
