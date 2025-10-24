@@ -24,7 +24,7 @@ export default function Schedules({
   // 필터링된 스케줄(카테고리 + 날짜)
   const daySchedules = useScheduleFilter(schedules, activeFilters, selectedDate)
 
-  const formattedDate = selectedDate ? '일정 목록' : '날짜 미선택'
+  const schedulesTitle = selectedDate ? '일정 목록' : '날짜 미선택'
 
   const isClickable = (category: ScheduleCategory) => {
     return category !== 'birthday' && category !== 'adoption'
@@ -32,7 +32,7 @@ export default function Schedules({
 
   return (
     <div className="flex flex-col gap-5">
-      <h3 className="text-lg font-semibold text-[#3A394F]">{formattedDate}</h3>
+      <h3 className="text-lg font-semibold text-[#3A394F]">{schedulesTitle}</h3>
 
       {daySchedules.length === 0 ? (
         <div className="flex items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC] py-3">

@@ -13,6 +13,7 @@ import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
 import RenderEditScheduleModal from '@/components/calendar/RenderEditScheduleModal'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import Modal from '@/components/modal/Modal'
+import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 
@@ -24,6 +25,7 @@ export default function CalendarPage() {
   const [isAddScheduleModalOpen, setIsAddScheduleModalOpen] = useState(false)
   const [selectedSchedule, setSelectedSchedule] =
     useState<ScheduleEvent | null>(null)
+  const { selectedDate } = useCalendarStore()
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isModify, setIsModify] = useState(false)
 
@@ -159,8 +161,8 @@ export default function CalendarPage() {
       {selectedPetId && (
         <AddScheduleModal
           isOpen={isAddScheduleModalOpen}
+          selectedDate={selectedDate?.toISOString().slice(0, 10)}
           onClose={() => setIsAddScheduleModalOpen(false)}
-          petId={selectedPetId}
         />
       )}
 
