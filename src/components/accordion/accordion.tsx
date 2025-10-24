@@ -47,6 +47,7 @@ export default function Accordion({
           width={iconSize}
           height={iconSize}
           className="rounded-xl shadow-sm"
+          priority
         />
 
         {/* 제목 */}

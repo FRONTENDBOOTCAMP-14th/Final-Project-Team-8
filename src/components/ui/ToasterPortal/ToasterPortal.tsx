@@ -35,7 +35,6 @@ export default function ToasterPortal() {
       richColors
       toastOptions={{
         style: {
-          zIndex: 9999,
           backgroundColor: '#ffe6eb',
           color: '#c81e4b',
           border: '1px solid #f9b6c2',
