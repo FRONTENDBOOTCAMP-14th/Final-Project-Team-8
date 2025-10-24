@@ -10,11 +10,9 @@ import {
   Schedules,
 } from '@/components'
 import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
-import RenderDeleteScheduleModal from '@/components/calendar/RenderDeleteScheduleModal'
 import RenderEditScheduleModal from '@/components/calendar/RenderEditScheduleModal'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import Modal from '@/components/modal/Modal'
-import useToggleState from '@/hooks/useToggleState'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 
@@ -28,8 +26,6 @@ export default function CalendarPage() {
     useState<ScheduleEvent | null>(null)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isModify, setIsModify] = useState(false)
-  const [isDeleteModalOpen, { on: openDeleteModal, off: closeDeleteModal }] =
-    useToggleState(false)
 
   // 일정 추가 핸들러
   const handleAddSchedule = () => {
@@ -50,29 +46,11 @@ export default function CalendarPage() {
     setIsModify(false)
   }
 
-  // 일정 삭제 핸들러
-  const handleDeleteClick = (schedule: ScheduleEvent) => {
-    if (schedule.category === 'birthday' || schedule.category === 'adoption')
-      return
-
-    setSelectedSchedule(schedule)
-    openDeleteModal()
-  }
-
   // 수정 모달 닫기
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false)
     setSelectedSchedule(null)
     setIsModify(false)
-  }
-
-  // 삭제 모달 닫기
-  const handleCloseDeleteModal = () => {
-    closeDeleteModal()
-    setSelectedSchedule(null)
-    if (selectedPetId) {
-      refetchSchedules(selectedPetId)
-    }
   }
 
   // 선택된 반려동물 정보
@@ -157,9 +135,9 @@ export default function CalendarPage() {
         <section className="min-w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
           {selectedPetId ? (
             <Schedules
+              petId={selectedPetId}
               onAddSchedule={handleAddSchedule}
               onScheduleClick={handleScheduleClick}
-              onDeleteClick={handleDeleteClick}
             />
           ) : (
             <div className="flex h-full items-center justify-center">
@@ -199,21 +177,6 @@ export default function CalendarPage() {
           isModify={isModify}
           setModify={setIsModify}
           onClose={handleCloseEditModal}
-        />
-      </Modal>
-
-      {/* 일정 삭제 모달 */}
-      <Modal
-        open={isDeleteModalOpen}
-        onClose={handleCloseDeleteModal}
-        isModify={false}
-        setModify={() => {}}
-        buttonNone={true}
-      >
-        <RenderDeleteScheduleModal
-          selectedSchedule={selectedSchedule}
-          selectedPetId={selectedPetId}
-          onClose={handleCloseDeleteModal}
         />
       </Modal>
     </>

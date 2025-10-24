@@ -1,6 +1,13 @@
 'use client'
 
-import { Footprints, Pill, Stethoscope, Syringe, X } from 'lucide-react'
+import {
+  Footprints,
+  PawPrint,
+  Pill,
+  Stethoscope,
+  Syringe,
+  X,
+} from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { AccordionProps } from '../accordion/accordion'
@@ -66,7 +73,7 @@ const CATEGORY_OPTIONS: CategoryOption[] = [
   {
     value: 'other activities',
     label: '기타 활동',
-    Icon: Stethoscope,
+    Icon: PawPrint,
     color: 'text-[#FF6000]',
     bgColor: 'bg-[#FF6000]',
     apiType: 'other activities',
