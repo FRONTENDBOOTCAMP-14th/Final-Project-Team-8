@@ -65,10 +65,7 @@ export default function Step1SpeciesPage() {
         const selectedButton = document.querySelector(
           `[data-species="${selectedSpecies}"]`
         ) as HTMLElement
-
-        if (selectedButton) {
-          selectedButton.focus()
-        }
+        selectedButton?.focus()
       }
     }
   }, [showComingSoon, selectedSpecies])
@@ -132,6 +129,7 @@ export default function Step1SpeciesPage() {
             <div className="w-full max-w-md self-center">
               <div className="relative">
                 <svg
+                  aria-hidden="true"
                   className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400"
                   width="20"
                   height="20"
@@ -149,6 +147,7 @@ export default function Step1SpeciesPage() {
                 </svg>
                 <input
                   type="text"
+                  aria-label="동물 종 검색"
                   value={searchTerm}
                   onChange={e => setSearchTerm(e.target.value)}
                   placeholder="동물 이름으로 검색"
@@ -169,6 +168,7 @@ export default function Step1SpeciesPage() {
                     variant={species.value}
                     onClick={() => handleSpeciesSelect(species.label)}
                     aria-pressed={isSelected}
+                    aria-label={`${species.label} 선택`}
                     data-species={species.label}
                     className={`w-full ${
                       isSelected
@@ -181,8 +181,13 @@ export default function Step1SpeciesPage() {
             })}
           </div>
           {filteredSpecies.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+            <div
+              className="flex flex-col items-center justify-center py-16 text-gray-400"
+              role="status"
+              aria-live="polite"
+            >
               <svg
+                aria-hidden="true"
                 className="mb-4 h-16 w-16"
                 fill="none"
                 stroke="currentColor"
@@ -205,10 +210,7 @@ export default function Step1SpeciesPage() {
       {/* 준비 중 모달 */}
       {showComingSoon && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{
-            background: 'rgba(0, 0, 0, 0.8)',
-          }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
           onClick={handleCloseModal}
           role="dialog"
           aria-modal="true"
@@ -226,6 +228,7 @@ export default function Step1SpeciesPage() {
               aria-label="닫기"
             >
               <svg
+                aria-hidden="true"
                 className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
@@ -243,6 +246,7 @@ export default function Step1SpeciesPage() {
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
                 <svg
+                  aria-hidden="true"
                   className="h-8 w-8 text-[#FF6000]"
                   fill="none"
                   stroke="currentColor"
