@@ -1,5 +1,6 @@
 'use client'
 import Accordion from '@/components/accordion/accordion'
+import ScheduledMeal from './MealTimeReminder/ScheduledMeal'
 
 interface AccordionBoxProps {
   activeTab: string
@@ -16,7 +17,15 @@ export default function AccordionBox({ activeTab }: AccordionBoxProps) {
           <Accordion type="other treatments" title="기타 치료" />
         </>
       )}
-      {activeTab === 'nutrition' && <Accordion type="diet" title="식단일지" />}
+      {activeTab === 'nutrition' && (
+        <div>
+          <Accordion type="diet" title="식단일지" />
+          <div className="mt-[30px] mb-5 text-xl font-bold text-gray-700">
+            식사 시간 알림
+          </div>
+          <ScheduledMeal></ScheduledMeal>
+        </div>
+      )}
       {activeTab === 'activity' && (
         <>
           <Accordion type="walks" title="산책" />
