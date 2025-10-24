@@ -11,6 +11,10 @@ import type {
   OtherActivitiesInsert,
   OtherTreatment,
   OtherTreatmentInsert,
+  ScheduledMeals,
+  ScheduledMealsInsert,
+  ScheduledMealsPartial,
+  ScheduledMealsUpdate,
   Vaccines,
   VaccinesInsert,
   Walks,
@@ -92,14 +96,14 @@ const dateColumnMap: Record<TableType, string> = {
 export default async function createActivity<T extends TableType>(params: {
   setData: InsertMap[T]
   type: T
-  pet_id: string
+  pet_id: InsertMap[T]['pet_id']
 }) {
   const { setData, type, pet_id } = params
-  const row = { ...setData, pet_id } as any
+  const row = { ...setData, pet_id } as InsertMap[T]
 
   const { data, error } = await supabase
     .from(type)
-    .insert([row])
+    .insert([row] as any)
     .select('*')
     .single()
 
@@ -107,7 +111,7 @@ export default async function createActivity<T extends TableType>(params: {
     throw new Error(`[Create ${type}] ${error.message}`)
   }
 
-  return data as unknown as InsertMap[T]
+  return data
 }
 
 // ============================================================================
@@ -200,4 +204,67 @@ export async function deleteActivity<T extends TableType>(
   if (error) {
     throw new Error(`[Delete ${type}] ${error.message}`)
   }
+}
+
+// ============================================================================
+// ScheduledMeals
+// ============================================================================
+/**
+ * 식사 기록 불러오기
+ * @param pet_id - 펫 ID (보안 검증용)
+ * @throws 삭제 실패 시 에러 발생
+ */
+export async function getPetMealTime(
+  pet_id: ScheduledMeals['pet_id'] | null
+): Promise<ScheduledMeals[]> {
+  const supabase = await createClient()
+
+  if (!pet_id) {
+    throw new Error('지정된 펫의 아이디가 없습니다.')
+  }
+
+  const { error, data } = await supabase
+    .from('scheduled meals')
+    .select('*')
+    .eq('pet_id', pet_id)
+
+  if (error) {
+    throw new Error(`[Read ${pet_id}] ${error.message}`)
+  }
+
+  return data
+}
+
+export async function insertScheduledMeal(
+  formData: ScheduledMealsInsert,
+  pet_id: ScheduledMealsInsert['pet_id']
+) {
+  // Supabase에 식사 시간 데이터 저장
+  const row = { ...formData, pet_id }
+
+  const { error, data } = await supabase
+    .from('scheduled meals')
+    .insert(row)
+    .eq('pet_id', pet_id)
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export async function updateScheduledMeal(
+  formData: ScheduledMealsUpdate,
+  id: ScheduledMeals['id']
+) {
+  const { error, data } = await supabase
+    .from('scheduled meals')
+    .update(formData)
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) {
+    throw new Error(`업데이트 오류 ${error.message}`)
+  }
+
+  return data
 }
