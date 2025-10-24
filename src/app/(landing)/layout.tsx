@@ -8,7 +8,7 @@ export default function LandingPageLayout({ children }: PropsWithChildren) {
       <Link href="/dashboard" className="absolute z-50 cursor-pointer">
         <img
           src="/assets/logo/Logo-Paw-Buddy-col.svg"
-          alt="logo"
+          alt="Paw Buddy 로고"
           className="transition-opacity hover:opacity-80"
         />
       </Link>
