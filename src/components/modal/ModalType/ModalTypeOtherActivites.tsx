@@ -34,6 +34,7 @@ export default function ModalTypeOtherActivites({
             type: 'date',
             tableValue: date,
             defaultValue: date,
+            requiredSet: '활동 날짜를 입력해주세요.',
           },
           {
             key: 'start_time',
@@ -42,6 +43,7 @@ export default function ModalTypeOtherActivites({
             tableValue: removeSecond(start_time),
             defaultValue: start_time,
             inputProps: { step: 60 },
+            requiredSet: '활동 시작 시간을 입력해주세요.',
           },
           {
             key: 'duration_time',
@@ -50,6 +52,7 @@ export default function ModalTypeOtherActivites({
             tableValue: minTohour(duration_time),
             defaultValue: duration_time,
             inputProps: { step: 10 },
+            requiredSet: '총 활동 시간을 입력해주세요.',
           },
         ]}
         noteLabel="특이 사항"

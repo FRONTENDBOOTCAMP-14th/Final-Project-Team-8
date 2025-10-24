@@ -34,6 +34,7 @@ export default function ModalTypeMedicalTreatment({
             tableValue: category,
             defaultValue: category ?? '',
             inputProps: { placeholder: '항목을 입력해주세요' },
+            requiredSet: '항목을 입력해주세요.',
           },
           {
             key: 'visit_date',
@@ -41,6 +42,7 @@ export default function ModalTypeMedicalTreatment({
             type: 'date',
             tableValue: visit_date,
             defaultValue: visit_date,
+            requiredSet: '방문 날짜를 입력해주세요.',
           },
           {
             key: 'next_date',
@@ -48,6 +50,7 @@ export default function ModalTypeMedicalTreatment({
             type: 'date',
             tableValue: next_date,
             defaultValue: next_date,
+            requiredSet: null,
           },
         ]}
         noteLabel="특이 사항"
