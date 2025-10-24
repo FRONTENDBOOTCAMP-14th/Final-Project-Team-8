@@ -16,8 +16,8 @@ import type { ScheduleCategory } from './types'
 
 interface Props {
   isOpen: boolean
+  selectedDate: string | undefined
   onClose: () => void
-  petId: string
 }
 
 interface CategoryOption {
@@ -82,7 +82,11 @@ const CATEGORY_OPTIONS: CategoryOption[] = [
 
 const GRID_COLUMNS = 4
 
-export default function AddScheduleModal({ isOpen, onClose }: Props) {
+export default function AddScheduleModal({
+  isOpen,
+  selectedDate,
+  onClose,
+}: Props) {
   const modalRef = useRef<HTMLDivElement>(null)
   const firstCategoryButtonRef = useRef<HTMLButtonElement>(null)
   const categoryButtonRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -302,6 +306,7 @@ export default function AddScheduleModal({ isOpen, onClose }: Props) {
       {/* 일정 추가 폼 모달(ModalHost 사용) */}
       <ModalHost
         open={modalHostOpen}
+        selectedDate={selectedDate}
         onClose={handleFormModalCancel}
         onSaveSuccess={handleFormModalSave}
         type={selectedApiType}
