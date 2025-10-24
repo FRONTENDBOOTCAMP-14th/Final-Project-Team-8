@@ -10,8 +10,8 @@ export default function AccordionBox({ activeTab }: AccordionBoxProps) {
     <div className="flex h-full flex-col gap-4">
       {activeTab === 'health' && (
         <>
-          <Accordion type="antiparasitic" title="예방접종" />
-          <Accordion type="vaccines" title="구충 치료" />
+          <Accordion type="antiparasitic" title="구충치료" />
+          <Accordion type="vaccines" title="예방접종" />
           <Accordion type="medical treatment" title="의료 처치" />
           <Accordion type="other treatments" title="기타 치료" />
         </>
