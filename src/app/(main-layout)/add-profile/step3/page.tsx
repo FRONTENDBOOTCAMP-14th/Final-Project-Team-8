@@ -16,7 +16,7 @@ export default function Step3NamePage() {
     draftPet.profile_img ?? null
   )
   const fileInputRef = useRef<HTMLInputElement>(null)
-  // 디바운스
+  const ImageUploadButtonRef = useRef<HTMLButtonElement>(null)
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
   // Step 3로 강제 설정
@@ -94,6 +94,11 @@ export default function Step3NamePage() {
     updateDraftPet({ profile_img: null })
     // 파일 input 초기화
     if (fileInputRef.current) fileInputRef.current.value = ''
+
+    // 이미지 삭제 후 이미지 업로드 버튼으로 포커스 이동
+    setTimeout(() => {
+      ImageUploadButtonRef.current?.focus()
+    }, 0)
   }
 
   // Cleanup
@@ -169,6 +174,7 @@ export default function Step3NamePage() {
                 {/* Camera button */}
                 <button
                   type="button"
+                  ref={ImageUploadButtonRef}
                   onClick={() => fileInputRef.current?.click()}
                   aria-label="프로필 사진 업로드"
                   className="absolute bottom-0 left-1/2 z-30 flex h-12 w-12 -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-xl bg-white shadow-lg transition-colors hover:bg-gray-50"
@@ -245,6 +251,7 @@ export default function Step3NamePage() {
             onChange={handleNameChange}
             placeholder="반려동물 이름"
             aria-label="반려동물 이름"
+            aria-required="true"
             className="w-full rounded-xl border border-gray-300 px-4 py-3 transition-all outline-none focus:border-transparent focus:ring-2 focus:ring-[#FF6000]"
             maxLength={20}
           />
