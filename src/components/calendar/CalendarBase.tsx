@@ -45,7 +45,7 @@ export default function CalendarBase({
         setCurrentYear={setCurrentYear}
         setCurrentMonth={setCurrentMonth}
       />
-      <table className="mx-auto w-full table-fixed border-separate border-spacing-4 text-center">
+      <table className="mx-auto -mb-4 w-full table-fixed border-separate border-spacing-4 text-center">
         <thead className="text-sm font-bold text-[#80809A]">
           <tr>
             {DAYS_OF_WEEK.map((day, index) => (
