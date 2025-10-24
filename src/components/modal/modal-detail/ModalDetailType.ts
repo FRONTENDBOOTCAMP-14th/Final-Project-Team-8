@@ -65,7 +65,14 @@ export interface ModalDetailProps {
   noteTextareaProps?: TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 
+export interface ModifyMaseField extends BaseField {
+  requiredSet: string | null
+  min?: number
+  max?: number
+}
+
 export interface ModalDetailIsModifyProps extends ModalDetailProps {
+  fields: ModifyMaseField[]
   id: string
   type: AccordionProps['type']
   setModify: Dispatch<SetStateAction<boolean>>

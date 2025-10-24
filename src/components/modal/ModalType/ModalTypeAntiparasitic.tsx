@@ -33,6 +33,7 @@ export default function ModalTypeAntiparasitic({
             type: 'date',
             tableValue: intake_date,
             defaultValue: intake_date,
+            requiredSet: '복용 날짜를 입력해주세요.',
           },
           {
             key: 'next_date',
@@ -40,6 +41,7 @@ export default function ModalTypeAntiparasitic({
             type: 'date',
             tableValue: next_date,
             defaultValue: next_date,
+            requiredSet: '다음 복용일을 입력해주세요.',
           },
         ]}
         noteLabel="특이 사항"

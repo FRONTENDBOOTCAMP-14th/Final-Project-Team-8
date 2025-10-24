@@ -24,7 +24,10 @@ export function ModalDetailInput({
   onSaveSuccess,
 }: ModalDetailInpuProps) {
   const { register, handleSubmit, formState, getFieldState, reset } =
-    useForm<ModalInputDataType>()
+    useForm<ModalInputDataType>({
+      mode: 'all',
+      reValidateMode: 'onSubmit',
+    })
 
   const { errors, isSubmitting } = formState
 
@@ -78,7 +81,7 @@ export function ModalDetailInput({
     >
       <input
         type="text"
-        defaultValue={title}
+        defaultValue={title ?? ''}
         placeholder="제목을 입력해주세요"
         className={tw(
           'mt-3 w-full grow rounded-md border-2 border-gray-300 p-2 focus:border-amber-400 focus:outline-none',
@@ -106,7 +109,16 @@ export function ModalDetailInput({
       {/* 필드 리스트 */}
       <ul className="flex flex-wrap items-start gap-4">
         {fields.map(
-          ({ requiredSet, key, label, type, defaultValue, inputProps }) => {
+          ({
+            requiredSet,
+            key,
+            label,
+            type,
+            defaultValue,
+            inputProps,
+            min,
+            max,
+          }) => {
             const { error } = getFieldState(key, formState)
             return (
               <li
@@ -127,7 +139,7 @@ export function ModalDetailInput({
                     </label>
                     <input
                       type={type}
-                      defaultValue={defaultValue ?? ''}
+                      value={defaultValue ?? ''}
                       className={tw(
                         'h-10 w-full rounded-md border-1 border-gray-400 p-1 pl-3 text-lg focus:border-amber-400 focus:outline-none',
                         error && 'border-red-400 ring-red-300'
@@ -135,12 +147,25 @@ export function ModalDetailInput({
                       {...inputProps}
                       {...register(key, {
                         required: requiredSet ?? false,
+                        ...(min !== undefined && {
+                          min: {
+                            value: min,
+                            message: `${min} 이상의 값을 입력해주세요`,
+                          },
+                        }),
+                        ...(max !== undefined && {
+                          max: {
+                            value: max,
+                            message: `${max} 이하의 값을 입력해주세요`,
+                          },
+                        }),
                       })}
                     />
+
                     {error?.message && (
                       <div
                         role="alert"
-                        id="Modal-title-error"
+                        id={`Modal-${key}-error`}
                         className="mt-2 ml-3 text-sm text-red-500"
                       >
                         {error.message}
@@ -180,7 +205,7 @@ export function ModalDetailInput({
           </div>
         </>
       )}
-      <div className="flex gap-5">
+      <div className="mt-6 flex gap-5">
         <Button onClick={onClose}>취소</Button>
         <Button type="submit">저장</Button>
       </div>

@@ -34,6 +34,7 @@ export default function ModalTypeVaccination({
             tableValue: lot,
             defaultValue: lot,
             inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
+            requiredSet: 'Lot(제조번호)를 작성해주세요.',
           },
           {
             key: 'vaccinated_date',
@@ -41,6 +42,7 @@ export default function ModalTypeVaccination({
             type: 'date',
             tableValue: vaccinated_date,
             defaultValue: vaccinated_date,
+            requiredSet: '접종 날짜를 입력해주세요.',
           },
           {
             key: 'expiry_date',
@@ -48,6 +50,7 @@ export default function ModalTypeVaccination({
             type: 'date',
             tableValue: expiry_date,
             defaultValue: expiry_date,
+            requiredSet: '백신의 유효 기간을 입력해주세요.',
           },
         ]}
         noteLabel="특이 사항"

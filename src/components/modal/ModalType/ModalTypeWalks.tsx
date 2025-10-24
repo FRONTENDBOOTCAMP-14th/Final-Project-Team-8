@@ -30,24 +30,11 @@ export default function ModalTypeWalks({
         fields={[
           {
             key: 'start_time',
-            label: '다녀온 곳',
+            label: '시작 시간',
             type: 'time',
             tableValue: start_time,
             defaultValue: start_time,
-          },
-          {
-            key: 'distance',
-            label: '산책 거리 (km)',
-            type: 'number',
-            tableValue: distance,
-            defaultValue: distance,
-          },
-          {
-            key: 'total_time',
-            label: '산책 시간 (min)',
-            type: 'number',
-            tableValue: minTohour(total_time),
-            defaultValue: total_time,
+            requiredSet: '시작 시간을 입력해주세요.',
           },
           {
             key: 'date',
@@ -55,6 +42,26 @@ export default function ModalTypeWalks({
             type: 'date',
             tableValue: date,
             defaultValue: date,
+            requiredSet: '산책 날짜를 지정해주세요.',
+          },
+          {
+            key: 'distance',
+            label: '산책 거리 (km)',
+            type: 'number',
+            tableValue: distance,
+            defaultValue: distance,
+            requiredSet: null,
+            min: 0,
+          },
+          {
+            key: 'total_time',
+            label: '산책 시간 (min)',
+            type: 'number',
+            tableValue: minTohour(total_time),
+            defaultValue: total_time,
+            requiredSet: null,
+            inputProps: { step: 10 },
+            min: 0,
           },
         ]}
         // 모달 버튼 기능 연결
@@ -74,10 +81,17 @@ export default function ModalTypeWalks({
       fields={[
         {
           key: 'start_time',
-          label: '다녀온 곳',
+          label: '시작 시간',
           type: 'time',
           tableValue: start_time,
           defaultValue: start_time,
+        },
+        {
+          key: 'date',
+          label: '산책 날짜',
+          type: 'date',
+          tableValue: date,
+          defaultValue: date,
         },
         {
           key: 'distance',
@@ -92,13 +106,6 @@ export default function ModalTypeWalks({
           type: 'number',
           tableValue: minTohour(total_time),
           defaultValue: total_time,
-        },
-        {
-          key: 'date',
-          label: '산책 날짜',
-          type: 'date',
-          tableValue: date,
-          defaultValue: date,
         },
       ]}
     />
@@ -146,6 +153,7 @@ export function ModalTypeWalksInput({
           type: 'number',
           defaultValue: distance,
           requiredSet: null,
+          min: 0,
         },
         {
           key: 'total_time',
@@ -153,6 +161,8 @@ export function ModalTypeWalksInput({
           type: 'number',
           defaultValue: total_time,
           requiredSet: null,
+          inputProps: { step: 10 },
+          min: 0,
         },
       ]}
     />

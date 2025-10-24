@@ -16,7 +16,10 @@ import type { AccordionProps } from '../../accordion/accordion'
 import ListLoading from '../../accordion/ListLoading'
 import Button from '../../ui/button/Button'
 import type { ModalInputDataType } from '../ModalType/ModalType'
-import type { BaseField, ModalDetailIsModifyProps } from './ModalDetailType'
+import type {
+  ModalDetailIsModifyProps,
+  ModifyMaseField,
+} from './ModalDetailType'
 
 // ============================================================================
 // Types
@@ -198,7 +201,7 @@ function TitleInput({ title, errors, register }: TitleInputProps) {
  * 필드 리스트 (동적 입력 필드들)
  */
 interface FieldListProps {
-  fields: BaseField[]
+  fields: ModifyMaseField[]
   formState: FormState<ModalInputDataType>
   getFieldState: UseFormGetFieldState<ModalInputDataType>
   register: UseFormRegister<ModalInputDataType>
@@ -212,44 +215,75 @@ function FieldList({
 }: FieldListProps) {
   return (
     <ul className="flex flex-wrap items-start gap-5">
-      {fields.map(f => {
-        const { error } = getFieldState(f.key, formState)
-        return (
-          <li
-            key={f.key}
-            className="mt-3 flex min-w-[220px] flex-1 basis-0 items-end"
-          >
-            {/* 좌측 구분선 */}
-            <div className="mr-3 h-[60px] w-[2px] flex-shrink-0 rounded-xl bg-gray-200" />
+      {fields.map(
+        ({
+          requiredSet,
+          key,
+          label,
+          type,
+          defaultValue,
+          inputProps,
+          min,
+          max,
+        }) => {
+          const { error } = getFieldState(key, formState)
+          return (
+            <li
+              key={key}
+              className="mt-3 flex min-w-[220px] flex-1 basis-0 items-center"
+            >
+              {/* 각 컬럼 좌측 세로 구분선 */}
+              <div className="mr-3 h-[70px] w-[2px] flex-shrink-0 rounded-xl bg-gray-200" />
+              <div className="mt-1 flex w-full flex-col">
+                <div className="text-base text-gray-700">{label}</div>
 
-            <div className="mt-1 flex w-full flex-col">
-              <label
-                htmlFor={`field-${f.key}`}
-                className="text-base text-gray-700"
-              >
-                {f.label}
-              </label>
+                {/* 모드별 렌더링 */}
 
-              <div className="mt-1 mr-3">
-                <input
-                  id={`field-${f.key}`}
-                  type={f.type}
-                  defaultValue={f.defaultValue ?? ''}
-                  className={tw(
-                    'w-full rounded-md border-1 border-gray-400 p-1 focus:border-amber-400 focus:outline-none active:border-amber-400',
-                    error && 'border-red-400 ring-red-300'
+                <div className="mt-1">
+                  {/* 입력 컨트롤 */}
+                  <label htmlFor={key} className="sr-only">
+                    {label} 입력
+                  </label>
+                  <input
+                    type={type}
+                    defaultValue={defaultValue ?? ''}
+                    className={tw(
+                      'h-10 w-full rounded-md border-1 border-gray-400 p-1 pl-3 text-lg focus:border-amber-400 focus:outline-none',
+                      error && 'border-red-400 ring-red-300'
+                    )}
+                    {...inputProps}
+                    {...register(key, {
+                      required: requiredSet ?? false,
+                      ...(min !== undefined && {
+                        min: {
+                          value: min,
+                          message: `${min} 이상의 값을 입력해주세요`,
+                        },
+                      }),
+                      ...(max !== undefined && {
+                        max: {
+                          value: max,
+                          message: `${max} 이하의 값을 입력해주세요`,
+                        },
+                      }),
+                    })}
+                  />
+
+                  {error?.message && (
+                    <div
+                      role="alert"
+                      id={`Modal-${key}-error`}
+                      className="mt-2 ml-3 text-sm text-red-500"
+                    >
+                      {error.message}
+                    </div>
                   )}
-                  {...f.inputProps}
-                  {...register(f.key, {
-                    required: `${f.label}를 완성해주세요.`,
-                  })}
-                />
-                {error && <ErrorMessage message={error.message} />}
+                </div>
               </div>
-            </div>
-          </li>
-        )
-      })}
+            </li>
+          )
+        }
+      )}
     </ul>
   )
 }
