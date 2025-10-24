@@ -4,7 +4,8 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { deleteActivity } from '../../../../libs/api/activity.api'
+import { deleteActivity } from '@/libs/api/activity.api'
+import { useScheduleStore } from '@/store/scheduleStore'
 import Button from '../../../ui/button/Button'
 import type { AccordionProps } from '../../accordion'
 
@@ -60,6 +61,10 @@ export default function DeleteConfirmModal({
       queryClient.invalidateQueries({
         queryKey: ['petTable', type, pet_id],
       })
+
+      // 캘린더 갱신
+      const { refetchSchedules } = useScheduleStore.getState()
+      refetchSchedules(pet_id)
     },
     onError: (err: unknown) => {
       const message =

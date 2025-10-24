@@ -3,21 +3,20 @@
 import { Plus } from 'lucide-react'
 import { useCalendarStore } from '@/store/calendarStore'
 import { useScheduleStore } from '@/store/scheduleStore'
-import { DAYS_OF_WEEK } from './CalendarBase'
 import { useScheduleFilter } from './hooks/useScheduleFilter'
 import ScheduleListItem from './ScheduleListItem'
 import type { ScheduleCategory, ScheduleEvent } from './types'
 
 interface Props {
+  petId: string
   onAddSchedule?: () => void
   onScheduleClick?: (schedule: ScheduleEvent) => void
-  onDeleteClick?: (schedule: ScheduleEvent) => void
 }
 
 export default function Schedules({
+  petId,
   onAddSchedule,
   onScheduleClick,
-  onDeleteClick,
 }: Props) {
   const { schedules, activeFilters } = useScheduleStore()
   const { selectedDate } = useCalendarStore()
@@ -25,9 +24,7 @@ export default function Schedules({
   // 필터링된 스케줄(카테고리 + 날짜)
   const daySchedules = useScheduleFilter(schedules, activeFilters, selectedDate)
 
-  const formattedDate = selectedDate
-    ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일 ${DAYS_OF_WEEK[selectedDate.getDay()]}요일 일정`
-    : '날짜 미선택'
+  const schedulesTitle = selectedDate ? '일정 목록' : '날짜 미선택'
 
   const isClickable = (category: ScheduleCategory) => {
     return category !== 'birthday' && category !== 'adoption'
@@ -35,7 +32,7 @@ export default function Schedules({
 
   return (
     <div className="flex flex-col gap-5">
-      <h3 className="text-lg font-semibold text-[#3A394F]">{formattedDate}</h3>
+      <h3 className="text-lg font-semibold text-[#3A394F]">{schedulesTitle}</h3>
 
       {daySchedules.length === 0 ? (
         <div className="flex items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC] py-3">
@@ -53,14 +50,13 @@ export default function Schedules({
             >
               <ScheduleListItem
                 schedule={schedule}
+                selectedDate={selectedDate}
                 isClickable={isClickable(schedule.category)}
+                petId={petId}
                 onClick={() => {
                   if (isClickable(schedule.category)) {
                     onScheduleClick?.(schedule)
                   }
-                }}
-                openDeleteModal={() => {
-                  onDeleteClick?.(schedule)
                 }}
               />
             </li>
