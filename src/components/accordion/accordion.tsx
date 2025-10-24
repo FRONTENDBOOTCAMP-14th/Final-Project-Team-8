@@ -50,7 +50,7 @@ export default function Accordion({
         />
 
         {/* 제목 */}
-        <h2 className="grow text-2xl font-bold">{title}</h2>
+        <h2 className="grow text-2xl font-bold text-gray-800">{title}</h2>
 
         {/* 플러스/마이너스 토글 아이콘 */}
         <span
