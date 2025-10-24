@@ -40,9 +40,9 @@ export default function PetProfilePage({ initialTab = 'health' }: Props) {
   }
 
   return (
-    <div className="flex h-full w-full gap-10">
+    <div className="flex h-full w-full gap-[30px]">
       {/* 왼쪽 */}
-      <div className="flex w-3/7 flex-col gap-5">
+      <div className="flex w-4/10 min-w-90 flex-col gap-5">
         <h1 className="w-full text-[28px] font-bold">반려동물 프로필</h1>
 
         {/* 프로필 사진 부분 */}
@@ -129,9 +129,10 @@ export default function PetProfilePage({ initialTab = 'health' }: Props) {
           </div>
         </section>
       </div>
-      <div className="mx-2 w-px bg-neutral-200"></div>
+
+      <div className="w-px bg-neutral-200"></div>
       {/* 오른쪽 */}
-      <div className="flex w-4/7 flex-col gap-5">
+      <div className="flex grow flex-col gap-5">
         <h2 className="sr-only">추가 정보</h2>
         <nav className="flex w-full gap-5">
           <h3 className="w-full">
