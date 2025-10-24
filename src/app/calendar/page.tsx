@@ -82,8 +82,8 @@ export default function CalendarPage() {
 
   return (
     <>
-      <div className="flex w-full flex-row">
-        <div className="relative grow p-10">
+      <div className="grid w-full min-w-190 grid-cols-4 flex-row">
+        <div className="relative col-span-3 min-w-120 p-10">
           <h2 className="text-[28px] font-bold text-[#3A394F]">캘린더</h2>
           <p className="mb-3.5 font-medium text-[#80809A]">
             {selectedPet
@@ -132,7 +132,7 @@ export default function CalendarPage() {
         </div>
 
         {/* 일정 목록 */}
-        <section className="min-w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
+        <section className="col-span-1 min-w-70 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
           {selectedPetId ? (
             <Schedules
               petId={selectedPetId}
