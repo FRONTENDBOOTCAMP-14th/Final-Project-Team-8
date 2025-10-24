@@ -9,15 +9,15 @@ import ScheduleListItem from './ScheduleListItem'
 import type { ScheduleCategory, ScheduleEvent } from './types'
 
 interface Props {
+  petId: string
   onAddSchedule?: () => void
   onScheduleClick?: (schedule: ScheduleEvent) => void
-  onDeleteClick?: (schedule: ScheduleEvent) => void
 }
 
 export default function Schedules({
+  petId,
   onAddSchedule,
   onScheduleClick,
-  onDeleteClick,
 }: Props) {
   const { schedules, activeFilters } = useScheduleStore()
   const { selectedDate } = useCalendarStore()
@@ -25,9 +25,7 @@ export default function Schedules({
   // 필터링된 스케줄(카테고리 + 날짜)
   const daySchedules = useScheduleFilter(schedules, activeFilters, selectedDate)
 
-  const formattedDate = selectedDate
-    ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일 ${DAYS_OF_WEEK[selectedDate.getDay()]}요일 일정`
-    : '날짜 미선택'
+  const formattedDate = selectedDate ? '일정 목록' : '날짜 미선택'
 
   const isClickable = (category: ScheduleCategory) => {
     return category !== 'birthday' && category !== 'adoption'
@@ -53,14 +51,13 @@ export default function Schedules({
             >
               <ScheduleListItem
                 schedule={schedule}
+                selectedDate={selectedDate}
                 isClickable={isClickable(schedule.category)}
+                petId={petId}
                 onClick={() => {
                   if (isClickable(schedule.category)) {
                     onScheduleClick?.(schedule)
                   }
-                }}
-                openDeleteModal={() => {
-                  onDeleteClick?.(schedule)
                 }}
               />
             </li>

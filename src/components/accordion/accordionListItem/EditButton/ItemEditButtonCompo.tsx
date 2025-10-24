@@ -61,7 +61,6 @@ export default function ItemEditButtonCompo({
         )}
       >
         <Trash2 width={20} height={20} className="text-orange-400" />
-        <span className="sr-only">삭제</span>
       </button>
       <Modal
         open={isDeleteModalOpen}
