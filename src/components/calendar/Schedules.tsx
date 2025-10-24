@@ -3,7 +3,6 @@
 import { Plus } from 'lucide-react'
 import { useCalendarStore } from '@/store/calendarStore'
 import { useScheduleStore } from '@/store/scheduleStore'
-import { DAYS_OF_WEEK } from './CalendarBase'
 import { useScheduleFilter } from './hooks/useScheduleFilter'
 import ScheduleListItem from './ScheduleListItem'
 import type { ScheduleCategory, ScheduleEvent } from './types'

@@ -76,7 +76,9 @@ export default function ScheduleListItem({
           {formattedDate}
         </span>
         <span className="flex gap-2">
-          {Icon && <Icon width={24} height={24} className={`${iconColor}`} />}
+          {Icon && (
+            <Icon width={24} height={24} className={`${iconColor} min-w-6`} />
+          )}
           <span className="mr-11 grow overflow-hidden font-semibold text-ellipsis whitespace-nowrap text-[#3A394F]">
             {schedule.title}
           </span>
