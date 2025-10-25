@@ -1,7 +1,10 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Calendar, Clock } from 'lucide-react'
 import React from 'react'
+import { toast } from 'sonner'
 import useToggleState from '@/hooks/useToggleState'
-import type { ScheduledMeals } from '@/libs/supabase'
+import type { ScheduledMeals, ScheduledMealsUpdate } from '@/libs/supabase'
+import { updateScheduledMeal } from '../../../libs/api/activity.api'
 import Modal from '../../modal/Modal'
 import MealTimeModal from '../../modal/modal-detail/MealTimeDetail'
 import { EmptyMealState } from './EmptyMealState'
@@ -18,6 +21,29 @@ export default function MealTimeReminder({
   const [isModalOpen, { on: ModalOpen, off: ModalClose }] =
     useToggleState(false)
   const [isOn, { toggle: toToggle }] = useToggleState(data?.toggle ?? false)
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: async (data: ScheduledMealsUpdate) => {
+      await updateScheduledMeal({ ...data, toggle: isOn }, data?.id ?? '')
+    },
+    onSuccess: () => {
+      toast.success('알림 변경 성공!')
+      queryClient.invalidateQueries({
+        queryKey: ['ScheduledMeals', data?.pet_id],
+      })
+    },
+    onError: (error: unknown) => {
+      const message =
+        error instanceof Error ? error.message : '저장 중 오류가 발생했습니다.'
+      toast.error(message)
+    },
+  })
+
+  const handleToggleClick = () => {
+    toToggle()
+    mutation.mutate(data as object)
+  }
 
   // 빈 상태 렌더링
   if (!data) {
@@ -66,7 +92,7 @@ export default function MealTimeReminder({
 
         {/* 토글 버튼 */}
         <button
-          onClick={toToggle}
+          onClick={handleToggleClick}
           className={`relative flex h-7 w-14 items-center rounded-full transition-colors duration-300 focus:outline-amber-500 ${
             isOn ? 'bg-amber-500' : 'bg-gray-400'
           }`}
