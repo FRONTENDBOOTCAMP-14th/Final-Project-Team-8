@@ -4,11 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ImgCardButton } from '@/components'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
-import { createClient } from '@/libs/supabase/client'
-import type { TablesInsert } from '@/libs/supabase/database.types'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
-
-const supabase = createClient()
 
 const BREED_OPTIONS = [
   { id: 'mixed', value: 'mixed', label: '믹스견' },
@@ -42,47 +38,6 @@ export default function Step2BreedPage() {
     setCurrentStep(2)
   }, [setCurrentStep])
 
-  // Supabase에 사용자가 선택한 품종 저장
-  const saveBreedToSupabase = async (breedLabel: string) => {
-    try {
-      const user = (await supabase.auth.getUser()).data.user
-      if (!user) {
-        alert('로그인이 필요합니다')
-        return
-      }
-
-      // 이미 draftPet.id가 있으면 업데이트, 없으면 새로 생성
-      if (draftPet.id) {
-        const { error } = await supabase
-          .from('pets')
-          .update({ breed: breedLabel })
-          .eq('id', draftPet.id)
-
-        if (error) throw error
-      } else {
-        const newPet: TablesInsert<'pets'> = {
-          name: draftPet.name ?? '이름 미정',
-          species: draftPet.species ?? 'dog',
-          breed: breedLabel,
-          user_id: user.id,
-        }
-
-        const { data, error } = await supabase
-          .from('pets')
-          .insert(newPet)
-          .select()
-          .single()
-
-        if (error) throw error
-
-        updateDraftPet({ id: data.id, breed: data.breed })
-      }
-    } catch (err) {
-      console.error('품종 저장 오류 : ', err)
-      alert('품종 정보를 저장하는 중 문제가 발생했습니다')
-    }
-  }
-
   // 검색 필터링
   const filteredBreeds = BREED_OPTIONS.filter(breed =>
     breed.label.includes(searchTerm)
@@ -93,13 +48,11 @@ export default function Step2BreedPage() {
     updateDraftPet({ breed: breedLabel })
   }
 
-  const handleComplete = async () => {
+  const handleComplete = () => {
     if (!selectedBreed) {
       alert('품종을 선택해주세요')
       return
     }
-
-    await saveBreedToSupabase(selectedBreed)
 
     nextStep()
     router.push('/add-profile/step3')
@@ -119,9 +72,9 @@ export default function Step2BreedPage() {
     >
       <div className="flex flex-col">
         {/* Header */}
-        <div className="mt-5 mr-20 ml-20 flex items-center justify-between gap-8">
+        <div className="mt-5 mr-20 ml-20 flex items-center justify-between gap-10">
           <div className="flex-shrink-0">
-            <h2 className="mb-2 text-2xl font-bold text-gray-800">
+            <h2 tabIndex={-1} className="mb-2 text-2xl font-bold text-gray-800">
               우리 아이는 어떤 품종인가요?
             </h2>
             <p className="text-sm text-gray-500">
@@ -131,6 +84,7 @@ export default function Step2BreedPage() {
           <div className="w-full max-w-md self-center">
             <div className="relative">
               <svg
+                aria-hidden="true"
                 className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400"
                 width="20"
                 height="20"
@@ -148,6 +102,7 @@ export default function Step2BreedPage() {
               </svg>
               <input
                 type="text"
+                aria-label="품종 검색"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 placeholder="품종명으로 검색"
@@ -157,25 +112,39 @@ export default function Step2BreedPage() {
           </div>
         </div>
 
-        <div className="m-15 grid max-h-[500px] grid-cols-5 place-items-center gap-6">
-          {filteredBreeds.map(breed => (
-            <ImgCardButton
-              key={breed.id}
-              kind="breeds"
-              variant={breed.value}
-              onClick={() => handleBreedSelect(breed.label)}
-              className={
-                selectedBreed === breed.value
-                  ? 'ring-2 ring-[#FF6000] ring-offset-2'
-                  : 'border border-gray-200 shadow'
-              }
-            />
-          ))}
+        <div className="m-15 grid max-h-[500px] grid-cols-[repeat(auto-fit,minmax(200px,1fr))] content-between gap-6">
+          {filteredBreeds.map(breed => {
+            const isSelected = selectedBreed === breed.label
+
+            return (
+              <div key={breed.id} className="relative w-full">
+                <div className="aspect-square">
+                  <ImgCardButton
+                    kind="breeds"
+                    variant={breed.value}
+                    onClick={() => handleBreedSelect(breed.label)}
+                    aria-pressed={isSelected}
+                    aria-label={`${breed.label} 선택`}
+                    data-breed={breed.label}
+                    className={`h-full w-full transition-all ${
+                      isSelected
+                        ? 'rounded-[18px] border-2 border-[#FF6000] bg-orange-100 text-[#FF6000]'
+                        : 'border border-gray-200 shadow hover:text-[#FF6000] hover:outline-2 hover:outline-[#FF6000]'
+                    }`}
+                  />
+                </div>
+              </div>
+            )
+          })}
         </div>
 
         {filteredBreeds.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+          <div
+            className="flex flex-col items-center justify-center py-16 text-gray-400"
+            aria-live="polite"
+          >
             <svg
+              aria-hidden="true"
               className="mb-4 h-16 w-16"
               fill="none"
               stroke="currentColor"

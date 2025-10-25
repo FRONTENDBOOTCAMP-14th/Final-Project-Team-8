@@ -13,6 +13,7 @@ import { ModalTypeWalksInput } from './ModalType/ModalTypeWalks'
 
 interface ModalHostProps {
   open: boolean
+  selectedDate?: string | undefined
   onClose: () => void
   type: AccordionProps['type']
   onSaveSuccess?: () => void
@@ -20,6 +21,7 @@ interface ModalHostProps {
 
 export default function ModalHost({
   open,
+  selectedDate,
   onClose,
   type,
   onSaveSuccess,
@@ -34,7 +36,7 @@ export default function ModalHost({
             {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
               id: '',
-              intake_date: '',
+              intake_date: selectedDate ?? '',
               next_date: null,
               notes: null,
               pet_id: '',
@@ -72,7 +74,7 @@ export default function ModalHost({
               notes: null,
               pet_id: '',
               title: '',
-              visit_date: '',
+              visit_date: selectedDate ?? '',
             }}
           />
         )
@@ -83,7 +85,7 @@ export default function ModalHost({
             onClose={onClose}
             {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
-              date: '',
+              date: selectedDate ?? '',
               duration_time: 0,
               id: '',
               notes: null,
@@ -100,7 +102,7 @@ export default function ModalHost({
             onClose={onClose}
             {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
-              date: '',
+              date: selectedDate ?? '',
               detail: null,
               id: '',
               notes: null,
@@ -122,7 +124,7 @@ export default function ModalHost({
               notes: null,
               pet_id: '',
               title: '',
-              vaccinated_date: '',
+              vaccinated_date: selectedDate ?? '',
             }}
           />
         )
@@ -133,7 +135,7 @@ export default function ModalHost({
             onClose={onClose}
             {...(onSaveSuccess && { onSaveSuccess })}
             restProps={{
-              date: '',
+              date: selectedDate ?? '',
               distance: null,
               id: '',
               pet_id: '',

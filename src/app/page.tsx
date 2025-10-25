@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
 import ContentCard from '@/components/ui/ContentCard'
 
@@ -30,9 +31,13 @@ function LandingPage({ children }: PropsWithChildren) {
   return (
     <div className="relative flex h-screen w-full flex-col gap-8 bg-gradient-to-b from-[#FFF5E1] to-[#FFE0B2] p-10">
       {/* 상단 PAW BUDDY LOGO */}
-      <div className="absolute">
-        <img src="/assets/logo/Logo-Paw-Buddy-col.svg" alt="logo" />
-      </div>
+      <Link href="/dashboard" className="absolute z-50 cursor-pointer">
+        <img
+          src="/assets/logo/Logo-Paw-Buddy-col.svg"
+          alt="Paw Buddy 로고"
+          className="transition-opacity hover:opacity-80"
+        />
+      </Link>
       {/* 좌우 레이아웃 */}
       <div className="flex h-full w-full flex-col-reverse gap-5 md:flex-row">
         {/* 왼쪽 이미지 */}

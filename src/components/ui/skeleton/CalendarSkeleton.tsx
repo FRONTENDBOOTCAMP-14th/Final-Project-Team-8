@@ -3,17 +3,13 @@ export default function CalendarSkeleton() {
     <section className="animate-pulse">
       {/* SeletDate 스켈레톤 */}
       <div className="mb-7 flex flex-row items-center justify-between">
+        <div className="h-13.5 w-13.5 rounded-xl bg-[#F7F7FC]" />
         <div className="flex gap-3">
+          <div className="h-8 w-25 rounded bg-[#F7F7FC]" />
           <div className="h-8 w-20 rounded bg-[#F7F7FC]" />
-          <div className="h-8 w-16 rounded bg-[#F7F7FC]" />
         </div>
-        <div className="flex gap-2">
-          <div className="h-10 w-10 rounded-xl bg-[#F7F7FC]" />
-          <div className="h-10 w-10 rounded-xl bg-[#F7F7FC]" />
-        </div>
+        <div className="h-13.5 w-13.5 rounded-xl bg-[#F7F7FC]" />
       </div>
-
-      <hr className="mt-7.5 mb-3.5 border-[#DAD9E6]" />
 
       {/* 요일 헤더 스켈레톤 */}
       <div className="mb-4 grid grid-cols-7 gap-4 text-center">

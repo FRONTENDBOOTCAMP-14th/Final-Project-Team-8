@@ -10,11 +10,10 @@ import {
   Schedules,
 } from '@/components'
 import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
-import RenderDeleteScheduleModal from '@/components/calendar/RenderDeleteScheduleModal'
 import RenderEditScheduleModal from '@/components/calendar/RenderEditScheduleModal'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import Modal from '@/components/modal/Modal'
-import useToggleState from '@/hooks/useToggleState'
+import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 
@@ -26,10 +25,9 @@ export default function CalendarPage() {
   const [isAddScheduleModalOpen, setIsAddScheduleModalOpen] = useState(false)
   const [selectedSchedule, setSelectedSchedule] =
     useState<ScheduleEvent | null>(null)
+  const { selectedDate } = useCalendarStore()
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isModify, setIsModify] = useState(false)
-  const [isDeleteModalOpen, { on: openDeleteModal, off: closeDeleteModal }] =
-    useToggleState(false)
 
   // 일정 추가 핸들러
   const handleAddSchedule = () => {
@@ -50,29 +48,11 @@ export default function CalendarPage() {
     setIsModify(false)
   }
 
-  // 일정 삭제 핸들러
-  const handleDeleteClick = (schedule: ScheduleEvent) => {
-    if (schedule.category === 'birthday' || schedule.category === 'adoption')
-      return
-
-    setSelectedSchedule(schedule)
-    openDeleteModal()
-  }
-
   // 수정 모달 닫기
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false)
     setSelectedSchedule(null)
     setIsModify(false)
-  }
-
-  // 삭제 모달 닫기
-  const handleCloseDeleteModal = () => {
-    closeDeleteModal()
-    setSelectedSchedule(null)
-    if (selectedPetId) {
-      refetchSchedules(selectedPetId)
-    }
   }
 
   // 선택된 반려동물 정보
@@ -104,8 +84,8 @@ export default function CalendarPage() {
 
   return (
     <>
-      <div className="flex w-full flex-row">
-        <div className="relative grow p-10">
+      <div className="grid h-full w-full min-w-190 flex-1 grid-cols-4 flex-row overflow-hidden rounded-xl">
+        <section className="relative col-span-3 min-w-120 overflow-y-auto p-10">
           <h2 className="text-[28px] font-bold text-[#3A394F]">캘린더</h2>
           <p className="mb-3.5 font-medium text-[#80809A]">
             {selectedPet
@@ -151,15 +131,15 @@ export default function CalendarPage() {
               <CalendarSchedule petId={selectedPetId} />
             </>
           )}
-        </div>
+        </section>
 
         {/* 일정 목록 */}
-        <section className="min-w-90 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
+        <section className="col-span-1 min-w-70 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
           {selectedPetId ? (
             <Schedules
+              petId={selectedPetId}
               onAddSchedule={handleAddSchedule}
               onScheduleClick={handleScheduleClick}
-              onDeleteClick={handleDeleteClick}
             />
           ) : (
             <div className="flex h-full items-center justify-center">
@@ -181,8 +161,12 @@ export default function CalendarPage() {
       {selectedPetId && (
         <AddScheduleModal
           isOpen={isAddScheduleModalOpen}
+          selectedDate={
+            selectedDate
+              ? `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`
+              : undefined
+          }
           onClose={() => setIsAddScheduleModalOpen(false)}
-          petId={selectedPetId}
         />
       )}
 
@@ -199,21 +183,6 @@ export default function CalendarPage() {
           isModify={isModify}
           setModify={setIsModify}
           onClose={handleCloseEditModal}
-        />
-      </Modal>
-
-      {/* 일정 삭제 모달 */}
-      <Modal
-        open={isDeleteModalOpen}
-        onClose={handleCloseDeleteModal}
-        isModify={false}
-        setModify={() => {}}
-        buttonNone={true}
-      >
-        <RenderDeleteScheduleModal
-          selectedSchedule={selectedSchedule}
-          selectedPetId={selectedPetId}
-          onClose={handleCloseDeleteModal}
         />
       </Modal>
     </>

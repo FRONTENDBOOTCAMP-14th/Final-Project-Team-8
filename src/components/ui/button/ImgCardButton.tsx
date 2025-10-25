@@ -52,8 +52,7 @@ const baseStyle = `
 cursor-pointer
 flex flex-col items-center position-relative
  h-full w-full pt-[20px]
-rounded-[18px] text-[#3A394F]  bg-white
-focus:outline-0 focus:outline-2 focus:outline-[#FF6000]
+rounded-[18px] text-[#3A394F] active:transform-none focus:ring-2 focus:ring-[#FF6000] focus:outline-none focus:text-[#FF6000]
 `
 /**
  * 버튼에 표시할 이미지와 타이틀 데이터
@@ -139,9 +138,7 @@ export default function ImgCardButton({
       className={`${baseStyle} group ${className} overflow-hidden`}
       {...restProps}
     >
-      <span className="mt-3.5 text-[20px] font-bold text-gray-800 group-focus:text-[#FF6000]">
-        {title}
-      </span>
+      <span className="mt-3.5 text-[20px] font-bold text-current">{title}</span>
       <img src={imgSrc} alt={title} />
     </button>
   )
