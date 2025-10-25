@@ -51,7 +51,7 @@ export const useProfileCreationStore = create<ProfileCreationStore>()(
 
       nextStep: () =>
         set(state => ({
-          currentStep: Math.min(state.currentStep + 1, 7),
+          currentStep: Math.min(state.currentStep + 1, 6),
         })),
 
       previousStep: () =>
