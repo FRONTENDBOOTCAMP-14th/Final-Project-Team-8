@@ -35,6 +35,7 @@ export function ModalTypeDiet({
             tableValue: snack_type,
             defaultValue: snack_type,
             inputProps: { placeholder: '간식 이름을 작성해주세요' },
+            requiredSet: '간식 이름이 작성되지 않았습니다.',
           },
           {
             key: 'date',
@@ -42,6 +43,7 @@ export function ModalTypeDiet({
             type: 'date',
             tableValue: date,
             defaultValue: date,
+            requiredSet: '배급 날짜를 지정해주세요.',
           },
           {
             key: 'time',
@@ -50,6 +52,7 @@ export function ModalTypeDiet({
             tableValue: removeSecond(time),
             defaultValue: time,
             inputProps: { step: 60 },
+            requiredSet: '배급 시간을 지정해주세요',
           },
         ]}
         noteLabel="특이 사항"

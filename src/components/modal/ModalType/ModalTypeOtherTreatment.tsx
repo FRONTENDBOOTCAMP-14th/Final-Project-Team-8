@@ -28,19 +28,21 @@ export default function ModalTypeOtherTreatment({
         title={title}
         fields={[
           {
+            key: 'date',
+            label: '처치 날짜',
+            type: 'date',
+            tableValue: date,
+            defaultValue: date,
+            requiredSet: '처치 날짜를 입력해주세요.',
+          },
+          {
             key: 'detail',
             label: '처치 내용',
             type: 'text',
             tableValue: detail,
             defaultValue: detail,
             inputProps: { placeholder: '처치 내용을 입력해주세요' },
-          },
-          {
-            key: 'date',
-            label: '처치 날짜',
-            type: 'date',
-            tableValue: date,
-            defaultValue: date,
+            requiredSet: 'null',
           },
         ]}
         noteLabel="특이 사항"
@@ -61,19 +63,19 @@ export default function ModalTypeOtherTreatment({
       isModify={isModify}
       fields={[
         {
+          key: 'date',
+          label: '처치 날짜',
+          type: 'date',
+          tableValue: date,
+          defaultValue: date,
+        },
+        {
           key: 'detail',
           label: '처치 내용',
           type: 'text',
           tableValue: detail,
           defaultValue: detail,
           inputProps: { placeholder: '처치 내용을 입력해주세요' },
-        },
-        {
-          key: 'date',
-          label: '처치 날짜',
-          type: 'date',
-          tableValue: date,
-          defaultValue: date,
         },
       ]}
       noteLabel="특이 사항"
