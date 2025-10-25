@@ -1,9 +1,14 @@
-import { Plus } from 'lucide-react'
+import { Check, Plus } from 'lucide-react'
 import Link from 'next/link'
+import Button from './Button'
 
 interface IconButtonProps {
   selected?: boolean
   onClick?: (id: string) => void
+}
+
+interface ButtonProps {
+  onClick?: () => void
 }
 
 export default function IconButton({ onClick, selected }: IconButtonProps) {
@@ -30,10 +35,11 @@ export default function IconButton({ onClick, selected }: IconButtonProps) {
   )
 }
 
-export function CameraButton() {
+export function CameraButton({ onClick }: ButtonProps) {
   return (
     <button
       type="button"
+      onClick={onClick}
       className="absolute bottom-0 left-1/2 z-30 flex h-12 w-12 -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-xl bg-white shadow-lg transition-colors hover:bg-gray-50"
     >
       <svg
@@ -49,6 +55,42 @@ export function CameraButton() {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  )
+}
+
+export function CheckButton({ onClick }: ButtonProps) {
+  return (
+    <Button
+      variant="white"
+      onClick={onClick}
+      className="absolute bottom-0 left-1/2 z-30 flex max-h-fit min-h-fit max-w-fit min-w-fit -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-xl bg-white !p-[7px] shadow-lg transition-colors hover:bg-gray-50"
+    >
+      <Check className="h-7 w-7" />
+    </Button>
+  )
+}
+
+export function XButton({ onClick }: ButtonProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="absolute -top-0.5 -right-0.5 z-30 flex h-9 w-9 -translate-x-1 translate-y-1 items-center justify-center rounded-full bg-orange-500 text-white shadow-lg transition-colors hover:bg-orange-600"
+    >
+      <svg
+        className="h-4 w-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M6 18L18 6M6 6l12 12"
         />
       </svg>
     </button>

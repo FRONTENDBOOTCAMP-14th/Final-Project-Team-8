@@ -10,7 +10,7 @@ export default function useUserData(user: User | null) {
   const [userData, setUserData] = useState<UserData | null>(null)
   useEffect(() => {
     if (!user) return
-    const fetchUSerData = async () => {
+    const fetchUserData = async () => {
       try {
         const data = await getUserData(user)
         setUserData(data)
@@ -18,7 +18,7 @@ export default function useUserData(user: User | null) {
         toast.error(`${error}발생`)
       }
     }
-    fetchUSerData()
+    fetchUserData()
   }, [user])
 
   return { userData }
