@@ -207,22 +207,26 @@ export async function deleteActivity<T extends TableType>(
 }
 
 // ============================================================================
-// ScheduledMeals
+// ScheduledMeals: Supabase 연동 식사 스케줄 CRUD
 // ============================================================================
+
 /**
- * 식사 기록 불러오기
- * @param pet_id - 펫 ID (보안 검증용)
- * @throws 삭제 실패 시 에러 발생
+ * ✅ 특정 펫의 식사 스케줄 조회
+ * @param pet_id - 펫 고유 식별자
+ * @returns 해당 펫의 식사 스케줄 리스트
+ * @throws pet_id 누락 또는 Supabase 에러 발생 시 예외 처리
  */
 export async function getPetMealTime(
   pet_id: ScheduledMeals['pet_id'] | null
 ): Promise<ScheduledMeals[]> {
   const supabase = await createClient()
 
+  // 기본 검증
   if (!pet_id) {
     throw new Error('지정된 펫의 아이디가 없습니다.')
   }
 
+  // Supabase에서 펫 ID 기준으로 조회
   const { error, data } = await supabase
     .from('scheduled meals')
     .select('*')
@@ -235,35 +239,56 @@ export async function getPetMealTime(
   return data
 }
 
+/**
+ * ✅ 식사 스케줄 신규 등록
+ * @param formData - 식사 시간 및 메타 데이터
+ * @param pet_id - 펫 고유 식별자
+ * @returns 삽입된 데이터 반환
+ * @throws DB insert 실패 시 오류 반환
+ */
 export async function insertScheduledMeal(
   formData: ScheduledMealsInsert,
   pet_id: ScheduledMealsInsert['pet_id']
 ) {
-  // Supabase에 식사 시간 데이터 저장
+  const supabase = await createClient()
+
+  // 데이터 병합 (보안상 클라이언트에서 보내온 pet_id는 신뢰하지 않음)
   const row = { ...formData, pet_id }
 
   const { error, data } = await supabase
     .from('scheduled meals')
     .insert(row)
-    .eq('pet_id', pet_id)
+    .select() // 삽입된 데이터 반환
 
-  if (error) throw new Error(error.message)
+  if (error) {
+    throw new Error(`[Insert] ${error.message}`)
+  }
+
   return data
 }
 
+/**
+ * ✅ 식사 스케줄 수정
+ * @param formData - 업데이트할 필드(시간, 반복 요일 등)
+ * @param id - 스케줄 레코드 ID
+ * @returns 업데이트된 단일 레코드 반환
+ * @throws DB update 실패 시 오류 반환
+ */
 export async function updateScheduledMeal(
   formData: ScheduledMealsUpdate,
   id: ScheduledMeals['id']
 ) {
+  const supabase = await createClient()
+
   const { error, data } = await supabase
     .from('scheduled meals')
     .update(formData)
     .eq('id', id)
     .select()
-    .single()
+    .single() // 단일 레코드 반환
 
   if (error) {
-    throw new Error(`업데이트 오류 ${error.message}`)
+    throw new Error(`[Update ${id}] ${error.message}`)
   }
 
   return data

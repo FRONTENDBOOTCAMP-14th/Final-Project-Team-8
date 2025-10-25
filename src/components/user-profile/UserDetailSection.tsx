@@ -29,12 +29,12 @@ export default function UserDetailSection(userData: Partial<UserData>) {
             <dd className="font-bold text-neutral-600">{userData?.nickname}</dd>
           </div>
           <hr className="border-neutral-200" />
-          <div className="flex flex-col gap-1">
+          <div className="flex justify-between">
             <dt>전화번호</dt>
             <dd className="font-bold text-neutral-600">{userData?.phone}</dd>
           </div>
           <hr className="border-neutral-200" />
-          <div className="flex-col justify-between">
+          <div className="flex justify-between">
             <dt>가입 이메일</dt>
             <dd className="font-bold text-neutral-600">{userData?.email}</dd>
           </div>
