@@ -26,7 +26,6 @@ export default function Day({
   colIndex,
   setDayButtonRef,
   focusDay,
-  ...restProps
 }: Props) {
   const { date, isCurrentMonth } = dayData
 
@@ -93,7 +92,7 @@ export default function Day({
   }
 
   return (
-    <td {...restProps}>
+    <td>
       <button
         type="button"
         onClick={handleClick}
