@@ -3,8 +3,14 @@ import type { User } from '@supabase/supabase-js'
 import type { Pet } from '@/store/petStore'
 import { createClient } from '../supabase/client'
 
+const supabase = createClient()
+
+interface updateProps {
+  imgRef: string
+  petId: string
+}
+
 export async function getUserPets(user: User) {
-  const supabase = createClient()
   const { data, error } = await supabase
     .from('pets')
     .select('*')
@@ -16,7 +22,6 @@ export async function getUserPets(user: User) {
 }
 
 export async function getSelectedPet(id: string) {
-  const supabase = createClient()
   const { data, error } = await supabase
     .from('pets')
     .select('*')
@@ -24,6 +29,18 @@ export async function getSelectedPet(id: string) {
     .single()
 
   if (error) throw new Error(error.message)
+  return data
+}
+
+export async function updatePetImg({ imgRef, petId }: updateProps) {
+  const { data, error } = await supabase
+    .from('pets')
+    .update({ profile_img: imgRef })
+    .eq('id', petId)
+  if (error) {
+    console.error('Supabase error:', error)
+    throw new Error(error.message)
+  }
   return data
 }
 
