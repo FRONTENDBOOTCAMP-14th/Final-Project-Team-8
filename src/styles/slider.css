@@ -114,3 +114,25 @@
 .weight-slider::-ms-thumb:active {
   transform: scale(0.95);
 }
+
+/* Focus 효과 - 키보드로 포커스했을 때 */
+.weight-slider:focus {
+  outline: none;
+}
+
+.weight-slider:focus::-webkit-slider-thumb,
+.weight-slider:focus::-moz-range-thumb {
+  outline: 3px solid #ff6000;
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 4px rgba(255, 96, 0, 0.2),
+    0 4px 12px rgba(255, 96, 0, 0.4);
+  transform: scale(1.15);
+}
+
+/* Active/Dragging 효과 */
+.weight-slider:active::-webkit-slider-thumb,
+.weight-slider:active::-moz-range-thumb {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(255, 96, 0, 0.5);
+}
