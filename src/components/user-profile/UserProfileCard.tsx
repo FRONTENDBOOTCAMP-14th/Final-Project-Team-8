@@ -2,6 +2,7 @@
 
 import type { User } from '@supabase/supabase-js'
 import { LogOut } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import useUserData from '@/hooks/useUserData'
@@ -43,7 +44,11 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
 
   return (
     <div className="flex w-full items-center justify-between rounded-2xl bg-gray-500 p-4">
-      <div className="flex items-center gap-3">
+      <Link
+        href={'/user-account'}
+        aria-label={`${displayName}님의 계정 설정 페이지로 이동`}
+        className="flex items-center gap-3"
+      >
         {avatarUrl ? (
           <img
             src={avatarUrl}
@@ -59,7 +64,7 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
           <div className="text-sm opacity-80">Hello</div>
           <div className="text-lg font-semibold">{displayName}</div>
         </div>
-      </div>
+      </Link>
 
       <button
         onClick={handleLogout}

@@ -27,5 +27,3 @@ export default function PetProfileList({
     </section>
   )
 }
-
-// export default React.memo(PetProfileList)
