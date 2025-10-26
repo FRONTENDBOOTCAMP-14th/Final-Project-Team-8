@@ -30,7 +30,7 @@ export default function ModalTypeAntiparasitic({
         {selectedPetId && (
           <NotificationToggle
             scheduleId={id}
-            scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+            scheduleType={NOTIFICATION_TYPE_MAP['antiparasitic']}
             petId={selectedPetId}
             isShowToggle={true}
           />
@@ -76,7 +76,7 @@ export default function ModalTypeAntiparasitic({
       {selectedPetId && (
         <NotificationToggle
           scheduleId={id}
-          scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+          scheduleType={NOTIFICATION_TYPE_MAP['antiparasitic']}
           petId={selectedPetId}
           isShowToggle={false}
         />
@@ -130,6 +130,7 @@ export function ModalTypeAntiparasiticInput({
       onClose={onClose}
       {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
+      scheduleType="antiparasitic"
       fields={[
         {
           key: 'intake_date',

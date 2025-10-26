@@ -31,7 +31,7 @@ export default function ModalTypeOtherActivites({
         {selectedPetId && (
           <NotificationToggle
             scheduleId={id}
-            scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+            scheduleType={NOTIFICATION_TYPE_MAP['other activities']}
             petId={selectedPetId}
             isShowToggle={true}
           />
@@ -86,7 +86,7 @@ export default function ModalTypeOtherActivites({
       {selectedPetId && (
         <NotificationToggle
           scheduleId={id}
-          scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+          scheduleType={NOTIFICATION_TYPE_MAP['other activities']}
           petId={selectedPetId}
           isShowToggle={false}
         />
@@ -149,6 +149,7 @@ export function ModalTypeOtherActivitesInput({
       onClose={onClose}
       {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
+      scheduleType="other activities"
       fields={[
         {
           key: 'date',

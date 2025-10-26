@@ -11,10 +11,14 @@ import Button from '../ui/button/Button'
 import { formatTime } from './ScheduleNotificationManager'
 
 interface Props {
-  scheduleId: string
+  scheduleId?: string
   scheduleType: ScheduleType
   petId: string
   isShowToggle: boolean
+  mode?: 'create' | 'edit'
+  defaultEnabled?: boolean
+  defaultTime?: string
+  onChange?: (enabled: boolean, time: string) => void
 }
 
 /**
@@ -27,43 +31,71 @@ export default function NotificationToggle({
   scheduleType,
   petId,
   isShowToggle,
+  mode = 'edit',
+  defaultEnabled = false,
+  defaultTime = '09:00',
+  onChange,
 }: Props) {
-  const [enabled, setEnabled] = useState(false)
-  const [time, setTime] = useState('09:00')
+  const [enabled, setEnabled] = useState(defaultEnabled)
+  const [time, setTime] = useState(defaultTime)
   const [isTimeOpen, setIsTimeOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(mode === 'edit')
   const { refetchSchedules } = useScheduleStore()
-  const [tempTime, setTempTime] = useState('09:00')
+  const [tempTime, setTempTime] = useState(defaultTime)
 
-  // 초기 알림 설정 로드
   useEffect(() => {
-    const loadNotificationSettings = async () => {
-      try {
-        setIsLoading(true)
-        const notification = await getScheduleNotification(
-          scheduleType,
-          scheduleId
-        )
+    if (mode === 'edit' && scheduleId) {
+      // 수정 모드일 때만 초기 알림 설정 로드
+      const loadNotificationSettings = async () => {
+        try {
+          setIsLoading(true)
+          const notification = await getScheduleNotification(
+            scheduleType,
+            scheduleId
+          )
 
-        if (notification) {
-          const formattedTime = formatTime(notification.notification_time)
-          setEnabled(notification.enabled)
-          setTime(formatTime(formattedTime))
-          setTempTime(formattedTime)
+          if (notification) {
+            const formattedTime = formatTime(notification.notification_time)
+            setEnabled(notification.enabled)
+            setTime(formatTime(formattedTime))
+            setTempTime(formattedTime)
+          }
+        } catch (error) {
+          toast.error(`알림 설정 로드 실패: ${error}`)
+        } finally {
+          setIsLoading(false)
         }
-      } catch (error) {
-        toast.error(`알림 설정 로드 실패: ${error}`)
-      } finally {
-        setIsLoading(false)
       }
-    }
 
-    loadNotificationSettings()
-  }, [scheduleId, scheduleType])
+      loadNotificationSettings()
+    } else {
+      // 생성 모드는 로딩 없음
+      setIsLoading(false)
+    }
+  }, [scheduleId, scheduleType, mode])
+
+  // 생성 모드일 때 부모에게 값 전달
+  useEffect(() => {
+    if (mode === 'create' && onChange) {
+      onChange(enabled, time)
+    }
+  }, [enabled, time, mode, onChange])
 
   const handleToggle = async () => {
     const newEnabled = !enabled
+
+    // 생성 모드: 로컬 상태만 변경
+    if (mode === 'create') {
+      setEnabled(newEnabled)
+      if (onChange) {
+        onChange(newEnabled, time)
+      }
+      return
+    }
+
+    // 수정 모드: DB에 저장
+    if (!scheduleId) return
 
     try {
       setIsSaving(true)
@@ -102,7 +134,18 @@ export default function NotificationToggle({
   }
 
   const handleTimeConfirm = async () => {
-    if (!enabled) {
+    // 생성 모드: 로컬 상태만 변경
+    if (mode === 'create') {
+      setTime(tempTime)
+      setIsTimeOpen(false)
+      if (onChange) {
+        onChange(enabled, tempTime)
+      }
+      return
+    }
+
+    // 수정 모드: DB에 저장
+    if (!enabled || !scheduleId) {
       setIsTimeOpen(false)
       return
     }

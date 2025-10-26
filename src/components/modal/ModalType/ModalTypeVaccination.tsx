@@ -147,6 +147,7 @@ export function ModalTypeVaccinationInput({
       {...(onSaveSuccess && { onSaveSuccess })}
       key={id}
       title={title}
+      scheduleType="vaccine"
       fields={[
         {
           key: 'lot',

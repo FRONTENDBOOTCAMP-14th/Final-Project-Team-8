@@ -31,7 +31,7 @@ export default function ModalTypeWalks({
         {selectedPetId && (
           <NotificationToggle
             scheduleId={id}
-            scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+            scheduleType={NOTIFICATION_TYPE_MAP['walk']}
             petId={selectedPetId}
             isShowToggle={true}
           />
@@ -93,7 +93,7 @@ export default function ModalTypeWalks({
       {selectedPetId && (
         <NotificationToggle
           scheduleId={id}
-          scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+          scheduleType={NOTIFICATION_TYPE_MAP['walk']}
           petId={selectedPetId}
           isShowToggle={false}
         />
@@ -159,6 +159,7 @@ export function ModalTypeWalksInput({
       onClose={onClose}
       {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
+      scheduleType="walk"
       fields={[
         {
           key: 'start_time',

@@ -30,7 +30,7 @@ export default function ModalTypeMedicalTreatment({
         {selectedPetId && (
           <NotificationToggle
             scheduleId={id}
-            scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+            scheduleType={NOTIFICATION_TYPE_MAP['medical']}
             petId={selectedPetId}
             isShowToggle={true}
           />
@@ -84,7 +84,7 @@ export default function ModalTypeMedicalTreatment({
       {selectedPetId && (
         <NotificationToggle
           scheduleId={id}
-          scheduleType={NOTIFICATION_TYPE_MAP['vaccine']}
+          scheduleType={NOTIFICATION_TYPE_MAP['medical']}
           petId={selectedPetId}
           isShowToggle={false}
         />
@@ -146,6 +146,7 @@ export function ModalTypeMedicalTreatmentInput({
       onClose={onClose}
       {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
+      scheduleType="medical"
       fields={[
         {
           key: 'category',

@@ -1,13 +1,16 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import createActivity from '@/libs/api/activity.api'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { tw } from '@/utils/shared'
+import { upsertNotification } from '../../../libs/api/notification.api'
 import ListLoading from '../../accordion/ListLoading'
+import NotificationToggle from '../../calendar/NotificationToggle'
 import Button from '../../ui/button/Button'
 import type { ModalInputDataType } from '../ModalType/ModalType'
 import type { ModalDetailInpuProps } from './ModalDetailType'
@@ -22,7 +25,10 @@ export function ModalDetailInput({
   noteTextareaProps,
   onClose,
   onSaveSuccess,
-}: ModalDetailInpuProps) {
+  scheduleType,
+}: ModalDetailInpuProps & {
+  scheduleType?: string
+}) {
   const { register, handleSubmit, formState, getFieldState, reset } =
     useForm<ModalInputDataType>({
       mode: 'all',
@@ -35,11 +41,34 @@ export function ModalDetailInput({
 
   const queryClient = useQueryClient()
 
+  const [notificationEnabled, setNotificationEnabled] = useState(false)
+  const [notificationTime, setNotificationTime] = useState('09:00')
+
   const mutation = useMutation({
     mutationFn: (payload: ModalInputDataType) =>
       createActivity({ setData: payload, type, pet_id }),
-    onSuccess: async () => {
+    onSuccess: async data => {
       toast.success('저장 완료!')
+
+      // 알림 설정
+      if (notificationEnabled && scheduleType && data?.id) {
+        try {
+          await upsertNotification({
+            schedule_type: scheduleType,
+            schedule_id: data.id,
+            pet_id,
+            enabled: true,
+            notification_time: `${notificationTime}:00`,
+          })
+          toast.success('알림이 설정되었습니다!')
+
+          await new Promise(resolve => setTimeout(resolve, 100))
+        } catch (error) {
+          console.error('알림 설정 실패:', error)
+          toast.error('알림 설정에 실패했습니다.')
+        }
+      }
+
       await queryClient.invalidateQueries({
         refetchType: 'active',
         queryKey: ['petTable', type, pet_id],
@@ -79,6 +108,21 @@ export function ModalDetailInput({
         mutation.mutate(setData)
       })}
     >
+      {/* 알림 설정 */}
+      {scheduleType && (
+        <NotificationToggle
+          mode="create"
+          scheduleType={scheduleType as any}
+          petId={pet_id}
+          isShowToggle={true}
+          defaultEnabled={notificationEnabled}
+          defaultTime={notificationTime}
+          onChange={(enabled, time) => {
+            setNotificationEnabled(enabled)
+            setNotificationTime(time)
+          }}
+        />
+      )}
       <input
         type="text"
         defaultValue={title ?? ''}
