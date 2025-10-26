@@ -1,4 +1,4 @@
-import { Bell, BellOff, Clock } from 'lucide-react'
+import { Bell, BellOff, Clock, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import {
@@ -7,6 +7,7 @@ import {
   type ScheduleType,
 } from '@/libs/api/notification.api'
 import { useScheduleStore } from '@/store/scheduleStore'
+import Button from '../ui/button/Button'
 import { formatTime } from './ScheduleNotificationManager'
 
 interface Props {
@@ -33,6 +34,7 @@ export default function NotificationToggle({
   const [isSaving, setIsSaving] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const { refetchSchedules } = useScheduleStore()
+  const [tempTime, setTempTime] = useState('09:00')
 
   // 초기 알림 설정 로드
   useEffect(() => {
@@ -45,8 +47,10 @@ export default function NotificationToggle({
         )
 
         if (notification) {
+          const formattedTime = formatTime(notification.notification_time)
           setEnabled(notification.enabled)
-          setTime(formatTime(notification.notification_time))
+          setTime(formatTime(formattedTime))
+          setTempTime(formattedTime)
         }
       } catch (error) {
         toast.error(`알림 설정 로드 실패: ${error}`)
@@ -87,26 +91,37 @@ export default function NotificationToggle({
     }
   }
 
-  const handleTimeChange = async (newTime: string) => {
-    if (!enabled) return
+  const handleTimeOpen = () => {
+    setTempTime(time)
+    setIsTimeOpen(true)
+  }
+
+  const handleTimeCancel = () => {
+    setTempTime(time)
+    setIsTimeOpen(false)
+  }
+
+  const handleTimeConfirm = async () => {
+    if (!enabled) {
+      setIsTimeOpen(false)
+      return
+    }
 
     try {
       setIsSaving(true)
 
-      // schedule notifications 테이블 업데이트
       await upsertNotification({
         schedule_type: scheduleType,
         schedule_id: scheduleId,
         pet_id: petId,
         enabled,
-        notification_time: `${newTime}:00`,
+        notification_time: `${tempTime}:00`,
       })
 
-      setTime(newTime)
+      setTime(tempTime)
       toast.success('알림 시간이 변경되었습니다')
       setIsTimeOpen(false)
 
-      // 스케줄 다시 불러와서 알림 매니저 업데이트
       await refetchSchedules(petId)
     } catch (error) {
       toast.error(`시간 변경에 실패했습니다: ${error}`)
@@ -156,7 +171,7 @@ export default function NotificationToggle({
       {enabled && isShowToggle && (
         <button
           type="button"
-          onClick={() => setIsTimeOpen(!isTimeOpen)}
+          onClick={handleTimeOpen}
           disabled={isSaving}
           className="flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
         >
@@ -187,13 +202,40 @@ export default function NotificationToggle({
       {isTimeOpen && (
         <div className="absolute top-full right-0 z-10 mt-2 rounded-lg border border-gray-200 bg-white p-3 shadow-lg">
           <p className="mb-2 text-sm font-semibold text-gray-700">알림 시간</p>
+          {/* 시간 입력 */}
           <input
             type="time"
-            value={time}
-            onChange={e => handleTimeChange(e.target.value)}
+            value={tempTime}
+            onChange={e => setTempTime(e.target.value)}
             disabled={isSaving}
             className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-orange-500 focus:outline-none disabled:opacity-50"
           />
+          {/* 확인/취소 버튼 */}
+          <div className="mt-3 flex gap-2">
+            <Button
+              variant="white"
+              onClick={handleTimeCancel}
+              disabled={isSaving}
+            >
+              취소
+            </Button>
+            <Button
+              variant="orange"
+              onClick={handleTimeConfirm}
+              disabled={isSaving}
+            >
+              {isSaving ? '저장 중...' : '확인'}
+            </Button>
+          </div>
+          {/* 닫기 버튼 */}
+          <button
+            type="button"
+            onClick={handleTimeCancel}
+            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+            aria-label="닫기"
+          >
+            <X height={16} width={16} />
+          </button>
         </div>
       )}
     </div>
