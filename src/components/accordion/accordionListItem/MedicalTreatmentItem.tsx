@@ -120,6 +120,7 @@ export default function MedicalTreatmentItem({
           isModify={isModify}
           setModify={setIsModify}
           onClose={handleCloseModal}
+          selectedPetId={pet_id}
           restProps={{
             category,
             id,

@@ -122,7 +122,6 @@ export default function VaccinesTreatmentItem({
             vaccinated_date,
           }}
           selectedPetId={pet_id}
-          category="vaccines"
         />
       </Modal>
     </li>

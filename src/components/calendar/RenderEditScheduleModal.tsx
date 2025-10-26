@@ -49,7 +49,6 @@ export default function RenderEditScheduleModal({
       apiType={apiType}
       selectedPetId={selectedPetId}
       isModify={isModify}
-      category={selectedSchedule.category}
       setModify={setModify}
       onClose={onClose}
     />
@@ -61,7 +60,6 @@ interface EditScheduleModalContentProps {
   apiType: AccordionProps['type']
   selectedPetId: string
   isModify: boolean
-  category: string
   setModify: Dispatch<SetStateAction<boolean>>
   onClose: () => void
 }
@@ -71,7 +69,6 @@ function EditScheduleModalContent({
   apiType,
   selectedPetId,
   isModify,
-  category,
   setModify,
   onClose,
 }: EditScheduleModalContentProps) {
@@ -100,7 +97,6 @@ function EditScheduleModalContent({
     setModify,
     onClose,
     selectedPetId,
-    category,
   }
 
   switch (apiType) {
@@ -110,7 +106,6 @@ function EditScheduleModalContent({
           {...commonProps}
           restProps={itemData as any}
           selectedPetId={selectedPetId}
-          category={category}
         />
       )
 

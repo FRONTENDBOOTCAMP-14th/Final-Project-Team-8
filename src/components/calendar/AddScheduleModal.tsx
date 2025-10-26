@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  Bandage,
   Footprints,
   PawPrint,
   Pill,
@@ -58,7 +59,7 @@ const CATEGORY_OPTIONS: CategoryOption[] = [
   {
     value: 'other treatments',
     label: '기타 치료',
-    Icon: Stethoscope,
+    Icon: Bandage,
     color: 'text-[#FD8C8C]',
     bgColor: 'bg-[#FD8C8C]',
     apiType: 'other treatments',
