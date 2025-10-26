@@ -1,3 +1,4 @@
+import { toast } from 'sonner'
 import { createClient } from '../supabase/client'
 
 /**
@@ -186,30 +187,34 @@ export async function deleteScheduleNotifications(
 export async function batchGetNotifications(
   scheduleIds: Array<{ type: string; id: string }>
 ): Promise<Map<string, ScheduleNotification>> {
-  const supabase = createClient()
-
-  // schedule_type과 schedule_id 조합으로 조회
-  const conditions = scheduleIds.map(
-    s => `(schedule_type.eq.${s.type},schedule_id.eq.${s.id})`
-  )
-
-  const { data, error } = await supabase
-    .from('schedule notifications')
-    .select('*')
-    .or(conditions.join(','))
-
-  if (error) {
+  if (scheduleIds.length === 0) {
     return new Map()
   }
 
-  // Map으로 변환(빠른 조회용)
-  const notificationMap = new Map<string, ScheduleNotification>()
-  data?.forEach(notification => {
-    const key = `${notification.schedule_type}-${notification.schedule_id}`
-    notificationMap.set(key, notification)
-  })
+  const supabase = createClient()
 
-  return notificationMap
+  try {
+    const { data, error } = await supabase
+      .from('schedule notifications')
+      .select('*')
+
+    if (error) {
+      return new Map()
+    }
+
+    // Map으로 변환(빠른 조회용)
+    const notificationMap = new Map<string, ScheduleNotification>()
+
+    data?.forEach(notification => {
+      const key = `${notification.schedule_type}-${notification.schedule_id}`
+      notificationMap.set(key, notification)
+    })
+
+    return notificationMap
+  } catch (error) {
+    toast.error(`배치 알림 조회 실패: ${error}`)
+    return new Map()
+  }
 }
 
 /**

@@ -38,7 +38,10 @@ export default function RenderEditScheduleModal({
     selectedSchedule.category === 'adoption'
   )
     return null
-  const apiType = API_TYPE_MAP[selectedSchedule.category]
+
+  const apiType = API_TYPE_MAP[
+    selectedSchedule.category
+  ] as AccordionProps['type']
 
   return (
     <EditScheduleModalContent
@@ -46,6 +49,7 @@ export default function RenderEditScheduleModal({
       apiType={apiType}
       selectedPetId={selectedPetId}
       isModify={isModify}
+      category={selectedSchedule.category}
       setModify={setModify}
       onClose={onClose}
     />
@@ -57,6 +61,7 @@ interface EditScheduleModalContentProps {
   apiType: AccordionProps['type']
   selectedPetId: string
   isModify: boolean
+  category: string
   setModify: Dispatch<SetStateAction<boolean>>
   onClose: () => void
 }
@@ -66,6 +71,7 @@ function EditScheduleModalContent({
   apiType,
   selectedPetId,
   isModify,
+  category,
   setModify,
   onClose,
 }: EditScheduleModalContentProps) {
@@ -93,12 +99,19 @@ function EditScheduleModalContent({
     isModify,
     setModify,
     onClose,
+    selectedPetId,
+    category,
   }
 
   switch (apiType) {
     case 'vaccines':
       return (
-        <ModalTypeVaccination {...commonProps} restProps={itemData as any} />
+        <ModalTypeVaccination
+          {...commonProps}
+          restProps={itemData as any}
+          selectedPetId={selectedPetId}
+          category={category}
+        />
       )
 
     case 'antiparasitic':

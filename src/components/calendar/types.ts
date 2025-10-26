@@ -29,13 +29,13 @@ export interface ScheduleEvent {
   notificationTime?: string
 }
 
-export const NOTIFICATION_TYPE_MAP: Record<ScheduleCategory, string> = {
+export const NOTIFICATION_TYPE_MAP = {
   birthday: 'birthday',
   adoption: 'adoption',
   vaccine: 'vaccine',
   antiparasitic: 'antiparasitic',
   medical: 'medical',
-  'other treatments': 'other_treatments',
+  'other treatments': 'other treatments',
   walk: 'walk',
-  'other activities': 'other_activities',
-}
+  'other activities': 'other activities',
+} as const

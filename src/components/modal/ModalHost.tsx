@@ -17,6 +17,7 @@ interface ModalHostProps {
   onClose: () => void
   type: AccordionProps['type']
   onSaveSuccess?: () => void
+  selectedPetId: string
 }
 
 export default function ModalHost({
@@ -25,6 +26,7 @@ export default function ModalHost({
   onClose,
   type,
   onSaveSuccess,
+  selectedPetId,
 }: ModalHostProps) {
   const selectTypeInputModal = () => {
     switch (type) {

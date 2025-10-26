@@ -13,6 +13,7 @@ interface Props {
   scheduleId: string
   scheduleType: ScheduleType
   petId: string
+  isShowToggle: boolean
 }
 
 /**
@@ -24,6 +25,7 @@ export default function NotificationToggle({
   scheduleId,
   scheduleType,
   petId,
+  isShowToggle,
 }: Props) {
   const [enabled, setEnabled] = useState(false)
   const [time, setTime] = useState('09:00')
@@ -126,9 +128,19 @@ export default function NotificationToggle({
       {/* 알림 상태 표시 */}
       <div className="flex flex-1 items-center gap-2">
         {enabled ? (
-          <Bell height={20} width={20} className="h-5 w-5 text-[#FF6000]" />
+          <Bell
+            aria-hidden="true"
+            height={20}
+            width={20}
+            className="h-5 w-5 text-[#FF6000]"
+          />
         ) : (
-          <BellOff height={20} width={20} className="h-5 w-5 text-gray-400" />
+          <BellOff
+            aria-hidden="true"
+            height={20}
+            width={20}
+            className="h-5 w-5 text-gray-400"
+          />
         )}
         <div>
           <p className="font-semibold text-gray-800">
@@ -141,7 +153,7 @@ export default function NotificationToggle({
       </div>
 
       {/* 시간 설정 버튼 */}
-      {enabled && (
+      {enabled && isShowToggle && (
         <button
           type="button"
           onClick={() => setIsTimeOpen(!isTimeOpen)}
@@ -154,20 +166,22 @@ export default function NotificationToggle({
       )}
 
       {/* 토글 버튼 */}
-      <button
-        type="button"
-        onClick={handleToggle}
-        disabled={isSaving}
-        className={`relative h-7 w-14 rounded-full transition-colors ${
-          enabled ? 'bg-orange-500' : 'bg-gray-300'
-        } ${isSaving ? 'opacity-50' : ''}`}
-      >
-        <span
-          className={`absolute top-1 left-1 h-5 w-5 transform rounded-full bg-white shadow-md transition-transform ${
-            enabled ? 'translate-x-7' : 'translate-x-0'
-          }`}
-        />
-      </button>
+      {isShowToggle && (
+        <button
+          type="button"
+          onClick={handleToggle}
+          disabled={isSaving}
+          className={`relative h-7 w-14 rounded-full transition-colors ${
+            enabled ? 'bg-orange-500' : 'bg-gray-300'
+          } ${isSaving ? 'opacity-50' : ''}`}
+        >
+          <span
+            className={`absolute top-1 left-1 h-5 w-5 transform rounded-full bg-white shadow-md transition-transform ${
+              enabled ? 'translate-x-7' : 'translate-x-0'
+            }`}
+          />
+        </button>
+      )}
 
       {/* 시간 선택 드롭다운 */}
       {isTimeOpen && (

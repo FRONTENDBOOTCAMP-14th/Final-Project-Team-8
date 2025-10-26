@@ -138,8 +138,9 @@ export function ModalDetailInput({
                       {label} 입력
                     </label>
                     <input
+                      id={key}
                       type={type}
-                      value={defaultValue ?? ''}
+                      defaultValue={defaultValue ?? ''}
                       className={tw(
                         'h-10 w-full rounded-md border-1 border-gray-400 p-1 pl-3 text-lg focus:border-amber-400 focus:outline-none',
                         error && 'border-red-400 ring-red-300'

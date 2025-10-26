@@ -17,6 +17,7 @@ import type { ScheduleCategory } from './types'
 interface Props {
   isOpen: boolean
   selectedDate: string | undefined
+  selectedPetId: string
   onClose: () => void
 }
 
@@ -85,6 +86,7 @@ const GRID_COLUMNS = 4
 export default function AddScheduleModal({
   isOpen,
   selectedDate,
+  selectedPetId,
   onClose,
 }: Props) {
   const modalRef = useRef<HTMLDivElement>(null)
@@ -310,6 +312,7 @@ export default function AddScheduleModal({
         onClose={handleFormModalCancel}
         onSaveSuccess={handleFormModalSave}
         type={selectedApiType}
+        selectedPetId={selectedPetId}
       />
     </>
   )

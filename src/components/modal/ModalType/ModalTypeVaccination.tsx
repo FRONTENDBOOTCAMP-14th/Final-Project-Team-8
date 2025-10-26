@@ -1,6 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 import type { Vaccines } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
+import NotificationToggle from '../../calendar/NotificationToggle'
+import { NOTIFICATION_TYPE_MAP } from '../../calendar/types'
 import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
@@ -11,6 +13,8 @@ interface ModalTypeVaccinationProps extends ModalTypeProps {
   setModify: Dispatch<SetStateAction<boolean>>
   onClose: () => void
   restProps: Vaccines
+  selectedPetId?: string
+  category?: string
 }
 
 export default function ModalTypeVaccination({
@@ -18,14 +22,89 @@ export default function ModalTypeVaccination({
   setModify,
   onClose,
   restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
+  selectedPetId,
+  category,
 }: ModalTypeVaccinationProps) {
   if (isModify) {
     return (
-      <ModalDetailIsModify
+      <div className="flex flex-col gap-2">
+        {/* 알림 설정 */}
+        {selectedPetId && category && (
+          <NotificationToggle
+            scheduleId={id}
+            scheduleType={
+              NOTIFICATION_TYPE_MAP[
+                category as keyof typeof NOTIFICATION_TYPE_MAP
+              ]
+            }
+            petId={selectedPetId}
+            isShowToggle={true}
+          />
+        )}
+
+        <ModalDetailIsModify
+          key={id}
+          id={id}
+          type={'vaccines'}
+          title={title}
+          fields={[
+            {
+              key: 'lot',
+              label: 'Lot(제조번호)',
+              type: 'text',
+              tableValue: lot,
+              defaultValue: lot,
+              inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
+              requiredSet: 'Lot(제조번호)를 작성해주세요.',
+            },
+            {
+              key: 'vaccinated_date',
+              label: '접종 날짜',
+              type: 'date',
+              tableValue: vaccinated_date,
+              defaultValue: vaccinated_date,
+              requiredSet: '접종 날짜를 입력해주세요.',
+            },
+            {
+              key: 'expiry_date',
+              label: '유효 기간',
+              type: 'date',
+              tableValue: expiry_date,
+              defaultValue: expiry_date,
+              requiredSet: '백신의 유효 기간을 입력해주세요.',
+            },
+          ]}
+          noteLabel="특이 사항"
+          defaultNote={notes ?? '-'}
+          noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+          setModify={setModify}
+          isModify={isModify}
+          onClose={onClose}
+        />
+      </div>
+    )
+  }
+  return (
+    <div className="flex flex-col">
+      {/* 알림 설정 여부*/}
+      {selectedPetId && category && (
+        <NotificationToggle
+          scheduleId={id}
+          scheduleType={
+            NOTIFICATION_TYPE_MAP[
+              category as keyof typeof NOTIFICATION_TYPE_MAP
+            ]
+          }
+          petId={selectedPetId}
+          isShowToggle={false}
+        />
+      )}
+
+      <ModalDetailNonModify
         key={id}
-        id={id}
-        type={'vaccines'}
+        type="vaccines"
         title={title}
+        isModify={isModify}
         fields={[
           {
             key: 'lot',
@@ -34,7 +113,6 @@ export default function ModalTypeVaccination({
             tableValue: lot,
             defaultValue: lot,
             inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
-            requiredSet: 'Lot(제조번호)를 작성해주세요.',
           },
           {
             key: 'vaccinated_date',
@@ -42,7 +120,6 @@ export default function ModalTypeVaccination({
             type: 'date',
             tableValue: vaccinated_date,
             defaultValue: vaccinated_date,
-            requiredSet: '접종 날짜를 입력해주세요.',
           },
           {
             key: 'expiry_date',
@@ -50,53 +127,13 @@ export default function ModalTypeVaccination({
             type: 'date',
             tableValue: expiry_date,
             defaultValue: expiry_date,
-            requiredSet: '백신의 유효 기간을 입력해주세요.',
           },
         ]}
         noteLabel="특이 사항"
         defaultNote={notes ?? '-'}
         noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
-        // 모달 버튼 기능 연결
-        setModify={setModify}
-        isModify={isModify}
-        onClose={onClose}
       />
-    )
-  }
-  return (
-    <ModalDetailNonModify
-      key={id}
-      type="vaccines"
-      title={title}
-      isModify={isModify}
-      fields={[
-        {
-          key: 'lot',
-          label: 'Lot(제조번호)',
-          type: 'text',
-          tableValue: lot,
-          defaultValue: lot,
-          inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
-        },
-        {
-          key: 'vaccinated_date',
-          label: '접종 날짜',
-          type: 'date',
-          tableValue: vaccinated_date,
-          defaultValue: vaccinated_date,
-        },
-        {
-          key: 'expiry_date',
-          label: '유효 기간',
-          type: 'date',
-          tableValue: expiry_date,
-          defaultValue: expiry_date,
-        },
-      ]}
-      noteLabel="특이 사항"
-      defaultNote={notes ?? '-'}
-      noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
-    />
+    </div>
   )
 }
 
@@ -114,39 +151,41 @@ export function ModalTypeVaccinationInput({
   restProps: { expiry_date, id, lot, notes, vaccinated_date, title },
 }: ModalTypeVaccinationInputProps) {
   return (
-    <ModalDetailInput
-      type={type}
-      onClose={onClose}
-      {...(onSaveSuccess && { onSaveSuccess })}
-      key={id}
-      title={title}
-      fields={[
-        {
-          key: 'lot',
-          label: 'Lot(제조번호)',
-          type: 'text',
-          defaultValue: lot,
-          inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
-          requiredSet: 'Lot(제조번호)를 작성해주세요.',
-        },
-        {
-          key: 'vaccinated_date',
-          label: '접종 날짜',
-          type: 'date',
-          defaultValue: vaccinated_date,
-          requiredSet: '접종 날짜를 입력해주세요.',
-        },
-        {
-          key: 'expiry_date',
-          label: '유효 기간',
-          type: 'date',
-          defaultValue: expiry_date,
-          requiredSet: '백신의 유효 기간을 입력해주세요.',
-        },
-      ]}
-      noteLabel="특이 사항"
-      defaultNote={notes ?? '-'}
-      noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
-    />
+    <div className="flex flex-col gap-2">
+      <ModalDetailInput
+        type={type}
+        onClose={onClose}
+        {...(onSaveSuccess && { onSaveSuccess })}
+        key={id}
+        title={title}
+        fields={[
+          {
+            key: 'lot',
+            label: 'Lot(제조번호)',
+            type: 'text',
+            defaultValue: lot,
+            inputProps: { placeholder: 'Lot(제조 번호)를 입력해주세요' },
+            requiredSet: 'Lot(제조번호)를 작성해주세요.',
+          },
+          {
+            key: 'vaccinated_date',
+            label: '접종 날짜',
+            type: 'date',
+            defaultValue: vaccinated_date,
+            requiredSet: '접종 날짜를 입력해주세요.',
+          },
+          {
+            key: 'expiry_date',
+            label: '유효 기간',
+            type: 'date',
+            defaultValue: expiry_date,
+            requiredSet: '백신의 유효 기간을 입력해주세요.',
+          },
+        ]}
+        noteLabel="특이 사항"
+        defaultNote={notes ?? '-'}
+        noteTextareaProps={{ placeholder: '특이사항을 입력해주세요' }}
+      />
+    </div>
   )
 }

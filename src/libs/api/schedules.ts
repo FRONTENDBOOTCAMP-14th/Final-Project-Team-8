@@ -70,7 +70,9 @@ export async function getScheduleData(
 
     // 3. 스케줄에 알림 정보 병합
     const schedulesWithNotifications = schedules.map(schedule => {
-      const notificationKey = `${SCHEDULE_TYPE_MAP[schedule.category as keyof typeof SCHEDULE_TYPE_MAP]}-${schedule.id}`
+      const notificationType =
+        SCHEDULE_TYPE_MAP[schedule.category as keyof typeof SCHEDULE_TYPE_MAP]
+      const notificationKey = `${notificationType}-${schedule.id}`
       const notification = notificationMap.get(notificationKey)
 
       return {
