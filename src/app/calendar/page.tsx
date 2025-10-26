@@ -16,6 +16,8 @@ import Modal from '@/components/modal/Modal'
 import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
+import NotLogin from '../../components/ui/not-login/notLogin'
+import { useUserStore } from '../../store/userStore'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
@@ -28,6 +30,8 @@ export default function CalendarPage() {
   const { selectedDate } = useCalendarStore()
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isModify, setIsModify] = useState(false)
+
+  const user = useUserStore(s => s.user)
 
   // 일정 추가 핸들러
   const handleAddSchedule = () => {
@@ -100,17 +104,22 @@ export default function CalendarPage() {
               <p className="text-sm">{errorMessage}</p>
             </div>
           )}
-
           {/* 반려동물 미선택 상태 */}
           {!selectedPetId ? (
-            <div className="flex h-96 flex-col items-center justify-center gap-2">
-              <p className="text-lg font-semibold text-[#A3A0C0]">
-                사이드바에서 반려동물을 선택해주세요
-              </p>
-              <p className="text-sm text-[#C6C6D9]">
-                캘린더를 보려면 먼저 반려동물을 선택하세요
-              </p>
-            </div>
+            user ? (
+              <div className="flex h-96 flex-col items-center justify-center gap-2">
+                <p className="text-lg font-semibold text-[#A3A0C0]">
+                  사이드바에서 반려동물을 선택해주세요
+                </p>
+                <p className="text-sm text-[#C6C6D9]">
+                  캘린더를 보려면 먼저 반려동물을 선택하세요
+                </p>
+              </div>
+            ) : (
+              <div className="relative mx-auto flex min-h-100 w-full flex-col items-center justify-center gap-10">
+                <NotLogin />
+              </div>
+            )
           ) : (
             // 캘린더 표시
             <>
