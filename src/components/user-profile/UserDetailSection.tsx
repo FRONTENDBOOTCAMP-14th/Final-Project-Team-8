@@ -13,7 +13,7 @@ export default function UserDetailSection(userData: Partial<UserData>) {
     <section className="relative flex flex-col">
       <div className="flex flex-col gap-4 text-gray-500">
         <h3 className="text-[18px] font-bold text-neutral-600">사용자 정보</h3>
-        <dl className="flex flex-col gap-4">
+        <dl className="flex flex-col gap-4 whitespace-nowrap">
           <div className="flex justify-between">
             <dt>성별</dt>
             <dd className="font-bold text-neutral-600">{userData?.gender}</dd>
