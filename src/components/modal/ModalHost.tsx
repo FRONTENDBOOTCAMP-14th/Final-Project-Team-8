@@ -26,7 +26,6 @@ export default function ModalHost({
   onClose,
   type,
   onSaveSuccess,
-  selectedPetId,
 }: ModalHostProps) {
   const selectTypeInputModal = () => {
     switch (type) {

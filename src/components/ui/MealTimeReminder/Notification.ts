@@ -1,3 +1,5 @@
+import { toast } from 'sonner'
+
 // 반복 알림용 타입
 interface RepeatingNotificationConfig {
   id: string
@@ -52,7 +54,7 @@ function showNotification(config: NotificationConfig) {
     })
   }
 
-  console.log(`[${config.time}] ${config.title}`)
+  toast.info(`[${config.time}] ${config.title}`)
 }
 
 // 알림 시간 계산 (일회성)
@@ -76,8 +78,8 @@ function getNotificationTime(date: string, time: string): Date | null {
     }
 
     return new Date(year, month - 1, day, hours, minutes, 0, 0)
-  } catch (error) {
-    console.error('날짜/시간 파싱 오류:', error)
+  } catch (error: unknown) {
+    toast.error('날짜/시간 파싱 오류:', error ?? '')
     return null
   }
 }
@@ -146,7 +148,7 @@ function scheduleRepeatingNotification(
 
   const weekdays = parseWeekdays(config.weekday)
   if (!weekdays) {
-    console.error(`[${config.id}] 잘못된 요일 형식: ${config.weekday}`)
+    toast.error(`[${config.id}] 잘못된 요일 형식: ${config.weekday}`)
     return null
   }
 
@@ -154,7 +156,7 @@ function scheduleRepeatingNotification(
   const delay = nextTime.getTime() - Date.now()
 
   if (delay <= 0) {
-    console.error(`[${config.id}] 시간 계산 오류`)
+    toast.error(`[${config.id}] 시간 계산 오류`)
     return null
   }
 
@@ -168,7 +170,7 @@ function scheduleRepeatingNotification(
     }
   }, delay)
 
-  console.log(
+  toast.info(
     `[${config.id}] ${config.title} 반복 알림 예약: ${nextTime.toLocaleString()}`
   )
 
@@ -180,14 +182,14 @@ function scheduleOneTimeNotification(
   config: OneTimeNotificationConfig
 ): NodeJS.Timeout | null {
   if (!config.enabled) {
-    console.log(`[${config.id}] 알림이 비활성화되어 있습니다.`)
+    toast.info(`[${config.id}] 알림이 비활성화되어 있습니다.`)
     return null
   }
 
   const notificationTime = getNotificationTime(config.date, config.time)
 
   if (!notificationTime) {
-    console.error(`[${config.id}] 날짜/시간 형식 오류`)
+    toast.error(`[${config.id}] 날짜/시간 형식 오류`)
     return null
   }
 
@@ -195,14 +197,12 @@ function scheduleOneTimeNotification(
   const delay = notificationTime.getTime() - now.getTime()
 
   if (delay <= 0) {
-    console.log(`[${config.id}] 이미 지난 시간입니다.`)
+    toast.info(`[${config.id}] 이미 지난 시간입니다.`)
     return null
   }
 
   if (delay > MAX_TIMEOUT_MS) {
-    console.log(
-      `[${config.id}] 알림 시간이 너무 먼 미래입니다(${Math.floor(delay / (24 * 60 * 60 * 1000))}일 후). 가까워지면 자동으로 예약됩니다.`
-    )
+    //  알림시간 멀면 대시목록 추가
     return null
   }
 
@@ -210,7 +210,7 @@ function scheduleOneTimeNotification(
     showNotification(config)
   }, delay)
 
-  console.log(
+  toast.info(
     `[${config.id}] ${config.title} 알림 예약: ${notificationTime.toLocaleString()}`
   )
 
@@ -231,8 +231,7 @@ export class NotificationManager {
   private startRecheckInterval(): void {
     this.recheckInterval = setInterval(
       () => {
-        console.log('대기 중인 알림 재확인 중...')
-        this.pendingConfigs.forEach((config, id) => {
+        this.pendingConfigs.forEach(config => {
           this.add(config)
         })
       },
@@ -264,9 +263,6 @@ export class NotificationManager {
         // 너무 먼 미래면 대기 목록에 추가
         if (delay > MAX_TIMEOUT_MS) {
           this.pendingConfigs.set(config.id, config)
-          console.log(
-            `[${config.id}] 대기 목록에 추가됨(${Math.floor(delay / (24 * 60 * 60 * 1000))}일 후)`
-          )
           return
         }
       }
@@ -287,7 +283,7 @@ export class NotificationManager {
       this.timeouts.delete(id)
       this.repeatingConfigs.delete(id)
       this.pendingConfigs.delete(id)
-      console.log(`[${id}] 알림 취소됨`)
+      toast.info('알림이 취소되었습니다')
     }
   }
 
@@ -298,9 +294,9 @@ export class NotificationManager {
 
   // 모든 알림 취소
   cancelAll(): void {
-    this.timeouts.forEach((timeout, id) => {
+    this.timeouts.forEach(timeout => {
       clearTimeout(timeout)
-      console.log(`[${id}] 알림 취소됨`)
+      toast.info('알림이 취소되었습니다')
     })
     this.timeouts.clear()
     this.repeatingConfigs.clear()
@@ -335,7 +331,7 @@ export class NotificationManager {
 // 알림 권한 요청
 async function requestNotificationPermission(): Promise<boolean> {
   if (!('Notification' in window)) {
-    console.warn('이 브라우저는 알림을 지원하지 않습니다.')
+    toast.error('이 브라우저는 알림을 지원하지 않습니다.')
     return false
   }
 

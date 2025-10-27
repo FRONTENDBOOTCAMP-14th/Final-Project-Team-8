@@ -91,7 +91,7 @@ export async function getScheduleData(
 
     return schedulesWithNotifications
   } catch (error) {
-    console.error(`Failed to fetch schedules: ${error}`)
+    toast.error(`Failed to fetch schedules: ${error}`)
     throw error
   }
 }
@@ -109,7 +109,7 @@ async function getPetSchedules(supabase: SupabaseClient, petId: string) {
     .single()
 
   if (error) {
-    console.error(`Pets fetch error: ${error}`)
+    toast.error(`Pets fetch error: ${error}`)
     throw new Error(`반려동물 정보 조회 실패: ${error.message}`)
   }
 
@@ -152,7 +152,7 @@ async function getVaccineSchedules(supabase: SupabaseClient, petId: string) {
     .eq('pet_id', petId)
 
   if (error) {
-    console.error(`Vaccines fetch error: ${error}`)
+    toast.error(`Vaccines fetch error: ${error}`)
     return schedules
   }
 
@@ -185,7 +185,7 @@ async function getAntiparasiticSchedules(
     .eq('pet_id', petId)
 
   if (error) {
-    console.error(`Antiparasitics fetch error: ${error}`)
+    toast.error(`Antiparasitics fetch error: ${error}`)
     return schedules
   }
 
@@ -215,7 +215,7 @@ async function getMedicalSchedules(supabase: SupabaseClient, petId: string) {
     .eq('pet_id', petId)
 
   if (error) {
-    console.error(`Medical treatments fetch error: ${error}`)
+    toast.error(`Medical treatments fetch error: ${error}`)
     return schedules
   }
 
@@ -248,7 +248,7 @@ async function getOtherTreatmentSchedules(
     .eq('pet_id', petId)
 
   if (error) {
-    console.error(`Other treatments fetch error: ${error}`)
+    toast.error(`Other treatments fetch error: ${error}`)
     return schedules
   }
 
@@ -278,7 +278,7 @@ async function getWalkSchedules(supabase: SupabaseClient, petId: string) {
     .eq('pet_id', petId)
 
   if (error) {
-    console.error(`Walks fetch error: ${error}`)
+    toast.error(`Walks fetch error: ${error}`)
     return schedules
   }
 
@@ -311,7 +311,7 @@ async function getOtherActivitiesSchedules(
     .eq('pet_id', petId)
 
   if (error) {
-    console.error(`Other activities fetch error: ${error}`)
+    toast.error(`Other activities fetch error: ${error}`)
     return schedules
   }
 
@@ -429,7 +429,7 @@ export async function createVaccine(data: CreateVaccineData): Promise<string> {
     .single()
 
   if (error) {
-    console.error(`Failed to create vaccine: ${error}`)
+    toast.error(`Failed to create vaccine: ${error}`)
     throw new Error(`예방접종 일정 추가 실패: ${error.message}`)
   }
 
@@ -463,7 +463,7 @@ export async function createAntiparasitic(
     .single()
 
   if (error) {
-    console.error(`Failed to create antiparasitic: ${error}`)
+    toast.error(`Failed to create antiparasitic: ${error}`)
     throw new Error(`구충 치료 일정 추가 실패: ${error.message}`)
   }
 
@@ -496,7 +496,7 @@ export async function createMedical(data: CreateMedicalData): Promise<string> {
     .single()
 
   if (error) {
-    console.error(`Failed to create medical: ${error}`)
+    toast.error(`Failed to create medical: ${error}`)
     throw new Error(`의료 처치 일정 추가 실패: ${error.message}`)
   }
 
@@ -530,7 +530,7 @@ export async function createOtherTreatments(
     .single()
 
   if (error) {
-    console.error(`Failed to create other treatments: ${error}`)
+    toast.error(`Failed to create other treatments: ${error}`)
     throw new Error(`기타 치료 일정 추가 실패: ${error.message}`)
   }
 
@@ -563,7 +563,7 @@ export async function createWalk(data: CreateWalkData): Promise<string> {
     .single()
 
   if (error) {
-    console.error(`Failed to create walk: ${error}`)
+    toast.error(`Failed to create walk: ${error}`)
     throw new Error(`산책 일정 추가 실패: ${error.message}`)
   }
 
@@ -598,7 +598,7 @@ export async function createOtherActivities(
     .single()
 
   if (error) {
-    console.error(`Failed to create other activities: ${error}`)
+    toast.error(`Failed to create other activities: ${error}`)
     throw new Error(`기타 활동 일정 추가 실패: ${error.message}`)
   }
 

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import Button, { baseStyle, variantStyle } from '@/components/ui/button/Button'
-
+import { baseStyle, variantStyle } from '@/components/ui/button/Button'
 /**
  * ContentCard 컴포넌트 Props
  *

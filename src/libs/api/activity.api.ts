@@ -1,5 +1,5 @@
 import type { UUID } from 'crypto'
-import type { AccordionProps } from '../../components/accordion/accordion'
+import type { AccordionProps } from '@/components/accordion/accordion'
 import type {
   Antiparasitic,
   AntiparasiticInsert,
@@ -13,7 +13,6 @@ import type {
   OtherTreatmentInsert,
   ScheduledMeals,
   ScheduledMealsInsert,
-  ScheduledMealsPartial,
   ScheduledMealsUpdate,
   Vaccines,
   VaccinesInsert,
@@ -212,7 +211,7 @@ export async function deleteActivity<T extends TableType>(
       await deleteNotification(notificationType, table_id)
     }
   } catch (error) {
-    console.warn(`알림 삭제 실패(무시됨): ${error}`)
+    alert(`알림 삭제 실패(무시됨): ${error}`)
   }
 }
 

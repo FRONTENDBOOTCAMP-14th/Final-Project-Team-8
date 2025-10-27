@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [loginError, setLoginError] = useState('')
 
   const handleLogin = async (email: string, password: string) => {
-    const { data, error } = await loginWithEmail(email, password)
+    const { error } = await loginWithEmail(email, password)
 
     if (error) {
       setLoginError(

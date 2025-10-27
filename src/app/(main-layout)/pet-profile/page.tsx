@@ -11,9 +11,9 @@ interface Props {
   initialTab: 'health' | 'nutrition' | 'activity' | null
 }
 
-export default function PetProfilePage({ initialTab = 'health' }: Props) {
+export default function PetProfilePage() {
   const { selectedPet } = usePetStore()
-  const [activeTab, setActiveTab] = useState<Props['initialTab']>(null)
+  const [activeTab] = useState<Props['initialTab']>(null)
 
   if (!selectedPet) {
     return <LoadingPet />
