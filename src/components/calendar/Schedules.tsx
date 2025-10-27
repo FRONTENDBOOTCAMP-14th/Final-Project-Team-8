@@ -5,7 +5,7 @@ import { useCalendarStore } from '@/store/calendarStore'
 import { useScheduleStore } from '@/store/scheduleStore'
 import { useScheduleFilter } from './hooks/useScheduleFilter'
 import ScheduleListItem from './ScheduleListItem'
-import type { ScheduleCategory, ScheduleEvent } from './types'
+import type { ScheduleEvent } from './types'
 
 interface Props {
   petId: string
@@ -26,10 +26,6 @@ export default function Schedules({
 
   const schedulesTitle = selectedDate ? '일정 목록' : '날짜 미선택'
 
-  const isClickable = (category: ScheduleCategory) => {
-    return category !== 'birthday' && category !== 'adoption'
-  }
-
   return (
     <div className="flex flex-col gap-5">
       <h3 className="text-lg font-semibold text-[#3A394F]">{schedulesTitle}</h3>
@@ -41,22 +37,14 @@ export default function Schedules({
       ) : (
         <ul className="flex flex-col gap-5 pr-2">
           {daySchedules.map(schedule => (
-            <li
-              key={schedule.id}
-              title={
-                !isClickable ? '생일과 입양일은 수정할 수 없습니다' : undefined
-              }
-              className="relative"
-            >
+            <li key={schedule.id} className="relative">
               <ScheduleListItem
                 schedule={schedule}
                 selectedDate={selectedDate}
-                isClickable={isClickable(schedule.category)}
+                isClickable={true}
                 petId={petId}
                 onClick={() => {
-                  if (isClickable(schedule.category)) {
-                    onScheduleClick?.(schedule)
-                  }
+                  onScheduleClick?.(schedule)
                 }}
               />
             </li>

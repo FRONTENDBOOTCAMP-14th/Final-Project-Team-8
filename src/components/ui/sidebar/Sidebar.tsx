@@ -1,5 +1,6 @@
 'use client'
 
+import { PawPrint } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
@@ -40,6 +41,11 @@ export default function Sidebar() {
   }, [user, fetchPetSummary])
 
   const menuoptions: MenuOption[] = [
+    {
+      name: '프로필',
+      icon: <PawPrint width={20} height={20} />,
+      path: '/pet-profile',
+    },
     {
       name: '대시보드',
       icon: (
@@ -124,11 +130,13 @@ export default function Sidebar() {
         {isLoading ? (
           <PetProfileListSkeleton />
         ) : (
-          <PetProfileList
-            pets={petList}
-            selectedId={selectedPetId}
-            onSelect={setSelectedPetId}
-          ></PetProfileList>
+          <div className="custom-scrollbar max-h-[200px] overflow-y-auto">
+            <PetProfileList
+              pets={petList}
+              selectedId={selectedPetId}
+              onSelect={setSelectedPetId}
+            ></PetProfileList>
+          </div>
         )}
       </div>
       <div className="border-[1.5px] border-b border-[#636073]"></div>

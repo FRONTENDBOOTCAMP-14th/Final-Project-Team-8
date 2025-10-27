@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  Bandage,
   Footprints,
   PawPrint,
   Pill,
@@ -17,6 +18,7 @@ import type { ScheduleCategory } from './types'
 interface Props {
   isOpen: boolean
   selectedDate: string | undefined
+  selectedPetId: string
   onClose: () => void
 }
 
@@ -57,7 +59,7 @@ const CATEGORY_OPTIONS: CategoryOption[] = [
   {
     value: 'other treatments',
     label: '기타 치료',
-    Icon: Stethoscope,
+    Icon: Bandage,
     color: 'text-[#FD8C8C]',
     bgColor: 'bg-[#FD8C8C]',
     apiType: 'other treatments',
@@ -85,6 +87,7 @@ const GRID_COLUMNS = 4
 export default function AddScheduleModal({
   isOpen,
   selectedDate,
+  selectedPetId,
   onClose,
 }: Props) {
   const modalRef = useRef<HTMLDivElement>(null)
@@ -310,6 +313,7 @@ export default function AddScheduleModal({
         onClose={handleFormModalCancel}
         onSaveSuccess={handleFormModalSave}
         type={selectedApiType}
+        selectedPetId={selectedPetId}
       />
     </>
   )

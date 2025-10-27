@@ -1,11 +1,15 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { toast } from 'sonner'
-import type { ScheduleEvent } from '@/components/calendar/types'
+import {
+  NOTIFICATION_TYPE_MAP,
+  type ScheduleEvent,
+} from '@/components/calendar/types'
 import { createClient } from '../supabase/client'
+import { batchGetNotifications } from './notification.api'
 
 /**
  * Supabase에서 반려동물의 전체 스케줄 데이터를 가져오는 함수
  * 생일, 입양일, 예방접종, 구충 치료, 의료 처치, 기타 치료, 산책, 기타 활동 기록을 통합합니다.
+ * 알림 설정 정보도 함께 가져옵니다.
  *
  * @param petId - 반려동물 ID
  * @returns ScheduleEvent 배열
@@ -22,44 +26,70 @@ export async function getScheduleData(
   const schedules: ScheduleEvent[] = []
 
   try {
-    // 1. 반려동물 정보(생일, 입양일)
+    // 1-1. 반려동물 정보(생일, 입양일)
     const petSchedules = await getPetSchedules(supabase, petId)
     schedules.push(...petSchedules)
 
-    // 2. 예방접종 스케줄
+    // 1-2. 예방접종 스케줄
     const vaccineSchedules = await getVaccineSchedules(supabase, petId)
     schedules.push(...vaccineSchedules)
 
-    // 3. 구충 치료 스케줄
+    // 1-3. 구충 치료 스케줄
     const antiparasiticSchedules = await getAntiparasiticSchedules(
       supabase,
       petId
     )
     schedules.push(...antiparasiticSchedules)
 
-    // 4. 의료 처치 스케줄
+    // 1-4. 의료 처치 스케줄
     const medicalSchedules = await getMedicalSchedules(supabase, petId)
     schedules.push(...medicalSchedules)
 
-    // 5. 기타 치료 스케줄
+    // 1-5. 기타 치료 스케줄
     const otherTreatmentSchedules = await getOtherTreatmentSchedules(
       supabase,
       petId
     )
     schedules.push(...otherTreatmentSchedules)
 
-    // 6. 산책 스케줄
+    // 1-6. 산책 스케줄
     const walkSchedules = await getWalkSchedules(supabase, petId)
     schedules.push(...walkSchedules)
 
-    // 7. 기타 활동 스케줄
+    // 1-7. 기타 활동 스케줄
     const otherActivitiesSchedules = await getOtherActivitiesSchedules(
       supabase,
       petId
     )
     schedules.push(...otherActivitiesSchedules)
 
-    return schedules
+    // 2. 알림 설정 정보 배치로 가져오기
+    const scheduleIds = schedules.map(s => ({
+      type: NOTIFICATION_TYPE_MAP[
+        s.category as keyof typeof NOTIFICATION_TYPE_MAP
+      ],
+      id: s.id,
+    }))
+
+    const notificationMap = await batchGetNotifications(scheduleIds)
+
+    // 3. 스케줄에 알림 정보 병합
+    const schedulesWithNotifications = schedules.map(schedule => {
+      const notificationType =
+        NOTIFICATION_TYPE_MAP[
+          schedule.category as keyof typeof NOTIFICATION_TYPE_MAP
+        ]
+      const notificationKey = `${notificationType}-${schedule.id}`
+      const notification = notificationMap.get(notificationKey)
+
+      return {
+        ...schedule,
+        notificationEnabled: notification?.enabled ?? false,
+        notificationTime: notification?.notification_time ?? '09:00:00',
+      }
+    })
+
+    return schedulesWithNotifications
   } catch (error) {
     toast.error(`Failed to fetch schedules: ${error}`)
     throw error

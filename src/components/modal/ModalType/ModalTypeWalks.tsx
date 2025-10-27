@@ -1,6 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 import type { Walks } from '@/libs/supabase'
 import type { AccordionProps } from '../../accordion/accordion'
+import NotificationToggle from '../../calendar/NotificationToggle'
+import { NOTIFICATION_TYPE_MAP } from '../../calendar/types'
 import { ModalDetailNonModify } from '../modal-detail/ModalDetail'
 import { ModalDetailInput } from '../modal-detail/ModalDetailinput'
 import { ModalDetailIsModify } from '../modal-detail/ModalDetailIsModify'
@@ -12,6 +14,7 @@ interface ModalTypeWalksProps extends ModalTypeProps {
   setModify: Dispatch<SetStateAction<boolean>>
   onClose: () => void
   restProps: Walks
+  selectedPetId?: string
 }
 
 export default function ModalTypeWalks({
@@ -19,14 +22,88 @@ export default function ModalTypeWalks({
   setModify,
   onClose,
   restProps: { date, distance, id, start_time, total_time, title },
+  selectedPetId,
 }: ModalTypeWalksProps) {
   if (isModify) {
     return (
-      <ModalDetailIsModify
+      <div className="flex flex-col gap-2">
+        {/* 알림 설정 */}
+        {selectedPetId && (
+          <NotificationToggle
+            scheduleId={id}
+            scheduleType={NOTIFICATION_TYPE_MAP['walk']}
+            petId={selectedPetId}
+            isShowToggle={true}
+          />
+        )}
+
+        <ModalDetailIsModify
+          key={id}
+          id={id}
+          type={'walks'}
+          title={title}
+          fields={[
+            {
+              key: 'start_time',
+              label: '시작 시간',
+              type: 'time',
+              tableValue: start_time,
+              defaultValue: start_time,
+              requiredSet: '시작 시간을 입력해주세요.',
+            },
+            {
+              key: 'date',
+              label: '산책 날짜',
+              type: 'date',
+              tableValue: date,
+              defaultValue: date,
+              requiredSet: '산책 날짜를 지정해주세요.',
+            },
+            {
+              key: 'distance',
+              label: '산책 거리 (km)',
+              type: 'number',
+              tableValue: distance,
+              defaultValue: distance,
+              requiredSet: null,
+              min: 0,
+            },
+            {
+              key: 'total_time',
+              label: '산책 시간 (min)',
+              type: 'number',
+              tableValue: minTohour(total_time),
+              defaultValue: total_time,
+              requiredSet: null,
+              inputProps: { step: 10 },
+              min: 0,
+            },
+          ]}
+          setModify={setModify}
+          isModify={isModify}
+          onClose={onClose}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col">
+      {/* 알림 설정 여부*/}
+      {selectedPetId && (
+        <NotificationToggle
+          scheduleId={id}
+          scheduleType={NOTIFICATION_TYPE_MAP['walk']}
+          petId={selectedPetId}
+          isShowToggle={false}
+        />
+      )}
+
+      <ModalDetailNonModify
         key={id}
-        id={id}
-        type={'walks'}
+        type="walks"
         title={title}
+        isModify={isModify}
         fields={[
           {
             key: 'start_time',
@@ -34,7 +111,6 @@ export default function ModalTypeWalks({
             type: 'time',
             tableValue: start_time,
             defaultValue: start_time,
-            requiredSet: '시작 시간을 입력해주세요.',
           },
           {
             key: 'date',
@@ -42,7 +118,6 @@ export default function ModalTypeWalks({
             type: 'date',
             tableValue: date,
             defaultValue: date,
-            requiredSet: '산책 날짜를 지정해주세요.',
           },
           {
             key: 'distance',
@@ -50,8 +125,6 @@ export default function ModalTypeWalks({
             type: 'number',
             tableValue: distance,
             defaultValue: distance,
-            requiredSet: null,
-            min: 0,
           },
           {
             key: 'total_time',
@@ -59,56 +132,10 @@ export default function ModalTypeWalks({
             type: 'number',
             tableValue: minTohour(total_time),
             defaultValue: total_time,
-            requiredSet: null,
-            inputProps: { step: 10 },
-            min: 0,
           },
         ]}
-        // 모달 버튼 기능 연결
-        setModify={setModify}
-        isModify={isModify}
-        onClose={onClose}
       />
-    )
-  }
-
-  return (
-    <ModalDetailNonModify
-      key={id}
-      type="walks"
-      title={title}
-      isModify={isModify}
-      fields={[
-        {
-          key: 'start_time',
-          label: '시작 시간',
-          type: 'time',
-          tableValue: start_time,
-          defaultValue: start_time,
-        },
-        {
-          key: 'date',
-          label: '산책 날짜',
-          type: 'date',
-          tableValue: date,
-          defaultValue: date,
-        },
-        {
-          key: 'distance',
-          label: '산책 거리 (km)',
-          type: 'number',
-          tableValue: distance,
-          defaultValue: distance,
-        },
-        {
-          key: 'total_time',
-          label: '산책 시간 (min)',
-          type: 'number',
-          tableValue: minTohour(total_time),
-          defaultValue: total_time,
-        },
-      ]}
-    />
+    </div>
   )
 }
 
@@ -132,6 +159,7 @@ export function ModalTypeWalksInput({
       onClose={onClose}
       {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
+      scheduleType="walk"
       fields={[
         {
           key: 'start_time',

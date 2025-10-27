@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import type { Dispatch, SetStateAction } from 'react'
 import { getPetTableData } from '@/libs/api/activity.api'
+import { usePetStore } from '../../store/petStore'
 import type { AccordionProps } from '../accordion/accordion'
 import ListLoading from '../accordion/ListLoading'
 import ModalTypeAntiparasitic from '../modal/ModalType/ModalTypeAntiparasitic'
+import ModalTypeBirthdayAdoption from '../modal/ModalType/ModalTypeBirthdayAdoption'
 import ModalTypeMedicalTreatment from '../modal/ModalType/ModalTypeMedical'
 import ModalTypeOtherActivites from '../modal/ModalType/ModalTypeOtherActivites'
 import ModalTypeOtherTreatment from '../modal/ModalType/ModalTypeOtherTreatment'
@@ -31,14 +33,32 @@ export default function RenderEditScheduleModal({
   setModify,
   onClose,
 }: RenderEditScheduleModalProps) {
+  const { petList } = usePetStore()
+
   if (!selectedSchedule || !selectedPetId) return null
 
   if (
     selectedSchedule.category === 'birthday' ||
     selectedSchedule.category === 'adoption'
-  )
-    return null
-  const apiType = API_TYPE_MAP[selectedSchedule.category]
+  ) {
+    const selectedPet = petList.find(p => p.id === selectedPetId)
+    if (!selectedPet) return null
+
+    return (
+      <ModalTypeBirthdayAdoption
+        scheduleId={selectedSchedule.id}
+        category={selectedSchedule.category}
+        petName={selectedPet.name}
+        date={selectedSchedule.date}
+        selectedPetId={selectedPetId}
+        onClose={onClose}
+      />
+    )
+  }
+
+  const apiType = API_TYPE_MAP[
+    selectedSchedule.category
+  ] as AccordionProps['type']
 
   return (
     <EditScheduleModalContent
@@ -93,12 +113,17 @@ function EditScheduleModalContent({
     isModify,
     setModify,
     onClose,
+    selectedPetId,
   }
 
   switch (apiType) {
     case 'vaccines':
       return (
-        <ModalTypeVaccination {...commonProps} restProps={itemData as any} />
+        <ModalTypeVaccination
+          {...commonProps}
+          restProps={itemData as any}
+          selectedPetId={selectedPetId}
+        />
       )
 
     case 'antiparasitic':

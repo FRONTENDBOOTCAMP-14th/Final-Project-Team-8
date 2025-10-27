@@ -245,6 +245,7 @@ function FieldList({
                     {label} 입력
                   </label>
                   <input
+                    id={key}
                     type={type}
                     defaultValue={defaultValue ?? ''}
                     className={tw(

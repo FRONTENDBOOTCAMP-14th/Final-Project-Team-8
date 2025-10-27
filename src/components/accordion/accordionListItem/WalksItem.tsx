@@ -109,6 +109,7 @@ export default function WalksItem({
           isModify={isModify}
           setModify={setIsModify}
           onClose={handleCloseModal}
+          selectedPetId={pet_id}
           restProps={{
             date,
             distance,

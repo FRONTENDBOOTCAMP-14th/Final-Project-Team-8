@@ -1,24 +1,18 @@
 'use client'
 
-import { Cake, House, SquarePen } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
-import { useState } from 'react'
-import Button from '@/components/ui/button/Button'
+import PetProfileSection from '@/components/pet-profile/PetProfileSection'
 import { usePetStore } from '@/store/petStore'
-import { tw } from '../../../../utils/shared'
+import { tw } from '@/utils/shared'
 
 type Props = PropsWithChildren<{
   initialTab: 'health' | 'nutrition' | 'activity'
 }>
 
-export default function PetProfilePage({
-  initialTab = 'health',
-  children,
-}: Props) {
+export default function PetProfilePage({ children }: Props) {
   const { selectedPet } = usePetStore()
-  const [activeTab, setActiveTab] = useState(initialTab)
   const pathname = usePathname()
 
   if (!selectedPet) {
@@ -39,103 +33,12 @@ export default function PetProfilePage({
     )
   }
 
-  // 나이 계산 함수
-  const getAge = () => {
-    if (!selectedPet.birthdate) return null
-    const age =
-      new Date().getFullYear() - new Date(selectedPet.birthdate).getFullYear()
-    return age
-  }
-
   return (
     <div className="flex h-full w-full gap-[30px]">
       {/* 왼쪽 */}
-      <div className="flex w-4/10 min-w-90 flex-col gap-5">
+      <div className="relative flex w-4/10 min-w-90 flex-col gap-5">
         <h1 className="w-full text-[28px] font-bold">반려동물 프로필</h1>
-
-        {/* 프로필 사진 부분 */}
-        <section className="flex w-full items-center gap-8">
-          <img
-            src={selectedPet.profile_img ?? '/assets/img/default-profile.png'}
-            alt={selectedPet.name}
-            className="aspect-square w-30 rounded-full outline-10 outline-gray-100"
-          />
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-4">
-              <div className="text-2xl font-bold">{selectedPet.name}</div>
-              <Button
-                variant="white"
-                className="max-w-fit min-w-fit rounded-[19px] p-0.5"
-              >
-                <SquarePen className="w-[20px]" />
-              </Button>
-            </div>
-            <p className="text-gray-500">
-              {selectedPet.species} | {selectedPet.breed}
-            </p>
-          </div>
-        </section>
-
-        {/* 상세정보 */}
-        <section className="flex flex-col">
-          <h2 className="sr-only">상세 정보</h2>
-          <div className="flex flex-col gap-4 text-gray-500">
-            <h3 className="text-[18px] font-bold text-neutral-600">
-              외모 및 특징
-            </h3>
-            <p>{selectedPet.bio}</p>
-            <dl className="flex flex-col gap-4">
-              <div className="flex justify-between">
-                <dt>성별</dt>
-                <dd className="font-bold text-neutral-600">
-                  {selectedPet.gender}
-                </dd>
-              </div>
-              <hr className="border-neutral-200" />
-              <div className="flex justify-between">
-                <dt>크기</dt>
-                <dd className="font-bold text-neutral-600">
-                  {selectedPet.size === 0 && '소형견'}
-                  {selectedPet.size === 1 && '중형견'}
-                  {selectedPet.size === 2 && '대형견'}
-                </dd>
-              </div>
-              <hr className="border-neutral-200" />
-              <div className="flex justify-between">
-                <dt>체중</dt>
-                <dd className="font-bold text-neutral-600">
-                  {selectedPet.weight} kg
-                </dd>
-              </div>
-            </dl>
-            {/* 기념일 */}
-            <h3 className="text-[18px] font-bold text-neutral-600">기념일</h3>
-            <dl className="flex flex-col gap-4">
-              <div className="flex gap-4">
-                <Cake className="h-[50px] w-[50px] rounded-[18px] bg-[#FFD8C0]/50 p-3 text-[#FF6000]" />
-                <div className="flex flex-col">
-                  <dt>생일</dt>
-                  <dd className="font-bold text-neutral-600">
-                    {selectedPet.birthdate}
-                  </dd>
-                </div>
-                <p className="ml-auto font-bold text-neutral-600">
-                  {getAge()} 살
-                </p>
-              </div>
-              <hr className="border-neutral-200" />
-              <div className="flex gap-4">
-                <House className="h-[50px] w-[50px] rounded-[18px] bg-[#FFD8C0]/50 p-3 text-[#FF6000]" />
-                <div className="flex flex-col">
-                  <dt>입양일</dt>
-                  <dd className="font-bold text-neutral-600">
-                    {selectedPet.adoption_date}
-                  </dd>
-                </div>
-              </div>
-            </dl>
-          </div>
-        </section>
+        <PetProfileSection selectedPet={selectedPet} />
       </div>
 
       <div className="w-px bg-neutral-200"></div>

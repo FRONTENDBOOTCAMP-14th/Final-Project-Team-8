@@ -104,6 +104,7 @@ export default function OtherTreatmentItem({
           isModify={isModify}
           setModify={setIsModify}
           onClose={handleCloseModal}
+          selectedPetId={pet_id}
           restProps={{
             date,
             detail,

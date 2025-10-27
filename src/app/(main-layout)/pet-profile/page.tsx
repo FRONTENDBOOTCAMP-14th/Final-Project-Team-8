@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
+import { LoadingPet } from '@/components/ui/status/Loading'
 import { usePetStore } from '@/store/petStore'
-import { tw } from '../../../utils/shared'
+import { tw } from '@/utils/shared'
 
 interface Props {
   initialTab: 'health' | 'nutrition' | 'activity' | null
@@ -15,21 +16,7 @@ export default function PetProfilePage({ initialTab = 'health' }: Props) {
   const [activeTab, setActiveTab] = useState<Props['initialTab']>(null)
 
   if (!selectedPet) {
-    return (
-      <div className="relative mx-auto flex h-full w-full flex-col items-center justify-center gap-10">
-        <div className="flex h-full flex-col items-center justify-center gap-[50px]">
-          <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-            <p className="text-[34px] font-bold text-[#3A394F]">
-              반려동물 정보를 불러오고 있어요
-            </p>
-            <p>소중한 우리 아이들을 소개해주세요</p>
-          </div>
-          <div className="imgBox">
-            <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
-          </div>
-        </div>
-      </div>
-    )
+    return <LoadingPet />
   }
 
   return (

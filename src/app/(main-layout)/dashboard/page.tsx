@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components'
 import PetProfileCardCarousel from '@/components/pet-profile/petProfileCardCarousel'
+import { NotLogin, EmptyPet } from '@/components/ui/status/EmptyState'
 import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
-import NotLogin from '../../../components/ui/not-login/notLogin'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -16,11 +16,7 @@ export default function DashboardPage() {
   const user = useUserStore<User | null>(s => s.user)
   const hasPets = petList.length > 0
 
-  const handleAddPet = () => {
-    if (user === null) return router.push('/login')
-
-    router.push('/add-profile/step1')
-  }
+  if (!user) return <NotLogin />
 
   return (
     <>
@@ -40,7 +36,7 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="h-5/10 w-full">
-            <PetProfileCardCarousel></PetProfileCardCarousel>
+            <PetProfileCardCarousel />
           </div>
           <div className="cards relative flex h-4/10 w-full flex-col gap-5">
             <Link
@@ -96,41 +92,8 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-      ) : user ? (
-        <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
-          <div className="flex h-full flex-col items-center justify-center gap-[50px]">
-            <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-              <p className="text-[34px] font-bold text-[#3A394F]">
-                앗, 아직 비어있어요!
-              </p>
-              <p>소중한 우리 아이들을 소개해주세요</p>
-
-              <p>첫 번째 반려동믈을 등록해보세요</p>
-            </div>
-            <div className="imgBox">
-              <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
-            </div>
-            {!user && (
-              <p className="rounded-xl border-1 border-gray-200 p-3 text-base text-[#80809A]">
-                우리 아이의 첫 등록을 위해 로그인해주세요
-              </p>
-            )}
-          </div>
-          <Button variant="orange" className="max-w-105" onClick={handleAddPet}>
-            {user ? '반려동물 추가하기' : '로그인 하기'}
-          </Button>
-        </div>
       ) : (
-        <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
-          <NotLogin />
-          <Button
-            variant="orange"
-            className="max-w-105 !text-lg font-bold"
-            onClick={() => router.push('/login')}
-          >
-            {'로그인 하기'}
-          </Button>
-        </div>
+        <EmptyPet />
       )}
     </>
   )
