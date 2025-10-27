@@ -25,7 +25,7 @@ export default function DashboardPage() {
   return (
     <>
       {hasPets ? (
-        <div className="flex h-full w-full flex-col gap-15">
+        <div className="flex h-full w-full flex-col gap-5">
           <div className="textBox">
             <div className="flex w-fit items-center gap-2">
               <div className="text-[28px] font-bold whitespace-nowrap">
@@ -39,10 +39,10 @@ export default function DashboardPage() {
               우리 아이들의 모든 정보를 확인해 보세요
             </p>
           </div>
-          <div className="h-1/3 w-full">
+          <div className="h-5/10 w-full">
             <PetProfileCardCarousel></PetProfileCardCarousel>
           </div>
-          <div className="cards relative flex h-1/2 w-full flex-col gap-5">
+          <div className="cards relative flex h-4/10 w-full flex-col gap-5">
             <Link
               href={'/pet-profile/health'}
               className="h-4/7 rounded-[18px] p-[30px] shadow-md outline-1 outline-gray-100"
