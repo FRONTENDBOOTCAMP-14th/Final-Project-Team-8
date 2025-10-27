@@ -77,10 +77,16 @@ export default function AccordionItemBox<T extends TableType>({
                 actionLabel="새 항목 추가"
               ></EmptyState>
             ) : (
-              <AccordionContent type={type} pet_id={pet_id} />
+              <>
+                <AccordionContent type={type} pet_id={pet_id} />
+                <ModalHost
+                  open={isOepn}
+                  onClose={off}
+                  type={type}
+                  selectedPetId={pet_id}
+                />
+              </>
             )}
-            {/* <NewListitemAdd type={type} /> */}
-            <ModalHost open={isOepn} onClose={off} type={type}></ModalHost>
           </Suspense>
         </QueryErrorBoundary>
       )}

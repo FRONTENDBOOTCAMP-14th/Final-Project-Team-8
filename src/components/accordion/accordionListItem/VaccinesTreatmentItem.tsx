@@ -121,6 +121,7 @@ export default function VaccinesTreatmentItem({
             title,
             vaccinated_date,
           }}
+          selectedPetId={pet_id}
         />
       </Modal>
     </li>

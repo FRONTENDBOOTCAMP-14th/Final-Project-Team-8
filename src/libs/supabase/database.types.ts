@@ -204,13 +204,13 @@ export interface Database {
           bio: string | null
           birthdate: string | null
           breed: string | null
-          species: string | null
           created_at: string
           gender: string | null
           id: string
           name: string
           profile_img: string | null
           size: number | null
+          species: string
           user_id: string
           weight: number | null
         }
@@ -219,13 +219,13 @@ export interface Database {
           bio?: string | null
           birthdate?: string | null
           breed?: string | null
-          species?: string | null
           created_at?: string
           gender?: string | null
           id?: string
           name: string
           profile_img?: string | null
           size?: number | null
+          species: string
           user_id?: string
           weight?: number | null
         }
@@ -240,7 +240,7 @@ export interface Database {
           name?: string
           profile_img?: string | null
           size?: number | null
-          species?: string | null
+          species?: string
           user_id?: string
           weight?: number | null
         }
@@ -250,6 +250,47 @@ export interface Database {
             columns: ['user_id']
             isOneToOne: false
             referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      'schedule notifications': {
+        Row: {
+          created_at: string | null
+          enabled: boolean
+          id: string
+          notification_time: string
+          pet_id: string
+          schedule_id: string
+          schedule_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          enabled?: boolean
+          id?: string
+          notification_time?: string
+          pet_id: string
+          schedule_id: string
+          schedule_type: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          enabled?: boolean
+          id?: string
+          notification_time?: string
+          pet_id?: string
+          schedule_id?: string
+          schedule_type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'schedule_notifications_pet_id_fkey'
+            columns: ['pet_id']
+            isOneToOne: false
+            referencedRelation: 'pets'
             referencedColumns: ['id']
           },
         ]

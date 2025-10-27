@@ -115,6 +115,7 @@ export default function AntiparasiticTreatmentItem({
           isModify={isModify}
           setModify={setIsModify}
           onClose={handleCloseModal}
+          selectedPetId={pet_id}
           restProps={{ id, intake_date, next_date, notes, pet_id, title }}
         />
       </Modal>

@@ -11,6 +11,7 @@ import {
 } from '@/components'
 import { FILTER_OPTIONS } from '@/components/calendar/FilterModal'
 import RenderEditScheduleModal from '@/components/calendar/RenderEditScheduleModal'
+import ScheduleNotificationManager from '@/components/calendar/ScheduleNotificationManager'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import Modal from '@/components/modal/Modal'
 import { NotLogin } from '@/components/ui/status/EmptyState'
@@ -44,9 +45,6 @@ export default function CalendarPage() {
 
   // 일정 클릭 핸들러
   const handleScheduleClick = (schedule: ScheduleEvent) => {
-    if (schedule.category === 'birthday' || schedule.category === 'adoption')
-      return
-
     setSelectedSchedule(schedule)
     setIsEditModalOpen(true)
     setIsModify(false)
@@ -88,6 +86,9 @@ export default function CalendarPage() {
 
   return (
     <>
+      {/* 알림 매니저 추가 */}
+      <ScheduleNotificationManager />
+
       <div className="grid h-full w-full min-w-190 flex-1 grid-cols-4 flex-row overflow-hidden rounded-xl">
         <section className="relative col-span-3 min-w-120 overflow-y-auto p-10">
           <h2 className="text-[28px] font-bold text-[#3A394F]">캘린더</h2>
@@ -175,6 +176,7 @@ export default function CalendarPage() {
               ? `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`
               : undefined
           }
+          selectedPetId={selectedPetId}
           onClose={() => setIsAddScheduleModalOpen(false)}
         />
       )}
@@ -185,6 +187,10 @@ export default function CalendarPage() {
         onClose={handleCloseEditModal}
         isModify={isModify}
         setModify={setIsModify}
+        buttonNone={
+          selectedSchedule?.category === 'birthday' ||
+          selectedSchedule?.category === 'adoption'
+        }
       >
         <RenderEditScheduleModal
           selectedSchedule={selectedSchedule}

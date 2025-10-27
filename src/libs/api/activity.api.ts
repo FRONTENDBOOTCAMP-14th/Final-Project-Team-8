@@ -22,6 +22,7 @@ import type {
 } from '../supabase'
 import { createClient } from '../supabase/client'
 import type { Database } from '../supabase/database.types'
+import { deleteNotification } from './notification.api'
 
 // ============================================================================
 // Types
@@ -204,6 +205,29 @@ export async function deleteActivity<T extends TableType>(
   if (error) {
     throw new Error(`[Delete ${type}] ${error.message}`)
   }
+
+  try {
+    const notificationType = getNotificationTypeFromTableType(type)
+    if (notificationType) {
+      await deleteNotification(notificationType, table_id)
+    }
+  } catch (error) {
+    console.warn(`알림 삭제 실패(무시됨): ${error}`)
+  }
+}
+
+function getNotificationTypeFromTableType(tableType: TableType): string | null {
+  const typeMap: Record<TableType, string | null> = {
+    vaccines: 'vaccine',
+    antiparasitic: 'antiparasitic',
+    'medical treatment': 'medical',
+    'other treatments': 'other treatments',
+    walks: 'walk',
+    'other activities': 'other activities',
+    diet: null,
+  }
+
+  return typeMap[tableType] ?? null
 }
 
 // ============================================================================
