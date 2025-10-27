@@ -31,7 +31,7 @@ export default function PetAvartar({ pet, selected, onClick }: PetAvatarProps) {
         onClick={() => onClick?.(pet.id)}
       />
       <p
-        className={`${selected ? 'font-bold text-[#FF6000]' : 'text-gray-200'}`}
+        className={`mb-3 ${selected ? 'font-bold text-[#FF6000]' : 'text-gray-200'}`}
       >
         {pet.name}
       </p>

@@ -1,4 +1,5 @@
 import '@/styles/main.css'
+import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
 import ToasterPortal from '../components/ui/ToasterPortal/ToasterPortal'
