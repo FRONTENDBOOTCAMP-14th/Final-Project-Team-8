@@ -14,11 +14,11 @@ import RenderEditScheduleModal from '@/components/calendar/RenderEditScheduleMod
 import ScheduleNotificationManager from '@/components/calendar/ScheduleNotificationManager'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import Modal from '@/components/modal/Modal'
+import { NotLogin } from '@/components/ui/status/EmptyState'
 import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
-import NotLogin from '../../components/ui/not-login/notLogin'
-import { useUserStore } from '../../store/userStore'
+import { useUserStore } from '@/store/userStore'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()

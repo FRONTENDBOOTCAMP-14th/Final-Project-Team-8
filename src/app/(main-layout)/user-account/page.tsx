@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Button from '@/components/ui/button/Button'
-import NotLogin from '@/components/ui/not-login/notLogin'
+import { NotLogin } from '@/components/ui/status/EmptyState'
 import {
   UserDetailSection,
   UserProfileSection,
