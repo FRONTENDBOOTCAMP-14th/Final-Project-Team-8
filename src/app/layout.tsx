@@ -11,6 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ko-KR">
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+      </head>
       <body className="overflow-hidden">
         <Providers>
           <main>{children}</main>

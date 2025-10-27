@@ -1,25 +1,31 @@
 'use client'
 
+import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components'
 import PetProfileCardCarousel from '@/components/pet-profile/petProfileCardCarousel'
 import { usePetStore } from '@/store/petStore'
+import { useUserStore } from '@/store/userStore'
+import NotLogin from '../../../components/ui/not-login/notLogin'
 
 export default function DashboardPage() {
   const router = useRouter()
   const { petList } = usePetStore()
 
+  const user = useUserStore<User | null>(s => s.user)
   const hasPets = petList.length > 0
 
   const handleAddPet = () => {
-    router.push('/add-profile/step2')
+    if (user === null) return router.push('/login')
+
+    router.push('/add-profile/step1')
   }
 
   return (
     <>
       {hasPets ? (
-        <div className="flex h-full w-full flex-col gap-15">
+        <div className="flex h-full w-full flex-col gap-5">
           <div className="textBox">
             <div className="flex w-fit items-center gap-2">
               <div className="text-[28px] font-bold whitespace-nowrap">
@@ -33,12 +39,12 @@ export default function DashboardPage() {
               우리 아이들의 모든 정보를 확인해 보세요
             </p>
           </div>
-          <div className="h-1/3 w-full">
+          <div className="h-5/10 w-full">
             <PetProfileCardCarousel></PetProfileCardCarousel>
           </div>
-          <div className="cards relative flex h-1/2 w-full flex-col gap-5">
+          <div className="cards relative flex h-4/10 w-full flex-col gap-5">
             <Link
-              href={'/pet-profile'}
+              href={'/pet-profile/health'}
               className="h-4/7 rounded-[18px] p-[30px] shadow-md outline-1 outline-gray-100"
             >
               <div className="flex h-full flex-row">
@@ -58,7 +64,7 @@ export default function DashboardPage() {
             </Link>
             <div className="flex h-3/7 flex-row gap-5">
               <Link
-                href={'/diet'}
+                href={'/pet-profile/nutrition'}
                 className="h-full w-full rounded-[18px] p-[30px] shadow-md outline-1 outline-gray-100"
               >
                 <div className="flex h-full items-center gap-[30px]">
@@ -73,7 +79,7 @@ export default function DashboardPage() {
                 </div>
               </Link>
               <Link
-                href={'/activities'}
+                href={'/pet-profile/activity'}
                 className="w-full rounded-[18px] p-[30px] shadow-md outline-1 outline-gray-100"
               >
                 <div className="flex h-full items-center gap-[30px]">
@@ -90,22 +96,39 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-      ) : (
-        <div className="relative mx-auto flex h-full w-full flex-col items-center justify-center gap-10">
+      ) : user ? (
+        <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
           <div className="flex h-full flex-col items-center justify-center gap-[50px]">
             <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
               <p className="text-[34px] font-bold text-[#3A394F]">
                 앗, 아직 비어있어요!
               </p>
               <p>소중한 우리 아이들을 소개해주세요</p>
+
               <p>첫 번째 반려동믈을 등록해보세요</p>
             </div>
             <div className="imgBox">
               <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
             </div>
+            {!user && (
+              <p className="rounded-xl border-1 border-gray-200 p-3 text-base text-[#80809A]">
+                우리 아이의 첫 등록을 위해 로그인해주세요
+              </p>
+            )}
           </div>
           <Button variant="orange" className="max-w-105" onClick={handleAddPet}>
-            반려동물 추가하기
+            {user ? '반려동물 추가하기' : '로그인 하기'}
+          </Button>
+        </div>
+      ) : (
+        <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
+          <NotLogin />
+          <Button
+            variant="orange"
+            className="max-w-105 !text-lg font-bold"
+            onClick={() => router.push('/login')}
+          >
+            {'로그인 하기'}
           </Button>
         </div>
       )}

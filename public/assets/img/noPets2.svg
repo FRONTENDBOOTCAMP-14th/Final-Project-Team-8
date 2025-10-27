@@ -1,0 +1,110 @@
+ <svg
+              width="350"
+              height="280"
+              viewBox="0 0 350 280"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Shadow ellipse */}
+              <ellipse
+                cx="175"
+                cy="240"
+                rx="120"
+                ry="20"
+                fill="#E5E5EA"
+                opacity="0.5"
+              />
+
+              {/* Box layers */}
+              <rect
+                x="80"
+                y="180"
+                width="190"
+                height="15"
+                fill="#D1D1E0"
+                rx="2"
+              />
+              <rect
+                x="70"
+                y="195"
+                width="210"
+                height="15"
+                fill="#C5C5D8"
+                rx="2"
+              />
+              <rect
+                x="60"
+                y="210"
+                width="230"
+                height="30"
+                fill="#B8B8CE"
+                rx="2"
+              />
+
+              {/* Cat body */}
+              <ellipse cx="175" cy="140" rx="70" ry="65" fill="#9B9BB5" />
+
+              {/* Cat tail */}
+              <path
+                d="M 235 160 Q 270 180, 280 210 Q 275 215, 270 210 Q 260 185, 230 170 Z"
+                fill="#9B9BB5"
+              />
+
+              {/* Cat ears */}
+              <path d="M 130 100 L 145 130 L 160 110 Z" fill="#9B9BB5" />
+              <path d="M 190 110 L 205 130 L 220 100 Z" fill="#9B9BB5" />
+
+              {/* Cat head */}
+              <circle cx="175" cy="130" r="45" fill="#9B9BB5" />
+
+              {/* Cat eyes */}
+              <circle cx="160" cy="125" r="6" fill="white" />
+              <circle cx="190" cy="125" r="6" fill="white" />
+              <circle cx="161" cy="125" r="3" fill="#3A394F" />
+              <circle cx="191" cy="125" r="3" fill="#3A394F" />
+
+              {/* Cat nose */}
+              <path d="M 175 135 L 172 140 L 178 140 Z" fill="#8A8AA0" />
+
+              {/* Cat whiskers */}
+              <line
+                x1="145"
+                y1="130"
+                x2="120"
+                y2="125"
+                stroke="#8A8AA0"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <line
+                x1="145"
+                y1="135"
+                x2="120"
+                y2="140"
+                stroke="#8A8AA0"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <line
+                x1="205"
+                y1="130"
+                x2="230"
+                y2="125"
+                stroke="#8A8AA0"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <line
+                x1="205"
+                y1="135"
+                x2="230"
+                y2="140"
+                stroke="#8A8AA0"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+
+              {/* Cat paws */}
+              <ellipse cx="145" cy="185" rx="15" ry="20" fill="#9B9BB5" />
+              <ellipse cx="205" cy="185" rx="15" ry="20" fill="#9B9BB5" />
+            </svg>
