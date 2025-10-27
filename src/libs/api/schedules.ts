@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { toast } from 'sonner'
 import {
   NOTIFICATION_TYPE_MAP,
   type ScheduleEvent,
