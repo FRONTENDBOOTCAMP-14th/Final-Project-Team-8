@@ -57,14 +57,9 @@ export default function SignupPage() {
     })
   }
 
-  const handleLogin = () => {
-    router.push('/login')
-  }
-
   return (
     <Signup
       onSignup={handleSignup}
-      onLogin={handleLogin}
       signupError={signupError}
       onErrorChange={setSignupError}
     />

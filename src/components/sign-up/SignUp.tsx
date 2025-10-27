@@ -1,6 +1,7 @@
 'use client'
 
 import { User } from 'lucide-react'
+import Link from 'next/link'
 import { useCallback, useEffect, useId, useRef, useTransition } from 'react'
 // 타입
 import Button from '@/components/ui/button/Button'
@@ -27,7 +28,6 @@ import {
 
 export default function Signup({
   onSignup,
-  onLogin,
   signupError,
   onErrorChange,
 }: SignupProps) {
@@ -79,14 +79,8 @@ export default function Signup({
     }
   }, [name, email, password, onSignup, isFormValid, setAllTouched])
 
-  const handleLogin = useCallback(() => {
-    if (onLogin) {
-      onLogin()
-    }
-  }, [onLogin])
-
   return (
-    <div className="flex w-[700px] translate-y-5">
+    <section className="flex w-[700px] translate-y-5">
       <div className="relative w-full max-w-[580px] rounded-2xl bg-white p-[50px] pt-17 shadow-lg">
         {/* Profile Icon */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 transform">
@@ -193,6 +187,7 @@ export default function Signup({
           {/* Signup Button */}
           <div className="flex justify-center">
             <Button
+              type="submit"
               onClick={handleSubmit}
               disabled={isPending}
               variant="orange"
@@ -207,16 +202,15 @@ export default function Signup({
         <div className="mt-6 text-center">
           <div className="mb-2 text-sm text-gray-500">
             이미 계정이 있으신가요?{' '}
-            <button
-              type="button"
-              onClick={handleLogin}
+            <Link
+              href={'/login'}
               className="inline cursor-pointer text-[#FF6000] transition-colors hover:text-orange-600"
             >
               로그인하기
-            </button>
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

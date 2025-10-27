@@ -1,6 +1,7 @@
 'use client'
 
 import { User } from 'lucide-react'
+import Link from 'next/link'
 import React, {
   useCallback,
   useId,
@@ -14,14 +15,12 @@ import PasswordInput from './components/PasswordInput'
 
 export interface LoginProps {
   onLogin?: (email: string, password: string) => void
-  onSignUp?: () => void
   loginError?: string
   onErrorChange?: (error: string) => void
 }
 
 export default function Login({
   onLogin,
-  onSignUp,
   loginError,
   onErrorChange,
 }: LoginProps) {
@@ -51,14 +50,8 @@ export default function Login({
     [email, password, onLogin, isFormValid, loginError, onErrorChange]
   )
 
-  const handleSignUp = useCallback(() => {
-    if (onSignUp) {
-      onSignUp()
-    }
-  }, [onSignUp])
-
   return (
-    <div className="flex w-[700px] translate-y-5">
+    <section className="flex w-[700px] translate-y-5">
       <div className="relative w-full max-w-[580px] rounded-2xl bg-white p-[50px] pt-20 shadow-lg">
         {/* Profile Icon */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 transform">
@@ -127,16 +120,15 @@ export default function Login({
         <div className="mt-6 text-center">
           <div className="mb-2 text-sm text-gray-500">
             계정이 없으신가요?{' '}
-            <button
-              type="button"
-              onClick={handleSignUp}
+            <Link
+              href={'/sign-up'}
               className="inline cursor-pointer text-[#FF6000] transition-colors hover:text-orange-600"
             >
               회원가입하기
-            </button>
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
