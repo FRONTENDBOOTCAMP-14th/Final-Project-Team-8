@@ -23,16 +23,22 @@
     ]
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4",
+    "@supabase/supabase-js": "^2.76.1",
+    "@tanstack/react-query": "^5.90.2",
+    "lucide-react": "^0.544.0",
     "next": "^15.5.3",
     "plaiceholder": "^3.0.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-hook-form": "^7.65.0",
+    "sonner": "^2.0.7",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
     "@supabase/ssr": "^0.7.0",
     "@tailwindcss/postcss": "^4.1.13",
+    "@tanstack/eslint-plugin-query": "^5.91.0",
     "@types/node": "24.5.1",
     "@types/react": "19.1.13",
     "@types/react-dom": "^19.1.9",
@@ -53,8 +59,9 @@
     "lint-staged": "16.1.6",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "rimraf": "^6.0.1",
-    "supabase": "^2.40.7",
+    "supabase": "^2.53.6",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2"

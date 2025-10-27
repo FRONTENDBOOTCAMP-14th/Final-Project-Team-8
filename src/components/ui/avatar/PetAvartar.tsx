@@ -1,0 +1,40 @@
+interface PetAvatarProps {
+  pet: {
+    id: string
+    name: string
+    profileImg: string | null
+  }
+  selected?: boolean
+  onClick?: (id: string) => void
+}
+
+const baseStyle = 'aspect-square w-[60px] rounded-full object-cover'
+
+export default function PetAvartar({ pet, selected, onClick }: PetAvatarProps) {
+  return (
+    <div
+      className="flex flex-shrink-0 flex-col items-center gap-2"
+      tabIndex={0}
+      aria-pressed={selected}
+      onKeyDown={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick?.(pet.id)
+        }
+      }}
+    >
+      <img
+        id={pet.id}
+        src={pet.profileImg ?? '/assets/img/default-profile.png'}
+        alt={pet.name}
+        className={`${baseStyle} ${selected ? 'outline-[3px] outline-[#FF6000]' : 'outline-[1.5px] outline-[#636073]'}`}
+        onClick={() => onClick?.(pet.id)}
+      />
+      <p
+        className={`mb-3 ${selected ? 'font-bold text-[#FF6000]' : 'text-gray-200'}`}
+      >
+        {pet.name}
+      </p>
+    </div>
+  )
+}

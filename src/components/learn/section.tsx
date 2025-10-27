@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import { tw } from '@/utils'
+import { tw } from '@/utils/shared'
 
 type Props = { title: string; showTitle?: boolean } & ComponentProps<'section'>
 

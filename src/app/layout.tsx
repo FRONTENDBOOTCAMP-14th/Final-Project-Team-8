@@ -1,16 +1,26 @@
 import '@/styles/main.css'
-import { Metadata } from 'next'
+import '@/styles/globals.css'
+import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
+import ToasterPortal from '../components/ui/ToasterPortal/ToasterPortal'
+import Providers from './providers'
 
 export const metadata: Metadata = {
-  title: 'Next.js 프로젝트 템플릿',
+  title: 'PAW BUDDY',
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="ko-KR">
-      <body>
-        <main>{children}</main>
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+      </head>
+      <body className="overflow-hidden">
+        <Providers>
+          <main>{children}</main>
+          <section id="modal-dialog-portal"></section>
+          <ToasterPortal />
+        </Providers>
       </body>
     </html>
   )
