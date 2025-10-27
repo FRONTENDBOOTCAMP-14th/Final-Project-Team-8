@@ -21,17 +21,33 @@ export default function PetProfileSection({
   selectedPet,
 }: PetProfileSectionProps) {
   const [currentImg, setCurrentImg] = useState(selectedPet.profile_img)
-  const { imagePreview, inputRef, open, removeImage, uploadImage } =
-    useImageUpload({
-      initialUrl: null,
-    })
+  const {
+    imagePreview,
+    inputRef,
+    open,
+    removeImage,
+    uploadImage,
+    selectedFile,
+  } = useImageUpload({
+    initialUrl: null,
+  })
   const [isEditMode, setIsEditMode] = useState(false)
   const [localPetData, setLocalPetData] = useState<Partial<Pet>>(
     selectedPet ?? {}
   )
+
+  const getFilePath = (selectedPet: Pet): string => {
+    return `pet-profile/${selectedPet.id}.now`
+  }
+
   async function handleSubmit() {
-    if (!imagePreview || !selectedPet) return
-    await updatePetImg({ imgRef: imagePreview, petId: selectedPet.id })
+    if (!imagePreview || !selectedPet || !selectedFile) return
+    const filePath = getFilePath(selectedPet)
+    await updatePetImg({
+      filePath,
+      selectedFile,
+      petId: selectedPet.id,
+    })
     alert('프로필 이미지가 업데이트되었습니다.')
     setCurrentImg(imagePreview)
     removeImage()
