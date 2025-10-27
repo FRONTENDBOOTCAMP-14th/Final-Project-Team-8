@@ -202,9 +202,7 @@ function scheduleOneTimeNotification(
   }
 
   if (delay > MAX_TIMEOUT_MS) {
-    console.log(
-      `[${config.id}] 알림 시간이 너무 먼 미래입니다(${Math.floor(delay / (24 * 60 * 60 * 1000))}일 후). 가까워지면 자동으로 예약됩니다.`
-    )
+    //  알림시간 멀면 대시목록 추가
     return null
   }
 
@@ -233,8 +231,7 @@ export class NotificationManager {
   private startRecheckInterval(): void {
     this.recheckInterval = setInterval(
       () => {
-        console.log('대기 중인 알림 재확인 중...')
-        this.pendingConfigs.forEach((config, id) => {
+        this.pendingConfigs.forEach(config => {
           this.add(config)
         })
       },
@@ -266,9 +263,6 @@ export class NotificationManager {
         // 너무 먼 미래면 대기 목록에 추가
         if (delay > MAX_TIMEOUT_MS) {
           this.pendingConfigs.set(config.id, config)
-          console.log(
-            `[${config.id}] 대기 목록에 추가됨(${Math.floor(delay / (24 * 60 * 60 * 1000))}일 후)`
-          )
           return
         }
       }
@@ -289,7 +283,7 @@ export class NotificationManager {
       this.timeouts.delete(id)
       this.repeatingConfigs.delete(id)
       this.pendingConfigs.delete(id)
-      console.log(`[${id}] 알림 취소됨`)
+      toast.info('알림이 취소되었습니다')
     }
   }
 
@@ -300,9 +294,9 @@ export class NotificationManager {
 
   // 모든 알림 취소
   cancelAll(): void {
-    this.timeouts.forEach((timeout, id) => {
+    this.timeouts.forEach(timeout => {
       clearTimeout(timeout)
-      toast.info(`[${id}] 알림 취소됨`)
+      toast.info('알림이 취소되었습니다')
     })
     this.timeouts.clear()
     this.repeatingConfigs.clear()

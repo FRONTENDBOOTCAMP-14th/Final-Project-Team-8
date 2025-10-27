@@ -64,8 +64,7 @@ export function ModalDetailInput({
 
           await new Promise(resolve => setTimeout(resolve, 100))
         } catch (error) {
-          console.error('알림 설정 실패:', error)
-          toast.error('알림 설정에 실패했습니다.')
+          toast.error(`알림 설정에 실패했습니다. ${error}`)
         }
       }
 

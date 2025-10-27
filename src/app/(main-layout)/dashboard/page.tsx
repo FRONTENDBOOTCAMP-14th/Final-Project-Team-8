@@ -2,15 +2,12 @@
 
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components'
 import PetProfileCardCarousel from '@/components/pet-profile/petProfileCardCarousel'
 import { NotLogin, EmptyPet } from '@/components/ui/status/EmptyState'
 import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
 
 export default function DashboardPage() {
-  const router = useRouter()
   const { petList } = usePetStore()
 
   const user = useUserStore<User | null>(s => s.user)
