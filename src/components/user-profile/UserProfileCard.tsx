@@ -8,6 +8,12 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import useUserDataQuery from '@/hooks/useUserDataQuery'
 import { createClient } from '@/libs/supabase/client'
+import { useCalendarStore } from '@/store/calendarStore'
+import { useModal } from '@/store/modalStore'
+import { usePetStore } from '@/store/petStore'
+import { useProfileCreationStore } from '@/store/profileCreationStore'
+import { useScheduleStore } from '@/store/scheduleStore'
+import { useUserStore } from '@/store/userStore'
 
 interface UserProfileCardProps {
   user: User
@@ -17,6 +23,14 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
   const router = useRouter()
 
   const { data: userData } = useUserDataQuery(user)
+
+  // Zustand stores
+  const { resetUser } = useUserStore()
+  const { resetPets } = usePetStore()
+  const { resetSchedules } = useScheduleStore()
+  const { resetCalendar } = useCalendarStore()
+  const { resetModal } = useModal()
+  const { resetDraftPet } = useProfileCreationStore()
 
   // user테이블에서 이름 가져오기
   // 없으면 이메일 앞부분 사용
@@ -38,6 +52,14 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
       toast.error('로그아웃 실패')
       return
     }
+
+    // 모든 Zustand store 초기화
+    resetUser()
+    resetPets()
+    resetSchedules()
+    resetCalendar()
+    resetModal()
+    resetDraftPet()
 
     toast.success('로그아웃되었습니다')
     router.push('/')

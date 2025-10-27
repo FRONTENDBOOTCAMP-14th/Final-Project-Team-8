@@ -40,6 +40,7 @@ interface ScheduleStore {
   addAntiparasitic: (data: CreateAntiparasiticData) => Promise<void>
   addMedical: (data: CreateMedicalData) => Promise<void>
   addWalk: (data: CreateWalkData) => Promise<void>
+  resetSchedules: () => void
 }
 
 // 모든 카테고리(기본값)
@@ -368,5 +369,19 @@ export const useScheduleStore = create<ScheduleStore>((set, get) => ({
 
       throw err
     }
+  },
+
+  /**
+   * Schedule Store 초기화
+   * - 로그아웃 시 사용
+   */
+  resetSchedules: () => {
+    set({
+      schedules: [],
+      isLoading: false,
+      error: null,
+      currentPetId: null,
+      activeFilters: ALL_CATEGORIES,
+    })
   },
 }))
