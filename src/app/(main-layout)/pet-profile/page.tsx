@@ -53,7 +53,7 @@ export default function PetProfilePage({ initialTab = 'health' }: Props) {
                   activeTab === 'health' ? 'bg-[#524984] text-white' : ''
                 )}
               >
-                건강 관리
+                건강 카드
               </p>
             </Link>
           </h3>
@@ -65,7 +65,7 @@ export default function PetProfilePage({ initialTab = 'health' }: Props) {
                   activeTab === 'nutrition' ? 'bg-[#524984] text-white' : ''
                 )}
               >
-                건강 관리
+                영양 관리
               </p>
             </Link>
           </h3>
@@ -77,7 +77,7 @@ export default function PetProfilePage({ initialTab = 'health' }: Props) {
                   activeTab === 'activity' ? 'bg-[#524984] text-white' : ''
                 )}
               >
-                건강 관리
+                활동 기록
               </p>
             </Link>
           </h3>

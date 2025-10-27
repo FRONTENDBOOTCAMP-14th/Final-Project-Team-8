@@ -153,21 +153,11 @@ export default function PetProfilePage({
                     : ''
                 )}
               >
-                건강 관리
+                건강 카드
               </p>
             </Link>
           </h3>
           <h3 className="w-full">
-            {/* <Button
-              variant="gray"
-              id="nutrition"
-              onClick={() => setActiveTab('nutrition')}
-              className={
-                activeTab === 'nutrition' ? '!bg-[#524984] !text-white' : ''
-              }
-            >
-              <p className="text-xl font-bold">영양 관리</p>
-            </Button> */}
             <Link href={'/pet-profile/nutrition'} id="nutrition">
               <p
                 className={tw(
@@ -177,21 +167,11 @@ export default function PetProfilePage({
                     : ''
                 )}
               >
-                건강 관리
+                영양 관리
               </p>
             </Link>
           </h3>
           <h3 className="w-full">
-            {/* <Button
-              variant="gray"
-              id="activity"
-              onClick={() => setActiveTab('activity')}
-              className={
-                activeTab === 'activity' ? '!bg-[#524984] !text-white' : ''
-              }
-            >
-              <p className="text-xl font-bold">활동 기록</p>
-            </Button> */}
             <Link href={'/pet-profile/activity'} id="activity" className={tw()}>
               <p
                 className={tw(
@@ -201,7 +181,7 @@ export default function PetProfilePage({
                     : ''
                 )}
               >
-                건강 관리
+                활동 기록
               </p>
             </Link>
           </h3>
