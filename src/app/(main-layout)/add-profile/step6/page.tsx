@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
 import CalendarModal from '@/components/calendar/CalendarModal'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { createClient } from '@/libs/supabase/client'
 import { usePetStore } from '@/store/petStore'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
@@ -27,7 +30,7 @@ export default function Step6ImportantDatesPage() {
   )
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const [currentDateType, setCurrentDateType] = useState<DateType>('birthdate')
-  const [isLoading, setIsLoading] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   useEffect(() => {
     setCurrentStep(6)
@@ -77,7 +80,7 @@ export default function Step6ImportantDatesPage() {
   // 최종 저장 및 완료
   const handleComplete = async () => {
     try {
-      setIsLoading(true)
+      setIsUpdating(true)
 
       // 날짜를 ISO 문자열로 변환
       const birthdateISO = birthdate
@@ -166,7 +169,7 @@ export default function Step6ImportantDatesPage() {
     } catch {
       alert('프로필 정보를 저장하는 중 문제가 발생했습니다')
     } finally {
-      setIsLoading(false)
+      setIsUpdating(false)
     }
   }
 
@@ -174,12 +177,17 @@ export default function Step6ImportantDatesPage() {
     await handleComplete()
   }
 
+  const { user, isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
+
   return (
     <AddProfileLayout
       stepTitle="우리 아이의 기념일"
       onSkip={handleSkip}
       onComplete={handleComplete}
-      nextDisabled={isLoading}
+      nextDisabled={isUpdating}
     >
       <div className="flex flex-col items-center">
         {/* Profile Image */}

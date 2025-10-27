@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { ImgCardButton } from '@/components'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 const SPECIES_OPTIONS = [
@@ -103,6 +106,11 @@ export default function Step1SpeciesPage() {
 
   // '지금은 건너뛰기' - 빈 함수로 유지하여 버튼은 보이되 비활성화 처리
   const handleSkip = () => {}
+
+  const { user, isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
 
   return (
     <>

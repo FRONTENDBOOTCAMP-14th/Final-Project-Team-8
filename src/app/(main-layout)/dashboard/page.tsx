@@ -1,18 +1,19 @@
 'use client'
 
-import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import PetProfileCardCarousel from '@/components/pet-profile/petProfileCardCarousel'
 import { NotLogin, EmptyPet } from '@/components/ui/status/EmptyState'
+import { LoadingPet } from '@/components/ui/status/Loading'
 import { usePetStore } from '@/store/petStore'
-import { useUserStore } from '@/store/userStore'
+import { usePageStatus } from '../../../hooks/usePageStatus'
 
 export default function DashboardPage() {
   const { petList } = usePetStore()
 
-  const user = useUserStore<User | null>(s => s.user)
   const hasPets = petList.length > 0
 
+  const { user, isLoading } = usePageStatus()
+  if (isLoading) return <LoadingPet />
   if (!user) return <NotLogin />
 
   return (
