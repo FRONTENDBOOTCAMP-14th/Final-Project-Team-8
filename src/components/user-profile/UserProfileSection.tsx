@@ -1,5 +1,6 @@
 'use client'
 
+import type { User } from '@supabase/supabase-js'
 import { SquarePen } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -15,14 +16,29 @@ import { updateUserImg } from '@/libs/api/user'
 
 export default function UserProfileSection(userData: Partial<UserData>) {
   const [currentImg, setCurrentImg] = useState(userData.profile_img)
-  const { imagePreview, inputRef, open, removeImage, uploadImage } =
-    useImageUpload({
-      initialUrl: userData.profile_img ?? null,
-    })
+  const {
+    imagePreview,
+    inputRef,
+    open,
+    removeImage,
+    uploadImage,
+    selectedFile,
+  } = useImageUpload({
+    initialUrl: userData.profile_img ?? null,
+  })
+
+  const getFilePath = (userId: string): string => {
+    return `user-profile/${userId}.now`
+  }
 
   async function handleSubmit() {
-    if (!imagePreview || !userData.id) return
-    await updateUserImg({ imgRef: imagePreview, userId: userData.id })
+    if (!imagePreview || !userData.id || !selectedFile) return
+    const filePath = getFilePath(userData.id)
+    await updateUserImg({
+      filePath,
+      selectedFile,
+      userId: userData.id,
+    })
     alert('프로필 이미지가 업데이트되었습니다.')
     setCurrentImg(imagePreview)
     removeImage()
