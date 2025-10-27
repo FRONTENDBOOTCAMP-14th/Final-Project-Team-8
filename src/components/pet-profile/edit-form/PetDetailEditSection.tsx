@@ -20,7 +20,7 @@ interface FormDataType {
   bio: string | null
   birthdate: string | null
   breed: string | null
-  species: string | null
+  species: string
   gender: string | null
   name: string
   size: number | null
@@ -43,7 +43,7 @@ export default function PetDetailEditSection({
       bio: petData?.bio ?? null,
       birthdate: petData?.birthdate ?? null,
       breed: petData?.breed ?? null,
-      species: petData?.species ?? null,
+      species: petData?.species ?? '강아지',
       gender: petData?.gender ?? null,
       name: petData?.name ?? '',
       size: petData?.size ?? null,
@@ -60,7 +60,7 @@ export default function PetDetailEditSection({
       bio: petData?.bio ?? null,
       birthdate: petData?.birthdate ?? null,
       breed: petData?.breed ?? null,
-      species: petData?.species ?? null,
+      species: petData?.species ?? '강아지',
       gender: petData?.gender ?? null,
       name: petData?.name ?? '',
       size: petData?.size ?? null,

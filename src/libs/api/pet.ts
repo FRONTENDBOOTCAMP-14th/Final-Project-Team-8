@@ -80,7 +80,7 @@ export async function updatePetDetail(petData: Partial<Pet>, petId: string) {
     bio: petData?.bio ?? null,
     birthdate: petData?.birthdate ?? null,
     breed: petData?.breed ?? null,
-    species: petData?.species ?? null,
+    species: petData?.species ?? '강아지',
     gender: petData?.gender ?? null,
     name: petData?.name ?? '',
     size: petData?.size ?? null,
