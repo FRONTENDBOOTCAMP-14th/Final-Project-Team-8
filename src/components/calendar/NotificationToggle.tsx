@@ -182,7 +182,7 @@ export default function NotificationToggle({
   }
 
   return (
-    <div className="relative flex items-center gap-3 rounded-xl bg-gray-50 p-4">
+    <div className="relative mt-3 flex items-center gap-3 rounded-xl bg-gray-50 p-4">
       {/* 알림 상태 표시 */}
       <div className="flex flex-1 items-center gap-2">
         {enabled ? (

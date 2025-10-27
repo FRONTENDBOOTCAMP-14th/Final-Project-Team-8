@@ -86,13 +86,13 @@ function setupRecurringNotification(
 
   // 올해 날짜로 변환
   const thisYearDate = `${thisYear}-${month}-${day}`
-  const targetDate = new Date(thisYearDate)
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+
+  const now = new Date()
+  const targetDateTime = new Date(`${thisYearDate} ${time}:00`)
 
   // 올해 날짜가 지났는지 확인
   const notificationDate =
-    targetDate >= today ? thisYearDate : `${thisYear + 1}-${month}-${day}`
+    targetDateTime > now ? thisYearDate : `${thisYear + 1}-${month}-${day}`
 
   manager.add({
     id: `${schedule.id}-${thisYear}`,

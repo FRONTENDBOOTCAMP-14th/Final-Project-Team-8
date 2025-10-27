@@ -45,9 +45,6 @@ export default function CalendarPage() {
 
   // 일정 클릭 핸들러
   const handleScheduleClick = (schedule: ScheduleEvent) => {
-    if (schedule.category === 'birthday' || schedule.category === 'adoption')
-      return
-
     setSelectedSchedule(schedule)
     setIsEditModalOpen(true)
     setIsModify(false)
@@ -190,6 +187,10 @@ export default function CalendarPage() {
         onClose={handleCloseEditModal}
         isModify={isModify}
         setModify={setIsModify}
+        buttonNone={
+          selectedSchedule?.category === 'birthday' ||
+          selectedSchedule?.category === 'adoption'
+        }
       >
         <RenderEditScheduleModal
           selectedSchedule={selectedSchedule}

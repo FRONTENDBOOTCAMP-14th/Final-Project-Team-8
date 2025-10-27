@@ -41,6 +41,8 @@ const weekdayMap: Record<string, number> = {
   토: 6,
 }
 
+const MAX_TIMEOUT_MS = 24 * 24 * 60 * 60 * 1000 // 24일
+
 // 알림 표시 함수
 function showNotification(config: NotificationConfig) {
   if ('Notification' in window && Notification.permission === 'granted') {
@@ -197,6 +199,13 @@ function scheduleOneTimeNotification(
     return null
   }
 
+  if (delay > MAX_TIMEOUT_MS) {
+    console.log(
+      `[${config.id}] 알림 시간이 너무 먼 미래입니다(${Math.floor(delay / (24 * 60 * 60 * 1000))}일 후). 가까워지면 자동으로 예약됩니다.`
+    )
+    return null
+  }
+
   const timeout = setTimeout(() => {
     showNotification(config)
   }, delay)
@@ -212,6 +221,24 @@ function scheduleOneTimeNotification(
 export class NotificationManager {
   private timeouts: Map<string, NodeJS.Timeout> = new Map()
   private repeatingConfigs: Map<string, RepeatingNotificationConfig> = new Map()
+  private pendingConfigs: Map<string, OneTimeNotificationConfig> = new Map()
+  private recheckInterval: NodeJS.Timeout | null = null
+
+  constructor() {
+    this.startRecheckInterval()
+  }
+
+  private startRecheckInterval(): void {
+    this.recheckInterval = setInterval(
+      () => {
+        console.log('대기 중인 알림 재확인 중...')
+        this.pendingConfigs.forEach((config, id) => {
+          this.add(config)
+        })
+      },
+      24 * 60 * 60 * 1000
+    )
+  }
 
   // 알림 추가
   add(config: NotificationConfig): void {
@@ -229,9 +256,25 @@ export class NotificationManager {
       }
     } else {
       // 일회성 알림
+      const notificationTime = getNotificationTime(config.date, config.time)
+
+      if (notificationTime) {
+        const delay = notificationTime.getTime() - Date.now()
+
+        // 너무 먼 미래면 대기 목록에 추가
+        if (delay > MAX_TIMEOUT_MS) {
+          this.pendingConfigs.set(config.id, config)
+          console.log(
+            `[${config.id}] 대기 목록에 추가됨(${Math.floor(delay / (24 * 60 * 60 * 1000))}일 후)`
+          )
+          return
+        }
+      }
+
       const timeout = scheduleOneTimeNotification(config)
       if (timeout) {
         this.timeouts.set(config.id, timeout)
+        this.pendingConfigs.delete(config.id) // 대기 목록에서 제거
       }
     }
   }
@@ -243,6 +286,7 @@ export class NotificationManager {
       clearTimeout(timeout)
       this.timeouts.delete(id)
       this.repeatingConfigs.delete(id)
+      this.pendingConfigs.delete(id)
       console.log(`[${id}] 알림 취소됨`)
     }
   }
@@ -260,6 +304,16 @@ export class NotificationManager {
     })
     this.timeouts.clear()
     this.repeatingConfigs.clear()
+    this.pendingConfigs.clear()
+  }
+
+  // 정리(메모리 누수 방지)
+  destroy(): void {
+    if (this.recheckInterval) {
+      clearInterval(this.recheckInterval)
+      this.recheckInterval = null
+    }
+    this.cancelAll()
   }
 
   // 활성 알림 목록
@@ -270,6 +324,11 @@ export class NotificationManager {
   // 반복 알림 목록
   getRepeatingNotifications(): string[] {
     return Array.from(this.repeatingConfigs.keys())
+  }
+
+  // 대기 중인 알림 목록
+  getPendingNotifications(): string[] {
+    return Array.from(this.pendingConfigs.keys())
   }
 }
 
