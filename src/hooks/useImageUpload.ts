@@ -17,6 +17,7 @@ export default function useImageUpload({
 
   const removeImage = () => {
     setImagePreview(null)
+    setSelectedFile(null)
     onChange?.(null)
   }
 

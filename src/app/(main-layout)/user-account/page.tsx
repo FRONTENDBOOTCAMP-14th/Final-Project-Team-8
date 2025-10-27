@@ -1,63 +1,49 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import Button from '@/components/ui/button/Button'
 import { NotLogin } from '@/components/ui/status/EmptyState'
+import {
+  LoadingPet,
+  LoadingUser,
+  Loading,
+} from '@/components/ui/status/Loading'
 import {
   UserDetailSection,
   UserProfileSection,
   UserSettings,
 } from '@/components/user-profile'
 import UserDetailEditSection from '@/components/user-profile/edit-form/UserDetailEditSection'
-import type { UserData } from '@/hooks/useUserData'
-import useUserData from '@/hooks/useUserData'
-import { usePetStore } from '@/store/petStore'
+import { usePageStatus } from '@/hooks/usePageStatus'
+import type { UserData } from '@/hooks/useUserDataQuery'
+import useUserDataQuery from '@/hooks/useUserDataQuery'
 import { useUserStore } from '@/store/userStore'
 
 export default function UserAccountPage() {
   const { user } = useUserStore()
-  const pet = usePetStore(s => s.petList)
-  const { userData } = useUserData(user)
-  const [localUserData, setLocalUserData] = useState<Partial<UserData>>(
-    userData ?? {}
-  )
+
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    error: userError,
+  } = useUserDataQuery(user)
+
   const [IsEditMode, setIsEditMode] = useState(false)
 
-  useEffect(() => {
-    if (userData) {
-      setLocalUserData(userData)
-    }
-  }, [userData])
-
-  if (!user) {
-    return (
-      <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
-        <NotLogin />
-      </div>
-    )
-  }
-
-  if (!pet) {
-    return (
-      <div className="relative mx-auto flex h-full w-full flex-col items-center justify-center gap-10">
-        <div className="flex h-full flex-col items-center justify-center gap-[50px]">
-          <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-            <p className="text-[34px] font-bold text-[#3A394F]">
-              유저 정보를 불러오고 있어요
-            </p>
-            <p>소중한 우리 아이들을 소개해주세요</p>
-          </div>
-          <div className="imgBox">
-            <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const currentUserData = userData as UserData
 
   function onCancel() {
     setIsEditMode(false)
   }
+
+  const { isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (isUserLoading) return <LoadingUser />
+  if (!user) return <NotLogin />
+
+  if (userError) toast.info('사용자 정보를 불러오지 못했습니다.')
 
   return (
     <div className="flex w-full flex-col gap-8">
@@ -72,15 +58,11 @@ export default function UserAccountPage() {
           {IsEditMode && userData ? (
             <UserDetailEditSection
               userId={userData.id}
-              userData={localUserData}
+              userData={currentUserData}
               onCancel={onCancel}
-              onSaveSuccess={(updatedData: Partial<UserData>) => {
-                setLocalUserData(updatedData)
-                onCancel()
-              }}
             />
           ) : (
-            <UserDetailSection {...localUserData} />
+            <UserDetailSection {...currentUserData} />
           )}
           {!IsEditMode && (
             <Button

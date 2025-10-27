@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import Button from '@/components/ui/button/Button'
-import type { UserData } from '@/hooks/useUserData'
+import { userKeys, type UserData } from '@/hooks/useUserDataQuery'
 import { updateUserDetail } from '@/libs/api/user'
 
 interface UserDetailEditFormProps {
   userData: Partial<UserData>
   onCancel: () => void
-  onSaveSuccess: (updatedData: Partial<UserData>) => void
   userId: string
 }
 
@@ -19,43 +20,45 @@ interface FormDataType {
 }
 
 export default function UserDetailEditSection({
-  userData,
   userId,
+  userData,
   onCancel,
-  onSaveSuccess,
 }: UserDetailEditFormProps) {
-  const [formData, setFormData] = useState<FormDataType>({
-    gender: userData.gender ?? '',
-    birthday: userData.birthday ?? '',
-    nickname: userData.nickname ?? '',
-    phone: userData.phone ?? '',
-    email: userData.email ?? '',
+  const queryClient = useQueryClient()
+  const { register, handleSubmit } = useForm<FormDataType>({
+    defaultValues: {
+      gender: userData.gender ?? '',
+      birthday: userData.birthday ?? '',
+      nickname: userData.nickname ?? '',
+      phone: userData.phone ?? '',
+      email: userData.email ?? '',
+    },
+    mode: 'onBlur',
   })
 
-  function handleChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) {
-    const { name, value } = event.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+  const mutation = useMutation<void, Error, FormDataType>({
+    mutationFn: data => {
+      return updateUserDetail({ userData: data, userId })
+    },
+
+    // 성공시
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userKeys.detail(userId) })
+      toast.success('계정 정보가 업데이트되었습니다')
+      onCancel()
+    },
+
+    onError: () => {
+      toast.error('계정 정보 업데이트를 실패했습니다, 다시 시도해주세요')
+    },
+  })
+
+  const onSubmit = (data: FormDataType) => {
+    const { email: _, ...updateData } = data
+    mutation.mutate(updateData as FormDataType)
   }
 
-  async function onSave() {
-    await updateUserDetail({ userData: formData, userId })
-  }
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const updatePayload: Partial<UserData> = {
-      birthday: formData.birthday ?? null,
-      gender: formData.gender ?? null,
-      nickname: formData.nickname ?? null,
-      phone: formData.phone ?? null,
-      email: formData.email ?? null,
-    }
-
-    await onSave()
-    onSaveSuccess(updatePayload)
-  }
+  const isSaving = mutation.isPending
 
   return (
     <section className="flex flex-col">
@@ -64,17 +67,15 @@ export default function UserDetailEditSection({
           사용자 정보 수정
         </h3>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 whitespace-nowrap"
         >
           {/* 성별 */}
           <div className="flex gap-4">
             <label htmlFor="gender">성별</label>
             <select
-              name="gender"
               id="gender"
-              value={formData.gender}
-              onChange={handleChange}
+              {...register('gender')}
               className="font-bold text-neutral-600"
             >
               <option value="">선택안함</option>
@@ -89,9 +90,7 @@ export default function UserDetailEditSection({
             <input
               type="date"
               id="birthday"
-              name="birthday"
-              value={formData.birthday}
-              onChange={handleChange}
+              {...register('birthday')}
               className="font-bold text-neutral-600"
             />
           </div>
@@ -104,9 +103,7 @@ export default function UserDetailEditSection({
             <input
               type="text"
               id="nickname"
-              name="nickname"
-              value={formData.nickname}
-              onChange={handleChange}
+              {...register('nickname')}
               className="w-full font-bold text-neutral-600"
             />
           </div>
@@ -117,9 +114,7 @@ export default function UserDetailEditSection({
             <input
               type="text"
               id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
+              {...register('phone')}
               className="w-full font-bold text-neutral-600"
             />
           </div>
@@ -130,8 +125,7 @@ export default function UserDetailEditSection({
             <input
               type="text"
               id="email"
-              name="email"
-              value={userData.email}
+              {...register('email')}
               disabled
               className="font-bold text-gray-500"
             />
@@ -139,8 +133,8 @@ export default function UserDetailEditSection({
           {/* 취소버튼 / 저장버튼 */}
           <div className="absolute bottom-0 flex w-full flex-col gap-4">
             {/* 저장 */}
-            <Button variant="orange" type="submit">
-              저장
+            <Button variant="orange" type="submit" disabled={isSaving}>
+              {isSaving ? '저장 중...' : '저장'}
             </Button>
             {/* 취소 */}
             <Button variant="white" onClick={onCancel}>

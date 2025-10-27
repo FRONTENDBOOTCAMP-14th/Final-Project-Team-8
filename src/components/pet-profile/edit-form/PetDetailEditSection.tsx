@@ -1,18 +1,18 @@
 'use client'
 
-import { useEffect } from 'react'
-import type { SubmitHandler } from 'react-hook-form'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import Button from '@/components/ui/button/Button'
 import { imgcardButtonVariants } from '@/components/ui/button/ImgCardButton'
 import { updatePetDetail } from '@/libs/api/pet'
-import type { Pet } from '@/store/petStore'
+import { petKeys } from '@/libs/qeury-key/petKey'
+import { type Pet, usePetStore } from '@/store/petStore'
 
 interface PetDetailEditFormProps {
   petId: string
   petData?: Partial<Pet>
   onCancel: () => void
-  onSaveSuccess: (updatedData: Partial<Pet>) => void
 }
 
 interface FormDataType {
@@ -35,9 +35,9 @@ export default function PetDetailEditSection({
   petId,
   petData,
   onCancel,
-  onSaveSuccess,
 }: PetDetailEditFormProps) {
-  const { register, handleSubmit, reset, watch } = useForm<FormDataType>({
+  const { fetchSelectedPet } = usePetStore()
+  const { register, handleSubmit, watch } = useForm<FormDataType>({
     defaultValues: {
       adoption_date: petData?.adoption_date ?? null,
       bio: petData?.bio ?? null,
@@ -50,34 +50,36 @@ export default function PetDetailEditSection({
       weight: petData?.weight ?? null,
       profile_img: petData?.profile_img ?? null,
     },
+    mode: 'onBlur',
   })
   const selectedSpecies = watch('species')
 
-  // petData 변경 시 폼 값 업데이트
-  useEffect(() => {
-    reset({
-      adoption_date: petData?.adoption_date ?? null,
-      bio: petData?.bio ?? null,
-      birthdate: petData?.birthdate ?? null,
-      breed: petData?.breed ?? null,
-      species: petData?.species ?? '강아지',
-      gender: petData?.gender ?? null,
-      name: petData?.name ?? '',
-      size: petData?.size ?? null,
-      weight: petData?.weight ?? null,
-      profile_img: petData?.profile_img ?? null,
-    })
-  }, [petData, reset])
+  const queryClient = useQueryClient()
+  const mutation = useMutation<void, Error, FormDataType>({
+    mutationFn: async data => {
+      return updatePetDetail(data, petId)
+    },
 
-  const onSubmit: SubmitHandler<FormDataType> = async data => {
-    if (!petId) {
-      return
-    }
-    await updatePetDetail(data, petId)
-    onSaveSuccess(data)
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: petKeys.detail(petId) })
+      fetchSelectedPet(petId)
+      toast.success('반려동물 정보가 업데이트되었습니다')
+      onCancel()
+    },
+    onError: () => {
+      toast.error('정보 업데이트를 실패했습니다, 다시 시도해주세요')
+    },
+  })
+
+  const onSubmit = (data: FormDataType) => {
+    const { ...updateData } = data
+    mutation.mutate(updateData as FormDataType)
   }
 
-  if (!petData) return <div>펫 정보를 불러오는 중...</div>
+  const isSaving = mutation.isPending
+
+  if (isSaving) return <div>펫 정보를 불러오는 중...</div>
+  if (!petData) return <div>등록된 펫 없음</div>
 
   return (
     <section className="flex flex-col">

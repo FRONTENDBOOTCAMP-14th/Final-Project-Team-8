@@ -2,10 +2,11 @@
 
 import type { User } from '@supabase/supabase-js'
 import { LogOut } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import useUserData from '@/hooks/useUserData'
+import useUserDataQuery from '@/hooks/useUserDataQuery'
 import { createClient } from '@/libs/supabase/client'
 
 interface UserProfileCardProps {
@@ -15,7 +16,7 @@ interface UserProfileCardProps {
 export default function UserProfileCard({ user }: UserProfileCardProps) {
   const router = useRouter()
 
-  const { userData } = useUserData(user)
+  const { data: userData } = useUserDataQuery(user)
 
   // user테이블에서 이름 가져오기
   // 없으면 이메일 앞부분 사용
@@ -50,7 +51,9 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
         className="flex items-center gap-3"
       >
         {avatarUrl ? (
-          <img
+          <Image
+            height={100}
+            width={100}
             src={avatarUrl}
             alt={displayName}
             className="h-12 w-12 rounded-full object-cover"
