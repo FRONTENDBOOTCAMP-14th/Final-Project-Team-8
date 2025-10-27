@@ -114,6 +114,7 @@ export default function Step3NamePage() {
     <AddProfileLayout
       stepTitle="이름"
       onSkip={handleSkip}
+      skipDisabled={true}
       onComplete={handleComplete}
       nextDisabled={!name.trim()}
     >

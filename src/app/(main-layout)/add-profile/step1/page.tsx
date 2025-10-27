@@ -101,17 +101,15 @@ export default function Step1SpeciesPage() {
     setShowComingSoon(false)
   }
 
-  // '지금은 건너뛰기'
-  const handleSkip = () => {
-    nextStep()
-    router.push('/add-profile/step2')
-  }
+  // '지금은 건너뛰기' - 빈 함수로 유지하여 버튼은 보이되 비활성화 처리
+  const handleSkip = () => {}
 
   return (
     <>
       <AddProfileLayout
         stepTitle="반려동물 종"
         onSkip={handleSkip}
+        skipDisabled={true}
         onComplete={handleComplete}
         nextDisabled={!selectedSpecies}
       >

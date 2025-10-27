@@ -9,6 +9,7 @@ interface AddProfileLayoutProps {
   onSkip?: () => void
   onComplete?: () => void
   nextDisabled?: boolean
+  skipDisabled?: boolean
 }
 
 /**
@@ -30,6 +31,7 @@ export function AddProfileLayout({
   onSkip,
   onComplete,
   nextDisabled = false,
+  skipDisabled = false,
 }: AddProfileLayoutProps) {
   const router = useRouter()
   const { currentStep, previousStep } = useProfileCreationStore()
@@ -135,7 +137,16 @@ export function AddProfileLayout({
             {onSkip && (
               <button
                 onClick={onSkip}
-                className="rounded-xl border-1 border-orange-400 px-6 py-3 font-medium text-[#FF6000] transition-colors hover:bg-[#FF6000] hover:text-white focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
+                disabled={skipDisabled}
+                aria-disabled={skipDisabled}
+                className={`rounded-xl px-6 py-3 font-medium transition-colors focus:outline-none ${
+                  skipDisabled
+                    ? 'cursor-not-allowed bg-gray-300 text-white'
+                    : 'border-1 border-orange-400 text-[#FF6000] hover:bg-[#FF6000] hover:text-white focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2'
+                }`}
+                {...(skipDisabled && {
+                  'aria-label': '이 단계는 필수 입력 사항입니다',
+                })}
               >
                 지금은 건너뛰기
               </button>
