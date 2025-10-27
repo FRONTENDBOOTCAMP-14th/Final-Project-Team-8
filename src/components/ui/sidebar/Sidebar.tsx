@@ -124,11 +124,13 @@ export default function Sidebar() {
         {isLoading ? (
           <PetProfileListSkeleton />
         ) : (
-          <PetProfileList
-            pets={petList}
-            selectedId={selectedPetId}
-            onSelect={setSelectedPetId}
-          ></PetProfileList>
+          <div className="custom-scrollbar max-h-[200px] overflow-y-auto">
+            <PetProfileList
+              pets={petList}
+              selectedId={selectedPetId}
+              onSelect={setSelectedPetId}
+            ></PetProfileList>
+          </div>
         )}
       </div>
       <div className="border-[1.5px] border-b border-[#636073]"></div>
