@@ -1,18 +1,18 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
-import AccordionBox from '@/components/ui/accordionBox'
-import Button from '@/components/ui/button/Button'
 import { usePetStore } from '@/store/petStore'
+import { tw } from '../../../utils/shared'
 
 interface Props {
-  initialTab: 'health' | 'nutrition' | 'activity'
+  initialTab: 'health' | 'nutrition' | 'activity' | null
 }
 
 export default function PetProfilePage({ initialTab = 'health' }: Props) {
   const { selectedPet } = usePetStore()
-  const [activeTab, setActiveTab] = useState(initialTab)
+  const [activeTab, setActiveTab] = useState<Props['initialTab']>(null)
 
   if (!selectedPet) {
     return (
@@ -44,48 +44,44 @@ export default function PetProfilePage({ initialTab = 'health' }: Props) {
       {/* 오른쪽 */}
       <div className="flex grow flex-col gap-5">
         <h2 className="sr-only">추가 정보</h2>
-        <nav className="flex w-full gap-5">
+        <nav className="flex h-12.5 w-full min-w-100 gap-5">
           <h3 className="w-full">
-            <Button
-              variant="gray"
-              id="health"
-              onClick={() => setActiveTab('health')}
-              className={
-                activeTab === 'health' ? '!bg-[#524984] !text-white' : ''
-              }
-            >
-              <p className="text-xl font-bold">건강 관리</p>
-            </Button>
+            <Link href={'/pet-profile/health'} id="health" className={tw()}>
+              <p
+                className={tw(
+                  'flex h-full w-full items-center justify-center rounded-2xl bg-[#ECECF2] text-lg font-bold text-[#80809A]',
+                  activeTab === 'health' ? 'bg-[#524984] text-white' : ''
+                )}
+              >
+                건강 관리
+              </p>
+            </Link>
           </h3>
           <h3 className="w-full">
-            <Button
-              variant="gray"
-              id="nutrition"
-              onClick={() => setActiveTab('nutrition')}
-              className={
-                activeTab === 'nutrition' ? '!bg-[#524984] !text-white' : ''
-              }
-            >
-              <p className="text-xl font-bold">영양 관리</p>
-            </Button>
+            <Link href={'/pet-profile/nutrition'} id="nutrition">
+              <p
+                className={tw(
+                  'flex h-full w-full items-center justify-center rounded-2xl bg-[#ECECF2] text-lg font-bold text-[#80809A]',
+                  activeTab === 'nutrition' ? 'bg-[#524984] text-white' : ''
+                )}
+              >
+                건강 관리
+              </p>
+            </Link>
           </h3>
           <h3 className="w-full">
-            <Button
-              variant="gray"
-              id="activity"
-              onClick={() => setActiveTab('activity')}
-              className={
-                activeTab === 'activity' ? '!bg-[#524984] !text-white' : ''
-              }
-            >
-              <p className="text-xl font-bold">활동 기록</p>
-            </Button>
+            <Link href={'/pet-profile/activity'} id="activity">
+              <p
+                className={tw(
+                  'flex h-full w-full items-center justify-center rounded-2xl bg-[#ECECF2] text-lg font-bold text-[#80809A]',
+                  activeTab === 'activity' ? 'bg-[#524984] text-white' : ''
+                )}
+              >
+                건강 관리
+              </p>
+            </Link>
           </h3>
         </nav>
-        {/* 탭 컨텐츠 */}
-        <div className="h-full overflow-y-scroll">
-          <AccordionBox activeTab={activeTab}></AccordionBox>
-        </div>
       </div>
     </div>
   )
