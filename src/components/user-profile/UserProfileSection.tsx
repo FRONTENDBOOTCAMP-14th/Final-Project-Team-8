@@ -1,18 +1,45 @@
+'use client'
+
 import { SquarePen } from 'lucide-react'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import Button from '@/components/ui/button/Button'
-import { CameraButton } from '@/components/ui/button/IconButton'
+import {
+  CameraButton,
+  CheckButton,
+  XButton,
+} from '@/components/ui/button/IconButton'
+import useImageUpload from '@/hooks/useImageUpload'
 import type { UserData } from '@/hooks/useUserData'
+import { updateUserImg } from '@/libs/api/user'
 
 export default function UserProfileSection(userData: Partial<UserData>) {
+  const [currentImg, setCurrentImg] = useState(userData.profile_img)
+  const { imagePreview, inputRef, open, removeImage, uploadImage } =
+    useImageUpload({
+      initialUrl: userData.profile_img ?? null,
+    })
+
+  async function handleSubmit() {
+    if (!imagePreview || !userData.id) return
+    await updateUserImg({ imgRef: imagePreview, userId: userData.id })
+    alert('프로필 이미지가 업데이트되었습니다.')
+    setCurrentImg(imagePreview)
+    removeImage()
+  }
+
+  useEffect(() => {
+    setCurrentImg(userData.profile_img)
+  }, [userData])
+
   return (
     <section className="flex w-full items-center gap-8">
       {/* Main profile circle */}
       <div className="relative z-10">
         <div className="aspect-square w-30 overflow-hidden rounded-full bg-gray-100 outline-10 outline-gray-100">
-          {userData?.profile_img ? (
+          {imagePreview || currentImg ? (
             <Image
-              src={userData.profile_img}
+              src={imagePreview ?? currentImg}
               alt="Pet profile preview"
               width={160}
               height={160}
@@ -37,8 +64,26 @@ export default function UserProfileSection(userData: Partial<UserData>) {
           )}
         </div>
 
-        {/* Camera button */}
-        <CameraButton />
+        {imagePreview ? (
+          <CheckButton onClick={handleSubmit} />
+        ) : (
+          <CameraButton
+            onClick={() => {
+              open()
+            }}
+          />
+        )}
+
+        {/* Delete button - only show when image exists */}
+        {imagePreview && <XButton onClick={removeImage} />}
+
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          onChange={uploadImage}
+          className="hidden"
+        />
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-4">
