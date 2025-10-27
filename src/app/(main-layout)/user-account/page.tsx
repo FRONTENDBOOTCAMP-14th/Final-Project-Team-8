@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Button from '@/components/ui/button/Button'
+import NotLogin from '@/components/ui/not-login/notLogin'
 import {
   UserDetailSection,
   UserProfileSection,
@@ -10,10 +11,12 @@ import {
 import UserDetailEditSection from '@/components/user-profile/edit-form/UserDetailEditSection'
 import type { UserData } from '@/hooks/useUserData'
 import useUserData from '@/hooks/useUserData'
+import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
 
 export default function UserAccountPage() {
   const { user } = useUserStore()
+  const pet = usePetStore(s => s.petList)
   const { userData } = useUserData(user)
   const [localUserData, setLocalUserData] = useState<Partial<UserData>>(
     userData ?? {}
@@ -27,6 +30,14 @@ export default function UserAccountPage() {
   }, [userData])
 
   if (!user) {
+    return (
+      <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
+        <NotLogin />
+      </div>
+    )
+  }
+
+  if (!pet) {
     return (
       <div className="relative mx-auto flex h-full w-full flex-col items-center justify-center gap-10">
         <div className="flex h-full flex-col items-center justify-center gap-[50px]">
