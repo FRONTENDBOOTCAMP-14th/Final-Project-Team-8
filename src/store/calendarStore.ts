@@ -11,6 +11,7 @@ interface CalendarStore {
   setCurrentMonth: (month: number) => void
   setYearMonth: (year: number, month: number) => void
   setSelectedDate: (date: Date | null) => void
+  resetCalendar: () => void
 }
 
 /**
@@ -31,4 +32,17 @@ export const useCalendarStore = create<CalendarStore>(set => ({
   setYearMonth: (year: number, month: number) =>
     set({ currentYear: year, currentMonth: month }),
   setSelectedDate: (date: Date | null) => set({ selectedDate: date }),
+
+  /**
+   * Calendar Store 초기화
+   * - 로그아웃 시 현재 날짜로 리셋
+   */
+  resetCalendar: () => {
+    const now = new Date()
+    set({
+      currentYear: now.getFullYear(),
+      currentMonth: now.getMonth() + 1,
+      selectedDate: now,
+    })
+  },
 }))
