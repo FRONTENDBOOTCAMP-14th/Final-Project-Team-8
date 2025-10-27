@@ -39,7 +39,7 @@ export async function updateUserImg({
     .upload(filePath, selectedFile, { upsert: true })
 
   if (profileError) {
-    console.error('Supabase error:', profileError)
+    // toast.error('Supabase error:', profileError)
     throw new Error(profileError.message)
   }
   // 업로드된 파일의 공개 URL 가져오기

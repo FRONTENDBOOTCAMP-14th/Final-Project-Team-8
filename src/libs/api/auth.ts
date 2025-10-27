@@ -73,7 +73,7 @@ export const signUpWithEmail = async (
 
   // users 테이블 저장 실패 시 에러 반환
   if (profileError) {
-    console.error('Profile creation failed : ', profileError)
+    // toast.error('Profile creation failed : ', profileError)
 
     return {
       data: authData,

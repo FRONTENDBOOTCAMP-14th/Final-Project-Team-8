@@ -23,7 +23,6 @@ export default function PetProfileCardCarousel() {
     if (petList[nowIndex]) setSelectedPetId(petList[nowIndex].id)
   }
 
-  console.log(petList)
   return (
     <div className="flex h-full w-full flex-row items-center justify-between gap-10">
       <Button

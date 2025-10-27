@@ -1,3 +1,5 @@
+import { toast } from 'sonner'
+
 // 반복 알림용 타입
 interface RepeatingNotificationConfig {
   id: string
@@ -50,7 +52,7 @@ function showNotification(config: NotificationConfig) {
     })
   }
 
-  console.log(`[${config.time}] ${config.title}`)
+  toast.info(`[${config.time}] ${config.title}`)
 }
 
 // 알림 시간 계산 (일회성)
@@ -74,8 +76,8 @@ function getNotificationTime(date: string, time: string): Date | null {
     }
 
     return new Date(year, month - 1, day, hours, minutes, 0, 0)
-  } catch (error) {
-    console.error('날짜/시간 파싱 오류:', error)
+  } catch (error: unknown) {
+    toast.error('날짜/시간 파싱 오류:', error ?? '')
     return null
   }
 }
@@ -144,7 +146,7 @@ function scheduleRepeatingNotification(
 
   const weekdays = parseWeekdays(config.weekday)
   if (!weekdays) {
-    console.error(`[${config.id}] 잘못된 요일 형식: ${config.weekday}`)
+    toast.error(`[${config.id}] 잘못된 요일 형식: ${config.weekday}`)
     return null
   }
 
@@ -152,7 +154,7 @@ function scheduleRepeatingNotification(
   const delay = nextTime.getTime() - Date.now()
 
   if (delay <= 0) {
-    console.error(`[${config.id}] 시간 계산 오류`)
+    toast.error(`[${config.id}] 시간 계산 오류`)
     return null
   }
 
@@ -166,7 +168,7 @@ function scheduleRepeatingNotification(
     }
   }, delay)
 
-  console.log(
+  toast.info(
     `[${config.id}] ${config.title} 반복 알림 예약: ${nextTime.toLocaleString()}`
   )
 
@@ -178,14 +180,14 @@ function scheduleOneTimeNotification(
   config: OneTimeNotificationConfig
 ): NodeJS.Timeout | null {
   if (!config.enabled) {
-    console.log(`[${config.id}] 알림이 비활성화되어 있습니다.`)
+    toast.info(`[${config.id}] 알림이 비활성화되어 있습니다.`)
     return null
   }
 
   const notificationTime = getNotificationTime(config.date, config.time)
 
   if (!notificationTime) {
-    console.error(`[${config.id}] 날짜/시간 형식 오류`)
+    toast.error(`[${config.id}] 날짜/시간 형식 오류`)
     return null
   }
 
@@ -193,7 +195,7 @@ function scheduleOneTimeNotification(
   const delay = notificationTime.getTime() - now.getTime()
 
   if (delay <= 0) {
-    console.log(`[${config.id}] 이미 지난 시간입니다.`)
+    toast.info(`[${config.id}] 이미 지난 시간입니다.`)
     return null
   }
 
@@ -201,7 +203,7 @@ function scheduleOneTimeNotification(
     showNotification(config)
   }, delay)
 
-  console.log(
+  toast.info(
     `[${config.id}] ${config.title} 알림 예약: ${notificationTime.toLocaleString()}`
   )
 
@@ -243,7 +245,7 @@ export class NotificationManager {
       clearTimeout(timeout)
       this.timeouts.delete(id)
       this.repeatingConfigs.delete(id)
-      console.log(`[${id}] 알림 취소됨`)
+      toast.info(`[${id}] 알림 취소됨`)
     }
   }
 
@@ -256,7 +258,7 @@ export class NotificationManager {
   cancelAll(): void {
     this.timeouts.forEach((timeout, id) => {
       clearTimeout(timeout)
-      console.log(`[${id}] 알림 취소됨`)
+      toast.info(`[${id}] 알림 취소됨`)
     })
     this.timeouts.clear()
     this.repeatingConfigs.clear()
@@ -276,7 +278,7 @@ export class NotificationManager {
 // 알림 권한 요청
 async function requestNotificationPermission(): Promise<boolean> {
   if (!('Notification' in window)) {
-    console.warn('이 브라우저는 알림을 지원하지 않습니다.')
+    toast.error('이 브라우저는 알림을 지원하지 않습니다.')
     return false
   }
 

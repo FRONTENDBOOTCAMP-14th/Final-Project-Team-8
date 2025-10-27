@@ -23,7 +23,7 @@ export default function SignupPage() {
   ) => {
     setSignupError('')
 
-    const { data, error } = await signUpWithEmail(email, password, { name })
+    const { error } = await signUpWithEmail(email, password, { name })
 
     if (error) {
       handleSignupError(error)

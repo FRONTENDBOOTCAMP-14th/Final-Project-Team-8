@@ -1,6 +1,5 @@
 'use client'
 
-import type { User } from '@supabase/supabase-js'
 import { SquarePen } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -55,7 +54,7 @@ export default function UserProfileSection(userData: Partial<UserData>) {
         <div className="aspect-square w-30 overflow-hidden rounded-full bg-gray-100 outline-10 outline-gray-100">
           {imagePreview || currentImg ? (
             <Image
-              src={imagePreview ?? currentImg}
+              src={imagePreview ?? currentImg ?? ''}
               alt="Pet profile preview"
               width={160}
               height={160}

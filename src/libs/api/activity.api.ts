@@ -13,7 +13,6 @@ import type {
   OtherTreatmentInsert,
   ScheduledMeals,
   ScheduledMealsInsert,
-  ScheduledMealsPartial,
   ScheduledMealsUpdate,
   Vaccines,
   VaccinesInsert,
