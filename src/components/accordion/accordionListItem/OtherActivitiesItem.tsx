@@ -116,6 +116,7 @@ export default function OtherActivitiesItem({
           isModify={isModify}
           setModify={setIsModify}
           onClose={handleCloseModal}
+          selectedPetId={pet_id}
           restProps={{
             date,
             id,
