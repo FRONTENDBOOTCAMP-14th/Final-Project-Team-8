@@ -235,7 +235,7 @@ export function PetCarousel3D({
 
         {canNext && (
           <button
-            className="absolute top-1/2 right-0 z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-1 text-white transition-all duration-200 select-none hover:opacity-80 focus-visible:rounded-lg focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-white/80"
+            className="absolute top-1/2 right-0 z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-1 text-white transition-all duration-200 select-none hover:opacity-80 focus-visible:rounded-lg focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-white/80"
             style={{ transform: 'translateX(100%) translateY(-50%)' }}
             aria-label="Next pet"
             onClick={next}
