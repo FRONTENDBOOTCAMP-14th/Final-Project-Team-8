@@ -20,10 +20,16 @@ interface ModalState {
   active: ModalEntry | null
   openModal: (entry: ModalEntry) => void
   closeModal: () => void
+  resetModal: () => void
 }
 
 export const useModal = create<ModalState>(set => ({
   active: null,
   openModal: entry => set({ active: entry }),
   closeModal: () => set({ active: null }),
+  /**
+   * Modal Store 초기화
+   * - 로그아웃 시 사용
+   */
+  resetModal: () => set({ active: null }),
 }))

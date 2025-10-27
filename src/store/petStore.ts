@@ -31,6 +31,7 @@ interface PetStore {
   fetchPetSummary: (user: User) => Promise<void>
   selectedPet?: Pet | undefined
   fetchSelectedPet: (id: string | null) => Promise<void>
+  resetPets: () => void
 }
 
 /**
@@ -108,5 +109,17 @@ export const usePetStore = create<PetStore>((set, get) => ({
     if (!id) return
     const data = await getSelectedPet(id)
     set({ selectedPet: data })
+  },
+
+  /**
+   * Pet Store 초기화
+   * - 로그아웃 시 사용
+   */
+  resetPets: () => {
+    set({
+      petList: [],
+      selectedPetId: null,
+      selectedPet: undefined,
+    })
   },
 }))
