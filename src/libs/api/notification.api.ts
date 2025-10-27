@@ -216,19 +216,3 @@ export async function batchGetNotifications(
     return new Map()
   }
 }
-
-/**
- * 스케줄 타입 매핑 헬퍼
- */
-export const SCHEDULE_TYPE_MAP = {
-  vaccine: 'vaccine',
-  antiparasitic: 'antiparasitic',
-  medical: 'medical',
-  'other treatments': 'other_treatments',
-  walk: 'walk',
-  'other activities': 'other_activities',
-  birthday: 'birthday',
-  adoption: 'adoption',
-} as const
-
-export type ScheduleType = keyof typeof SCHEDULE_TYPE_MAP

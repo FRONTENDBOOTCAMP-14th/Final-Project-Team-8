@@ -1,7 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { ScheduleEvent } from '@/components/calendar/types'
+import {
+  NOTIFICATION_TYPE_MAP,
+  type ScheduleEvent,
+} from '@/components/calendar/types'
 import { createClient } from '../supabase/client'
-import { batchGetNotifications, SCHEDULE_TYPE_MAP } from './notification.api'
+import { batchGetNotifications } from './notification.api'
 
 /**
  * Supabase에서 반려동물의 전체 스케줄 데이터를 가져오는 함수
@@ -62,7 +65,9 @@ export async function getScheduleData(
 
     // 2. 알림 설정 정보 배치로 가져오기
     const scheduleIds = schedules.map(s => ({
-      type: SCHEDULE_TYPE_MAP[s.category as keyof typeof SCHEDULE_TYPE_MAP],
+      type: NOTIFICATION_TYPE_MAP[
+        s.category as keyof typeof NOTIFICATION_TYPE_MAP
+      ],
       id: s.id,
     }))
 
@@ -71,7 +76,9 @@ export async function getScheduleData(
     // 3. 스케줄에 알림 정보 병합
     const schedulesWithNotifications = schedules.map(schedule => {
       const notificationType =
-        SCHEDULE_TYPE_MAP[schedule.category as keyof typeof SCHEDULE_TYPE_MAP]
+        NOTIFICATION_TYPE_MAP[
+          schedule.category as keyof typeof NOTIFICATION_TYPE_MAP
+        ]
       const notificationKey = `${notificationType}-${schedule.id}`
       const notification = notificationMap.get(notificationKey)
 

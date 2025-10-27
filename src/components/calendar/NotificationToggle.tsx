@@ -4,15 +4,15 @@ import { toast } from 'sonner'
 import {
   getScheduleNotification,
   upsertNotification,
-  type ScheduleType,
 } from '@/libs/api/notification.api'
 import { useScheduleStore } from '@/store/scheduleStore'
 import Button from '../ui/button/Button'
 import { formatTime } from './ScheduleNotificationManager'
+import type { ScheduleCategory } from './types'
 
 interface Props {
   scheduleId?: string
-  scheduleType: ScheduleType
+  scheduleType: ScheduleCategory
   petId: string
   isShowToggle: boolean
   mode?: 'create' | 'edit'
