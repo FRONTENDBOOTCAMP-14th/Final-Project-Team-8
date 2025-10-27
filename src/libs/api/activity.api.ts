@@ -250,6 +250,7 @@ export async function getPetMealTime(
     .from('scheduled meals')
     .select('*')
     .eq('pet_id', pet_id)
+    .order('id', { ascending: true })
 
   if (error) {
     throw new Error(`[Read ${pet_id}] ${error.message}`)
