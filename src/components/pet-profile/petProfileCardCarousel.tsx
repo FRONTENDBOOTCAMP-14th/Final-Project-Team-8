@@ -3,8 +3,8 @@
 import { MoveLeft, MoveRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import Button from '@/components/ui/button/Button'
 import { usePetStore } from '@/store/petStore'
+import Button from '../ui/button/Button'
 import PetProfileCard from './PetProfileCard'
 
 export default function PetProfileCardCarousel() {
