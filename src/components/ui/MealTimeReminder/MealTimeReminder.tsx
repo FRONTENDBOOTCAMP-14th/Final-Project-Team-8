@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Calendar, Clock } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
 import useToggleState from '@/hooks/useToggleState'
+import { updateScheduledMeal } from '@/libs/api/activity.api'
 import type { ScheduledMeals, ScheduledMealsUpdate } from '@/libs/supabase'
-import { updateScheduledMeal } from '../../../libs/api/activity.api'
 import Modal from '../../modal/Modal'
 import MealTimeModal from '../../modal/modal-detail/MealTimeDetail'
 import { EmptyMealState } from './EmptyMealState'
@@ -20,7 +20,7 @@ export default function MealTimeReminder({
 }: MealTimeReminderProps) {
   const [isModalOpen, { on: ModalOpen, off: ModalClose }] =
     useToggleState(false)
-  const [isOn, { toggle: toToggle }] = useToggleState(data?.toggle ?? false)
+  const [isOn, setOn] = useState(data?.toggle ?? false)
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
@@ -28,7 +28,7 @@ export default function MealTimeReminder({
       await updateScheduledMeal({ ...data, toggle: isOn }, data?.id ?? '')
     },
     onSuccess: () => {
-      toast.success('알림 변경 성공!')
+      // toast.success('알림 변경 성공!')
       queryClient.invalidateQueries({
         queryKey: ['ScheduledMeals', data?.pet_id],
       })
@@ -41,7 +41,7 @@ export default function MealTimeReminder({
   })
 
   const handleToggleClick = () => {
-    toToggle()
+    setOn(s => !s)
     mutation.mutate(data as object)
   }
 
@@ -70,23 +70,30 @@ export default function MealTimeReminder({
     <>
       <div
         id={id}
-        className="flex h-[70px] items-center justify-between gap-[10px] rounded-2xl border-1 border-gray-200 p-4"
+        className="relative flex h-[70px] items-center justify-between gap-[10px] rounded-2xl border-1 border-gray-200 p-4 transition hover:bg-amber-50"
       >
         <div className="flex w-full items-center">
-          <p className="w-6/10 text-lg font-bold">{title}</p>
+          <p className="line-clamp-1 w-6/10 max-w-4/10 text-lg font-bold">
+            {title}
+          </p>
 
-          <button onClick={ModalOpen} className="flex cursor-pointer gap-5">
-            <span className="flex gap-1 text-gray-500 transition hover:text-orange-400">
-              <Calendar />
-              <span>{weekday}</span>
-            </span>
+          <button
+            onClick={ModalOpen}
+            className="absolute left-0 flex h-full w-full cursor-pointer items-center justify-center gap-5 rounded-2xl"
+          >
+            <div className="flex translate-x-3/10 gap-3">
+              <span className="flex gap-1 text-gray-500 transition hover:text-orange-400">
+                <Calendar />
+                <span>{weekday}</span>
+              </span>
 
-            <div className="h-5 w-px bg-gray-400" />
+              <div className="h-5 w-px bg-gray-400" />
 
-            <span className="flex gap-1 text-gray-500 transition hover:text-orange-400">
-              <Clock />
-              <span>{time}</span>
-            </span>
+              <span className="flex gap-1 text-gray-500 transition hover:text-orange-400">
+                <Clock />
+                <span>{time}</span>
+              </span>
+            </div>
           </button>
         </div>
 
