@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
-import { useState } from 'react'
 import {
   EmptyPet,
   NotLogin,
@@ -14,14 +14,10 @@ import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
 import { tw } from '@/utils/shared'
 
-interface Props {
-  initialTab: 'health' | 'nutrition' | 'activity' | null
-}
-
 export default function PetProfilePage({ children }: PropsWithChildren) {
+  const currentPath = usePathname()
   const { selectedPet, petList } = usePetStore()
   const { user } = useUserStore()
-  const [activeTab] = useState<Props['initialTab']>(null)
 
   const { isLoading } = usePageStatus()
   if (isLoading) <LoadingPet />
@@ -40,7 +36,9 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
                 id="health"
                 className={tw(
                   'flex h-full w-full items-center justify-center rounded-2xl bg-[#ECECF2] text-lg font-bold text-[#80809A]',
-                  activeTab === 'health' ? 'bg-[#524984] text-white' : ''
+                  currentPath.endsWith('health')
+                    ? 'bg-[#524984] text-white'
+                    : ''
                 )}
               >
                 건강 카드
@@ -52,7 +50,9 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
                 id="nutrition"
                 className={tw(
                   'flex h-full w-full items-center justify-center rounded-2xl bg-[#ECECF2] text-lg font-bold text-[#80809A]',
-                  activeTab === 'nutrition' ? 'bg-[#524984] text-white' : ''
+                  currentPath.endsWith('nutrition')
+                    ? 'bg-[#524984] text-white'
+                    : ''
                 )}
               >
                 영양 관리
@@ -64,7 +64,9 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
                 id="activity"
                 className={tw(
                   'flex h-full w-full items-center justify-center rounded-2xl bg-[#ECECF2] text-lg font-bold text-[#80809A]',
-                  activeTab === 'activity' ? 'bg-[#524984] text-white' : ''
+                  currentPath.endsWith('activity')
+                    ? 'bg-[#524984] text-white'
+                    : ''
                 )}
               >
                 활동 기록
@@ -72,7 +74,7 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
             </li>
           </ul>
         </nav>
-        <div>{children}</div>
+        <div className="overflow-y-auto">{children}</div>
       </div>
     </>
   )

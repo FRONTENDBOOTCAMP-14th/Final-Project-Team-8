@@ -14,7 +14,7 @@ export default function PetDetailSection({ selectedPet }: PetDetailProps) {
     return age
   }
   return (
-    <section className="mt-5 flex flex-col gap-4 text-gray-500">
+    <section className="mt-5 flex grow flex-col gap-4 text-gray-500">
       <p>{selectedPet.bio}</p>
       <h3 className="text-[18px] font-bold text-neutral-600">외모 및 특징</h3>
       <dl className="flex flex-col">

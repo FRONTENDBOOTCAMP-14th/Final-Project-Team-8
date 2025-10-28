@@ -22,19 +22,14 @@ export function DevModal({ open, onClose, title, message }: DevModalProps) {
         className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-xl"
         onClick={e => e.stopPropagation()}
       >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 rounded text-gray-400 transition-colors hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
-          aria-label="닫기"
-        ></button>
         <XButton onClick={onClose} aria-label="닫기" />
 
-        <div className="text-center">
+        <div className="my-4 text-center">
           {/* 아이콘 그대로 유지 */}
-          <h3 id="modal-title" className="mb-2 text-xl font-bold text-gray-800">
+          <h2 id="modal-title" className="mb-2 text-xl font-bold text-gray-800">
             {title ?? '제작 중입니다'}
-          </h3>
-          <p className="mb-6 text-gray-600">{message}</p>
+          </h2>
+          <p className="text-gray-600">{message}</p>
         </div>
       </div>
     </div>

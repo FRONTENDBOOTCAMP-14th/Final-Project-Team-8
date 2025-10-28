@@ -66,7 +66,7 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="flex max-h-screen max-w-[280px] min-w-[280px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
+    <aside className="flex max-h-screen max-w-[3090px] min-w-[300px] flex-col gap-[42px] bg-[#2D2A40] px-[30px] pb-10 text-gray-200 md:w-72">
       <Link
         href="/dashboard"
         className="flex flex-row justify-center border-b-[2px] border-[#636073]"
@@ -78,47 +78,50 @@ export default function Sidebar() {
         />
       </Link>
       {/* 등록된 반려동물 프로필버튼, 반려동물 추가등록 버튼 */}
-      <div className="flex flex-col justify-center gap-3">
-        <p>나의 반려동물</p>
-        {isLoading ? (
-          <PetProfileListSkeleton />
-        ) : (
-          <div className="custom-scrollbar max-h-[200px] overflow-y-auto">
-            <PetProfileList
-              pets={petList}
-              selectedId={selectedPetId}
-              onSelect={setSelectedPetId}
-            />
-          </div>
-        )}
-      </div>
-      <div className="border-[1.5px] border-b border-[#636073]"></div>
-      {/* 메뉴 영역 */}
-      <nav>
-        <ul className="flex flex-col justify-start gap-3">
-          {menuoptions.map(option => {
-            const isActive = currentPath === option.path
-            return (
-              <li
-                key={option.name}
-                className={`rounded-lg p-3 ${isActive ? 'bg-[#FFD8C0] font-bold text-[#FF6000]' : 'hover:text-[#FFD8C0]'}`}
-              >
-                <Link
-                  href={option.path}
-                  aria-current={isActive ? 'page' : undefined}
+      <div className="custom-scrollbar flex grow flex-col gap-[42px] overflow-y-auto pr-1">
+        <div className="flex flex-col justify-center gap-3">
+          <p>나의 반려동물</p>
+          {isLoading ? (
+            <PetProfileListSkeleton />
+          ) : (
+            <div className="max-h-[200px]">
+              <PetProfileList
+                pets={petList}
+                selectedId={selectedPetId}
+                onSelect={setSelectedPetId}
+              />
+            </div>
+          )}
+        </div>
+        <div className="border-[1.5px] border-b border-[#636073]"></div>
+        {/* 메뉴 영역 */}
+        <nav>
+          <ul className="flex flex-col justify-start gap-3">
+            {menuoptions.map(option => {
+              const isActive = currentPath.startsWith(option.path)
+              return (
+                <li
+                  key={option.name}
+                  className={`rounded-lg p-3 ${isActive ? 'bg-[#FFD8C0] font-bold text-[#FF6000]' : 'hover:text-[#FFD8C0]'}`}
                 >
-                  <div className={'flex flex-row items-center gap-3'}>
-                    {option.icon}
-                    {option.name}
-                  </div>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
+                  <Link
+                    href={option.path}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    <div className={'flex flex-row items-center gap-3'}>
+                      {option.icon}
+                      {option.name}
+                    </div>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
+      </div>
       {/* 유저 프로필영역 */}
       <div className="mt-auto flex items-center justify-center">
+        {' '}
         {isLoading ? (
           <UserProfileCardSkeleton />
         ) : (

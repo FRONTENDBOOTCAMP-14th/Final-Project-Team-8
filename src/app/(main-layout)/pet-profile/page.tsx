@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import ConfirmModal from '@/components/ui/modal/ConfirmModal'
 import {
   DeletedPet,
   EmptyPet,

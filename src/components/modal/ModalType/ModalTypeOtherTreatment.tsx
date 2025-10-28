@@ -131,7 +131,7 @@ export function ModalTypeOtherTreatmentInput({
       onClose={onClose}
       {...(onSaveSuccess && { onSaveSuccess })}
       title={title}
-      scheduleType="other treatment"
+      scheduleType="other treatments"
       fields={[
         {
           key: 'date',

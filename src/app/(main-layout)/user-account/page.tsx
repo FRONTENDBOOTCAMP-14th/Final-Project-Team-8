@@ -46,9 +46,9 @@ export default function UserAccountPage() {
       <h1 className="w-full text-[28px] font-bold">계정</h1>
       {/* 프로필 사진 부분 */}
       <UserProfileSection {...userData} />
-      <div className="flex h-full w-full gap-10">
+      <div className="flex h-full w-full gap-10 overflow-hidden">
         {/* 왼쪽 */}
-        <section className="relative flex h-full w-3/7 flex-col gap-5">
+        <section className="relative flex h-full w-3/7 flex-col gap-5 overflow-y-auto pr-1">
           {/* 상세정보 */}
           <h2 className="sr-only">상세 정보</h2>
           {IsEditMode && userData ? (
@@ -61,15 +61,16 @@ export default function UserAccountPage() {
             <UserDetailSection {...currentUserData} />
           )}
           {!IsEditMode && (
-            <Button
-              variant="white"
-              onClick={() => {
-                setIsEditMode(true)
-              }}
-              className="absolute bottom-0"
-            >
-              계정 정보 수정하기
-            </Button>
+            <div className="sticky bottom-0 mt-auto bg-white px-1 pt-4 pb-2">
+              <Button
+                variant="white"
+                onClick={() => {
+                  setIsEditMode(true)
+                }}
+              >
+                계정 정보 수정하기
+              </Button>
+            </div>
           )}
         </section>
         <div className="mx-2 w-px bg-neutral-200"></div>

@@ -35,8 +35,8 @@ export default function ToggleButton({ title }: ToggleButtonProps) {
       <DevModal
         open={isModalOpen}
         onClose={handleCloseModal}
-        title="개발중인 기능입니다"
-        message="아직 개발중인 기능입니다"
+        title="지금은 사용할 수 없어요"
+        message="아직 개발 중인 기능이에요"
       />
     </>
   )

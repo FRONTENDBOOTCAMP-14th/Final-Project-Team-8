@@ -5,7 +5,7 @@ import { useState, type PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
 import { DeleteButton } from '@/components/ui/button/IconButton'
-import ConfirmModal from '@/components/ui/ConfirmModal'
+import ConfirmModal from '@/components/ui/modal/ConfirmModal'
 import {
   DeletedPet,
   EmptyPet,
@@ -54,14 +54,14 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
   if (isDeleted) return <DeletedPet />
 
   return (
-    <div className="flex h-full w-full gap-[30px]">
+    <div className="flex h-full w-full gap-[30px] overflow-hidden">
       {/* 왼쪽 */}
-      <div className="relative flex w-4/10 min-w-90 flex-col gap-8">
+      <div className="relative flex w-4/10 min-w-80 flex-col gap-8 overflow-y-auto pr-1">
         <h1 className="w-full text-[28px] font-bold">반려동물 프로필</h1>
         <PetProfileSection user={user} selectedPet={selectedPet} />
         {/* 삭제버튼 */}
         <DeleteButton
-          className="absolute right-0"
+          className="absolute top-0.25 right-0.25"
           onClick={() => setIsDeleteModalOpen(true)}
         />
         {isDeleteModalOpen && (

@@ -27,7 +27,7 @@ export default function AccordionBox({ params }: AccordionBoxProps) {
           <div className="mt-[30px] mb-5 text-xl font-bold text-gray-700">
             식사 시간 알림
           </div>
-          <ScheduledMeal></ScheduledMeal>
+          <ScheduledMeal />
         </>
       )}
       {category === 'activity' && (
