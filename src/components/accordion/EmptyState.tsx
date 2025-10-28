@@ -74,7 +74,7 @@ export default function EmptyState({
           }
 
   return (
-    <div
+    <section
       className={tw(
         'flex w-full items-center justify-center',
         outlined ? 'rounded-2xl border border-gray-200 bg-white' : '',
@@ -101,9 +101,9 @@ export default function EmptyState({
         </div>
 
         {title && (
-          <h3 className={tw('font-semibold text-gray-800', sizeClasses.title)}>
+          <h4 className={tw('font-semibold text-gray-800', sizeClasses.title)}>
             {title}
-          </h3>
+          </h4>
         )}
         {message && (
           <p className={tw('max-w-md text-gray-500', sizeClasses.msg)}>
@@ -120,6 +120,6 @@ export default function EmptyState({
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }

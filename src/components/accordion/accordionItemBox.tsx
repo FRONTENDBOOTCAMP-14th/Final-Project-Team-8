@@ -50,8 +50,8 @@ export default function AccordionItemBox<T extends TableType>({
         className="m-5 max-w-[calc(100%-40px)] gap-1 p-[13px] font-bold transition hover:shadow-md active:scale-[0.99]"
         onClick={on}
       >
-        <img src="/components/accordion/plus-button-icon.svg" alt="플러스" />
-        <p>{selectTypeButtonTitle(type)}</p>
+        <img src="/components/accordion/plus-button-icon.svg" alt="" />
+        {selectTypeButtonTitle(type)}
       </Button>
 
       {/* 아코디언이 열렸을 때만 쿼리 파트를 마운트 (v5: enabled 옵션 없음) */}
@@ -69,13 +69,13 @@ export default function AccordionItemBox<T extends TableType>({
                 onAction={() => {
                   router.push('/login')
                 }}
-              ></EmptyState>
+              />
             ) : !pet_id ? (
               <EmptyState
                 title="기록이 없습니다"
                 message="첫 기록을 추가해 보세요"
                 actionLabel="새 항목 추가"
-              ></EmptyState>
+              />
             ) : (
               <>
                 <AccordionContent type={type} pet_id={pet_id} />

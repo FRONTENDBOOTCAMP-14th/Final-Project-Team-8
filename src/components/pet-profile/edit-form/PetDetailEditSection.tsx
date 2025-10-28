@@ -91,15 +91,15 @@ export default function PetDetailEditSection({
       {/* <div className="h-9/10 w-full max-w-2xl"> */}
       {/* Header */}
       <div className="mb-2">
-        <h3 className="rounded-lg py-1 text-[18px] font-bold text-neutral-600">
+        <h2 className="rounded-lg py-1 text-[18px] font-bold text-neutral-600">
           <span className="ml-3 text-xl font-bold text-[#FF6000]">
             {petData.name ?? '펫'}
           </span>{' '}
           정보 수정
-        </h3>
-        <p className="mt-1 ml-3 text-base font-bold text-gray-500">
+        </h2>
+        <h3 className="mt-1 ml-3 text-base font-bold text-gray-500">
           외모 및 특징
-        </p>
+        </h3>
       </div>
 
       <form
@@ -256,7 +256,7 @@ export default function PetDetailEditSection({
             <div className="mt-5 border-t border-gray-200" />
 
             <div>
-              <p className="mt-1 text-base font-bold text-gray-500">기념일</p>
+              <h3 className="mt-1 text-base font-bold text-gray-500">기념일</h3>
             </div>
 
             {/* 생일 + 입양일 */}

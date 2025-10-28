@@ -96,7 +96,7 @@ export function AntiparasiticCompo({ dataList }: AntiparasiticProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <section>
       {dataList.map(({ id, intake_date, next_date, notes, pet_id, title }) => (
         <AntiparasiticTreatmentItem
           id={id}
@@ -108,7 +108,7 @@ export function AntiparasiticCompo({ dataList }: AntiparasiticProps) {
           key={id}
         />
       ))}
-    </div>
+    </section>
   )
 }
 

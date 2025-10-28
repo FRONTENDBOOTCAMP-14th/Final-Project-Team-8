@@ -85,6 +85,7 @@ export default function PetProfileSection({
     <>
       {/* 프로필 사진 부분 */}
       <section className="relative flex w-full items-center gap-8">
+        <h2 className="sr-only">상세 정보</h2>
         <div className="relative z-10">
           <div className="aspect-square w-30 overflow-hidden rounded-full bg-gray-100 outline-10 outline-gray-100">
             <Image
@@ -96,6 +97,9 @@ export default function PetProfileSection({
             />
           </div>
 
+          <label htmlFor="user-profile-image" className="sr-only">
+            반려동물 프로필 이미지
+          </label>
           <input
             ref={inputRef}
             type="file"
