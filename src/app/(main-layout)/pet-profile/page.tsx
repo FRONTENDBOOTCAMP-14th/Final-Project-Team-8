@@ -1,15 +1,21 @@
 'use client'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'
+import { toast } from 'sonner'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
+import { DeleteButton } from '@/components/ui/button/IconButton'
 import {
+  DeletedPet,
   EmptyPet,
   NotLogin,
   NotSelectedPet,
 } from '@/components/ui/status/EmptyState'
 import { LoadingPet } from '@/components/ui/status/Loading'
 import { usePageStatus } from '@/hooks/usePageStatus'
+import { deletePet } from '@/libs/api/pet'
+import { petKeys } from '@/libs/qeury-key/petKey'
 import { usePetStore } from '@/store/petStore'
 import { useUserStore } from '@/store/userStore'
 import { tw } from '@/utils/shared'
@@ -19,22 +25,50 @@ interface Props {
 }
 
 export default function PetProfilePage() {
-  const { selectedPet, petList } = usePetStore()
+  const { selectedPet, petList, fetchPetSummary } = usePetStore()
   const { user } = useUserStore()
   const [activeTab] = useState<Props['initialTab']>(null)
+  const [isDeleted, setIsDeleted] = useState(false)
+  const queryClient = useQueryClient()
+  const deletePetMutation = useMutation<void, Error, string>({
+    mutationFn: async (petId: string) => await deletePet(petId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: petKeys.all })
+      toast.success('삭제되었습니다.')
+      if (user) {
+        fetchPetSummary(user)
+      }
+      setIsDeleted(true)
+    },
+    onError: () => {
+      toast.error('삭제 실패')
+    },
+  })
+
+  async function handleDelte(petId: string) {
+    const ok = confirm(
+      '정말 삭제하시겟습니까? 삭제된 정보는 복구되지 않습니다.'
+    )
+    if (ok) deletePetMutation.mutate(petId)
+  }
 
   const { isLoading } = usePageStatus()
   if (isLoading) return <LoadingPet />
   if (!user) return <NotLogin />
   if (petList.length === 0) return <EmptyPet />
   if (!selectedPet) return <NotSelectedPet />
-
+  if (isDeleted) return <DeletedPet />
   return (
     <div className="flex h-full w-full gap-[30px]">
       {/* 왼쪽 */}
-      <div className="relative flex w-4/10 min-w-90 flex-col gap-5">
+      <div className="relative flex w-4/10 min-w-90 flex-col gap-8">
         <h1 className="w-full text-[28px] font-bold">반려동물 프로필</h1>
         <PetProfileSection user={user} selectedPet={selectedPet} />
+        {/* 삭제버튼 */}
+        <DeleteButton
+          className="absolute right-0"
+          onClick={() => handleDelte(selectedPet.id)}
+        />
       </div>
 
       <div className="w-px bg-neutral-200"></div>

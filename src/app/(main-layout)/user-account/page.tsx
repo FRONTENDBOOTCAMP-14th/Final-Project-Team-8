@@ -1,14 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import Button from '@/components/ui/button/Button'
 import { NotLogin } from '@/components/ui/status/EmptyState'
-import {
-  LoadingPet,
-  LoadingUser,
-  Loading,
-} from '@/components/ui/status/Loading'
+import { LoadingUser, Loading } from '@/components/ui/status/Loading'
 import {
   UserDetailSection,
   UserProfileSection,

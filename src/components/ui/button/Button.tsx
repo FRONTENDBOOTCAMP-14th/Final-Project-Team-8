@@ -48,7 +48,7 @@ export const variantStyle: Record<ButtonVariant, string> = {
     'hover:text-[#C85712] hover:bg-[#ECECF2]',
     'focus:ring-[#FFA873] focus:text-[#C85712]',
     'active:text-[#803C0C]',
-    'disabled:text-[#FFA873], outline-[#FFA873]',
+    'disabled:text-[#FFA873] outline-[#FFA873]',
   ].join(' '),
   transparent: [
     'bg-transparent text-[#FF6000]',
@@ -94,7 +94,7 @@ export default function Button({
   return (
     <button
       type="button"
-      className={`${baseStyle} ${variantStyle[variant]} ${className}`}
+      className={`${className} ${baseStyle} ${variantStyle[variant]} `}
       {...restProps}
     >
       {children}
