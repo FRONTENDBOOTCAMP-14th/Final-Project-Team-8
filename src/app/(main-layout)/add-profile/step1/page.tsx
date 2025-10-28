@@ -230,7 +230,7 @@ export default function Step1SpeciesPage() {
             <button
               ref={closeButtonRef}
               onClick={handleCloseModal}
-              className="absolute top-4 right-4 rounded text-gray-400 transition-colors hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
+              className="absolute top-4 right-4 cursor-pointer rounded text-gray-400 transition-colors hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
               aria-label="닫기"
             >
               <svg

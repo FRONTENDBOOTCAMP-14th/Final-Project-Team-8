@@ -78,6 +78,7 @@ export default function MealTimeReminder({
           </p>
 
           <button
+            type="button"
             onClick={ModalOpen}
             className="absolute left-0 flex h-full w-full cursor-pointer items-center justify-center gap-5 rounded-2xl"
           >
@@ -99,8 +100,9 @@ export default function MealTimeReminder({
 
         {/* 토글 버튼 */}
         <button
+          type="button"
           onClick={handleToggleClick}
-          className={`relative flex h-7 w-14 items-center rounded-full transition-colors duration-300 focus:outline-amber-500 ${
+          className={`relative flex h-7 w-14 cursor-pointer items-center rounded-full transition-colors duration-300 focus:outline-amber-500 ${
             isOn ? 'bg-amber-500' : 'bg-gray-400'
           }`}
         >

@@ -94,8 +94,9 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
       </Link>
 
       <button
+        type="button"
         onClick={handleLogout}
-        className="ml-6 rounded-lg p-2 text-white transition-colors hover:bg-gray-700"
+        className="ml-6 cursor-pointer rounded-lg p-2 text-white transition-colors hover:bg-gray-700"
         aria-label="로그아웃"
         title="로그아웃"
       >

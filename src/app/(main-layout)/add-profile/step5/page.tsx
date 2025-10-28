@@ -262,7 +262,7 @@ export default function Step5WeightPage() {
               onClick={() => handleUnitToggle('kg')}
               aria-label="킬로그램 단위 선택"
               aria-pressed={unit === 'kg'}
-              className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none ${unit === 'kg' ? 'border border-orange-200 text-[#FF6000] focus:ring-[#FF6000]' : 'border border-gray-200 text-gray-400 focus:ring-gray-400'}`}
+              className={`flex cursor-pointer items-center gap-1 rounded-lg px-8 py-2 transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none ${unit === 'kg' ? 'border border-orange-200 text-[#FF6000] focus:ring-[#FF6000]' : 'border border-gray-200 text-gray-400 focus:ring-gray-400'}`}
             >
               <svg
                 width="16"
@@ -289,7 +289,7 @@ export default function Step5WeightPage() {
               onClick={() => handleUnitToggle('lb')}
               aria-label="파운드 단위 선택"
               aria-pressed={unit === 'lb'}
-              className={`flex items-center gap-1 rounded-lg px-8 py-2 transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none ${unit === 'lb' ? 'border border-[#FF6000] text-[#FF6000] focus:ring-[#FF6000]' : 'border border-gray-200 text-gray-400 focus:ring-gray-400'}`}
+              className={`flex cursor-pointer items-center gap-1 rounded-lg px-8 py-2 transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none ${unit === 'lb' ? 'border border-[#FF6000] text-[#FF6000] focus:ring-[#FF6000]' : 'border border-gray-200 text-gray-400 focus:ring-gray-400'}`}
             >
               <svg
                 width="16"

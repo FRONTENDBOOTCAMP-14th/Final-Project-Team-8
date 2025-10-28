@@ -289,7 +289,7 @@ export default function Step6ImportantDatesPage() {
             // 날짜가 선택되지 않는 경우 - 버튼 형태
             <button
               onClick={() => openCalendar('birthdate')}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-[#FF6000] bg-white p-4 transition-all hover:bg-orange-50 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
+              className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border-2 border-[#FF6000] bg-white p-4 transition-all hover:bg-orange-50 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
               aria-label="생일 추가하기"
             >
               <svg
@@ -319,7 +319,7 @@ export default function Step6ImportantDatesPage() {
           {adoptionDate ? (
             <button
               onClick={() => openCalendar('adoption_date')}
-              className="flex w-full items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 transition-all hover:border-[#FF6000] focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
+              className="flex w-full cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 transition-all hover:border-[#FF6000] focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
               aria-label="입양일 수정하기"
             >
               <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-orange-50">
@@ -352,7 +352,7 @@ export default function Step6ImportantDatesPage() {
           ) : (
             <button
               onClick={() => openCalendar('adoption_date')}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-[#FF6000] bg-white p-4 transition-all hover:bg-orange-50 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
+              className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border-2 border-[#FF6000] bg-white p-4 transition-all hover:bg-orange-50 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
               aria-label="입양일 추가하기"
             >
               <svg
@@ -395,7 +395,7 @@ export default function Step6ImportantDatesPage() {
               </h3>
               <button
                 onClick={() => setIsCalendarOpen(false)}
-                className="rounded p-1 text-gray-400 transition-colors hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:outline-none"
+                className="cursor-pointer rounded p-1 text-gray-400 transition-colors hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:outline-none"
                 aria-label="닫기"
               >
                 <svg

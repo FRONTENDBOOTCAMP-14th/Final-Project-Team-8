@@ -139,7 +139,7 @@ export function AddProfileLayout({
                 onClick={onSkip}
                 disabled={skipDisabled}
                 aria-disabled={skipDisabled}
-                className={`rounded-xl px-6 py-3 font-medium transition-colors focus:outline-none ${
+                className={`cursor-pointer rounded-xl px-6 py-3 font-medium transition-colors focus:outline-none ${
                   skipDisabled
                     ? 'cursor-not-allowed bg-gray-300 text-white'
                     : 'border-1 border-orange-400 text-[#FF6000] hover:bg-[#FF6000] hover:text-white focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2'
@@ -157,7 +157,7 @@ export function AddProfileLayout({
                 onClick={onComplete}
                 disabled={nextDisabled}
                 aria-disabled={nextDisabled}
-                className="rounded-xl bg-[#FF6000] px-24 py-3 font-semibold text-white transition-colors hover:bg-orange-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-300"
+                className="cursor-pointer rounded-xl bg-[#FF6000] px-24 py-3 font-semibold text-white transition-colors hover:bg-orange-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-300"
                 {...(nextDisabled && {
                   'aria-label':
                     '필수 정보를 입력한 후 다음 단계로 진행할 수 있습니다',

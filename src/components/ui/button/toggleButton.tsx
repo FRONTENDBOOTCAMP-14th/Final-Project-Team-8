@@ -12,7 +12,7 @@ export default function ToggleButton({ title }: ToggleButtonProps) {
 
       <button
         onClick={toggle}
-        className={`relative flex h-7 w-14 items-center rounded-full transition-colors duration-300 focus:outline-amber-500 ${isOn ? 'bg-amber-500' : 'bg-gray-400'} `}
+        className={`relative flex h-7 w-14 cursor-pointer items-center rounded-full transition-colors duration-300 focus:outline-amber-500 ${isOn ? 'bg-amber-500' : 'bg-gray-400'} `}
       >
         <span
           className={`absolute left-1 aspect-square h-5 transform rounded-full bg-white transition-transform duration-300 ${isOn ? 'translate-x-7' : 'translate-x-0'}`}

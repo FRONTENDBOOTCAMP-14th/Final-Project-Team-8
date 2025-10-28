@@ -143,7 +143,7 @@ export default function PetProfileCardCarousel() {
                 type="button"
                 onClick={() => updateIndex(index)} // 클릭 시 해당 인덱스로 이동
                 aria-label={`${index + 1}번 카드로 이동`}
-                className={`h-3 w-3 rounded-full transition-colors duration-300 ease-in-out ${
+                className={`size-3 cursor-pointer rounded-full transition-colors duration-300 ease-in-out ${
                   index === currentIndex
                     ? 'scale-125 bg-[#FF6000]' // 활성화된 버튼 색상 및 크기
                     : 'bg-gray-300 hover:bg-gray-400' // 비활성화된 버튼 색상
