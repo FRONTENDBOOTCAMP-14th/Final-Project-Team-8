@@ -1,5 +1,6 @@
 'use client'
 
+import { Cake, House, X } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -248,67 +249,40 @@ export default function Step6ImportantDatesPage() {
           {/* 생일 */}
           {birthdate ? (
             <button
+              type="button"
               onClick={() => openCalendar('birthdate')}
               className="flex w-full items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:border-[#FF6000] hover:shadow-md focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
               aria-label="생일 수정하기"
             >
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-orange-50">
-                <svg
-                  aria-hidden="true"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.99609 14.803C3.30809 14.938 3.65009 15.007 4.00009 15C4.38959 15.0082 4.77522 14.9214 5.12367 14.7472C5.47212 14.5729 5.77292 14.3165 6.00009 14C6.22726 13.6835 6.52807 13.4271 6.87652 13.2529C7.22497 13.0786 7.6106 12.9918 8.00009 13C8.38959 12.9918 8.77522 13.0786 9.12367 13.2529C9.47212 13.4271 9.77292 13.6835 10.0001 14C10.2273 14.3165 10.5281 14.5729 10.8765 14.7472C11.225 14.9214 11.6106 15.0082 12.0001 15C12.3896 15.0082 12.7752 14.9214 13.1237 14.7472C13.4721 14.5729 13.7729 14.3165 14.0001 14C14.2273 13.6835 14.5281 13.4271 14.8765 13.2529C15.225 13.0786 15.6106 12.9918 16.0001 13C16.3896 12.9918 16.7752 13.0786 17.1237 13.2529C17.4721 13.4271 17.7729 13.6835 18.0001 14C18.2273 14.3165 18.5281 14.5729 18.8765 14.7472C19.225 14.9214 19.6106 15.0082 20.0001 15C20.3501 15.007 20.6921 14.938 21.0041 14.803M3.00012 20H21.0001V12C21.0001 11.2043 20.6841 10.4413 20.1214 9.87868C19.5588 9.31607 18.7958 9 18.0001 9H6.00012C5.20447 9 4.44141 9.31607 3.8788 9.87868C3.31619 10.4413 3.00012 11.2043 3.00012 12V20ZM12.0001 4L13.4651 5.638C13.7265 5.91903 13.9016 6.26935 13.9693 6.64715C14.0371 7.02495 13.9947 7.41426 13.8472 7.76862C13.6997 8.12298 13.4534 8.42742 13.1376 8.64561C12.8219 8.86379 12.45 8.98651 12.0664 8.99911C11.6828 9.0117 11.3036 8.91365 10.9742 8.71665C10.6448 8.51964 10.379 8.23202 10.2086 7.88809C10.0382 7.54417 9.9704 7.15848 10.0132 6.77705C10.056 6.39563 10.2077 6.03458 10.4501 5.737L12.0001 4Z"
-                    stroke="#FF6000"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <div className="flex flex-1 flex-col items-start">
+              <span
+                className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-orange-50"
+                aria-hidden="true"
+              >
+                <Cake className="text-[#FF6000]" />
+              </span>
+              <span className="flex flex-1 flex-col items-start">
                 <span className="text-sm font-medium text-[#80809A]">생일</span>
                 <span className="text-base font-bold text-[#3A394F]">
                   {formatDate(birthdate)}
                 </span>
-              </div>
-              <div className="border-l-2 border-gray-100 py-2 pl-5">
+              </span>
+              <span className="border-l-2 border-gray-100 py-2 pl-5">
                 <span className="mr-1 text-2xl font-bold text-[#3A394F]">
                   {birthdate.getFullYear() !== new Date().getFullYear()
                     ? new Date().getFullYear() - birthdate.getFullYear()
                     : calculateAge(birthdate).replace('살', '')}
                 </span>
                 <span className="text-sm font-medium text-[#80809A]">살</span>
-              </div>
+              </span>
             </button>
           ) : (
             // 날짜가 선택되지 않는 경우 - 버튼 형태
             <button
+              type="button"
               onClick={() => openCalendar('birthdate')}
               className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border-2 border-[#FF6000] bg-white p-4 transition-all hover:bg-orange-50 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
-              aria-label="생일 추가하기"
             >
-              <svg
-                aria-hidden="true"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M2.99609 14.803C3.30809 14.938 3.65009 15.007 4.00009 15C4.38959 15.0082 4.77522 14.9214 5.12367 14.7472C5.47212 14.5729 5.77292 14.3165 6.00009 14C6.22726 13.6835 6.52807 13.4271 6.87652 13.2529C7.22497 13.0786 7.6106 12.9918 8.00009 13C8.38959 12.9918 8.77522 13.0786 9.12367 13.2529C9.47212 13.4271 9.77292 13.6835 10.0001 14C10.2273 14.3165 10.5281 14.5729 10.8765 14.7472C11.225 14.9214 11.6106 15.0082 12.0001 15C12.3896 15.0082 12.7752 14.9214 13.1237 14.7472C13.4721 14.5729 13.7729 14.3165 14.0001 14C14.2273 13.6835 14.5281 13.4271 14.8765 13.2529C15.225 13.0786 15.6106 12.9918 16.0001 13C16.3896 12.9918 16.7752 13.0786 17.1237 13.2529C17.4721 13.4271 17.7729 13.6835 18.0001 14C18.2273 14.3165 18.5281 14.5729 18.8765 14.7472C19.225 14.9214 19.6106 15.0082 20.0001 15C20.3501 15.007 20.6921 14.938 21.0041 14.803M3.00012 20H21.0001V12C21.0001 11.2043 20.6841 10.4413 20.1214 9.87868C19.5588 9.31607 18.7958 9 18.0001 9H6.00012C5.20447 9 4.44141 9.31607 3.8788 9.87868C3.31619 10.4413 3.00012 11.2043 3.00012 12V20ZM12.0001 4L13.4651 5.638C13.7265 5.91903 13.9016 6.26935 13.9693 6.64715C14.0371 7.02495 13.9947 7.41426 13.8472 7.76862C13.6997 8.12298 13.4534 8.42742 13.1376 8.64561C12.8219 8.86379 12.45 8.98651 12.0664 8.99911C11.6828 9.0117 11.3036 8.91365 10.9742 8.71665C10.6448 8.51964 10.379 8.23202 10.2086 7.88809C10.0382 7.54417 9.9704 7.15848 10.0132 6.77705C10.056 6.39563 10.2077 6.03458 10.4501 5.737L12.0001 4Z"
-                  stroke="#FF6000"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-
+              <Cake className="text-[#FF6000]" aria-hidden="true" />
               <span className="text-base font-semibold text-[#FF6000]">
                 생일 추가하기
               </span>
@@ -318,59 +292,33 @@ export default function Step6ImportantDatesPage() {
           {/* 입양일 */}
           {adoptionDate ? (
             <button
+              type="button"
               onClick={() => openCalendar('adoption_date')}
               className="flex w-full cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white p-4 transition-all hover:border-[#FF6000] focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
               aria-label="입양일 수정하기"
             >
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-orange-50">
-                <svg
-                  aria-hidden="true"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9 21V15C9 14.4696 9.21071 13.9609 9.58579 13.5858C9.96086 13.2107 10.4696 13 11 13H13C13.5304 13 14.0391 13.2107 14.4142 13.5858C14.7893 13.9609 15 14.4696 15 15V21M5 12H3L12 3L21 12H19V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V12Z"
-                    stroke="#FF6000"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <div className="flex flex-1 flex-col items-start">
+              <span
+                className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-orange-50"
+                aria-hidden="true"
+              >
+                <House className="text-[#FF6000]" />
+              </span>
+              <span className="flex flex-1 flex-col items-start">
                 <span className="text-sm font-medium text-gray-500">
                   입양일
                 </span>
                 <span className="text-base font-bold text-gray-900">
                   {formatDate(adoptionDate)}
                 </span>
-              </div>
+              </span>
             </button>
           ) : (
             <button
+              type="button"
               onClick={() => openCalendar('adoption_date')}
               className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border-2 border-[#FF6000] bg-white p-4 transition-all hover:bg-orange-50 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
-              aria-label="입양일 추가하기"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 21V15C9 14.4696 9.21071 13.9609 9.58579 13.5858C9.96086 13.2107 10.4696 13 11 13H13C13.5304 13 14.0391 13.2107 14.4142 13.5858C14.7893 13.9609 15 14.4696 15 15V21M5 12H3L12 3L21 12H19V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V12Z"
-                  stroke="#FF6000"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-
+              <House className="text-[#FF6000]" aria-hidden="true" />
               <span className="text-base font-semibold text-[#FF6000]">
                 입양일 추가하기
               </span>
@@ -382,37 +330,28 @@ export default function Step6ImportantDatesPage() {
       {/* Calendar Modal */}
       {isCalendarOpen && (
         <div
+          role="presentation"
           className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
           onClick={() => setIsCalendarOpen(false)}
         >
           <div
+            role="dialog"
+            aria-modal
             className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
             onClick={e => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">
+              <h2 className="text-lg font-bold text-gray-900">
                 {currentDateType === 'birthdate' ? '생일' : '입양일'} 선택
-              </h3>
+              </h2>
               <button
+                type="button"
                 onClick={() => setIsCalendarOpen(false)}
                 className="cursor-pointer rounded p-1 text-gray-400 transition-colors hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:outline-none"
                 aria-label="닫기"
+                title="닫기"
               >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M18 6L6 18M6 6L18 18"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <X aria-hidden="true" />
               </button>
             </div>
 

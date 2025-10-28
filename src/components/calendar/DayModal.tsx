@@ -40,11 +40,12 @@ export default function Day({
     const today = new Date()
 
     return (
+      isCurrentMonth &&
       today.getFullYear() === currentYear &&
       today.getMonth() + 1 === currentMonth &&
       today.getDate() === date
     )
-  }, [currentYear, currentMonth, date])
+  }, [isCurrentMonth, currentYear, currentMonth, date])
 
   const handleClick = () => {
     if (isCurrentMonth) {

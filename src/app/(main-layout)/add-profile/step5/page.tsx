@@ -197,8 +197,6 @@ export default function Step5WeightPage() {
                   outline: 'none',
                 }}
                 aria-label={`반려동물 체중 슬라이더. 방향키로 0.1 단위 이동, Shift와 방향키로 1${unit} 단위 이동. 현재 ${weight.toFixed(1)} ${unit === 'kg' ? '킬로그램' : '파운드'}`}
-                aria-valuemin={unit === 'kg' ? 0 : 0}
-                aria-valuemax={unit === 'kg' ? 100 : 220}
                 aria-valuenow={weight}
                 aria-valuetext={`${weight.toFixed(1)} ${unit === 'kg' ? '킬로그램' : '파운드'}`}
                 aria-describedby="weight-instructions"

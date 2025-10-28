@@ -1,4 +1,4 @@
-import { XButton } from '../button/IconButton'
+import { X } from 'lucide-react'
 
 interface DevModalProps {
   open: boolean
@@ -22,7 +22,15 @@ export function DevModal({ open, onClose, title, message }: DevModalProps) {
         className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-xl"
         onClick={e => e.stopPropagation()}
       >
-        <XButton onClick={onClose} aria-label="닫기" />
+        <button
+          type="button"
+          className="absolute top-5 right-5 size-8 cursor-pointer rounded-full border-0 bg-white p-1 text-[#80809A] hover:text-[#3A394F] focus:outline-[#FF6000]"
+          onClick={onClose}
+          aria-label="닫기"
+          title="닫기"
+        >
+          <X />
+        </button>
 
         <div className="my-4 text-center">
           {/* 아이콘 그대로 유지 */}
