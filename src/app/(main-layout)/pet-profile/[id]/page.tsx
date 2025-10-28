@@ -10,10 +10,6 @@ interface AccordionBoxProps {
 export default function AccordionBox({ params }: AccordionBoxProps) {
   const { id: category } = use(params)
 
-  // 디버깅: category 값 확인
-  console.log('🔍 Current category:', category)
-  console.log('🔍 Type of category:', typeof category)
-
   return (
     <div className="flex h-full flex-col gap-4">
       {category === 'health' && (
@@ -38,18 +34,6 @@ export default function AccordionBox({ params }: AccordionBoxProps) {
           <Accordion type="walks" title="산책" />
           <Accordion type="other activities" title="기타 활동 일지" />
         </>
-      )}
-
-      {/* 디버깅: 어떤 카테고리도 매칭되지 않을 때 */}
-      {category !== 'health' && category !== 'nutrition' && category !== 'activity' && (
-        <div className="p-4 bg-red-100 border border-red-400 rounded">
-          <p className="text-red-700">
-            ⚠️ 알 수 없는 카테고리: {String(category)}
-          </p>
-          <p className="text-sm text-red-600">
-            예상 카테고리: health, nutrition, activity
-          </p>
-        </div>
       )}
     </div>
   )

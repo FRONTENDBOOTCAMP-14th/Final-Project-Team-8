@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { use } from 'react'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
 import {
   EmptyPet,
@@ -15,13 +15,14 @@ import { useUserStore } from '@/store/userStore'
 import { tw } from '@/utils/shared'
 
 interface Props {
-  initialTab: 'health' | 'nutrition' | 'activity' | null
+  children: React.ReactNode
+  params: Promise<{ id: 'health' | 'nutrition' | 'activity' }>
 }
 
-export default function PetProfilePage() {
+export default function PetProfileLayout({ children, params }: Props) {
   const { selectedPet, petList } = usePetStore()
   const { user } = useUserStore()
-  const [activeTab] = useState<Props['initialTab']>(null)
+  const { id: activeTab } = use(params)
 
   const { isLoading } = usePageStatus()
   if (isLoading) <LoadingPet />
@@ -79,6 +80,9 @@ export default function PetProfilePage() {
             </Link>
           </h3>
         </nav>
+
+        {/* children 렌더링 - 이곳에 [id]/page.tsx의 내용이 표시됩니다 */}
+        {children}
       </div>
     </div>
   )
