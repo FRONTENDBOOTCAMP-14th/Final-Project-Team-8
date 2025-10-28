@@ -90,7 +90,7 @@ export default function PetProfilePage() {
         <h2 className="sr-only">추가 정보</h2>
         <nav className="flex h-12.5 w-full min-w-100 gap-5">
           <h3 className="w-full">
-            <Link href={'/pet-profile/health'} id="health" className={tw()}>
+            <Link href={'/pet-profile/health'} id="health">
               <p
                 className={tw(
                   'flex h-full w-full items-center justify-center rounded-2xl bg-[#ECECF2] text-lg font-bold text-[#80809A]',

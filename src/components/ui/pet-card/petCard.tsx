@@ -1,5 +1,11 @@
 import React, { useMemo, useState, useCallback } from 'react'
+import type { CSSProperties } from 'react'
 import type { PetSummary } from '../../../store/petStore'
+
+// CSS 커스텀 속성 타입 확장
+type CSSPropertiesWithVars = CSSProperties & {
+  [key: `--${string}`]: string | number
+}
 
 /**
  * Pet 3D Carousel Component
@@ -149,11 +155,11 @@ export function PetCarousel3D({
           const abs = Math.abs(active - i)
           const hidden = abs > maxVisibility
           const isActive = i === active
-          const style = {
-            ['--active' as any]: isActive ? 1 : 0,
-            ['--offset' as any]: (active - i) / 3,
-            ['--direction' as any]: Math.sign(active - i) || 0,
-            ['--abs-offset' as any]: abs / 3,
+          const style: CSSPropertiesWithVars = {
+            '--active': isActive ? 1 : 0,
+            '--offset': (active - i) / 3,
+            '--direction': Math.sign(active - i) || 0,
+            '--abs-offset': abs / 3,
             transform: `
               rotateY(calc(var(--offset) * 50deg))
               scaleY(calc(1 + var(--abs-offset) * -0.4))

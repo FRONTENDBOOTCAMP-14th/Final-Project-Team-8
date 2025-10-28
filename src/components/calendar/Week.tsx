@@ -1,10 +1,20 @@
 import type { CalendarDay, DayProps } from './hooks/useCalendar'
 import type { ScheduleEvent } from './types'
 
+// ✅ export 추가 & undefined 명시
+export interface DayComponentProps extends DayProps {
+  dayData: CalendarDay
+  rowIndex: number
+  colIndex: number
+  getSchedulesForDate?:
+    | ((year: number, month: number, day: number) => ScheduleEvent[])
+    | undefined
+}
+
 interface Props extends DayProps {
   week: CalendarDay[]
   weekIndex: number
-  DayComponent: React.ComponentType<any>
+  DayComponent: React.ComponentType<DayComponentProps>
   getSchedulesForDate?:
     | ((year: number, month: number, day: number) => ScheduleEvent[])
     | undefined

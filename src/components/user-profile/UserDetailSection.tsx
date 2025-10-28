@@ -10,7 +10,7 @@ export default function UserDetailSection(userData: Partial<UserData>) {
     return age
   }
   return (
-    <section className="relative flex flex-col">
+    <section className="relative mt-5 flex flex-col">
       <div className="flex flex-col gap-4 text-gray-500">
         <h3 className="text-[18px] font-bold text-neutral-600">사용자 정보</h3>
         <dl className="flex flex-col whitespace-nowrap">

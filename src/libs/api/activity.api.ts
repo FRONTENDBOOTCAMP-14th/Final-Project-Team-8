@@ -103,7 +103,7 @@ export default async function createActivity<T extends TableType>(params: {
 
   const { data, error } = await supabase
     .from(type)
-    .insert([row] as any)
+    .insert([row])
     .select('*')
     .single()
 
@@ -135,7 +135,7 @@ export async function getPetTableData<T extends TableType>(
   const { data, error } = await supabase
     .from(type)
     .select('*')
-    .eq('pet_id', pet_id as any)
+    .eq('pet_id', pet_id)
     .order(orderColumn, { ascending: false, nullsFirst: true })
     .returns<TableRow<T>[]>()
 
@@ -166,9 +166,9 @@ export async function updateActivity<T extends TableType>(
 ): Promise<TableRow<T>> {
   const { data, error } = await supabase
     .from(type)
-    .update(dataList as any)
-    .eq('id', table_id as any)
-    .eq('pet_id', pet_id as any)
+    .update(dataList)
+    .eq('id', table_id)
+    .eq('pet_id', pet_id)
     .select('*')
     .single()
 
@@ -198,8 +198,8 @@ export async function deleteActivity<T extends TableType>(
   const { error } = await supabase
     .from(type)
     .delete()
-    .eq('id', table_id as any)
-    .eq('pet_id', pet_id as any)
+    .eq('id', table_id)
+    .eq('pet_id', pet_id)
 
   if (error) {
     throw new Error(`[Delete ${type}] ${error.message}`)

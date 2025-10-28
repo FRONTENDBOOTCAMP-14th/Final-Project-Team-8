@@ -3,10 +3,11 @@ import { usePathname, useRouter } from 'next/navigation'
 import PetAvatar from '@/components/ui/avatar/PetAvartar'
 import IconButton from '@/components/ui/button/IconButton'
 import { useUserStore } from '@/store/userStore'
+import type { PetSummary } from '../../../store/petStore'
 import Button from '../button/Button'
 
 interface PetProfileListProps {
-  pets: any[]
+  pets: PetSummary[]
   selected?: boolean
   selectedId: string | null
   onSelect: (id: string | null) => void

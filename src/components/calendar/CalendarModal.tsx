@@ -4,7 +4,12 @@ import CalendarBase from './CalendarBase'
 import DayModal from './DayModal'
 import { useCalendar } from './hooks/useCalendar'
 
-export default function CalendarModal(props: any) {
+interface CalendarModalProps {
+  onDayClick?: (date: Date) => void
+  initialSelectedDate?: Date | null
+}
+
+export default function CalendarModal(props?: CalendarModalProps) {
   const controls = useCalendar(props)
 
   return <CalendarBase {...controls} DayComponent={DayModal} />

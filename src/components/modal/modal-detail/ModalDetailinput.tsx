@@ -11,6 +11,7 @@ import { tw } from '@/utils/shared'
 import { upsertNotification } from '../../../libs/api/notification.api'
 import ListLoading from '../../accordion/ListLoading'
 import NotificationToggle from '../../calendar/NotificationToggle'
+import type { ScheduleCategory } from '../../calendar/types'
 import Button from '../../ui/button/Button'
 import type { ModalInputDataType } from '../ModalType/ModalType'
 import type { ModalDetailInpuProps } from './ModalDetailType'
@@ -27,7 +28,7 @@ export function ModalDetailInput({
   onSaveSuccess,
   scheduleType,
 }: ModalDetailInpuProps & {
-  scheduleType?: string
+  scheduleType?: ScheduleCategory
 }) {
   const { register, handleSubmit, formState, getFieldState, reset } =
     useForm<ModalInputDataType>({
@@ -111,7 +112,7 @@ export function ModalDetailInput({
       {scheduleType && (
         <NotificationToggle
           mode="create"
-          scheduleType={scheduleType as any}
+          scheduleType={scheduleType}
           petId={pet_id}
           isShowToggle={true}
           defaultEnabled={notificationEnabled}
