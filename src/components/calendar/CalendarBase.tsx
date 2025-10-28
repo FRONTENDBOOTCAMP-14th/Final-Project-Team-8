@@ -63,7 +63,6 @@ export default function CalendarBase({
               focusDay,
               ...(getSchedulesForDate && { getSchedulesForDate }),
             }
-            {/* @ts-expect-error - key is a special React prop and doesn't need to be in Props type */}
             return <Week key={index} {...weekProps} />
           })}
         </tbody>

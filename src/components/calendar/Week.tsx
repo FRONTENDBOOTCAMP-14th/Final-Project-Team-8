@@ -6,7 +6,11 @@ export interface DayComponentProps extends DayProps {
   dayData: CalendarDay
   rowIndex: number
   colIndex: number
-  getSchedulesForDate?: (year: number, month: number, day: number) => ScheduleEvent[]
+  getSchedulesForDate?: (
+    year: number,
+    month: number,
+    day: number
+  ) => ScheduleEvent[]
 }
 
 interface Props extends DayProps {
