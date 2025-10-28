@@ -1,6 +1,6 @@
 'use client'
 
-import { Divide, PawPrint } from 'lucide-react'
+import { PawPrint } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
