@@ -76,7 +76,6 @@ export async function updatePetDetail(
   petData: Partial<Pet>,
   petId: string
 ): Promise<void> {
-  const supabase = createClient()
   const updatePayload = {
     adoption_date: petData?.adoption_date ?? null,
     bio: petData?.bio ?? null,
@@ -93,5 +92,11 @@ export async function updatePetDetail(
     .from('pets')
     .update(updatePayload)
     .eq('id', petId)
+  if (error) throw new Error(error.message)
+}
+
+export async function deletePet(petId: string): Promise<void> {
+  const { error } = await supabase.from('pets').delete().eq('id', petId)
+
   if (error) throw new Error(error.message)
 }

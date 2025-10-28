@@ -16,11 +16,10 @@ import type { ScheduleEvent } from '@/components/calendar/types'
 import Modal from '@/components/modal/Modal'
 import { NotLogin, NotSelectedPet } from '@/components/ui/status/EmptyState'
 import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
-import { useUserStore } from '@/store/userStore'
-import { usePageStatus } from '../../hooks/usePageStatus'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()

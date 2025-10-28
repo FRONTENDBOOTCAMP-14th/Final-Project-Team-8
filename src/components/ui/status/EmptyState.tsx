@@ -88,3 +88,27 @@ export function NotSelectedPet() {
     </div>
   )
 }
+
+export function DeletedPet() {
+  return (
+    <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
+      <div className="flex h-full flex-col items-center justify-center gap-[50px]">
+        <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
+          <p className="text-[34px] font-bold text-[#3A394F]">
+            삭제된 페이지를 보고있어요!
+          </p>
+          <p>성공적으로 삭제되었습니다</p>
+        </div>
+        <div className="imgBox">
+          <img src="/assets/img/noPets.svg" alt="삭제되었습니다." />
+        </div>
+      </div>
+      <Link
+        href="/dashboard"
+        className="flex h-[54px] w-full max-w-105 min-w-40 flex-row items-center justify-center rounded-[14px] bg-[#FF6000] p-[17px] text-lg text-[14px] font-bold text-white"
+      >
+        대시보드로 이동하기
+      </Link>
+    </div>
+  )
+}

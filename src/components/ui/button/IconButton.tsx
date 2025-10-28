@@ -1,5 +1,6 @@
-import { Check, Plus } from 'lucide-react'
+import { Check, Eraser, Plus } from 'lucide-react'
 import Link from 'next/link'
+import type { ComponentProps } from 'react'
 import Button from './Button'
 
 interface IconButtonProps {
@@ -99,5 +100,25 @@ export function XButton({ onClick }: ButtonProps) {
       </svg>
       <span className="sr-only">삭제</span>
     </button>
+  )
+}
+
+interface ButtonProps extends ComponentProps<'button'> {}
+export function DeleteButton({
+  children,
+  className,
+  ...restProps
+}: ButtonProps) {
+  return (
+    <Button
+      title="삭제"
+      variant="white"
+      aria-label="삭제하기"
+      className={`p- ${className} max-w-fit min-w-fit rounded-[19px]`}
+      {...restProps}
+    >
+      {children}
+      <Eraser className="h-full w-full" />
+    </Button>
   )
 }

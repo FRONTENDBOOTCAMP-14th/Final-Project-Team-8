@@ -1,10 +1,8 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { SquarePen } from 'lucide-react'
 import Image from 'next/image'
 import { toast } from 'sonner'
-import Button from '@/components/ui/button/Button'
 import {
   CameraButton,
   CheckButton,
@@ -43,7 +41,6 @@ export default function UserProfileSection(userData: Partial<UserData>) {
       toast.error('이미지 업데이트를 실패하였습니다')
     },
   })
-  const isUpdating = userProfileMutation.isPending
 
   const getFilePath = (userId: string): string => {
     return `user-profile/${userId}.now`
@@ -119,12 +116,6 @@ export default function UserProfileSection(userData: Partial<UserData>) {
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-4">
           <div className="text-2xl font-bold">{userData?.nickname}</div>
-          <Button
-            variant="white"
-            className="max-w-fit min-w-fit rounded-[19px] p-0.5"
-          >
-            <SquarePen className="w-[20px]" />
-          </Button>
         </div>
       </div>
     </section>

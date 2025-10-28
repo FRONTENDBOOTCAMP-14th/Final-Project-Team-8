@@ -1,6 +1,5 @@
 import type { User } from '@supabase/supabase-js'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { SquarePen } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -59,8 +58,6 @@ export default function PetProfileSection({
     },
   })
 
-  const isUpdating = petProfileMutation.isPending
-
   const getFilePath = (selectedPet: Pet): string => {
     return `pet-profile/${selectedPet.id}.now`
   }
@@ -87,7 +84,7 @@ export default function PetProfileSection({
   return (
     <>
       {/* 프로필 사진 부분 */}
-      <section className="flex w-full items-center gap-8">
+      <section className="relative flex w-full items-center gap-8">
         <div className="relative z-10">
           <div className="aspect-square w-30 overflow-hidden rounded-full bg-gray-100 outline-10 outline-gray-100">
             <Image
@@ -116,14 +113,8 @@ export default function PetProfileSection({
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <div className="text-2xl font-bold">{selectedPet.name}</div>
-            <Button
-              variant="white"
-              className="max-w-fit min-w-fit rounded-[19px] p-0.5"
-            >
-              <SquarePen className="w-[20px]" />
-            </Button>
           </div>
           <p className="text-gray-500">
             {selectedPet.species} | {selectedPet.breed}
