@@ -236,7 +236,7 @@ export default function FilterModal({
             >
               <input
                 type="checkbox"
-                id={`filter-${option.value}`}
+                id={`filter-${index}`}
                 ref={el => {
                   checboxRefs.current[arrayIndex] = el
                 }}
@@ -251,7 +251,7 @@ export default function FilterModal({
                 aria-hidden="true"
               ></span>
               <label
-                htmlFor={`filter-${option.value}`}
+                htmlFor={`filter-${index}`}
                 className="flex-1 cursor-pointer text-[#3A394F]"
                 onClick={e => e.preventDefault()}
               >

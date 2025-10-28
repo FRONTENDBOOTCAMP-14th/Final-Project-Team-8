@@ -122,7 +122,11 @@ export function ModalDetailInput({
           }}
         />
       )}
+      <label htmlFor="text-input-title" className="sr-only">
+        제목
+      </label>
       <input
+        id="text-input-title"
         type="text"
         defaultValue={title ?? ''}
         placeholder="제목을 입력해주세요"

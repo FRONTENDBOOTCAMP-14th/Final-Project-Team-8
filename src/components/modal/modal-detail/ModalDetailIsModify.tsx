@@ -338,7 +338,12 @@ interface ActionButtonsProps {
 function ActionButtons({ isLoading, onCancel }: ActionButtonsProps) {
   return (
     <div className="mt-5 flex gap-5">
-      <Button type="button" onClick={onCancel} disabled={isLoading}>
+      <Button
+        type="button"
+        variant="white"
+        onClick={onCancel}
+        disabled={isLoading}
+      >
         취소
       </Button>
       <Button type="submit" disabled={isLoading}>

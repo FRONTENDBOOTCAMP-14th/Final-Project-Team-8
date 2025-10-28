@@ -49,9 +49,10 @@ export default function CalendarBase({
         <thead className="text-sm font-bold text-[#80809A]">
           <tr>
             {DAYS_OF_WEEK.map((day, index) => (
-              <td key={index} aria-label={`${day}요일`}>
-                {day}
-              </td>
+              <th key={index} scope="col">
+                <span aria-hidden="true">{day}</span>
+                <span className="sr-only">{day}요일</span>
+              </th>
             ))}
           </tr>
         </thead>

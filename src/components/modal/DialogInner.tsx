@@ -48,13 +48,13 @@ export function DialogInner({
           {/* 🔹 닫기 버튼 (수정 중엔 비활성화) */}
           <button
             type="button"
-            aria-label="다이얼로그 닫기"
-            title="다이얼로그 닫기"
+            aria-label="닫기"
+            title="닫기"
             disabled={isModify}
             onClick={close}
             className="cursor-pointer rounded-full text-gray-600 transition focus:outline-orange-400 active:scale-[0.95] disabled:cursor-not-allowed disabled:text-gray-300"
           >
-            <X width={20} height={20} />
+            <X size={20} />
           </button>
         </div>
 
