@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: '캘린더 - PAW BUDDY',
 }
 
-export default function MainLayout({ children }: PropsWithChildren) {
+export default function CalendarLayout({ children }: PropsWithChildren) {
   return (
     <div className="flex h-lvh w-full flex-row overflow-hidden bg-[#2D2A40] p-2.5">
       <Sidebar />

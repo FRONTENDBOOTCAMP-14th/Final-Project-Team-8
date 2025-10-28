@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
 
 export const metadata: Metadata = {
-  title: '대시보드 - PAW BUDDY',
+  title: '반려동물 추가 - PAW BUDDY',
 }
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+export default function AddProfileLayout({ children }: PropsWithChildren) {
   return <>{children}</>
 }
