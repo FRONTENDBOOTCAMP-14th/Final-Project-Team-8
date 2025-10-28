@@ -63,11 +63,12 @@ export default function DaySchedule({
     const today = new Date()
 
     return (
+      isCurrentMonth &&
       today.getFullYear() === currentYear &&
       today.getMonth() + 1 === currentMonth &&
       today.getDate() === date
     )
-  }, [currentYear, currentMonth, date])
+  }, [isCurrentMonth, currentYear, currentMonth, date])
 
   const handleClick = () => {
     if (isCurrentMonth) {
@@ -145,7 +146,7 @@ export default function DaySchedule({
             {uniqueCategories.map((category, index) => (
               <span
                 key={index}
-                className={`aspect-square w-3 rounded-2xl ${CATEGORY_COLORS[category] ?? 'bg-[#A3A0C0]'}`}
+                className={`size-3 rounded-2xl ${CATEGORY_COLORS[category] ?? 'bg-[#A3A0C0]'}`}
                 title={category}
               ></span>
             ))}

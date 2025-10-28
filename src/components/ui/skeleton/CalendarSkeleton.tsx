@@ -25,7 +25,7 @@ export default function CalendarSkeleton() {
             {Array.from({ length: 7 }).map((_, dayIndex) => (
               <div
                 key={dayIndex}
-                className="aspect-square h-22.5 w-full rounded-xl bg-[#F7F7FC]"
+                className="h-22.5 w-full rounded-xl bg-[#F7F7FC]"
               />
             ))}
           </div>

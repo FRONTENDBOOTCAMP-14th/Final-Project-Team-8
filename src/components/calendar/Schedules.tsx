@@ -28,14 +28,14 @@ export default function Schedules({
 
   return (
     <div className="flex flex-col gap-5">
-      <h3 className="text-lg font-semibold text-[#3A394F]">{schedulesTitle}</h3>
+      <h2 className="text-lg font-semibold text-[#3A394F]">{schedulesTitle}</h2>
 
       {daySchedules.length === 0 ? (
         <div className="flex items-center justify-center rounded-2xl border-dashed border-[#DAD9E6] bg-[#F7F7FC] py-3">
           <p className="text-sm text-[#A3A0C0]">일정이 없습니다.</p>
         </div>
       ) : (
-        <ul className="flex flex-col gap-5 pr-2">
+        <ul className="flex flex-col gap-5">
           {daySchedules.map(schedule => (
             <li key={schedule.id} className="relative">
               <ScheduleListItem
@@ -56,10 +56,10 @@ export default function Schedules({
       <button
         type="button"
         onClick={onAddSchedule}
-        className="flex w-full justify-center rounded-2xl border border-[#DAD9E6] bg-white p-4 transition-colors hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]"
+        className="flex w-full cursor-pointer justify-center rounded-2xl border border-[#DAD9E6] bg-white p-4 transition-colors hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]"
         aria-label="일정 추가"
       >
-        <Plus className="h-6 w-6 text-[#80809A]" />
+        <Plus size={24} className="text-[#80809A]" />
       </button>
     </div>
   )

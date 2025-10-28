@@ -277,16 +277,15 @@ export default function AddScheduleModal({
                       }}
                       onClick={() => handleCategorySelect(option.apiType)}
                       onKeyDown={e => handleArrowKeyDown(e, index)}
-                      className="flex h-28 w-full flex-col items-center justify-center gap-3 rounded-xl border border-[#DAD9E6] bg-white hover:border-[#FF6000] hover:bg-[#FFF5F0] focus:border-[#FF6000] focus:outline-2 focus:outline-[#FF6000]"
+                      className="flex h-28 w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border border-[#DAD9E6] bg-white font-medium text-[#3A394F] hover:border-[#FF6000] hover:bg-[#FFF5F0] focus:border-[#FF6000] focus:outline-2 focus:outline-[#FF6000]"
                     >
                       <span
+                        aria-hidden="true"
                         className={`flex h-12 w-12 items-center justify-center rounded-full ${option.bgColor}`}
                       >
-                        <Icon className="h-6 w-6 text-white" />
+                        <Icon className="size-6 text-white" />
                       </span>
-                      <span className="font-medium text-[#3A394F]">
-                        {option.label}
-                      </span>
+                      {option.label}
                     </button>
                   </li>
                 )
@@ -299,9 +298,10 @@ export default function AddScheduleModal({
             type="button"
             onClick={handleClose}
             aria-label="닫기"
-            className="absolute top-7.5 right-7.5 h-8 w-8 rounded-full border-0 bg-transparent p-1 text-[#80809A] hover:text-[#3A394F] focus:outline-[#FF6000]"
+            title="닫기"
+            className="absolute top-7.5 right-7.5 size-8 cursor-pointer rounded-full border-0 bg-transparent p-1 text-[#80809A] hover:text-[#3A394F] focus:outline-[#FF6000]"
           >
-            <X className="h-full w-full" />
+            <X size={24} />
           </button>
         </div>
       </div>

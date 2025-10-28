@@ -182,14 +182,12 @@ export default function FilterModal({
       className="fixed top-1/2 left-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border-0 bg-white p-7.5 shadow-xl backdrop:bg-[#32324D]/30 backdrop:backdrop-blur-[3px]"
     >
       {/* 헤더 */}
-      <div className="mb-7.5">
-        <h2
-          id="filter-modal-title"
-          className="text-[26px] font-semibold text-[#3A394F]"
-        >
-          일정 필터
-        </h2>
-      </div>
+      <h2
+        id="filter-modal-title"
+        className="mb-7.5 text-[26px] font-semibold text-[#3A394F]"
+      >
+        일정 필터
+      </h2>
 
       {/* 모두 선택 */}
       <div
@@ -224,7 +222,7 @@ export default function FilterModal({
       <hr className="my-4 border-[#DaD9E6]" />
 
       {/* 필터 옵션 목록 */}
-      <ul className="space-y-3">
+      <ul className="mb-7.5 space-y-3">
         {FILTER_OPTIONS.map((option, index) => {
           const isChecked = selectedFilters.includes(option.value)
           const bgColor = `bg-${option.color}`
@@ -265,20 +263,19 @@ export default function FilterModal({
       </ul>
 
       {/* 하단 버튼 */}
-      <div className="mt-7.5 flex gap-3">
-        <Button variant="orange" onClick={handleClose}>
-          적용
-        </Button>
-      </div>
+      <Button variant="orange" onClick={handleClose}>
+        적용
+      </Button>
 
       {/* 닫기 버튼 */}
       <button
         type="button"
         onClick={handleClose}
         aria-label="닫기"
+        title="닫기"
         className="absolute top-7.5 right-7.5 size-8 cursor-pointer rounded-full border-0 bg-white p-1 text-[#80809A] hover:text-[#3A394F] focus:outline-[#FF6000]"
       >
-        <X className="h-full w-full" />
+        <X size={24} />
       </button>
     </dialog>
   )

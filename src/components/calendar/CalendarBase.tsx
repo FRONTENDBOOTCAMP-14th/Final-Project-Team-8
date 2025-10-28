@@ -38,7 +38,7 @@ export default function CalendarBase({
   getSchedulesForDate,
 }: Props) {
   return (
-    <section>
+    <>
       <SelectDate
         currentYear={currentYear}
         currentMonth={currentMonth}
@@ -74,6 +74,6 @@ export default function CalendarBase({
           ))}
         </tbody>
       </table>
-    </section>
+    </>
   )
 }
