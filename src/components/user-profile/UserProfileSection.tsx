@@ -1,8 +1,9 @@
 'use client'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { SquarePen } from 'lucide-react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import Button from '@/components/ui/button/Button'
 import {
   CameraButton,
@@ -10,11 +11,11 @@ import {
   XButton,
 } from '@/components/ui/button/IconButton'
 import useImageUpload from '@/hooks/useImageUpload'
-import type { UserData } from '@/hooks/useUserData'
+import { userKeys, type UserData } from '@/hooks/useUserDataQuery'
+import type { updateProps } from '@/libs/api/user'
 import { updateUserImg } from '@/libs/api/user'
 
 export default function UserProfileSection(userData: Partial<UserData>) {
-  const [currentImg, setCurrentImg] = useState(userData.profile_img)
   const {
     imagePreview,
     inputRef,
@@ -25,6 +26,24 @@ export default function UserProfileSection(userData: Partial<UserData>) {
   } = useImageUpload({
     initialUrl: userData.profile_img ?? null,
   })
+  const queryClient = useQueryClient()
+
+  const userProfileMutation = useMutation<void, Error, updateProps>({
+    mutationFn: updateUserImg,
+    onSuccess: () => {
+      if (userData.id) {
+        queryClient.invalidateQueries({
+          queryKey: userKeys.detail(userData.id),
+        })
+
+        toast.success('프로필 이미지가 업데이트되었습니다')
+      }
+    },
+    onError: () => {
+      toast.error('이미지 업데이트를 실패하였습니다')
+    },
+  })
+  const isUpdating = userProfileMutation.isPending
 
   const getFilePath = (userId: string): string => {
     return `user-profile/${userId}.now`
@@ -32,29 +51,26 @@ export default function UserProfileSection(userData: Partial<UserData>) {
 
   async function handleSubmit() {
     if (!imagePreview || !userData.id || !selectedFile) return
+
     const filePath = getFilePath(userData.id)
-    await updateUserImg({
+
+    userProfileMutation.mutate({
       filePath,
       selectedFile,
       userId: userData.id,
     })
-    alert('프로필 이미지가 업데이트되었습니다.')
-    setCurrentImg(imagePreview)
     removeImage()
   }
-
-  useEffect(() => {
-    setCurrentImg(userData.profile_img)
-  }, [userData])
+  const showImageUrl = imagePreview ?? userData.profile_img
 
   return (
     <section className="flex w-full items-center gap-8">
       {/* Main profile circle */}
       <div className="relative z-10">
         <div className="aspect-square w-30 overflow-hidden rounded-full bg-gray-100 outline-10 outline-gray-100">
-          {imagePreview || currentImg ? (
+          {showImageUrl ? (
             <Image
-              src={imagePreview ?? currentImg ?? ''}
+              src={showImageUrl}
               alt="Pet profile preview"
               width={160}
               height={160}
@@ -79,7 +95,7 @@ export default function UserProfileSection(userData: Partial<UserData>) {
           )}
         </div>
 
-        {imagePreview ? (
+        {selectedFile ? (
           <CheckButton onClick={handleSubmit} />
         ) : (
           <CameraButton
@@ -90,7 +106,7 @@ export default function UserProfileSection(userData: Partial<UserData>) {
         )}
 
         {/* Delete button - only show when image exists */}
-        {imagePreview && <XButton onClick={removeImage} />}
+        {selectedFile && <XButton onClick={removeImage} />}
 
         <input
           ref={inputRef}

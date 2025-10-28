@@ -1,12 +1,11 @@
 // 로그인한 유저 테이블 정보를 가져옵니다
 
-import type { User } from '@supabase/supabase-js'
-import type { UserData } from '@/hooks/useUserData'
+import type { UserData } from '@/hooks/useUserDataQuery'
 import { createClient } from '../supabase/client'
 
 const supabase = createClient()
 
-interface updateProps {
+export interface updateProps {
   selectedFile: File
   filePath: string
   userId: string
@@ -17,11 +16,11 @@ interface updateUserDetailProps {
   userId: string
 }
 
-export async function getUserData(user: User) {
+export async function getUserData(userId: string) {
   const { data, error } = await supabase
     .from('users')
     .select('*')
-    .eq('id', user.id)
+    .eq('id', userId)
     .single()
 
   if (error) throw new Error(error.message)
@@ -32,7 +31,7 @@ export async function updateUserImg({
   selectedFile,
   filePath,
   userId,
-}: updateProps) {
+}: updateProps): Promise<void> {
   // storage 에 업로드
   const { error: profileError } = await supabase.storage
     .from('profiles')
@@ -57,7 +56,7 @@ export async function updateUserImg({
   const publicURLWithCacheBuster = publicURL + cacheBuster
 
   // users table에 스토리지 경로로 이미지 업데이트
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('users')
     .update({ profile_img: publicURLWithCacheBuster })
     .eq('id', userId)
@@ -65,13 +64,12 @@ export async function updateUserImg({
   if (error) {
     throw new Error(error.message)
   }
-  return data
 }
 
 export async function updateUserDetail({
   userData,
   userId,
-}: updateUserDetailProps) {
+}: updateUserDetailProps): Promise<void> {
   const updatePayload = {
     birthday: userData.birthday ?? null,
     gender: userData.gender ?? null,
@@ -79,10 +77,9 @@ export async function updateUserDetail({
     phone: userData.phone ?? null,
   }
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('users')
     .update(updatePayload)
     .eq('id', userId)
   if (error) throw new Error(error.message)
-  return data
 }

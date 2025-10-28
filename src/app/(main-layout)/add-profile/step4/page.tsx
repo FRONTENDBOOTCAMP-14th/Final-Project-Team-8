@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CardButton } from '@/components'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 export default function Step4Page() {
@@ -43,7 +46,10 @@ export default function Step4Page() {
   useEffect(() => {
     setCurrentStep(4)
   }, [setCurrentStep])
+  const { user, isLoading } = usePageStatus()
 
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
   return (
     <AddProfileLayout
       stepTitle="체형"

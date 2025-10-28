@@ -1,4 +1,4 @@
-import type { UserData } from '@/hooks/useUserData'
+import type { UserData } from '@/hooks/useUserDataQuery'
 
 export default function UserDetailSection(userData: Partial<UserData>) {
   // 나이 계산 함수

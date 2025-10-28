@@ -2,8 +2,8 @@ import type { User } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import PetAvatar from '@/components/ui/avatar/PetAvartar'
 import IconButton from '@/components/ui/button/IconButton'
-import type { PetSummary } from '@/store/petStore'
-import { useUserStore } from '../../../store/userStore'
+import { useUserStore } from '@/store/userStore'
+import type { PetSummary } from '../../../store/petStore'
 import Button from '../button/Button'
 
 interface PetProfileListProps {

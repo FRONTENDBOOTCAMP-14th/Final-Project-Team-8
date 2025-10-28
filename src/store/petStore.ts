@@ -31,6 +31,7 @@ interface PetStore {
   fetchPetSummary: (user: User) => Promise<void>
   selectedPet?: Pet | undefined
   fetchSelectedPet: (id: string | null) => Promise<void>
+  updatePetData: (data: Partial<Pet>) => void
   resetPets: () => void
 }
 
@@ -91,14 +92,16 @@ export const usePetStore = create<PetStore>((set, get) => ({
       bio: pet.bio ?? null,
     }))
 
+    const selectedId = get().selectedPetId ?? data[0]?.id ?? null
+
     set({
       petList: summary,
-      selectedPetId: data[0]?.id ?? null,
-      selectedPet: undefined,
+      // selectedPetId 유지, 없으면 첫 번째 pet 선택
+      selectedPetId: selectedId,
     })
 
     // 첫 번째 반려동물 상세 정보 fetch
-    if (data[0]?.id) get().fetchSelectedPet(data[0].id)
+    if (selectedId) get().fetchSelectedPet(selectedId)
   },
 
   /**
@@ -110,7 +113,19 @@ export const usePetStore = create<PetStore>((set, get) => ({
     const data = await getSelectedPet(id)
     set({ selectedPet: data })
   },
-
+  updatePetData: (data: Partial<Pet>) => {
+    set(state => {
+      if (state.selectedPet) {
+        return {
+          selectedPet: {
+            ...state.selectedPet,
+            ...data, // 새로운 데이터(data)를 기존 데이터에 병합
+          },
+        }
+      }
+      return state
+    })
+  },
   /**
    * Pet Store 초기화
    * - 로그아웃 시 사용
