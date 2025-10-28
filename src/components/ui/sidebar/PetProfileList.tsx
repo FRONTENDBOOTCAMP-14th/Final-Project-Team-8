@@ -20,20 +20,25 @@ export default function PetProfileList({
   const router = useRouter()
   const user = useUserStore<User | null>(s => s.user)
   return (
-    <section className="flex flex-row flex-nowrap gap-4 overflow-x-auto p-1">
-      {pets.map(pet => (
-        <PetAvatar
-          key={pet.id}
-          pet={pet}
-          selected={selectedId === pet.id}
-          onClick={() => onSelect(pet.id)}
-        ></PetAvatar>
-      ))}
+    <>
       {user ? (
-        <IconButton onClick={() => onSelect(null)}></IconButton>
+        <ul className="flex flex-row flex-nowrap gap-4 overflow-x-auto p-1">
+          {pets.map(pet => (
+            <li key={pet.id}>
+              <PetAvatar
+                pet={pet}
+                selected={selectedId === pet.id}
+                onClick={() => onSelect(pet.id)}
+              />
+            </li>
+          ))}
+          <li>
+            <IconButton onClick={() => onSelect(null)} />
+          </li>
+        </ul>
       ) : (
-        <div className="flex w-full flex-col gap-2">
-          <Button variant="gray" onClick={() => router.push('/login')}>
+        <div role="group" className="flex w-full flex-col gap-2">
+          <Button variant="white" onClick={() => router.push('/login')}>
             로그인
           </Button>
           <Button variant="transparent" onClick={() => router.push('/sign-up')}>
@@ -41,6 +46,6 @@ export default function PetProfileList({
           </Button>
         </div>
       )}
-    </section>
+    </>
   )
 }

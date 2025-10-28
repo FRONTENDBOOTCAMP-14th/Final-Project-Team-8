@@ -86,8 +86,8 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
           </div>
         )}
         <div className="text-white">
-          <div className="text-sm opacity-80">Hello</div>
-          <div className="text-lg font-semibold">{displayName}</div>
+          <p className="text-sm opacity-80">Hello</p>
+          <p className="text-lg font-semibold">{displayName}</p>
         </div>
       </Link>
 
@@ -95,6 +95,7 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
         onClick={handleLogout}
         className="ml-6 rounded-lg p-2 text-white transition-colors hover:bg-gray-700"
         aria-label="로그아웃"
+        title="로그아웃"
       >
         <LogOut size={20} />
       </button>

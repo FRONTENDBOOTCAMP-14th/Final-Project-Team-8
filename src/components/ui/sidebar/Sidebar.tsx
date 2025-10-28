@@ -120,13 +120,13 @@ export default function Sidebar() {
       >
         <img
           src="/assets/logo/Logo-Paw-Buddy.svg"
-          alt="Paw Buddy 로고"
+          alt="Paw Buddy 대시보드"
           className="p-auto my-6"
         />
       </Link>
       {/* 등록된 반려동물 프로필버튼, 반려동물 추가등록 버튼 */}
       <div className="flex flex-col justify-center gap-3">
-        <div>Your Pets</div>
+        <p>나의 반려동물</p>
         {isLoading ? (
           <PetProfileListSkeleton />
         ) : (
@@ -135,29 +135,34 @@ export default function Sidebar() {
               pets={petList}
               selectedId={selectedPetId}
               onSelect={setSelectedPetId}
-            ></PetProfileList>
+            />
           </div>
         )}
       </div>
       <div className="border-[1.5px] border-b border-[#636073]"></div>
       {/* 메뉴 영역 */}
-      <nav className="flex flex-col justify-start gap-3">
-        {menuoptions.map(option => {
-          const isActive = currentPath === option.path
-          return (
-            <Link
-              key={option.name}
-              href={option.path}
-              className={`rounded-lg p-3 ${isActive ? 'bg-[#FFD8C0] font-bold text-[#FF6000]' : 'hover:text-[#FFD8C0]'}`}
-              aria-current={isActive ? 'page' : undefined}
-            >
-              <div className={'flex flex-row items-center gap-3'}>
-                {option.icon}
-                {option.name}
-              </div>
-            </Link>
-          )
-        })}
+      <nav>
+        <ul className="flex flex-col justify-start gap-3">
+          {menuoptions.map(option => {
+            const isActive = currentPath === option.path
+            return (
+              <li
+                key={option.name}
+                className={`rounded-lg p-3 ${isActive ? 'bg-[#FFD8C0] font-bold text-[#FF6000]' : 'hover:text-[#FFD8C0]'}`}
+              >
+                <Link
+                  href={option.path}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <div className={'flex flex-row items-center gap-3'}>
+                    {option.icon}
+                    {option.name}
+                  </div>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
       </nav>
       {/* 유저 프로필영역 */}
       <div className="mt-auto flex items-center justify-center">

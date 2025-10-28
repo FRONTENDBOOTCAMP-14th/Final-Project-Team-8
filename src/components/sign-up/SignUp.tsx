@@ -69,15 +69,19 @@ export default function Signup({
     }
   }, [signupError])
 
-  const handleSubmit = useCallback(() => {
-    setAllTouched()
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault()
+      setAllTouched()
 
-    if (onSignup && isFormValid) {
-      startTransition(() => {
-        onSignup(email, password, name.trim())
-      })
-    }
-  }, [name, email, password, onSignup, isFormValid, setAllTouched])
+      if (onSignup && isFormValid) {
+        startTransition(() => {
+          onSignup(email, password, name.trim())
+        })
+      }
+    },
+    [name, email, password, onSignup, isFormValid, setAllTouched]
+  )
 
   return (
     <section className="flex w-[700px] translate-y-5">
@@ -103,7 +107,7 @@ export default function Signup({
         </p>
 
         {/* Signup Form */}
-        <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <NameInput
             value={name}
             onChange={value => {
@@ -188,7 +192,6 @@ export default function Signup({
           <div className="flex justify-center">
             <Button
               type="submit"
-              onClick={handleSubmit}
               disabled={isPending}
               variant="orange"
               className="w-full focus:border-blue-600"
@@ -196,7 +199,7 @@ export default function Signup({
               {isPending ? '계정 만드는 중...' : '계정 만들기'}
             </Button>
           </div>
-        </div>
+        </form>
 
         {/* Footer Links */}
         <div className="mt-6 text-center">

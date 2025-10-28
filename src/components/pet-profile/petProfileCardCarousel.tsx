@@ -63,7 +63,9 @@ export default function PetProfileCardCarousel() {
           className="max-w-fit min-w-fit shadow-md"
           variant="transparent"
           onClick={goToPrev}
-          disabled={petList.length < 1} // 리스트가 비어있을 때 버튼 비활성화
+          disabled={petList.length <= 1} // 리스트가 비어있을 때 버튼 비활성화
+          aria-disabled={petList.length <= 1}
+          aria-label="이전 카드"
         >
           <MoveLeft />
         </Button>
@@ -125,27 +127,31 @@ export default function PetProfileCardCarousel() {
           className="max-w-fit min-w-fit shadow-md"
           variant="transparent"
           onClick={goToNext}
-          disabled={petList.length < 1} // 리스트가 비어있을 때 버튼 비활성화
+          disabled={petList.length <= 1} // 리스트가 비어있거나 하나일 때 버튼 비활성화
+          aria-disabled={petList.length <= 1}
+          aria-label="다음 카드"
         >
           <MoveRight />
         </Button>
       </div>
       {/* 인디케이터 버튼 섹션 */}
       {petList.length > 0 && (
-        <div className="mt-4 flex justify-center space-x-2">
+        <ul className="mt-4 flex justify-center space-x-2">
           {petList.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => updateIndex(index)} // 클릭 시 해당 인덱스로 이동
-              aria-label={`${index + 1}번 카드로 이동`}
-              className={`h-3 w-3 rounded-full transition-colors duration-300 ease-in-out ${
-                index === currentIndex
-                  ? 'scale-125 bg-[#FF6000]' // 활성화된 버튼 색상 및 크기
-                  : 'bg-gray-300 hover:bg-gray-400' // 비활성화된 버튼 색상
-              } `}
-            />
+            <li key={index}>
+              <button
+                type="button"
+                onClick={() => updateIndex(index)} // 클릭 시 해당 인덱스로 이동
+                aria-label={`${index + 1}번 카드로 이동`}
+                className={`h-3 w-3 rounded-full transition-colors duration-300 ease-in-out ${
+                  index === currentIndex
+                    ? 'scale-125 bg-[#FF6000]' // 활성화된 버튼 색상 및 크기
+                    : 'bg-gray-300 hover:bg-gray-400' // 비활성화된 버튼 색상
+                } `}
+              />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   )
