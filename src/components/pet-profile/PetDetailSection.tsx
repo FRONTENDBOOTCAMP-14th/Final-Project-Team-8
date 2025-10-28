@@ -17,8 +17,8 @@ export default function PetDetailSection({ selectedPet }: PetDetailProps) {
     <section className="mt-5 flex flex-col">
       <h2 className="sr-only">상세 정보</h2>
       <div className="flex flex-col gap-4 text-gray-500">
-        <h3 className="text-[18px] font-bold text-neutral-600">외모 및 특징</h3>
         <p>{selectedPet.bio}</p>
+        <h3 className="text-[18px] font-bold text-neutral-600">외모 및 특징</h3>
         <dl className="flex flex-col gap-4">
           <div className="flex justify-between">
             <dt>성별</dt>
