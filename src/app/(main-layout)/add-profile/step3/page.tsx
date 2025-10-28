@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import type { ChangeEvent } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 export default function Step3NamePage() {
@@ -109,6 +112,11 @@ export default function Step3NamePage() {
       }
     }
   }, [])
+
+  const { user, isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
 
   return (
     <AddProfileLayout

@@ -76,3 +76,20 @@ export function EmptyPet() {
     </div>
   )
 }
+
+export function NotSelectedPet() {
+  return (
+    <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
+      <div className="flex h-full flex-col items-center justify-center gap-[50px]">
+        <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
+          <p className="text-[34px] font-bold text-[#3A394F]">
+            사이드바에서 반려동물을 선택해주세요
+          </p>
+        </div>
+        <div className="imgBox">
+          <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
+        </div>
+      </div>
+    </div>
+  )
+}

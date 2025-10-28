@@ -5,8 +5,11 @@ import { useRouter } from 'next/navigation'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
-import { useProfileCreationStore } from '@/store/profileCreationStore'
 import '@/styles/slider.css'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
+import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 export default function Step5WeightPage() {
   const router = useRouter()
@@ -77,6 +80,11 @@ export default function Step5WeightPage() {
     nextStep()
     router.push('/add-profile/step6')
   }
+
+  const { user, isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
 
   return (
     <AddProfileLayout

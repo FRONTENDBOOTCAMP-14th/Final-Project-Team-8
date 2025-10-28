@@ -59,23 +59,12 @@ export function Loading() {
     <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
       <div className="flex h-full flex-col items-center justify-center gap-[50px]">
         <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-          <p className="text-[34px] font-bold text-[#3A394F]">
-            앗, 아직 비어있어요!
-          </p>
-          <p>소중한 우리 아이들을 소개해주세요</p>
-
-          <p>첫 번째 반려동믈을 등록해보세요</p>
+          <p className="text-[34px] font-bold text-[#3A394F]">로딩중이에요</p>
         </div>
         <div className="imgBox">
-          <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
+          <img src="/assets/img/noPets.svg" alt="로딩중" />
         </div>
       </div>
-      <Link
-        href="/login"
-        className="flex h-[54px] w-full max-w-105 min-w-40 flex-row items-center justify-center rounded-[14px] bg-[#FF6000] p-[17px] text-lg text-[14px] font-bold text-white"
-      >
-        로그인 하기
-      </Link>
     </div>
   )
 }
