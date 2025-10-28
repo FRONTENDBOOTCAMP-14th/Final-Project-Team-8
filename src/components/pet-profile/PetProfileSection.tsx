@@ -59,8 +59,6 @@ export default function PetProfileSection({
     },
   })
 
-  const isUpdating = petProfileMutation.isPending
-
   const getFilePath = (selectedPet: Pet): string => {
     return `pet-profile/${selectedPet.id}.now`
   }
