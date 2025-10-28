@@ -15,7 +15,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
       </head>
-      <body className="overflow-hidden">
+      <body className="overflow-auto">
         <Providers>
           <main>{children}</main>
           <section id="modal-dialog-portal"></section>

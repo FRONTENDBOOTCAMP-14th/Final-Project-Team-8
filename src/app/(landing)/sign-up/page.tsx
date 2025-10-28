@@ -33,9 +33,14 @@ export default function SignupPage() {
     handleSignupSuccess()
   }
 
-  const handleSignupError = (error: any) => {
+  const handleSignupError = (error: unknown) => {
     // 에러 코드 추출 (code 또는 status)
-    const errorCode = error.code ?? error.status?.toString()
+    const errorCode =
+      error && typeof error === 'object' && 'code' in error
+        ? String(error.code)
+        : error && typeof error === 'object' && 'status' in error
+          ? String(error.status)
+          : undefined
 
     // 에러 코드에 맞는 메시지 찾기 (없으면 기본 메시지 보여짐)
     const errorMessage = errorCode

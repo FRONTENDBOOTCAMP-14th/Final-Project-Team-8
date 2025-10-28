@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import type { PropsWithChildren } from 'react'
 import { useState } from 'react'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
 import {
@@ -18,7 +19,7 @@ interface Props {
   initialTab: 'health' | 'nutrition' | 'activity' | null
 }
 
-export default function PetProfilePage() {
+export default function PetProfilePage({ children }: PropsWithChildren) {
   const { selectedPet, petList } = usePetStore()
   const { user } = useUserStore()
   const [activeTab] = useState<Props['initialTab']>(null)
@@ -79,6 +80,7 @@ export default function PetProfilePage() {
             </Link>
           </h3>
         </nav>
+        <div>{children}</div>
       </div>
     </div>
   )
