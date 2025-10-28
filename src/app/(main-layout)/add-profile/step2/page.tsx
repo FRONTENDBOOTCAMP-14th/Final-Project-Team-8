@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ImgCardButton } from '@/components'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 const BREED_OPTIONS = [
@@ -62,6 +65,11 @@ export default function Step2BreedPage() {
     nextStep()
     router.push('/add-profile/step3')
   }
+
+  const { user, isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
 
   return (
     <AddProfileLayout

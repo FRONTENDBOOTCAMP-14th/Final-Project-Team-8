@@ -5,7 +5,7 @@ import { createClient } from '../supabase/client'
 
 const supabase = createClient()
 
-interface updateProps {
+export interface updateProps {
   selectedFile: File
   filePath: string
   petId: string
@@ -37,7 +37,7 @@ export async function updatePetImg({
   selectedFile,
   filePath,
   petId,
-}: updateProps) {
+}: updateProps): Promise<void> {
   // storage 에 업로드
   const { error: profileError } = await supabase.storage
     .from('profiles')
@@ -62,7 +62,7 @@ export async function updatePetImg({
   const publicURLWithCacheBuster = publicURL + cacheBuster
 
   // pets table에 스토리지 경로로 이미지 업데이트
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('pets')
     .update({ profile_img: publicURLWithCacheBuster })
     .eq('id', petId)
@@ -70,10 +70,12 @@ export async function updatePetImg({
   if (error) {
     throw new Error(error.message)
   }
-  return data
 }
 
-export async function updatePetDetail(petData: Partial<Pet>, petId: string) {
+export async function updatePetDetail(
+  petData: Partial<Pet>,
+  petId: string
+): Promise<void> {
   const supabase = createClient()
   const updatePayload = {
     adoption_date: petData?.adoption_date ?? null,
@@ -87,10 +89,9 @@ export async function updatePetDetail(petData: Partial<Pet>, petId: string) {
     weight: petData?.weight ?? null,
     profile_img: petData?.profile_img ?? null,
   }
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('pets')
     .update(updatePayload)
     .eq('id', petId)
   if (error) throw new Error(error.message)
-  return data
 }

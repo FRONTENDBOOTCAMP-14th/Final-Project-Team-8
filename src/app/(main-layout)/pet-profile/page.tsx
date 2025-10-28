@@ -3,8 +3,15 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
+import {
+  EmptyPet,
+  NotLogin,
+  NotSelectedPet,
+} from '@/components/ui/status/EmptyState'
 import { LoadingPet } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { usePetStore } from '@/store/petStore'
+import { useUserStore } from '@/store/userStore'
 import { tw } from '@/utils/shared'
 
 interface Props {
@@ -12,19 +19,22 @@ interface Props {
 }
 
 export default function PetProfilePage() {
-  const { selectedPet } = usePetStore()
+  const { selectedPet, petList } = usePetStore()
+  const { user } = useUserStore()
   const [activeTab] = useState<Props['initialTab']>(null)
 
-  if (!selectedPet) {
-    return <LoadingPet />
-  }
+  const { isLoading } = usePageStatus()
+  if (isLoading) return <LoadingPet />
+  if (!user) return <NotLogin />
+  if (petList.length === 0) return <EmptyPet />
+  if (!selectedPet) return <NotSelectedPet />
 
   return (
     <div className="flex h-full w-full gap-[30px]">
       {/* 왼쪽 */}
       <div className="relative flex w-4/10 min-w-90 flex-col gap-5">
         <h1 className="w-full text-[28px] font-bold">반려동물 프로필</h1>
-        <PetProfileSection selectedPet={selectedPet} />
+        <PetProfileSection user={user} selectedPet={selectedPet} />
       </div>
 
       <div className="w-px bg-neutral-200"></div>
