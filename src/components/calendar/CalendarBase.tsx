@@ -15,7 +15,7 @@ export type DayComponentProps = CalendarControls & {
 }
 
 interface Props extends CalendarControls {
-  DayComponent: React.ComponentType<any>
+  DayComponent: React.ComponentType
   getSchedulesForDate?:
     | ((year: number, month: number, day: number) => ScheduleEvent[])
     | undefined
