@@ -68,7 +68,7 @@ export function EmptyPet() {
         </div>
       </div>
       <Link
-        href="/login"
+        href="/add-profile/step1"
         className="flex h-[54px] w-full max-w-105 min-w-40 flex-row items-center justify-center rounded-[14px] bg-[#FF6000] p-[17px] text-lg text-[14px] font-bold text-white"
       >
         반려동물 등록하기
