@@ -8,7 +8,8 @@ interface PetAvatarProps {
   onClick?: (id: string) => void
 }
 
-const baseStyle = 'aspect-square w-[60px] rounded-full object-cover'
+const baseStyle =
+  'aspect-square min-w-[60px] w-[60px] rounded-full object-cover'
 
 export default function PetAvartar({ pet, selected, onClick }: PetAvatarProps) {
   return (

@@ -39,9 +39,9 @@ export default function ConfirmModal({
           <X />
         </button>
         {title && (
-          <p id="modal-title" className="mb-4 text-xl font-bold">
+          <h2 id="modal-title" className="mb-4 text-xl font-bold">
             {title}
-          </p>
+          </h2>
         )}
         <div className="flex min-h-50 flex-col items-center justify-center gap-2 text-2xl font-bold whitespace-nowrap">
           {children}

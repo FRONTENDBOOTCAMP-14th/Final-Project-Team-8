@@ -61,88 +61,86 @@ export default function UserDetailEditSection({
   const isSaving = mutation.isPending
 
   return (
-    <section className="flex flex-col">
-      <div className="flex flex-col gap-4 text-gray-500">
-        <h3 className="text-[18px] font-bold text-neutral-600">
-          사용자 정보 수정
-        </h3>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 whitespace-nowrap"
-        >
-          {/* 성별 */}
-          <div className="flex gap-4">
-            <label htmlFor="gender">성별</label>
-            <select
-              id="gender"
-              {...register('gender')}
-              className="font-bold text-neutral-600"
-            >
-              <option value="">선택안함</option>
-              <option value="남성">남성</option>
-              <option value="여성">여성</option>
-            </select>
-          </div>
-          <hr className="border-neutral-200" />
-          {/* 생일 */}
-          <div className="flex gap-4">
-            <label htmlFor="birthday">생일</label>
-            <input
-              type="date"
-              id="birthday"
-              {...register('birthday')}
-              className="font-bold text-neutral-600"
-            />
-          </div>
-          <hr className="border-neutral-200" />
-          {/* 이름 */}
-          <div className="flex gap-4">
-            <label htmlFor="nickname" className="">
-              별명
-            </label>
-            <input
-              type="text"
-              id="nickname"
-              {...register('nickname')}
-              className="w-full font-bold text-neutral-600"
-            />
-          </div>
-          <hr className="border-neutral-200" />
-          {/* 전화번호 */}
-          <div className="flex flex-col gap-1">
-            <label htmlFor="phone">전화번호</label>
-            <input
-              type="text"
-              id="phone"
-              {...register('phone')}
-              className="w-full font-bold text-neutral-600"
-            />
-          </div>
-          <hr className="border-neutral-200" />
-          {/* 이메일(변경불가) */}
-          <div className="flex flex-col">
-            <label htmlFor="email">가입 이메일</label>
-            <input
-              type="text"
-              id="email"
-              {...register('email')}
-              disabled
-              className="font-bold text-gray-500"
-            />
-          </div>
-          {/* 취소버튼 / 저장버튼 */}
-          <div className="absolute bottom-0 flex w-full flex-col gap-4">
-            {/* 저장 */}
-            <Button variant="orange" type="submit" disabled={isSaving}>
-              {isSaving ? '저장 중...' : '저장'}
-            </Button>
-            {/* 취소 */}
-            <Button variant="white" onClick={onCancel}>
-              취소
-            </Button>
-          </div>
-        </form>
-      </div>
+    <section className="flex flex-col gap-4 text-gray-500">
+      <h3 className="text-[18px] font-bold text-neutral-600">
+        사용자 정보 수정
+      </h3>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 whitespace-nowrap"
+      >
+        {/* 성별 */}
+        <div className="flex gap-4">
+          <label htmlFor="gender">성별</label>
+          <select
+            id="gender"
+            {...register('gender')}
+            className="font-bold text-neutral-600"
+          >
+            <option value="">선택안함</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
+          </select>
+        </div>
+        <hr className="border-neutral-200" />
+        {/* 생일 */}
+        <div className="flex gap-4">
+          <label htmlFor="birthday">생일</label>
+          <input
+            type="date"
+            id="birthday"
+            {...register('birthday')}
+            className="font-bold text-neutral-600"
+          />
+        </div>
+        <hr className="border-neutral-200" />
+        {/* 이름 */}
+        <div className="flex gap-4">
+          <label htmlFor="nickname" className="">
+            별명
+          </label>
+          <input
+            type="text"
+            id="nickname"
+            {...register('nickname')}
+            className="w-full font-bold text-neutral-600"
+          />
+        </div>
+        <hr className="border-neutral-200" />
+        {/* 전화번호 */}
+        <div className="flex flex-col gap-1">
+          <label htmlFor="phone">전화번호</label>
+          <input
+            type="text"
+            id="phone"
+            {...register('phone')}
+            className="w-full font-bold text-neutral-600"
+          />
+        </div>
+        <hr className="border-neutral-200" />
+        {/* 이메일(변경불가) */}
+        <div className="flex flex-col">
+          <label htmlFor="email">가입 이메일</label>
+          <input
+            type="text"
+            id="email"
+            {...register('email')}
+            disabled
+            className="font-bold text-gray-500"
+          />
+        </div>
+        {/* 취소버튼 / 저장버튼 */}
+        <div className="absolute bottom-0 flex w-full flex-col gap-4">
+          {/* 저장 */}
+          <Button variant="orange" type="submit" disabled={isSaving}>
+            {isSaving ? '저장 중...' : '저장'}
+          </Button>
+          {/* 취소 */}
+          <Button variant="white" onClick={onCancel}>
+            취소
+          </Button>
+        </div>
+      </form>
     </section>
   )
 }

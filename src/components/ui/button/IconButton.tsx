@@ -113,7 +113,7 @@ export function DeleteButton({
     <Button
       title="삭제"
       variant="white"
-      aria-label="삭제하기"
+      aria-label="삭제"
       className={`p- ${className} max-w-fit min-w-fit rounded-[19px]`}
       {...restProps}
     >
