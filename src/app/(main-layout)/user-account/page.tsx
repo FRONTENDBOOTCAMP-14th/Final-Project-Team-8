@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import Button from '@/components/ui/button/Button'
-import DisabledWrapper from '@/components/ui/status/DisableWrapper'
 import { NotLogin } from '@/components/ui/status/EmptyState'
 import { LoadingUser, Loading } from '@/components/ui/status/Loading'
 import {
@@ -76,11 +75,9 @@ export default function UserAccountPage() {
         <div className="mx-2 w-px bg-neutral-200"></div>
 
         {/* 오른쪽 */}
-        <DisabledWrapper disabled={true}>
-          <div className="flex w-4/7 flex-col gap-5">
-            <UserSettings />
-          </div>
-        </DisabledWrapper>
+        <div className="flex w-4/7 flex-col gap-5">
+          <UserSettings />
+        </div>
       </div>
     </div>
   )
