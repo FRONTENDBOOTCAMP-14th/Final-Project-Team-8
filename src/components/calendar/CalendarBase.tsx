@@ -49,22 +49,23 @@ export default function CalendarBase({
           </tr>
         </thead>
         <tbody className="text-[#636073]">
-          {calendar.map((week, index) => (
-            <Week
-              key={index}
-              week={week}
-              weekIndex={index}
-              DayComponent={DayComponent}
-              currentYear={currentYear}
-              currentMonth={currentMonth}
-              selectedDate={selectedDate}
-              onDayClick={handleDayClick}
-              selectedDateRef={selectedDateRef}
-              setDayButtonRef={setDayButtonRef}
-              focusDay={focusDay}
-              getSchedulesForDate={getSchedulesForDate}
-            />
-          ))}
+          {calendar.map((week, index) => {
+            const weekProps = {
+              week,
+              weekIndex: index,
+              DayComponent,
+              currentYear,
+              currentMonth,
+              selectedDate,
+              onDayClick: handleDayClick,
+              selectedDateRef,
+              setDayButtonRef,
+              focusDay,
+              ...(getSchedulesForDate && { getSchedulesForDate }),
+            }
+            {/* @ts-expect-error - key is a special React prop and doesn't need to be in Props type */}
+            return <Week key={index} {...weekProps} />
+          })}
         </tbody>
       </table>
     </section>

@@ -6,9 +6,7 @@ export interface DayComponentProps extends DayProps {
   dayData: CalendarDay
   rowIndex: number
   colIndex: number
-  getSchedulesForDate?:
-    | ((year: number, month: number, day: number) => ScheduleEvent[])
-    | undefined
+  getSchedulesForDate?: (year: number, month: number, day: number) => ScheduleEvent[]
 }
 
 interface Props extends DayProps {
@@ -52,7 +50,7 @@ export default function Week({
           colIndex={index}
           setDayButtonRef={setDayButtonRef}
           focusDay={focusDay}
-          getSchedulesForDate={getSchedulesForDate}
+          {...(getSchedulesForDate && { getSchedulesForDate })}
         />
       ))}
     </tr>
