@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
 import { DeleteButton } from '@/components/ui/button/IconButton'
@@ -52,6 +52,10 @@ export default function PetProfilePage() {
   async function handleDelte(petId: string) {
     deletePetMutation.mutate(petId)
   }
+
+  useEffect(() => {
+    setIsDeleted(false)
+  }, [selectedPet])
 
   const { isLoading } = usePageStatus()
   if (isLoading) return <LoadingPet />
