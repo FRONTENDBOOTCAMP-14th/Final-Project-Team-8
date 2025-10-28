@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState, type PropsWithChildren } from 'react'
+import { useEffect, useState, type PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
 import { DeleteButton } from '@/components/ui/button/IconButton'
@@ -45,6 +45,10 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
   async function handleDelte(petId: string) {
     deletePetMutation.mutate(petId)
   }
+
+  useEffect(() => {
+    setIsDeleted(false)
+  }, [selectedPet])
 
   const { isLoading } = usePageStatus()
   if (isLoading) return <LoadingPet />
