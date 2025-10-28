@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import PetProfileSection from '@/components/pet-profile/PetProfileSection'
 import { DeleteButton } from '@/components/ui/button/IconButton'
-import ConfirmModal from '@/components/ui/ConfirmModal'
+import ConfirmModal from '@/components/ui/modal/ConfirmModal'
 import {
   DeletedPet,
   EmptyPet,

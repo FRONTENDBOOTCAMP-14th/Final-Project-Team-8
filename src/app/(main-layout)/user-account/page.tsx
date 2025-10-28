@@ -73,9 +73,9 @@ export default function UserAccountPage() {
           )}
         </div>
         <div className="mx-2 w-px bg-neutral-200"></div>
+
         {/* 오른쪽 */}
         <div className="flex w-4/7 flex-col gap-5">
-          <h2 className="text-xl text-[18px] font-bold">환경 설정</h2>
           <UserSettings />
         </div>
       </div>

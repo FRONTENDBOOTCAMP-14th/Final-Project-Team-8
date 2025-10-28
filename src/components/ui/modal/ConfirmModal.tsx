@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import Button from './button/Button'
+import Button from '../button/Button'
 
 interface ConfirmModalProps {
   open: boolean
