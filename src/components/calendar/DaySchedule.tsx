@@ -6,11 +6,9 @@ interface Props extends Omit<DayProps, 'restProps'> {
   dayData: CalendarDay
   rowIndex: number
   colIndex: number
-  getSchedulesForDate?: (
-    year: number,
-    month: number,
-    day: number
-  ) => ScheduleEvent[]
+  getSchedulesForDate?:
+    | ((year: number, month: number, day: number) => ScheduleEvent[])
+    | undefined
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -80,7 +78,6 @@ export default function DaySchedule({
       setDayButtonRef(`${rowIndex}-${colIndex}`, node)
 
       if (isSelected && node && selectedDateRef.current !== node) {
-        // @ts-expect-error - RefObject의 current는 readonly이지만 callback ref에서는 할당 가능
         selectedDateRef.current = node
       }
     },

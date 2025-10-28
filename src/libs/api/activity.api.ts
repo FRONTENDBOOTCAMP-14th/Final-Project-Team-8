@@ -103,7 +103,8 @@ export default async function createActivity<T extends TableType>(params: {
 
   const { data, error } = await supabase
     .from(type)
-    .insert([row])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .insert([row] as any)
     .select('*')
     .single()
 
@@ -135,7 +136,8 @@ export async function getPetTableData<T extends TableType>(
   const { data, error } = await supabase
     .from(type)
     .select('*')
-    .eq('pet_id', pet_id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .eq('pet_id' as any, pet_id)
     .order(orderColumn, { ascending: false, nullsFirst: true })
     .returns<TableRow<T>[]>()
 
@@ -166,9 +168,12 @@ export async function updateActivity<T extends TableType>(
 ): Promise<TableRow<T>> {
   const { data, error } = await supabase
     .from(type)
-    .update(dataList)
-    .eq('id', table_id)
-    .eq('pet_id', pet_id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .update(dataList as any)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .eq('id' as any, table_id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .eq('pet_id' as any, pet_id)
     .select('*')
     .single()
 
@@ -198,8 +203,10 @@ export async function deleteActivity<T extends TableType>(
   const { error } = await supabase
     .from(type)
     .delete()
-    .eq('id', table_id)
-    .eq('pet_id', pet_id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .eq('id' as any, table_id)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .eq('pet_id' as any, pet_id)
 
   if (error) {
     throw new Error(`[Delete ${type}] ${error.message}`)
