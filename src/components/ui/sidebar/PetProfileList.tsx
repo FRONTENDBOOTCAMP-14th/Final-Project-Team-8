@@ -1,5 +1,5 @@
 import type { User } from '@supabase/supabase-js'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import PetAvatar from '@/components/ui/avatar/PetAvartar'
 import IconButton from '@/components/ui/button/IconButton'
 import { useUserStore } from '@/store/userStore'
@@ -18,7 +18,10 @@ export default function PetProfileList({
   onSelect,
 }: PetProfileListProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const user = useUserStore<User | null>(s => s.user)
+  const isOnAddProfilePage = pathname.startsWith('/add-profile')
+
   return (
     <>
       {user ? (
@@ -27,13 +30,13 @@ export default function PetProfileList({
             <li key={pet.id}>
               <PetAvatar
                 pet={pet}
-                selected={selectedId === pet.id}
-                onClick={() => onSelect(pet.id)}
+                selected={!isOnAddProfilePage && selectedId === pet.id}
+                onClick={onSelect}
               />
             </li>
           ))}
           <li>
-            <IconButton onClick={() => onSelect(null)} />
+            <IconButton selected={isOnAddProfilePage} />
           </li>
         </ul>
       ) : (
