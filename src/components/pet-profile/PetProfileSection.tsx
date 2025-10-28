@@ -97,10 +97,11 @@ export default function PetProfileSection({
             />
           </div>
 
-          <label htmlFor="user-profile-image" className="sr-only">
+          <label htmlFor="pet-profile-image" className="sr-only">
             반려동물 프로필 이미지
           </label>
           <input
+            id="pet-profile-image"
             ref={inputRef}
             type="file"
             accept="image/*"

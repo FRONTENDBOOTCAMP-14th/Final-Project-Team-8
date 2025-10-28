@@ -31,7 +31,7 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
 
   return (
     <>
-      <section className="flex grow flex-col gap-5">
+      <div className="flex grow flex-col gap-5">
         <nav>
           <ul className="flex h-12.5 min-h-12.5 w-full min-w-100 gap-5">
             <li className="w-full">
@@ -73,7 +73,7 @@ export default function PetProfilePage({ children }: PropsWithChildren) {
           </ul>
         </nav>
         <div>{children}</div>
-      </section>
+      </div>
     </>
   )
 }
