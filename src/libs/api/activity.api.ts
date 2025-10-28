@@ -101,7 +101,7 @@ export default async function createActivity<T extends TableType>(params: {
   const { setData, type, pet_id } = params
   const row = { ...setData, pet_id } as InsertMap[T]
 
-  // @ts-ignore - exactOptionalPropertyTypes와 Supabase 자동생성 타입 간 호환성 이슈 (환경에 따라 발생)
+  // @ts-ignore - exactOptionalPropertyTypes와 Supabase 타입 호환성 이슈
   const { data, error } = await supabase
     .from(type)
     .insert([row])
