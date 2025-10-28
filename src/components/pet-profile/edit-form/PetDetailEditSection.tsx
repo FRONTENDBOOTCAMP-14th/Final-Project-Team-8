@@ -80,7 +80,7 @@ export default function PetDetailEditSection({
   if (!petData) return <div>펫 정보를 불러오는 중...</div>
 
   return (
-    <section className="flex flex-col">
+    <section className="mt-5 flex flex-col">
       <div className="flex flex-col gap-4 text-gray-500">
         <h3 className="text-[18px] font-bold text-neutral-600">
           {petData.name ?? '펫'} 정보 수정
