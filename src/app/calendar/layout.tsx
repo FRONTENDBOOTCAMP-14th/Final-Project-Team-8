@@ -7,11 +7,13 @@ export const metadata: Metadata = {
   title: '캘린더 - PAW BUDDY',
 }
 
-export default function MainLayout({ children }: PropsWithChildren) {
+export default function CalendarLayout({ children }: PropsWithChildren) {
   return (
-    <section className="flex h-lvh w-full flex-row overflow-hidden bg-[#2D2A40] p-2.5">
+    <div className="flex h-lvh w-full flex-row overflow-hidden bg-[#2D2A40] p-2.5">
       <Sidebar />
-      <main className="relative flex grow rounded-xl bg-white">{children}</main>
-    </section>
+      <section className="relative flex grow rounded-xl bg-white">
+        {children}
+      </section>
+    </div>
   )
 }

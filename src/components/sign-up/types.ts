@@ -4,7 +4,6 @@ export interface SignupProps {
     password: string,
     name: string
   ) => Promise<void> | void
-  onLogin?: () => void
   signupError?: string
   onErrorChange?: (error: string) => void
 }

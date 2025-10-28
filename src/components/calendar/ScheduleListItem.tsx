@@ -69,15 +69,19 @@ export default function ScheduleListItem({
         onClick={onClick}
         disabled={!isClickable}
         aria-disabled={!isClickable}
-        aria-label={`${ariaLabelDate} 일정`}
-        className={`flex w-full flex-col gap-2 rounded-2xl border border-[#DAD9E6] bg-white p-4 text-left ${isClickable ? 'hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]' : 'cursor-not-allowed opacity-60 focus:outline-2 focus:outline-[#80809A]'}`}
+        className={`flex w-full cursor-pointer flex-col gap-2 rounded-2xl border border-[#DAD9E6] bg-white p-4 text-left ${isClickable ? 'hover:bg-[#ECECF2] focus:outline-2 focus:outline-[#FF6000]' : 'cursor-not-allowed opacity-60 focus:outline-2 focus:outline-[#80809A]'}`}
       >
         <span className="overflow-hidden text-ellipsis text-[#80809A]">
-          {formattedDate}
+          <span className="sr-only">{ariaLabelDate}, </span>
+          <span aria-hidden="true">{formattedDate}</span>
         </span>
         <span className="flex gap-2">
           {Icon && (
-            <Icon width={24} height={24} className={`${iconColor} min-w-6`} />
+            <Icon
+              size={24}
+              className={`${iconColor} min-w-6`}
+              aria-hidden="true"
+            />
           )}
           <span className="mr-11 grow overflow-hidden font-semibold text-ellipsis whitespace-nowrap text-[#3A394F]">
             {schedule.title}

@@ -24,12 +24,12 @@ export function ModalDetailNonModify({
     <div>
       {/* 섹션 타이틀 */}
 
-      <h3
+      <h2
         id="title"
         className="mt-5 mb-5 w-150 grow overflow-auto text-[28px] font-bold text-gray-800"
       >
         {title ?? '다이얼로그 제목'}
-      </h3>
+      </h2>
 
       {/* 섹션 타이틀 */}
       <div className="text-[18px] font-bold text-gray-800">{sectionTitle}</div>

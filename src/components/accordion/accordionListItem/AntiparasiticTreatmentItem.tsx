@@ -54,7 +54,7 @@ export default function AntiparasiticTreatmentItem({
       id={id}
     >
       {/* 제목 */}
-      <h3
+      <h4
         id={headingId}
         className="line-clamp-1 grow text-start text-lg font-bold text-gray-800"
       >
@@ -67,34 +67,24 @@ export default function AntiparasiticTreatmentItem({
             {title}
           </span>
         </button>
-      </h3>
+      </h4>
 
       {/* 구분선 */}
       <div className="relative mx-3 h-4 w-px bg-gray-300" />
 
       {/* 섭취 날짜 */}
-      <time
-        dateTime={toISODate(intake_date)}
-        className="ml-2 flex items-center gap-1 font-bold text-gray-500"
-      >
-        <CalendarIcon
-          aria-hidden="true"
-          focusable="false"
-          width={20}
-          height={20}
-          className="text-gray-400"
-        />
-        {intake_date}
-      </time>
+      <div className="ml-2 flex items-center gap-1 font-bold text-gray-500">
+        <CalendarIcon aria-hidden="true" size={20} className="text-gray-400" />
+        <time dateTime={toISODate(intake_date)}>{intake_date}</time>
+      </div>
 
       {/* 다음 예정일 (스크린 리더용) */}
-      <time
-        aria-label="다음 예정일"
-        dateTime={toISODate(next_date ?? null)}
-        className="sr-only"
-      >
-        {next_date ?? '다음 예정일이 없습니다.'}
-      </time>
+      {next_date && (
+        <div className="sr-only">
+          <span>다음 예정일: </span>
+          <time dateTime={toISODate(next_date)}>{next_date}</time>
+        </div>
+      )}
 
       {/* 편집/삭제 버튼 */}
       <ItemEditButtonCompo

@@ -31,16 +31,18 @@ export default function ConfirmModal({
         onClick={e => e.stopPropagation()}
       >
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 rounded text-gray-400 hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
+          className="absolute top-4 right-4 cursor-pointer rounded text-gray-400 hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
           aria-label="닫기"
+          title="닫기"
         >
           <X />
         </button>
         {title && (
-          <p id="modal-title" className="mb-4 text-xl font-bold">
+          <h2 id="modal-title" className="mb-4 text-xl font-bold">
             {title}
-          </p>
+          </h2>
         )}
         <div className="flex min-h-50 flex-col items-center justify-center gap-2 text-2xl font-bold whitespace-nowrap">
           {children}

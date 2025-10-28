@@ -44,7 +44,7 @@ export default function PasswordConfirmInput({
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600"
           aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
         >
           {showPassword ? (

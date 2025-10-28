@@ -186,7 +186,7 @@ export default function Step3NamePage() {
                   ref={ImageUploadButtonRef}
                   onClick={() => fileInputRef.current?.click()}
                   aria-label="프로필 사진 업로드"
-                  className="absolute bottom-0 left-1/2 z-30 flex h-12 w-12 -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-xl bg-white shadow-lg transition-colors hover:bg-gray-50"
+                  className="absolute bottom-0 left-1/2 z-30 flex h-12 w-12 -translate-x-1/2 translate-y-1/2 cursor-pointer items-center justify-center rounded-xl bg-white shadow-lg transition-colors hover:bg-gray-50"
                 >
                   <svg
                     aria-hidden="true"
@@ -212,7 +212,7 @@ export default function Step3NamePage() {
                     type="button"
                     onClick={handleDeleteImage}
                     aria-label="프로필 사진 삭제"
-                    className="absolute -top-0.5 -right-0.5 z-30 flex h-9 w-9 -translate-x-1 translate-y-1 items-center justify-center rounded-full bg-[#FF6000] text-white shadow-lg transition-colors hover:bg-orange-600"
+                    className="absolute -top-0.5 -right-0.5 z-30 flex h-9 w-9 -translate-x-1 translate-y-1 cursor-pointer items-center justify-center rounded-full bg-[#FF6000] text-white shadow-lg transition-colors hover:bg-orange-600"
                   >
                     <svg
                       aria-hidden="true"

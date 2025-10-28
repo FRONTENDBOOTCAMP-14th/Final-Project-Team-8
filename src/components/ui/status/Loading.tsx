@@ -5,13 +5,13 @@ export function LoadingPet() {
     <div className="relative mx-auto flex h-full w-full flex-col items-center justify-center gap-10">
       <div className="flex h-full flex-col items-center justify-center gap-[50px]">
         <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-          <p className="text-[34px] font-bold text-[#3A394F]">
-            반려동물 정보를 불러오고 있어요
-          </p>
-          <p>소중한 우리 아이들을 소개해주세요</p>
+          <h1 className="text-[34px] font-bold text-[#3A394F]">
+            잠시만 기다려 주세요
+          </h1>
+          <p>반려동물 정보를 불러오고 있어요</p>
         </div>
         <div className="imgBox">
-          <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
+          <img src="/assets/img/noPets.svg" alt="" />
         </div>
       </div>
     </div>
@@ -22,9 +22,10 @@ export function LoadingUser() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-[50px]">
       <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-        <p className="text-[34px] font-bold text-[#3A394F]">
-          사용자 정보를 불러오고 있어요
-        </p>
+        <h1 className="text-[34px] font-bold text-[#3A394F]">
+          잠시만 기다려 주세요
+        </h1>
+        <p>사용자 정보를 불러오고 있어요</p>
         <p className="mt-4">
           <style>{`
             @keyframes gradient-flow {
@@ -43,7 +44,7 @@ export function LoadingUser() {
         <div className="imgBox">
           <Image
             src="/assets/img/noPets2.svg"
-            alt="반려동물을 등록하세요"
+            alt=""
             width={350}
             height={200}
           />
@@ -58,10 +59,13 @@ export function Loading() {
     <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
       <div className="flex h-full flex-col items-center justify-center gap-[50px]">
         <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-          <p className="text-[34px] font-bold text-[#3A394F]">로딩중이에요</p>
+          <h1 className="text-[34px] font-bold text-[#3A394F]">
+            잠시만 기다려 주세요
+          </h1>
+          <p>로딩 중이에요</p>
         </div>
         <div className="imgBox">
-          <img src="/assets/img/noPets.svg" alt="로딩중" />
+          <img src="/assets/img/noPets.svg" alt="" />
         </div>
       </div>
     </div>

@@ -54,7 +54,7 @@ export default function AccordionContent<T extends TableType>({
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'diet':
         return rows.length !== 0 ? (
@@ -63,7 +63,7 @@ export default function AccordionContent<T extends TableType>({
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'medical treatment':
         return rows.length !== 0 ? (
@@ -74,7 +74,7 @@ export default function AccordionContent<T extends TableType>({
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'other activities':
         return rows.length !== 0 ? (
@@ -85,7 +85,7 @@ export default function AccordionContent<T extends TableType>({
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'other treatments':
         return rows.length !== 0 ? (
@@ -105,7 +105,7 @@ export default function AccordionContent<T extends TableType>({
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'walks':
         return rows.length !== 0 ? (
@@ -114,7 +114,7 @@ export default function AccordionContent<T extends TableType>({
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       default:
         return null

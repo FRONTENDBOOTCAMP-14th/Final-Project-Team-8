@@ -60,7 +60,7 @@ const Input = ({
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 hover:text-gray-600 disabled:opacity-50"
+          className="absolute top-1/2 right-3 -translate-y-1/2 transform cursor-pointer text-gray-400 hover:text-gray-600 disabled:opacity-50"
           disabled={disabled}
           aria-label={showPassword ? '비밀번호 숨기기' : '비밀번호 보기'}
         >

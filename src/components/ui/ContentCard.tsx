@@ -28,9 +28,9 @@ export default function ContentCard({ title, children }: ContentCardProps) {
   const laterLinkStyle = baseStyle + variantStyle.white
 
   return (
-    <div className="flex h-auto w-full max-w-[620px] min-w-fit flex-col items-center justify-center gap-10 rounded-[20px] bg-white p-12">
+    <section className="flex h-auto w-full max-w-[620px] min-w-fit flex-col items-center justify-center gap-10 rounded-[20px] bg-white p-12">
       <div className="flex flex-col items-center gap-5 text-[18px] text-gray-600">
-        <p className="text-[34px] font-bold whitespace-nowrap">{title}</p>
+        <h2 className="text-[34px] font-bold whitespace-nowrap">{title}</h2>
         <div className="flex flex-col items-center justify-center">
           {children}
         </div>
@@ -43,6 +43,6 @@ export default function ContentCard({ title, children }: ContentCardProps) {
           나중에 할게요
         </Link>
       </div>
-    </div>
+    </section>
   )
 }

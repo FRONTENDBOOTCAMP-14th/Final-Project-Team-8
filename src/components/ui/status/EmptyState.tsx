@@ -7,9 +7,9 @@ export function NotLogin() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-[50px]">
       <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-        <p className="text-[34px] font-bold text-[#3A394F]">
+        <h1 className="text-[34px] font-bold text-[#3A394F]">
           앗, 아직 로그인되지 않았어요!
-        </p>
+        </h1>
         <p className="mt-4">
           <style>{`
             @keyframes gradient-flow {
@@ -34,12 +34,7 @@ export function NotLogin() {
         </p>
       </div>
       <div className="imgBox">
-        <Image
-          src="/assets/img/noPets2.svg"
-          alt="반려동물을 등록하세요"
-          width={350}
-          height={200}
-        />
+        <Image src="/assets/img/noPets2.svg" alt="" width={350} height={200} />
       </div>
       <Link
         href="/login"
@@ -56,15 +51,14 @@ export function EmptyPet() {
     <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
       <div className="flex h-full flex-col items-center justify-center gap-[50px]">
         <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-          <p className="text-[34px] font-bold text-[#3A394F]">
+          <h1 className="text-[34px] font-bold text-[#3A394F]">
             앗, 아직 비어있어요!
-          </p>
+          </h1>
+          <p>첫 번째 반려동믈을 등록하고</p>
           <p>소중한 우리 아이들을 소개해주세요</p>
-
-          <p>첫 번째 반려동믈을 등록해보세요</p>
         </div>
         <div className="imgBox">
-          <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
+          <img src="/assets/img/noPets.svg" alt="" />
         </div>
       </div>
       <Link
@@ -82,12 +76,13 @@ export function NotSelectedPet() {
     <div className="relative mx-auto flex h-full min-h-150 w-full flex-col items-center justify-center gap-10">
       <div className="flex h-full flex-col items-center justify-center gap-[50px]">
         <div className="textBox flex flex-col items-center justify-center text-[18px] text-[#80809A]">
-          <p className="text-[34px] font-bold text-[#3A394F]">
-            사이드바에서 반려동물을 선택해주세요
-          </p>
+          <h1 className="text-[34px] font-bold text-[#3A394F]">
+            앗, 반려동물이 선택되지 않았어요!
+          </h1>
+          <p>사이드바에서 반려동물을 선택해주세요</p>
         </div>
         <div className="imgBox">
-          <img src="/assets/img/noPets.svg" alt="반려동물을 등록하세요" />
+          <img src="/assets/img/noPets.svg" alt="" />
         </div>
       </div>
     </div>

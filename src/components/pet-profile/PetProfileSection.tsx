@@ -82,10 +82,11 @@ export default function PetProfileSection({
   }
 
   return (
-    <>
+    <section className="flex grow flex-col">
       {/* 프로필 사진 부분 */}
-      <section className="relative flex w-full items-center gap-8">
-        <div className="relative z-10">
+      <div className="relative flex w-full items-center gap-8">
+        <h2 className="sr-only">상세 정보</h2>
+        <div className="relative z-10 ml-2.5">
           <div className="aspect-square w-30 overflow-hidden rounded-full bg-gray-100 outline-10 outline-gray-100">
             <Image
               src={showImageUrl}
@@ -96,7 +97,11 @@ export default function PetProfileSection({
             />
           </div>
 
+          <label htmlFor="pet-profile-image" className="sr-only">
+            반려동물 프로필 이미지
+          </label>
           <input
+            id="pet-profile-image"
             ref={inputRef}
             type="file"
             accept="image/*"
@@ -120,10 +125,10 @@ export default function PetProfileSection({
             {selectedPet.species} | {selectedPet.breed}
           </p>
         </div>
-      </section>
+      </div>
 
       {/* 상세정보 */}
-      <div className="h-full w-full">
+      <div className="flex h-full w-full flex-col justify-between">
         {isEditMode ? (
           <PetProDetailEditSection
             petId={selectedPet.id}
@@ -134,17 +139,18 @@ export default function PetProfileSection({
           <PetDetailSection selectedPet={selectedPet} />
         )}
         {!isEditMode && (
-          <Button
-            variant="white"
-            onClick={() => {
-              setIsEditMode(true)
-            }}
-            className="absolute bottom-0"
-          >
-            반려동물 정보 수정하기
-          </Button>
+          <div className="sticky bottom-0 mt-auto bg-white px-1 pt-4 pb-2">
+            <Button
+              variant="white"
+              onClick={() => {
+                setIsEditMode(true)
+              }}
+            >
+              반려동물 정보 수정하기
+            </Button>
+          </div>
         )}
       </div>
-    </>
+    </section>
   )
 }

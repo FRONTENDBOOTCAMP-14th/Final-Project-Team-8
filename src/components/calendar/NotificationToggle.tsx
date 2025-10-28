@@ -216,7 +216,7 @@ export default function NotificationToggle({
           type="button"
           onClick={handleTimeOpen}
           disabled={isSaving}
-          className="flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
+          className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
         >
           <Clock height={16} width={16} className="h-4 w-4" />
           {time}
@@ -229,7 +229,7 @@ export default function NotificationToggle({
           type="button"
           onClick={handleToggle}
           disabled={isSaving}
-          className={`relative h-7 w-14 rounded-full transition-colors ${
+          className={`relative h-7 w-14 cursor-pointer rounded-full transition-colors ${
             enabled ? 'bg-orange-500' : 'bg-gray-300'
           } ${isSaving ? 'opacity-50' : ''}`}
         >
@@ -274,10 +274,10 @@ export default function NotificationToggle({
           <button
             type="button"
             onClick={handleTimeCancel}
-            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
+            className="absolute top-3 right-3 cursor-pointer text-gray-400 hover:text-gray-600"
             aria-label="닫기"
           >
-            <X height={16} width={16} />
+            <X size={16} />
           </button>
         </div>
       )}

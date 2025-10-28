@@ -69,7 +69,7 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
     <div className="flex w-full items-center justify-between rounded-2xl bg-gray-500 p-4">
       <Link
         href={'/user-account'}
-        aria-label={`${displayName}님의 계정 설정 페이지로 이동`}
+        aria-label={`${displayName}님의 계정 설정 페이지 이동`}
         className="flex items-center gap-3"
       >
         {avatarUrl ? (
@@ -77,7 +77,7 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
             height={100}
             width={100}
             src={avatarUrl}
-            alt={displayName}
+            alt=""
             className="h-12 w-12 rounded-full object-cover"
           />
         ) : (
@@ -86,15 +86,19 @@ export default function UserProfileCard({ user }: UserProfileCardProps) {
           </div>
         )}
         <div className="text-white">
-          <div className="text-sm opacity-80">Hello</div>
-          <div className="text-lg font-semibold">{displayName}</div>
+          <p className="text-sm opacity-80" lang="en">
+            Hello
+          </p>
+          <p className="text-lg font-semibold">{displayName}</p>
         </div>
       </Link>
 
       <button
+        type="button"
         onClick={handleLogout}
-        className="ml-6 rounded-lg p-2 text-white transition-colors hover:bg-gray-700"
+        className="ml-6 cursor-pointer rounded-lg p-2 text-white transition-colors hover:bg-gray-700"
         aria-label="로그아웃"
+        title="로그아웃"
       >
         <LogOut size={20} />
       </button>

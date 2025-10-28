@@ -22,8 +22,9 @@ export default function ToggleButton({ title }: ToggleButtonProps) {
       <div className="flex justify-between rounded-2xl border-1 border-gray-200 p-4">
         <p className="font-bold">{title}</p>
         <button
+          type="button"
           onClick={handleClick}
-          className={`relative flex h-7 w-14 items-center rounded-full transition-colors duration-300 focus:outline-amber-500 ${isOn ? 'bg-amber-500' : 'bg-gray-400'} `}
+          className={`relative flex h-7 w-14 cursor-pointer items-center rounded-full transition-colors duration-300 focus:outline-amber-500 ${isOn ? 'bg-amber-500' : 'bg-gray-400'} `}
         >
           <span
             className={`absolute left-1 aspect-square h-5 transform rounded-full bg-white transition-transform duration-300 ${isOn ? 'translate-x-7' : 'translate-x-0'}`}
@@ -34,8 +35,8 @@ export default function ToggleButton({ title }: ToggleButtonProps) {
       <DevModal
         open={isModalOpen}
         onClose={handleCloseModal}
-        title="개발중인 기능입니다"
-        message="아직 개발중인 기능입니다"
+        title="지금은 사용할 수 없어요"
+        message="아직 개발 중인 기능이에요"
       />
     </>
   )

@@ -1,3 +1,4 @@
+import { Footprints } from 'lucide-react'
 import { useId, useState } from 'react'
 import useToggleState from '@/hooks/useToggleState'
 import type { Walks } from '@/libs/supabase'
@@ -53,7 +54,7 @@ export default function WalksItem({
       className="relative m-5 flex h-24 items-center gap-4 rounded-xl border border-gray-300 px-4 py-[23px] transition hover:scale-[1.005] hover:border-gray-400"
     >
       <div className="gap- flex h-full w-full grow flex-col">
-        <h3
+        <h4
           id={headingId}
           title={title}
           className="order-1 grow text-base font-bold text-gray-800"
@@ -64,23 +65,23 @@ export default function WalksItem({
             className="absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl hover:text-orange-400"
           >
             <span className="absolute top-12 left-4 line-clamp-1 flex h-5 w-130 gap-1 text-start">
-              <img
+              <Footprints
                 aria-hidden="true"
-                src="/components/accordion/walk-title-icon.svg"
-                alt=""
+                size={20}
+                className="text-[#82C43C]"
               />
               <span className="line-clamp-2 w-[calc(100%-100px)] overflow-hidden text-ellipsis whitespace-nowrap transition">
                 {title}
               </span>
             </span>
           </button>
-        </h3>
+        </h4>
         <div className="flex h-full gap-2">
-          <time dateTime={toISODate(date)} className="text-base text-gray-500">
+          <time dateTime={toISODate(date)} className="leading-4 text-gray-500">
             {date}
           </time>
           <div className="h-4 w-px bg-gray-300" />
-          <span className="text-base text-gray-500">
+          <span className="leading-4 text-gray-500">
             {setHarfTime(start_time)}
           </span>
         </div>

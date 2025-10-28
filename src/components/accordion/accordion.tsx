@@ -35,15 +35,16 @@ export default function Accordion({
 
   return (
     <section className="accordion-box flex w-full min-w-70 flex-col rounded-2xl border-2 border-gray-200 active:border-amber-300">
+      <h3 className="sr-only">{title}</h3>
       <button
+        type="button"
         onClick={handleClick}
-        aria-label={isOpen ? '열림 전환' : '닫힘 전환'}
         className="m-0 flex grow cursor-pointer items-center gap-5 p-5 text-left"
       >
         {/* 타입 아이콘 */}
         <Image
           src={`/components/accordion/${selectTypeIcon(type)}.svg`}
-          alt={selectTypeIcon(type)}
+          alt=""
           width={iconSize}
           height={iconSize}
           className="rounded-xl shadow-sm"
@@ -51,7 +52,7 @@ export default function Accordion({
         />
 
         {/* 제목 */}
-        <h2 className="grow text-2xl font-bold text-gray-800">{title}</h2>
+        <span className="grow text-2xl font-bold text-gray-800">{title}</span>
 
         {/* 플러스/마이너스 토글 아이콘 */}
         <span
@@ -59,7 +60,7 @@ export default function Accordion({
         >
           <Image
             src="/components/accordion/plus-button-icon.svg"
-            alt="plus"
+            alt="펼치기"
             width={toggleSize}
             height={toggleSize}
             className={`absolute transition-all duration-300 ${
@@ -70,7 +71,7 @@ export default function Accordion({
           />
           <Image
             src="/components/accordion/subtraction-buttons-icon.svg"
-            alt="minus"
+            alt="접기"
             width={toggleSize}
             height={toggleSize}
             className={`absolute transition-all duration-300 ${

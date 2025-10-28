@@ -49,7 +49,7 @@ export default function SelectDate({
   }
 
   return (
-    <section className="flex flex-row items-center justify-between">
+    <div className="flex flex-row items-center justify-between">
       <div>
         <label htmlFor="year-select" className="sr-only">
           연도 선택
@@ -58,7 +58,7 @@ export default function SelectDate({
           id="year-select"
           value={currentYear}
           onChange={handleYearSelectChange}
-          className="mr-3 text-center text-[26px] text-[#3A394F]"
+          className="mr-3 cursor-pointer text-center text-[26px] text-[#3A394F]"
         >
           {Array.from(
             { length: END_YEAR - START_YEAR + 1 },
@@ -76,7 +76,7 @@ export default function SelectDate({
           id="month-select"
           value={currentMonth}
           onChange={handleMonthSelectChange}
-          className="text-center text-[26px] font-bold text-[#3A394F]"
+          className="cursor-pointer text-center text-[26px] font-bold text-[#3A394F]"
         >
           {Array.from({ length: 12 }, (_, i) => i + 1).map(month => (
             <option key={month} value={month}>
@@ -101,6 +101,6 @@ export default function SelectDate({
       >
         <ChevronRight className="h-5 w-5 text-[#B5B3CD]" />
       </Button>
-    </section>
+    </div>
   )
 }
