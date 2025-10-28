@@ -79,9 +79,7 @@ export default function PetProfilePage() {
             onConfirm={() => handleDelte(selectedPet.id)}
           >
             <p>{selectedPet.name}의 정보를 삭제하시겠습니까?</p>
-            <p className="text-3xl text-[#FF6000]">
-              삭제된 정보는 복구할 수 없습니다.
-            </p>
+            <p className="text-[#FF6000]">삭제된 정보는 복구할 수 없습니다.</p>
           </ConfirmModal>
         )}
       </div>

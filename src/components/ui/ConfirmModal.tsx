@@ -42,10 +42,10 @@ export default function ConfirmModal({
             {title}
           </p>
         )}
-        <div className="flex min-h-50 flex-col items-center justify-center text-2xl font-bold whitespace-nowrap">
+        <div className="flex min-h-50 flex-col items-center justify-center gap-2 text-2xl font-bold whitespace-nowrap">
           {children}
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex gap-5">
           <Button variant="orange" onClick={onConfirm}>
             확인
           </Button>
