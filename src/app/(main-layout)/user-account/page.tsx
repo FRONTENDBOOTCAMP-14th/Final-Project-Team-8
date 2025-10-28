@@ -73,6 +73,7 @@ export default function UserAccountPage() {
           )}
         </section>
         <div className="mx-2 w-px bg-neutral-200"></div>
+
         {/* 오른쪽 */}
         <div className="flex w-4/7 flex-col gap-5">
           <UserSettings />
