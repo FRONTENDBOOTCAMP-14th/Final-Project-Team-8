@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef } from 'react'
 import { toast } from 'sonner'
-import type { RowMap, TableRow, TableType } from '../../libs/api/activity.api'
+import type { TableRow, TableType } from '../../libs/api/activity.api'
 import { getPetTableData } from '../../libs/api/activity.api'
 import {
   AntiparasiticCompo,
@@ -49,7 +49,7 @@ export default function AccordionContent<T extends TableType>({
     switch (type) {
       case 'antiparasitic':
         return rows.length !== 0 ? (
-          <AntiparasiticCompo dataList={rows as RowMap['antiparasitic'][]} />
+          <AntiparasiticCompo dataList={rows as TableRow<'antiparasitic'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"
@@ -58,7 +58,7 @@ export default function AccordionContent<T extends TableType>({
         )
       case 'diet':
         return rows.length !== 0 ? (
-          <DietCompo dataList={rows as RowMap['diet'][]} />
+          <DietCompo dataList={rows as TableRow<'diet'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"
@@ -68,7 +68,7 @@ export default function AccordionContent<T extends TableType>({
       case 'medical treatment':
         return rows.length !== 0 ? (
           <MedicalTreatmentCompo
-            dataList={rows as RowMap['medical treatment'][]}
+            dataList={rows as TableRow<'medical treatment'>[]}
           />
         ) : (
           <EmptyState
@@ -79,7 +79,7 @@ export default function AccordionContent<T extends TableType>({
       case 'other activities':
         return rows.length !== 0 ? (
           <OtherActivitiesCompo
-            dataList={rows as RowMap['other activities'][]}
+            dataList={rows as TableRow<'other activities'>[]}
           />
         ) : (
           <EmptyState
@@ -90,7 +90,7 @@ export default function AccordionContent<T extends TableType>({
       case 'other treatments':
         return rows.length !== 0 ? (
           <OtherTreatmentsCompo
-            dataList={rows as RowMap['other treatments'][]}
+            dataList={rows as TableRow<'other treatments'>[]}
           />
         ) : (
           <EmptyState
@@ -100,7 +100,7 @@ export default function AccordionContent<T extends TableType>({
         )
       case 'vaccines':
         return rows.length !== 0 ? (
-          <VaccinesCompo dataList={rows as RowMap['vaccines'][]} />
+          <VaccinesCompo dataList={rows as TableRow<'vaccines'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"
@@ -109,7 +109,7 @@ export default function AccordionContent<T extends TableType>({
         )
       case 'walks':
         return rows.length !== 0 ? (
-          <WalksCompo dataList={rows as RowMap['walks'][]} />
+          <WalksCompo dataList={rows as TableRow<'walks'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"

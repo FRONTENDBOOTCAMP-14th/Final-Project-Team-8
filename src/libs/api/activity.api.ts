@@ -1,23 +1,8 @@
-import type { UUID } from 'crypto'
 import type { AccordionProps } from '@/components/accordion/accordion'
 import type {
-  Antiparasitic,
-  AntiparasiticInsert,
-  Diet,
-  DietInsert,
-  MedicalTreatment,
-  MedicalTreatmentInsert,
-  OtherActivities,
-  OtherActivitiesInsert,
-  OtherTreatment,
-  OtherTreatmentInsert,
   ScheduledMeals,
   ScheduledMealsInsert,
   ScheduledMealsUpdate,
-  Vaccines,
-  VaccinesInsert,
-  Walks,
-  WalksInsert,
 } from '../supabase'
 import { createClient } from '../supabase/client'
 import type { Database } from '../supabase/database.types'
@@ -30,36 +15,18 @@ import { deleteNotification } from './notification.api'
 export type TableType = AccordionProps['type']
 
 /**
- * 테이블명 → Insert 타입 매핑
- * 각 테이블의 데이터 생성 시 사용되는 타입
+ * Supabase 네이티브 Insert 타입 매핑
  */
-interface InsertMap {
-  antiparasitic: AntiparasiticInsert
-  diet: DietInsert
-  'medical treatment': MedicalTreatmentInsert
-  'other treatments': OtherTreatmentInsert
-  'other activities': OtherActivitiesInsert
-  walks: WalksInsert
-  vaccines: VaccinesInsert
-}
+type DbInsert<T extends TableType> = Database['public']['Tables'][T]['Insert']
+
+/**
+ * Supabase 네이티브 Update 타입 매핑
+ */
+type DbUpdate<T extends TableType> = Database['public']['Tables'][T]['Update']
 
 /** 테이블별 Row 타입 유틸 */
 export type TableRow<T extends TableType> =
   Database['public']['Tables'][T]['Row']
-
-/**
- * 각 컴포넌트 prop에 맞춘 테이블별 Row 맵
- * 타입 캐스팅에 사용
- */
-export interface RowMap {
-  antiparasitic: Antiparasitic
-  diet: Diet
-  'medical treatment': MedicalTreatment
-  'other activities': OtherActivities
-  'other treatments': OtherTreatment
-  vaccines: Vaccines
-  walks: Walks
-}
 
 // ============================================================================
 // Constants
@@ -90,20 +57,17 @@ const dateColumnMap: Record<TableType, string> = {
  * @param params - 생성할 데이터
  * @param params.setData - 테이블별 Insert 타입 데이터
  * @param params.type - 테이블명 (vaccines, diet 등)
- * @param params.pet_id - 펫 ID
  * @returns 생성된 레코드 데이터
  */
 export default async function createActivity<T extends TableType>(params: {
-  setData: InsertMap[T]
+  setData: DbInsert<T>
   type: T
-  pet_id: InsertMap[T]['pet_id']
-}) {
-  const { setData, type, pet_id } = params
-  const row = { ...setData, pet_id } as InsertMap[T]
+}): Promise<TableRow<T>> {
+  const { setData, type } = params
 
   const { data, error } = await supabase
     .from(type)
-    .insert([row])
+    .insert(setData as never)
     .select('*')
     .single()
 
@@ -111,7 +75,7 @@ export default async function createActivity<T extends TableType>(params: {
     throw new Error(`[Create ${type}] ${error.message}`)
   }
 
-  return data
+  return data as unknown as TableRow<T>
 }
 
 // ============================================================================
@@ -128,22 +92,21 @@ export default async function createActivity<T extends TableType>(params: {
  */
 export async function getPetTableData<T extends TableType>(
   type: T,
-  pet_id: string | UUID
+  pet_id: string
 ): Promise<TableRow<T>[]> {
   const orderColumn = dateColumnMap[type] ?? 'created_at'
 
   const { data, error } = await supabase
     .from(type)
     .select('*')
-    .eq('pet_id', pet_id)
-    .order(orderColumn, { ascending: false, nullsFirst: true })
-    .returns<TableRow<T>[]>()
+    .eq('pet_id' as never, pet_id as never)
+    .order(orderColumn as never, { ascending: false, nullsFirst: true })
 
   if (error) {
     throw new Error(`[Read ${type}] ${error.message}`)
   }
 
-  return data ?? []
+  return (data ?? []) as unknown as TableRow<T>[]
 }
 
 // ============================================================================
@@ -162,13 +125,13 @@ export async function updateActivity<T extends TableType>(
   type: T,
   table_id: string,
   pet_id: string,
-  dataList: Partial<Omit<TableRow<T>, 'id' | 'pet_id'>>
+  dataList: DbUpdate<T>
 ): Promise<TableRow<T>> {
   const { data, error } = await supabase
     .from(type)
-    .update(dataList)
-    .eq('id', table_id)
-    .eq('pet_id', pet_id)
+    .update(dataList as never)
+    .eq('id' as never, table_id as never)
+    .eq('pet_id' as never, pet_id as never)
     .select('*')
     .single()
 
@@ -198,8 +161,8 @@ export async function deleteActivity<T extends TableType>(
   const { error } = await supabase
     .from(type)
     .delete()
-    .eq('id', table_id)
-    .eq('pet_id', pet_id)
+    .eq('id' as never, table_id as never)
+    .eq('pet_id' as never, pet_id as never)
 
   if (error) {
     throw new Error(`[Delete ${type}] ${error.message}`)
@@ -238,13 +201,9 @@ function getNotificationTypeFromTableType(tableType: TableType): string | null {
  * @throws 삭제 실패 시 에러 발생
  */
 export async function getPetMealTime(
-  pet_id: ScheduledMeals['pet_id'] | null
+  pet_id: string
 ): Promise<ScheduledMeals[]> {
   const supabase = await createClient()
-
-  if (!pet_id) {
-    throw new Error('지정된 펫의 아이디가 없습니다.')
-  }
 
   const { error, data } = await supabase
     .from('scheduled meals')
@@ -253,23 +212,19 @@ export async function getPetMealTime(
     .order('id', { ascending: true })
 
   if (error) {
-    throw new Error(`[Read ${pet_id}] ${error.message}`)
+    throw new Error(`[Read scheduled meals] ${error.message}`)
   }
 
   return data
 }
 
 export async function insertScheduledMeal(
-  formData: ScheduledMealsInsert,
-  pet_id: ScheduledMealsInsert['pet_id']
-) {
-  // Supabase에 식사 시간 데이터 저장
-  const row = { ...formData, pet_id }
-
+  formData: ScheduledMealsInsert
+): Promise<ScheduledMeals[]> {
   const { error, data } = await supabase
     .from('scheduled meals')
-    .insert(row)
-    .eq('pet_id', pet_id)
+    .insert(formData)
+    .select()
 
   if (error) throw new Error(error.message)
   return data
@@ -277,8 +232,8 @@ export async function insertScheduledMeal(
 
 export async function updateScheduledMeal(
   formData: ScheduledMealsUpdate,
-  id: ScheduledMeals['id']
-) {
+  id: string
+): Promise<ScheduledMeals> {
   const { error, data } = await supabase
     .from('scheduled meals')
     .update(formData)
@@ -287,7 +242,7 @@ export async function updateScheduledMeal(
     .single()
 
   if (error) {
-    throw new Error(`업데이트 오류 ${error.message}`)
+    throw new Error(`[Update scheduled meal] ${error.message}`)
   }
 
   return data
