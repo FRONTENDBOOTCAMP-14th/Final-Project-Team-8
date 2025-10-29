@@ -12,11 +12,11 @@ interface UserDetailEditFormProps {
 }
 
 interface FormDataType {
-  gender: string
-  birthday: string
-  nickname: string
-  phone: string
-  email: string
+  gender?: string
+  birthday?: string | null
+  nickname?: string
+  phone?: string
+  email?: string
 }
 
 export default function UserDetailEditSection({
@@ -28,7 +28,7 @@ export default function UserDetailEditSection({
   const { register, handleSubmit } = useForm<FormDataType>({
     defaultValues: {
       gender: userData.gender ?? '',
-      birthday: userData.birthday ?? '',
+      birthday: userData.birthday ?? null,
       nickname: userData.nickname ?? '',
       phone: userData.phone ?? '',
       email: userData.email ?? '',
@@ -48,14 +48,19 @@ export default function UserDetailEditSection({
       onCancel()
     },
 
-    onError: () => {
-      toast.error('계정 정보 업데이트를 실패했습니다, 다시 시도해주세요')
+    onError: (error: Error) => {
+      toast.error(
+        `'계정 정보 업데이트를 실패했습니다 :  ${error.message}, 다시 시도해주세요'`
+      )
     },
   })
 
   const onSubmit = (data: FormDataType) => {
     const { email: _, ...updateData } = data
-    mutation.mutate(updateData as FormDataType)
+    mutation.mutate({
+      ...(updateData as FormDataType),
+      birthday: data.birthday && data.birthday !== '' ? data.birthday : null,
+    })
   }
 
   const isSaving = mutation.isPending
@@ -127,7 +132,7 @@ export default function UserDetailEditSection({
               <input
                 type="text"
                 id="nickname"
-                {...register('nickname')}
+                {...register('nickname', { required: '별명은 필수입력입니다' })}
                 placeholder="별명을 입력하세요"
                 className="rounded-lg border border-gray-300 bg-white px-2 py-2.5 text-sm text-neutral-800 transition-all placeholder:text-gray-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 focus:outline-none"
               />

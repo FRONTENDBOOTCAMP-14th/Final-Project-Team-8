@@ -24,7 +24,8 @@ export default function Step5WeightPage() {
   }, [setCurrentStep])
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newWeight = parseFloat(e.target.value)
+    const weight = e.target.value
+    const newWeight = parseFloat(weight)
     setWeight(newWeight)
   }
 
@@ -61,17 +62,18 @@ export default function Step5WeightPage() {
     setUnit(selectedUnit)
 
     if (selectedUnit === 'lb') {
-      setWeight(parseFloat((weight * LB).toFixed(1)))
+      setWeight(weight * LB)
     } else {
-      setWeight(parseFloat((weight / LB).toFixed(1)))
+      setWeight(weight / LB)
     }
   }
 
   const handleComplete = () => {
     // kg로 변환해서 store에 저장 (DB 저장은 마지막 단계에서 일괄 처리)
     const weightInKg = unit === 'lb' ? weight / LB : weight
+    const roundedWeightInKg = Math.round(weightInKg * 10) / 10
 
-    updateDraftPet({ weight: parseFloat(weightInKg.toFixed(1)) })
+    updateDraftPet({ weight: roundedWeightInKg })
     nextStep()
     router.push('/add-profile/step6')
   }
@@ -186,8 +188,8 @@ export default function Step5WeightPage() {
                 type="range"
                 id="weight-slider"
                 name="weight-slider"
-                min={unit === 'kg' ? '0' : '0'}
-                max={unit === 'kg' ? '100' : '220'}
+                min={unit === 'kg' ? 0 : 0}
+                max={unit === 'kg' ? 100 : 220}
                 step="0.1"
                 value={weight}
                 onChange={handleWeightChange}
@@ -235,7 +237,7 @@ export default function Step5WeightPage() {
             type="number"
             id="weight-input"
             name="weight"
-            value={weight.toFixed(1)}
+            value={weight}
             onChange={e => {
               const value = parseFloat(e.target.value)
               if (!isNaN(value) && value >= 0) {

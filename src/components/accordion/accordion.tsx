@@ -56,7 +56,8 @@ export default function Accordion({
 
         {/* 플러스/마이너스 토글 아이콘 */}
         <span
-          className={`relative flex h-[${toggleSize}px] w-[${toggleSize}px] items-center justify-center`}
+          className={'relative flex items-center justify-center'}
+          style={{ width: toggleSize, height: toggleSize }}
         >
           <Image
             src="/components/accordion/plus-button-icon.svg"

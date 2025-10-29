@@ -107,7 +107,7 @@ export default function Step6ImportantDatesPage() {
       }
 
       // 숫자 값을 정수로 변환하는 헬퍼 함수
-      // Supabase의 weight, size 필드는 int2(smallint, 즉 정수) 타입이므로
+      // Supabase의 size 필드는 int2(smallint, 즉 정수) 타입이므로
       // 문자열이나 소수점 값을 정수로 변환해야 함
       // 예 : '
       const toInteger = (
@@ -134,7 +134,7 @@ export default function Step6ImportantDatesPage() {
         breed: draftPet.breed ?? null,
         birthdate: birthdateISO ?? null,
         adoption_date: adoptionDateISO ?? null,
-        weight: toInteger(draftPet.weight),
+        weight: draftPet.weight ?? null,
         size: toInteger(draftPet.size),
       }
 
