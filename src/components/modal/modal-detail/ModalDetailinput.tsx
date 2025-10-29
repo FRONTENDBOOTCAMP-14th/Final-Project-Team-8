@@ -47,7 +47,10 @@ export function ModalDetailInput({
 
   const mutation = useMutation({
     mutationFn: (payload: ModalInputDataType) =>
-      createActivity({ setData: payload, type, pet_id }),
+      createActivity({
+        setData: { ...payload, pet_id },
+        type,
+      }),
     onSuccess: async data => {
       toast.success('저장 완료!')
 

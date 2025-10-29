@@ -88,12 +88,9 @@ export default function MealTimeModal(props: MealTimeModalProps) {
   const mutation = useMutation({
     mutationFn: async (data: MealFormData) => {
       if (mode === 'create') {
-        return await insertScheduledMeal(data, props.petId)
+        return await insertScheduledMeal(data)
       } else {
-        return await updateScheduledMeal(
-          { ...data, id: props.initialData.id },
-          props.initialData.id
-        )
+        return await updateScheduledMeal(data, props.initialData.id)
       }
     },
     onSuccess: () => {
