@@ -1,8 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef } from 'react'
-import { toast } from 'sonner'
-import type { TableRow, TableType } from '../../libs/api/activity.api'
-import { getPetTableData } from '../../libs/api/activity.api'
+import type { TableRow, TableType } from '@/libs/api/activity.api'
+import { getPetTableData } from '@/libs/api/activity.api'
 import {
   AntiparasiticCompo,
   DietCompo,
@@ -38,7 +37,6 @@ export default function AccordionContent<T extends TableType>({
   // 빈 배열 알림 (중복 방지)
   useEffect(() => {
     if (rows.length === 0 && !emptyToastRef.current) {
-      toast.info('해당 기록이 없습니다.')
       emptyToastRef.current = true
     }
     if (rows.length > 0) emptyToastRef.current = false

@@ -17,7 +17,6 @@ export default function Step4Page() {
   const nextStep = useProfileCreationStore(state => state.nextStep)
   const setCurrentStep = useProfileCreationStore(state => state.setCurrentStep)
 
-  const [petSize, setPetSize] = useState(1)
   const [selectedSize, setSelectedSize] = useState<number | null>(
     draftPet.size ?? null
   )
@@ -39,8 +38,7 @@ export default function Step4Page() {
 
   const handleSize = (size: number) => {
     setSelectedSize(size)
-    setPetSize(size)
-    updateDraftPet({ size: petSize })
+    updateDraftPet({ size })
   }
 
   useEffect(() => {
