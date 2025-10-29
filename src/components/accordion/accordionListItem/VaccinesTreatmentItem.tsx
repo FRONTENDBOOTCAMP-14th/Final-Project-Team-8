@@ -54,7 +54,7 @@ export default function VaccinesTreatmentItem({
       id={id}
     >
       {/* 제목 */}
-      <h3
+      <h4
         id={headingId}
         className="line-clamp-1 grow text-start text-base font-bold text-gray-800"
       >
@@ -67,32 +67,23 @@ export default function VaccinesTreatmentItem({
             {title}
           </span>
         </button>
-      </h3>
+      </h4>
 
       {/* 구분선 */}
       <div className="relative mr-3 ml-3 flex items-center before:absolute before:left-0 before:h-4 before:w-px before:bg-gray-300"></div>
 
-      <time
-        dateTime={toISODate(vaccinated_date)}
-        className="ml-2 flex items-center gap-1 font-bold text-gray-500"
-      >
-        {/* 날짜 아이콘 및 표시 */}
-        <CalendarIcon
-          aria-hidden="true"
-          focusable="false"
-          width={20}
-          height={20}
-          className="text-gray-400"
-        />
-        {vaccinated_date}
-      </time>
-      <time
-        aria-label="만료 날짜"
-        dateTime={toISODate(expiry_date ?? null)}
-        className="sr-only"
-      >
-        {expiry_date ?? '다음 예정일이 없습니다.'}
-      </time>
+      <div className="ml-2 flex items-center gap-1 font-bold text-gray-500">
+        <CalendarIcon aria-hidden="true" size={20} className="text-gray-400" />
+        <time dateTime={toISODate(vaccinated_date)}>{vaccinated_date}</time>
+      </div>
+
+      {/* 만료 날짜 (스크린 리더용) */}
+      {expiry_date && (
+        <div className="sr-only">
+          <span>만료 날짜: </span>
+          <time dateTime={toISODate(expiry_date)}>{expiry_date}</time>
+        </div>
+      )}
 
       {/* 편집/삭제 버튼 */}
       <ItemEditButtonCompo

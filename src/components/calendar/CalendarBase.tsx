@@ -1,21 +1,14 @@
 'use client'
 
-import type { CalendarControls, CalendarDay } from './hooks/useCalendar'
+import type { CalendarControls } from './hooks/useCalendar'
 import SelectDate from './SelectDate'
 import type { ScheduleEvent } from './types'
-import Week from './Week'
+import Week, { type DayComponentProps } from './Week' // ✅ DayComponentProps import
 
-export type DayComponentProps = CalendarControls & {
-  week: CalendarDay[]
-  weekIndex: number
-  onDayClick: (date: number) => void
-  getSchedulesForDate?:
-    | ((year: number, month: number, day: number) => ScheduleEvent[])
-    | undefined
-}
+// ✅ 기존 DayComponentProps 삭제 (8-15번 줄)
 
 interface Props extends CalendarControls {
-  DayComponent: React.ComponentType<any>
+  DayComponent: React.ComponentType<DayComponentProps> // ✅ 타입 추가
   getSchedulesForDate?:
     | ((year: number, month: number, day: number) => ScheduleEvent[])
     | undefined
@@ -38,7 +31,7 @@ export default function CalendarBase({
   getSchedulesForDate,
 }: Props) {
   return (
-    <section>
+    <>
       <SelectDate
         currentYear={currentYear}
         currentMonth={currentMonth}
@@ -49,9 +42,10 @@ export default function CalendarBase({
         <thead className="text-sm font-bold text-[#80809A]">
           <tr>
             {DAYS_OF_WEEK.map((day, index) => (
-              <td key={index} aria-label={`${day}요일`}>
-                {day}
-              </td>
+              <th key={index} scope="col">
+                <span aria-hidden="true">{day}</span>
+                <span className="sr-only">{day}요일</span>
+              </th>
             ))}
           </tr>
         </thead>
@@ -74,6 +68,6 @@ export default function CalendarBase({
           ))}
         </tbody>
       </table>
-    </section>
+    </>
   )
 }

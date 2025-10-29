@@ -12,14 +12,17 @@ import { initializeNotifications } from './Notification'
 
 export default function ScheduledMeal() {
   const pet_id = usePetStore(s => s.selectedPetId)
-  const managerRef = useRef<NotificationManager | null>(null)
 
   const { data = [] } = useSuspenseQuery<ScheduledMeals[]>({
     queryKey: ['ScheduledMeals', pet_id],
-    queryFn: () => getPetMealTime(pet_id ?? null),
+    queryFn: async () => {
+      if (!pet_id) return []
+      return getPetMealTime(pet_id)
+    },
     retry: 1,
   })
 
+  const managerRef = useRef<NotificationManager | null>(null)
   const [firstScheduled, secondScheduled] = data
 
   useEffect(() => {

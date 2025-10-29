@@ -116,40 +116,48 @@ function EditScheduleModalContent({
     selectedPetId,
   }
 
+  // itemData는 getPetTableData의 반환 타입으로 union 타입이므로
+  // 각 케이스에서 해당 테이블 타입으로 타입 단언이 필요합니다
   switch (apiType) {
     case 'vaccines':
       return (
         <ModalTypeVaccination
           {...commonProps}
-          restProps={itemData as any}
+          // @ts-expect-error - itemData는 런타임에 vaccines 타입이 보장됨
+          restProps={itemData}
           selectedPetId={selectedPetId}
         />
       )
 
     case 'antiparasitic':
       return (
-        <ModalTypeAntiparasitic {...commonProps} restProps={itemData as any} />
+        // @ts-expect-error - itemData는 런타임에 antiparasitic 타입이 보장됨
+        <ModalTypeAntiparasitic {...commonProps} restProps={itemData} />
       )
 
     case 'medical treatment':
       return (
         <ModalTypeMedicalTreatment
           {...commonProps}
-          restProps={itemData as any}
+          // @ts-expect-error - itemData는 런타임에 medical treatment 타입이 보장됨
+          restProps={itemData}
         />
       )
 
     case 'other treatments':
       return (
-        <ModalTypeOtherTreatment {...commonProps} restProps={itemData as any} />
+        // @ts-expect-error - itemData는 런타임에 other treatments 타입이 보장됨
+        <ModalTypeOtherTreatment {...commonProps} restProps={itemData} />
       )
 
     case 'walks':
-      return <ModalTypeWalks {...commonProps} restProps={itemData as any} />
+      // @ts-expect-error - itemData는 런타임에 walks 타입이 보장됨
+      return <ModalTypeWalks {...commonProps} restProps={itemData} />
 
     case 'other activities':
       return (
-        <ModalTypeOtherActivites {...commonProps} restProps={itemData as any} />
+        // @ts-expect-error - itemData는 런타임에 other activities 타입이 보장됨
+        <ModalTypeOtherActivites {...commonProps} restProps={itemData} />
       )
 
     default:

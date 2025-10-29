@@ -151,6 +151,7 @@ async function getVaccineSchedules(supabase: SupabaseClient, petId: string) {
     .from('vaccines')
     .select('id, vaccinated_date, title')
     .eq('pet_id', petId)
+    .returns<Array<{ id: string; vaccinated_date: string; title: string }>>()
 
   if (error) {
     toast.error(`Vaccines fetch error: ${error}`)
@@ -159,7 +160,7 @@ async function getVaccineSchedules(supabase: SupabaseClient, petId: string) {
 
   if (vaccines) {
     schedules.push(
-      ...vaccines.map((v: any) => ({
+      ...vaccines.map(v => ({
         id: v.id,
         date: v.vaccinated_date,
         title: v.title,
@@ -184,6 +185,7 @@ async function getAntiparasiticSchedules(
     .from('antiparasitic')
     .select('id, intake_date, title')
     .eq('pet_id', petId)
+    .returns<Array<{ id: string; intake_date: string; title: string }>>()
 
   if (error) {
     toast.error(`Antiparasitics fetch error: ${error}`)
@@ -192,7 +194,7 @@ async function getAntiparasiticSchedules(
 
   if (antiparasitics) {
     schedules.push(
-      ...antiparasitics.map((a: any) => ({
+      ...antiparasitics.map(a => ({
         id: a.id,
         date: a.intake_date,
         title: a.title,
@@ -214,6 +216,7 @@ async function getMedicalSchedules(supabase: SupabaseClient, petId: string) {
     .from('medical treatment')
     .select('id, visit_date, title')
     .eq('pet_id', petId)
+    .returns<Array<{ id: string; visit_date: string; title: string }>>()
 
   if (error) {
     toast.error(`Medical treatments fetch error: ${error}`)
@@ -222,7 +225,7 @@ async function getMedicalSchedules(supabase: SupabaseClient, petId: string) {
 
   if (medicalTreatments) {
     schedules.push(
-      ...medicalTreatments.map((m: any) => ({
+      ...medicalTreatments.map(m => ({
         id: m.id,
         date: m.visit_date,
         title: m.title,
@@ -247,6 +250,7 @@ async function getOtherTreatmentSchedules(
     .from('other treatments')
     .select('id, date, title')
     .eq('pet_id', petId)
+    .returns<Array<{ id: string; date: string; title: string }>>()
 
   if (error) {
     toast.error(`Other treatments fetch error: ${error}`)
@@ -255,7 +259,7 @@ async function getOtherTreatmentSchedules(
 
   if (otherTreatments) {
     schedules.push(
-      ...otherTreatments.map((ot: any) => ({
+      ...otherTreatments.map(ot => ({
         id: ot.id,
         date: ot.date,
         title: ot.title,
@@ -277,6 +281,7 @@ async function getWalkSchedules(supabase: SupabaseClient, petId: string) {
     .from('walks')
     .select('id, date, title')
     .eq('pet_id', petId)
+    .returns<Array<{ id: string; date: string; title: string }>>()
 
   if (error) {
     toast.error(`Walks fetch error: ${error}`)
@@ -285,7 +290,7 @@ async function getWalkSchedules(supabase: SupabaseClient, petId: string) {
 
   if (walks) {
     schedules.push(
-      ...walks.map((w: any) => ({
+      ...walks.map(w => ({
         id: w.id,
         date: w.date,
         title: w.title,
@@ -310,6 +315,7 @@ async function getOtherActivitiesSchedules(
     .from('other activities')
     .select('id, date, title')
     .eq('pet_id', petId)
+    .returns<Array<{ id: string; date: string; title: string }>>()
 
   if (error) {
     toast.error(`Other activities fetch error: ${error}`)
@@ -318,7 +324,7 @@ async function getOtherActivitiesSchedules(
 
   if (otherActivities) {
     schedules.push(
-      ...otherActivities.map((oa: any) => ({
+      ...otherActivities.map(oa => ({
         id: oa.id,
         date: oa.date,
         title: oa.title,

@@ -55,7 +55,7 @@ export default function DietItem({
       id={id}
     >
       {/* 제목 */}
-      <h3
+      <h4
         id={headingId}
         className="line-clamp-1 grow text-start text-lg font-bold text-gray-800"
       >
@@ -68,7 +68,7 @@ export default function DietItem({
             {title}
           </span>
         </button>
-      </h3>
+      </h4>
 
       {/* 시간 */}
       <span className="ml-2 font-bold text-gray-400">{setHarfTime(time)}</span>
@@ -77,19 +77,10 @@ export default function DietItem({
       <div className="relative mx-3 h-4 w-px bg-gray-300" />
 
       {/* 날짜 */}
-      <time
-        dateTime={toISODate(date)}
-        className="ml-2 flex items-center gap-1 font-bold text-gray-500"
-      >
-        <CalendarIcon
-          focusable="false"
-          aria-hidden="true"
-          width={20}
-          height={20}
-          className="text-gray-400"
-        />
-        {date}
-      </time>
+      <div className="ml-2 flex items-center gap-1 font-bold text-gray-500">
+        <CalendarIcon aria-hidden="true" size={20} className="text-gray-400" />
+        <time dateTime={toISODate(date)}>{date}</time>
+      </div>
 
       {/* 스낵 타입 (스크린 리더용) */}
       <span aria-label={`스낵 타입: ${snack_type}`} className="sr-only">

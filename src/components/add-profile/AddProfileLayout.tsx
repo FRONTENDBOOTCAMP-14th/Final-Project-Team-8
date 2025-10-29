@@ -1,3 +1,4 @@
+import { MoveLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, type ReactNode } from 'react'
 import { useProfileCreationStore } from '../../store/profileCreationStore'
@@ -68,26 +69,13 @@ export function AddProfileLayout({
         {/* Back button, Title, and Step counter */}
         <div className="mb-6 flex items-center justify-between">
           <button
+            type="button"
             onClick={handleBack}
             aria-label="이전 단계로 돌아가기"
             title="이전 단계로 돌아가기 (ESC)"
             className="cursor-pointer rounded text-gray-600 transition-colors hover:text-gray-900 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
           >
-            <svg
-              aria-hidden="true"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-            >
-              <path
-                d="M4.16699 10H15.8337M4.16699 10L9.16699 15M4.16699 10L9.16699 5"
-                stroke="#80809A"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <MoveLeft size={20} className="text-[#80809A]" />
           </button>
           <div className="flex flex-col items-center">
             <h1 className="text-xl font-bold text-gray-900">
@@ -115,9 +103,9 @@ export function AddProfileLayout({
       </header>
 
       {/* Content Area */}
-      <main className="flex-1 overflow-y-auto" role="main">
+      <section className="flex-1 overflow-y-auto" role="main">
         <div className="h-full w-full">{children}</div>
-      </main>
+      </section>
 
       {/* Footer Navigation */}
       <footer className="sticky mt-8 flex-shrink-0">
@@ -136,10 +124,11 @@ export function AddProfileLayout({
           >
             {onSkip && (
               <button
+                type="button"
                 onClick={onSkip}
                 disabled={skipDisabled}
                 aria-disabled={skipDisabled}
-                className={`rounded-xl px-6 py-3 font-medium transition-colors focus:outline-none ${
+                className={`cursor-pointer rounded-xl px-6 py-3 font-medium transition-colors focus:outline-none ${
                   skipDisabled
                     ? 'cursor-not-allowed bg-gray-300 text-white'
                     : 'border-1 border-orange-400 text-[#FF6000] hover:bg-[#FF6000] hover:text-white focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2'
@@ -154,10 +143,11 @@ export function AddProfileLayout({
 
             {onComplete && (
               <button
+                type="button"
                 onClick={onComplete}
                 disabled={nextDisabled}
                 aria-disabled={nextDisabled}
-                className="rounded-xl bg-[#FF6000] px-24 py-3 font-semibold text-white transition-colors hover:bg-orange-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-300"
+                className="cursor-pointer rounded-xl bg-[#FF6000] px-24 py-3 font-semibold text-white transition-colors hover:bg-orange-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-300"
                 {...(nextDisabled && {
                   'aria-label':
                     '필수 정보를 입력한 후 다음 단계로 진행할 수 있습니다',

@@ -88,12 +88,9 @@ export default function MealTimeModal(props: MealTimeModalProps) {
   const mutation = useMutation({
     mutationFn: async (data: MealFormData) => {
       if (mode === 'create') {
-        return await insertScheduledMeal(data, props.petId)
+        return await insertScheduledMeal(data)
       } else {
-        return await updateScheduledMeal(
-          { ...data, id: props.initialData.id },
-          props.initialData.id
-        )
+        return await updateScheduledMeal(data, props.initialData.id)
       }
     },
     onSuccess: () => {
@@ -174,7 +171,7 @@ export default function MealTimeModal(props: MealTimeModalProps) {
                 key={day}
                 type="button"
                 onClick={() => handleWeekdayToggle(day)}
-                className={`rounded-lg px-4 py-2 font-medium transition-all ${
+                className={`cursor-pointer rounded-lg px-4 py-2 font-medium transition-all ${
                   selectedWeekdays.includes(day)
                     ? 'scale-105 bg-orange-500 text-white shadow-md'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -223,7 +220,7 @@ export default function MealTimeModal(props: MealTimeModalProps) {
               <button
                 type="button"
                 onClick={() => field.onChange(!field.value)}
-                className={`relative h-8 w-14 rounded-full transition-colors ${
+                className={`relative h-8 w-14 cursor-pointer rounded-full transition-colors ${
                   field.value ? 'bg-orange-500' : 'bg-gray-300'
                 }`}
               >
@@ -243,14 +240,14 @@ export default function MealTimeModal(props: MealTimeModalProps) {
         <button
           type="button"
           onClick={onClose}
-          className="flex-1 rounded-xl border-2 border-gray-300 px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-100"
+          className="flex-1 cursor-pointer rounded-xl border-2 border-gray-300 px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-100"
         >
           취소
         </button>
         <button
           type="submit"
           disabled={mutation.isPending || isSubmitting}
-          className="flex-1 transform rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all hover:scale-105 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex-1 transform cursor-pointer rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3 font-semibold text-white transition-all hover:scale-105 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
         >
           {mutation.isPending || isSubmitting
             ? '저장 중...'

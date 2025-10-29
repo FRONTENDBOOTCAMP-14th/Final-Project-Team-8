@@ -1,19 +1,5 @@
-import { useCallback, useMemo, type RefObject } from 'react'
-import type { CalendarDay } from './hooks/useCalendar'
-
-interface Props {
-  dayData: CalendarDay
-  currentYear: number
-  currentMonth: number
-  selectedDate: Date | null
-  onDayClick: (date: number) => void
-  selectedDateRef: RefObject<HTMLButtonElement | null>
-  rowIndex: number
-  colIndex: number
-  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
-  focusDay: (row: number, col: number) => void
-  restProps?: boolean
-}
+import { useCallback, useMemo } from 'react'
+import type { DayComponentProps } from './Week'
 
 export default function Day({
   dayData,
@@ -26,7 +12,7 @@ export default function Day({
   colIndex,
   setDayButtonRef,
   focusDay,
-}: Props) {
+}: DayComponentProps) {
   const { date, isCurrentMonth } = dayData
 
   const isSelected = selectedDate
@@ -40,11 +26,12 @@ export default function Day({
     const today = new Date()
 
     return (
+      isCurrentMonth &&
       today.getFullYear() === currentYear &&
       today.getMonth() + 1 === currentMonth &&
       today.getDate() === date
     )
-  }, [currentYear, currentMonth, date])
+  }, [isCurrentMonth, currentYear, currentMonth, date])
 
   const handleClick = () => {
     if (isCurrentMonth) {
@@ -56,8 +43,8 @@ export default function Day({
     (node: HTMLButtonElement | null) => {
       setDayButtonRef(`${rowIndex}-${colIndex}`, node)
 
-      if (isSelected && node) {
-        ;(selectedDateRef.current as any) = node
+      if (isSelected && node && selectedDateRef.current !== node) {
+        selectedDateRef.current = node
       }
     },
     [rowIndex, colIndex, setDayButtonRef, isSelected, selectedDateRef]
@@ -101,7 +88,7 @@ export default function Day({
         aria-disabled={!isCurrentMonth}
         aria-label={`${currentYear}년 ${currentMonth}월 ${date}일 ${isSelected ? '선택됨' : ''} ${isToday ? '오늘' : ''}`}
         ref={buttonRef}
-        className={`aspect-square h-13.5 w-full cursor-pointer rounded-xl border-1 border-[#C6C6D9] bg-white hover:border-[#FFA873] hover:text-[#FF6000] hover:outline-[#FFA873] focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-2 ${
+        className={`h-13.5 w-full cursor-pointer rounded-xl border-1 border-[#C6C6D9] bg-white hover:border-[#FFA873] hover:text-[#FF6000] hover:outline-[#FFA873] focus:border-[#FFA873] focus:font-semibold focus:text-[#FF6000] focus:outline-2 ${
           isCurrentMonth
             ? ''
             : 'pointer-events-none border-[#DAD9E6] !bg-[#F7F7FC] text-[#A3A0C0]'

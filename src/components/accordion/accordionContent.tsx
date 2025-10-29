@@ -1,8 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef } from 'react'
-import { toast } from 'sonner'
-import type { RowMap, TableRow, TableType } from '../../libs/api/activity.api'
-import { getPetTableData } from '../../libs/api/activity.api'
+import type { TableRow, TableType } from '@/libs/api/activity.api'
+import { getPetTableData } from '@/libs/api/activity.api'
 import {
   AntiparasiticCompo,
   DietCompo,
@@ -38,7 +37,6 @@ export default function AccordionContent<T extends TableType>({
   // 빈 배열 알림 (중복 방지)
   useEffect(() => {
     if (rows.length === 0 && !emptyToastRef.current) {
-      toast.info('해당 기록이 없습니다.')
       emptyToastRef.current = true
     }
     if (rows.length > 0) emptyToastRef.current = false
@@ -49,48 +47,48 @@ export default function AccordionContent<T extends TableType>({
     switch (type) {
       case 'antiparasitic':
         return rows.length !== 0 ? (
-          <AntiparasiticCompo dataList={rows as RowMap['antiparasitic'][]} />
+          <AntiparasiticCompo dataList={rows as TableRow<'antiparasitic'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'diet':
         return rows.length !== 0 ? (
-          <DietCompo dataList={rows as RowMap['diet'][]} />
+          <DietCompo dataList={rows as TableRow<'diet'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'medical treatment':
         return rows.length !== 0 ? (
           <MedicalTreatmentCompo
-            dataList={rows as RowMap['medical treatment'][]}
+            dataList={rows as TableRow<'medical treatment'>[]}
           />
         ) : (
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'other activities':
         return rows.length !== 0 ? (
           <OtherActivitiesCompo
-            dataList={rows as RowMap['other activities'][]}
+            dataList={rows as TableRow<'other activities'>[]}
           />
         ) : (
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'other treatments':
         return rows.length !== 0 ? (
           <OtherTreatmentsCompo
-            dataList={rows as RowMap['other treatments'][]}
+            dataList={rows as TableRow<'other treatments'>[]}
           />
         ) : (
           <EmptyState
@@ -100,21 +98,21 @@ export default function AccordionContent<T extends TableType>({
         )
       case 'vaccines':
         return rows.length !== 0 ? (
-          <VaccinesCompo dataList={rows as RowMap['vaccines'][]} />
+          <VaccinesCompo dataList={rows as TableRow<'vaccines'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       case 'walks':
         return rows.length !== 0 ? (
-          <WalksCompo dataList={rows as RowMap['walks'][]} />
+          <WalksCompo dataList={rows as TableRow<'walks'>[]} />
         ) : (
           <EmptyState
             title="기록이 없습니다"
             message="첫 기록을 추가해 보세요"
-          ></EmptyState>
+          />
         )
       default:
         return null

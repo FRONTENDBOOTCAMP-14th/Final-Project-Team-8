@@ -65,7 +65,7 @@ export function MedicalTreatmentCompo({ dataList }: MedicalTreatmentProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <ul>
       {dataList.map(
         ({ category, id, next_date, notes, pet_id, title, visit_date }) => (
           <MedicalTreatmentItem
@@ -80,7 +80,7 @@ export function MedicalTreatmentCompo({ dataList }: MedicalTreatmentProps) {
           />
         )
       )}
-    </div>
+    </ul>
   )
 }
 
@@ -96,7 +96,7 @@ export function AntiparasiticCompo({ dataList }: AntiparasiticProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <ul>
       {dataList.map(({ id, intake_date, next_date, notes, pet_id, title }) => (
         <AntiparasiticTreatmentItem
           id={id}
@@ -108,7 +108,7 @@ export function AntiparasiticCompo({ dataList }: AntiparasiticProps) {
           key={id}
         />
       ))}
-    </div>
+    </ul>
   )
 }
 
@@ -124,7 +124,7 @@ export function DietCompo({ dataList }: DietProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <ul>
       {dataList.map(({ date, id, pet_id, time, title, snack_type, notes }) => (
         <DietItem
           date={date}
@@ -137,7 +137,7 @@ export function DietCompo({ dataList }: DietProps) {
           notes={notes}
         />
       ))}
-    </div>
+    </ul>
   )
 }
 
@@ -153,7 +153,7 @@ export function OtherActivitiesCompo({ dataList }: OtherActivitiesProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <ul>
       {dataList.map(
         ({ date, id, notes, pet_id, start_time, duration_time, title }) => (
           <OtherActivitiesItem
@@ -168,7 +168,7 @@ export function OtherActivitiesCompo({ dataList }: OtherActivitiesProps) {
           />
         )
       )}
-    </div>
+    </ul>
   )
 }
 
@@ -184,7 +184,7 @@ export function OtherTreatmentsCompo({ dataList }: OtherTreatMentsProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <ul>
       {dataList.map(({ date, detail, id, notes, pet_id, title }) => (
         <OtherTreatmentItem
           date={date}
@@ -196,7 +196,7 @@ export function OtherTreatmentsCompo({ dataList }: OtherTreatMentsProps) {
           key={id}
         />
       ))}
-    </div>
+    </ul>
   )
 }
 
@@ -212,7 +212,7 @@ export function VaccinesCompo({ dataList }: VaccinesProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <ul>
       {dataList.map(
         ({ expiry_date, id, lot, notes, pet_id, title, vaccinated_date }) => (
           <VaccinesTreatmentItem
@@ -227,7 +227,7 @@ export function VaccinesCompo({ dataList }: VaccinesProps) {
           />
         )
       )}
-    </div>
+    </ul>
   )
 }
 
@@ -243,7 +243,7 @@ export function WalksCompo({ dataList }: WalksProps) {
   if (!dataList) return null
 
   return (
-    <div>
+    <ul>
       {dataList.map(
         ({ date, distance, id, pet_id, start_time, title, total_time }) => (
           <WalksItem
@@ -258,6 +258,6 @@ export function WalksCompo({ dataList }: WalksProps) {
           />
         )
       )}
-    </div>
+    </ul>
   )
 }

@@ -52,8 +52,8 @@ export default function OtherActivitiesItem({
       aria-labelledby={headingId}
       className="relative m-5 list-none rounded-xl border-1 border-gray-300 p-5 transition hover:scale-[1.005] hover:border-gray-400"
     >
-      <div className="">
-        <h3
+      <div>
+        <h4
           id={headingId}
           className="text-xl font-bold text-gray-800 transition hover:text-orange-400"
         >
@@ -67,25 +67,20 @@ export default function OtherActivitiesItem({
               {title}
             </span>
           </button>
-        </h3>
+        </h4>
       </div>
 
       <div className="flex flex-col">
-        <time
-          dateTime={toISODate(date)}
-          className="flex w-full min-w-26 items-center justify-end gap-1 pr-1 text-sm font-bold text-gray-500"
-        >
+        <div className="flex w-full min-w-26 items-center justify-end gap-1 pr-1 text-sm font-bold text-gray-500">
           {/* 구분선 */}
           <div className="relative mx-3 h-4 w-px bg-gray-300" />
           <CalendarIcon
-            focusable="false"
             aria-hidden="true"
-            width={20}
-            height={20}
+            size={20}
             className="text-gray-400"
           />
-          {date}
-        </time>
+          <time dateTime={toISODate(date)}>{date}</time>
+        </div>
 
         {/* 구분선(가로) */}
         <div className="mt-5 mr-1 border-t-1 border-gray-100" />
@@ -96,7 +91,6 @@ export default function OtherActivitiesItem({
             {notes}
           </p>
           {/* 편집/삭제 버튼 */}
-
           <ItemEditButtonCompo
             id={id}
             type="other activities"

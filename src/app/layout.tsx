@@ -7,6 +7,16 @@ import Providers from './providers'
 
 export const metadata: Metadata = {
   title: 'PAW BUDDY',
+  description: '반려동물의 프로필을 만들고 통합 관리 사이트를 이용해보세요.',
+  openGraph: {
+    title: 'PAW BUDDY',
+    description: '반려동물 종합 관리 사이트',
+    url: 'https://pawbuddy.example.com',
+    siteName: 'PAW BUDDY',
+    type: 'website',
+    // 추후변경
+    images: ['/assets/logo/Logo-Paw-Buddy-col.svg'],
+  },
 }
 
 export default function RootLayout({ children }: PropsWithChildren) {
@@ -15,10 +25,10 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
       </head>
-      <body className="overflow-hidden">
+      <body className="overflow-auto">
         <Providers>
           <main>{children}</main>
-          <section id="modal-dialog-portal"></section>
+          <div id="modal-dialog-portal"></div>
           <ToasterPortal />
         </Providers>
       </body>

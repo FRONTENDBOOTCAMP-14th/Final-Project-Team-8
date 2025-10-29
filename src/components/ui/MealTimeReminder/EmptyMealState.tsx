@@ -27,8 +27,9 @@ export function EmptyMealState({ ModalOpen }: EmptyMealStateProps) {
 
       {/* 추가 버튼 */}
       <button
+        type="button"
         onClick={ModalOpen}
-        className="flex transform items-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 hover:shadow-lg"
+        className="flex transform cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:scale-105 hover:shadow-lg"
       >
         <Plus size={18} />
         <span>식사 시간 추가</span>

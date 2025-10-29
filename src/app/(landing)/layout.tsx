@@ -8,7 +8,7 @@ export default function LandingPageLayout({ children }: PropsWithChildren) {
       <Link href="/dashboard" className="absolute z-50 cursor-pointer">
         <img
           src="/assets/logo/Logo-Paw-Buddy-col.svg"
-          alt="Paw Buddy 로고"
+          alt="Paw Buddy 대시보드"
           className="transition-opacity hover:opacity-80"
         />
       </Link>
@@ -18,7 +18,7 @@ export default function LandingPageLayout({ children }: PropsWithChildren) {
         <div className="flex w-full md:w-1/2">
           <img
             className="h-auto w-full max-w-[500px] object-contain md:absolute md:bottom-0 md:max-w-[800px]"
-            src="/assets/img/Frame 280235.png"
+            src="/assets/img/Frame-280235.png"
             alt=""
           />
         </div>

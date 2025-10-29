@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CardButton } from '@/components'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 export default function Step4Page() {
@@ -14,7 +17,6 @@ export default function Step4Page() {
   const nextStep = useProfileCreationStore(state => state.nextStep)
   const setCurrentStep = useProfileCreationStore(state => state.setCurrentStep)
 
-  const [petSize, setPetSize] = useState(1)
   const [selectedSize, setSelectedSize] = useState<number | null>(
     draftPet.size ?? null
   )
@@ -36,14 +38,16 @@ export default function Step4Page() {
 
   const handleSize = (size: number) => {
     setSelectedSize(size)
-    setPetSize(size)
-    updateDraftPet({ size: petSize })
+    updateDraftPet({ size })
   }
 
   useEffect(() => {
     setCurrentStep(4)
   }, [setCurrentStep])
+  const { user, isLoading } = usePageStatus()
 
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
   return (
     <AddProfileLayout
       stepTitle="체형"

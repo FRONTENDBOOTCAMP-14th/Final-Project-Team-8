@@ -14,11 +14,12 @@ import RenderEditScheduleModal from '@/components/calendar/RenderEditScheduleMod
 import ScheduleNotificationManager from '@/components/calendar/ScheduleNotificationManager'
 import type { ScheduleEvent } from '@/components/calendar/types'
 import Modal from '@/components/modal/Modal'
-import { NotLogin } from '@/components/ui/status/EmptyState'
+import { NotLogin, NotSelectedPet } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useCalendarStore } from '@/store/calendarStore'
 import { usePetStore } from '@/store/petStore'
 import { useScheduleStore } from '@/store/scheduleStore'
-import { useUserStore } from '@/store/userStore'
 
 export default function CalendarPage() {
   const { selectedPetId, petList } = usePetStore()
@@ -31,8 +32,6 @@ export default function CalendarPage() {
   const { selectedDate } = useCalendarStore()
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isModify, setIsModify] = useState(false)
-
-  const user = useUserStore(s => s.user)
 
   // 일정 추가 핸들러
   const handleAddSchedule = () => {
@@ -84,80 +83,70 @@ export default function CalendarPage() {
     }
   }, [selectedPetId, refetchSchedules])
 
+  const { user, isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
+
   return (
     <>
       {/* 알림 매니저 추가 */}
       <ScheduleNotificationManager />
 
-      <div className="grid h-full w-full min-w-190 flex-1 grid-cols-4 flex-row overflow-hidden rounded-xl">
-        <section className="relative col-span-3 min-w-120 overflow-y-auto p-10">
-          <h2 className="text-[28px] font-bold text-[#3A394F]">캘린더</h2>
-          <p className="mb-3.5 font-medium text-[#80809A]">
-            {selectedPet
-              ? `${selectedPet.name}의 모든 활동 기록 보기`
-              : '반려동물을 선택해주세요'}
-          </p>
+      {/* 반려동물 미선택 상태 */}
+      {!selectedPetId ? (
+        <NotSelectedPet />
+      ) : (
+        <div className="grid h-full w-full min-w-190 flex-1 grid-cols-4 flex-row overflow-hidden rounded-xl">
+          <section className="relative col-span-3 min-w-120 overflow-y-auto p-10">
+            <h1 className="text-[28px] font-bold text-[#3A394F]">캘린더</h1>
+            <p className="mb-3.5 font-medium text-[#80809A]">
+              {selectedPet
+                ? `${selectedPet.name}의 모든 활동 기록 보기`
+                : '반려동물을 선택해주세요'}
+            </p>
 
-          {/* 오류 상태 */}
-          {errorMessage && (
-            <div className="mb-6 flex items-center gap-3 rounded-xl bg-[#FEDEDE] p-4 text-[#FC5A5A]">
-              <AlertCircle className="h-5 w-5 shrink-0" />
-              <p className="text-sm">{errorMessage}</p>
-            </div>
-          )}
-          {/* 반려동물 미선택 상태 */}
-          {!selectedPetId ? (
-            user ? (
-              <div className="flex h-96 flex-col items-center justify-center gap-2">
-                <p className="text-lg font-semibold text-[#A3A0C0]">
-                  사이드바에서 반려동물을 선택해주세요
-                </p>
-                <p className="text-sm text-[#C6C6D9]">
-                  캘린더를 보려면 먼저 반려동물을 선택하세요
-                </p>
+            {/* 오류 상태 */}
+            {errorMessage && (
+              <div className="mb-6 flex items-center gap-3 rounded-xl bg-[#FEDEDE] p-4 text-[#FC5A5A]">
+                <AlertCircle className="h-5 w-5 shrink-0" />
+                <p className="text-sm">{errorMessage}</p>
               </div>
-            ) : (
-              <div className="relative mx-auto flex min-h-100 w-full flex-col items-center justify-center gap-10">
-                <NotLogin />
-              </div>
-            )
-          ) : (
-            // 캘린더 표시
-            <>
-              {/* 필터 버튼 */}
-              <Button
-                variant="white"
-                onClick={() => setIsFilterModalOpen(true)}
-                className="absolute top-10 right-10 max-w-40 font-medium !text-[#80809A] !outline-[#80809A]"
-              >
-                <Funnel className="mr-2.5 aspect-square w-5" />
-                필터
-                {filterCount !== null && (
-                  <span className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#ff6000] text-xs font-bold text-white">
-                    {filterCount}
-                  </span>
-                )}
-              </Button>
+            )}
+
+            {/* 필터 버튼 */}
+            <Button
+              variant="white"
+              onClick={() => setIsFilterModalOpen(true)}
+              className="absolute top-10 right-10 max-w-40 font-medium !text-[#80809A] !outline-[#80809A]"
+            >
+              <Funnel size={20} className="mr-2.5" />
+              필터
+              {filterCount !== null && (
+                <span
+                  className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#ff6000] text-xs font-bold text-white"
+                  title={`${filterCount}개 필터 선택됨`}
+                >
+                  <span aria-hidden="true">{filterCount}</span>
+                  <span className="sr-only">{filterCount}개 필터 선택됨</span>
+                </span>
+              )}
+            </Button>
+            <section>
+              <h2 className="sr-only">날짜 선택</h2>
               <CalendarSchedule petId={selectedPetId} />
-            </>
-          )}
-        </section>
-
-        {/* 일정 목록 */}
-        <section className="col-span-1 min-w-70 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
-          {selectedPetId ? (
+            </section>
+          </section>
+          {/* 일정 목록 */}
+          <section className="col-span-1 min-w-70 overflow-y-auto rounded-r-xl bg-[#F7F7FC] p-10">
             <Schedules
               petId={selectedPetId}
               onAddSchedule={handleAddSchedule}
               onScheduleClick={handleScheduleClick}
             />
-          ) : (
-            <div className="flex h-full items-center justify-center">
-              <p className="text-sm text-[#A3A0C0]">반려동물을 선택해주세요</p>
-            </div>
-          )}
-        </section>
-      </div>
+          </section>
+        </div>
+      )}
 
       {/* 필터 모달 */}
       <FilterModal

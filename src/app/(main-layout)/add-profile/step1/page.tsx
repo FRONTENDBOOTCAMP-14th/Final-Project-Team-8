@@ -4,6 +4,10 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { ImgCardButton } from '@/components'
 import { AddProfileLayout } from '@/components/add-profile/AddProfileLayout'
+import { DevModal } from '@/components/ui/modal/DevModal'
+import { NotLogin } from '@/components/ui/status/EmptyState'
+import { Loading } from '@/components/ui/status/Loading'
+import { usePageStatus } from '@/hooks/usePageStatus'
 import { useProfileCreationStore } from '@/store/profileCreationStore'
 
 const SPECIES_OPTIONS = [
@@ -30,8 +34,6 @@ export default function Step1SpeciesPage() {
     draftPet.species ?? null
   )
   const [showComingSoon, setShowComingSoon] = useState(false)
-
-  const modalRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -103,6 +105,11 @@ export default function Step1SpeciesPage() {
 
   // '지금은 건너뛰기' - 빈 함수로 유지하여 버튼은 보이되 비활성화 처리
   const handleSkip = () => {}
+
+  const { user, isLoading } = usePageStatus()
+
+  if (isLoading) return <Loading />
+  if (!user) return <NotLogin />
 
   return (
     <>
@@ -207,71 +214,12 @@ export default function Step1SpeciesPage() {
 
       {/* 준비 중 모달 */}
       {showComingSoon && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-          onClick={handleCloseModal}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
-        >
-          <div
-            ref={modalRef}
-            className="relative w-full max-w-md rounded-2xl bg-white p-8 shadow-xl"
-            onClick={e => e.stopPropagation()}
-          >
-            <button
-              ref={closeButtonRef}
-              onClick={handleCloseModal}
-              className="absolute top-4 right-4 rounded text-gray-400 transition-colors hover:text-gray-600 focus:ring-2 focus:ring-[#FF6000] focus:ring-offset-2 focus:outline-none"
-              aria-label="닫기"
-            >
-              <svg
-                aria-hidden="true"
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-
-            <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
-                <svg
-                  aria-hidden="true"
-                  className="h-8 w-8 text-[#FF6000]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                  />
-                </svg>
-              </div>
-              <h3
-                id="modal-title"
-                className="mb-2 text-xl font-bold text-gray-800"
-              >
-                페이지 제작 중입니다
-              </h3>
-              <p className="mb-6 text-gray-600">
-                {selectedSpecies} 품종 선택 페이지는 현재 준비 중이에요.
-                <br />
-                빠른 시일 내에 제공하겠습니다!
-              </p>
-            </div>
-          </div>
-        </div>
+        <DevModal
+          open={showComingSoon}
+          onClose={handleCloseModal}
+          title="페이지 제작 중입니다"
+          message={`${selectedSpecies} 품종 선택 페이지는 현재 준비 중이에요.\n빠른 시일 내에 제공하겠습니다!`}
+        />
       )}
     </>
   )

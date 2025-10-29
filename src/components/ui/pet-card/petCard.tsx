@@ -1,5 +1,11 @@
 import React, { useMemo, useState, useCallback } from 'react'
+import type { CSSProperties } from 'react'
 import type { PetSummary } from '../../../store/petStore'
+
+// CSS 커스텀 속성 타입 확장
+type CSSPropertiesWithVars = CSSProperties & {
+  [key: `--${string}`]: string | number
+}
 
 /**
  * Pet 3D Carousel Component
@@ -127,9 +133,10 @@ export function PetCarousel3D({
       >
         {canPrev && (
           <button
+            type="button"
             className="absolute top-1/2 -left-5 z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-1 text-white transition-all duration-200 select-none hover:opacity-80 focus-visible:rounded-lg focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-white/80"
             style={{ transform: 'translateX(-100%) translateY(-50%)' }}
-            aria-label="Previous pet"
+            aria-label="이전 반려동물 카드"
             onClick={prev}
           >
             <svg
@@ -148,11 +155,11 @@ export function PetCarousel3D({
           const abs = Math.abs(active - i)
           const hidden = abs > maxVisibility
           const isActive = i === active
-          const style = {
-            ['--active' as any]: isActive ? 1 : 0,
-            ['--offset' as any]: (active - i) / 3,
-            ['--direction' as any]: Math.sign(active - i) || 0,
-            ['--abs-offset' as any]: abs / 3,
+          const style: CSSPropertiesWithVars = {
+            '--active': isActive ? 1 : 0,
+            '--offset': (active - i) / 3,
+            '--direction': Math.sign(active - i) || 0,
+            '--abs-offset': abs / 3,
             transform: `
               rotateY(calc(var(--offset) * 50deg))
               scaleY(calc(1 + var(--abs-offset) * -0.4))
@@ -235,9 +242,10 @@ export function PetCarousel3D({
 
         {canNext && (
           <button
+            type="button"
             className="absolute top-1/2 right-0 z-10 flex cursor-pointer items-center justify-center border-0 bg-transparent p-1 text-white transition-all duration-200 select-none hover:opacity-80 focus-visible:rounded-lg focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-white/80"
             style={{ transform: 'translateX(100%) translateY(-50%)' }}
-            aria-label="Next pet"
+            aria-label="다음 반려동물 카드"
             onClick={next}
           >
             <svg
@@ -257,6 +265,7 @@ export function PetCarousel3D({
         {petList.map((pet, i) => (
           <button
             key={pet.id}
+            type="button"
             className={`h-3 cursor-pointer rounded-full border-0 p-0 transition-all duration-300 ${
               i === active
                 ? 'w-8 bg-white'

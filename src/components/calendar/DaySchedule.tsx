@@ -1,17 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import type { CalendarDay, DayProps } from './hooks/useCalendar'
-import type { ScheduleEvent } from './types'
-
-interface Props extends Omit<DayProps, 'restProps'> {
-  dayData: CalendarDay
-  rowIndex: number
-  colIndex: number
-  getSchedulesForDate?: (
-    year: number,
-    month: number,
-    day: number
-  ) => ScheduleEvent[]
-}
+import type { DayComponentProps } from './Week'
 
 const CATEGORY_COLORS: Record<string, string> = {
   birthday: 'bg-[#6AA9F3]',
@@ -36,8 +24,7 @@ export default function DaySchedule({
   setDayButtonRef,
   focusDay,
   getSchedulesForDate,
-  ...restProps
-}: Props) {
+}: DayComponentProps) {
   const { date, isCurrentMonth } = dayData
 
   // 해당 날짜의 스케줄 가져오기
@@ -63,11 +50,12 @@ export default function DaySchedule({
     const today = new Date()
 
     return (
+      isCurrentMonth &&
       today.getFullYear() === currentYear &&
       today.getMonth() + 1 === currentMonth &&
       today.getDate() === date
     )
-  }, [currentYear, currentMonth, date])
+  }, [isCurrentMonth, currentYear, currentMonth, date])
 
   const handleClick = () => {
     if (isCurrentMonth) {
@@ -79,8 +67,8 @@ export default function DaySchedule({
     (node: HTMLButtonElement | null) => {
       setDayButtonRef(`${rowIndex}-${colIndex}`, node)
 
-      if (isSelected && node) {
-        ;(selectedDateRef.current as any) = node
+      if (isSelected && node && selectedDateRef.current !== node) {
+        selectedDateRef.current = node
       }
     },
     [rowIndex, colIndex, setDayButtonRef, isSelected, selectedDateRef]
@@ -124,7 +112,7 @@ export default function DaySchedule({
   }, [currentYear, currentMonth, date, isSelected, isToday, schedules.length])
 
   return (
-    <td {...restProps}>
+    <td>
       <button
         type="button"
         onClick={handleClick}
@@ -145,7 +133,7 @@ export default function DaySchedule({
             {uniqueCategories.map((category, index) => (
               <span
                 key={index}
-                className={`aspect-square w-3 rounded-2xl ${CATEGORY_COLORS[category] ?? 'bg-[#A3A0C0]'}`}
+                className={`size-3 rounded-2xl ${CATEGORY_COLORS[category] ?? 'bg-[#A3A0C0]'}`}
                 title={category}
               ></span>
             ))}

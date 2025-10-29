@@ -5,6 +5,7 @@ import { createClient } from '../libs/supabase/client'
 interface UserState {
   user: User | null
   setUser: () => Promise<void>
+  resetUser: () => void
 }
 
 const supabase = createClient()
@@ -14,6 +15,7 @@ const supabase = createClient()
  *
  * {User | null} user - 현재 로그인한 사용자 정보, 로그인 안됐으면 null
  * {() => Promise<void>} setUser - Supabase에서 사용자 정보를 가져와 상태를 업데이트하는 함수
+ * {() => void} resetUser - 사용자 상태를 초기화하는 함수 (로그아웃 시 사용)
  */
 export const useUserStore = create<UserState>(set => ({
   user: null,
@@ -23,4 +25,5 @@ export const useUserStore = create<UserState>(set => ({
     } = await supabase.auth.getUser()
     set({ user })
   },
+  resetUser: () => set({ user: null }),
 }))

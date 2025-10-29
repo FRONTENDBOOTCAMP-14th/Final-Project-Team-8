@@ -148,7 +148,7 @@ function scheduleRepeatingNotification(
 
   const weekdays = parseWeekdays(config.weekday)
   if (!weekdays) {
-    toast.error(`[${config.id}] 잘못된 요일 형식: ${config.weekday}`)
+    toast.error(`잘못된 요일 형식: ${config.weekday}`)
     return null
   }
 
@@ -156,7 +156,7 @@ function scheduleRepeatingNotification(
   const delay = nextTime.getTime() - Date.now()
 
   if (delay <= 0) {
-    toast.error(`[${config.id}] 시간 계산 오류`)
+    toast.error('시간 계산 오류')
     return null
   }
 
@@ -170,9 +170,7 @@ function scheduleRepeatingNotification(
     }
   }, delay)
 
-  toast.info(
-    `[${config.id}] ${config.title} 반복 알림 예약: ${nextTime.toLocaleString()}`
-  )
+  toast.info(` ${config.title} 반복 알림 예약: ${nextTime.toLocaleString()}`)
 
   return timeout
 }
@@ -182,14 +180,14 @@ function scheduleOneTimeNotification(
   config: OneTimeNotificationConfig
 ): NodeJS.Timeout | null {
   if (!config.enabled) {
-    toast.info(`[${config.id}] 알림이 비활성화되어 있습니다.`)
+    toast.info('알림이 비활성화되어 있습니다.')
     return null
   }
 
   const notificationTime = getNotificationTime(config.date, config.time)
 
   if (!notificationTime) {
-    toast.error(`[${config.id}] 날짜/시간 형식 오류`)
+    toast.error('날짜/시간 형식 오류')
     return null
   }
 
@@ -197,7 +195,7 @@ function scheduleOneTimeNotification(
   const delay = notificationTime.getTime() - now.getTime()
 
   if (delay <= 0) {
-    toast.info(`[${config.id}] 이미 지난 시간입니다.`)
+    toast.info('이미 지난 시간입니다.')
     return null
   }
 
@@ -210,9 +208,7 @@ function scheduleOneTimeNotification(
     showNotification(config)
   }, delay)
 
-  toast.info(
-    `[${config.id}] ${config.title} 알림 예약: ${notificationTime.toLocaleString()}`
-  )
+  toast.info(`${config.title} 알림 예약: ${notificationTime.toLocaleString()}`)
 
   return timeout
 }

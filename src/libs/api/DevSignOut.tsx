@@ -10,7 +10,11 @@ export default function DevSignOut() {
   }
 
   return (
-    <button className="rounded bg-gray-200 p-2" onClick={handleSignOut}>
+    <button
+      type="button"
+      className="cursor-pointer rounded bg-gray-200 p-2"
+      onClick={handleSignOut}
+    >
       🔒 개발용 로그아웃
     </button>
   )

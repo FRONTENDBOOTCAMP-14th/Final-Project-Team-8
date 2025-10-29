@@ -13,28 +13,17 @@ export default function HomePage() {
   )
 }
 
-export const metadata = {
-  title: 'Paw Buddy - 랜딩페이지',
-  description: '반려동물의 프로필을 만들고 통합 관리 사이트를 이용해보세요.',
-  openGraph: {
-    title: 'Paw Buddy',
-    description: '반려동물 종합 관리 사이트',
-    url: 'https://pawbuddy.example.com/landing',
-    siteName: 'Paw Buddy',
-    type: 'website',
-    // 추후변경
-    images: ['/assets/logo/Logo-Paw-Buddy-col.svg'],
-  },
-}
-
 function LandingPage({ children }: PropsWithChildren) {
   return (
     <div className="relative flex h-screen w-full flex-col gap-8 bg-gradient-to-b from-[#FFF5E1] to-[#FFE0B2] p-10">
       {/* 상단 PAW BUDDY LOGO */}
+      <h1 lang="en" className="sr-only">
+        Paw Buddy
+      </h1>
       <Link href="/dashboard" className="absolute z-50 cursor-pointer">
         <img
           src="/assets/logo/Logo-Paw-Buddy-col.svg"
-          alt="Paw Buddy 로고"
+          alt="Paw Buddy 대시보드"
           className="transition-opacity hover:opacity-80"
         />
       </Link>
@@ -44,7 +33,7 @@ function LandingPage({ children }: PropsWithChildren) {
         <div className="flex w-full md:w-1/2">
           <img
             className="h-auto w-full max-w-[500px] object-contain md:absolute md:bottom-0 md:max-w-[800px]"
-            src="/assets/img/Frame 280235.png"
+            src="/assets/img/Frame-280235.png"
             alt=""
           />
         </div>
