@@ -1,19 +1,5 @@
-import { useCallback, useMemo, type RefObject } from 'react'
-import type { CalendarDay } from './hooks/useCalendar'
-
-interface Props {
-  dayData: CalendarDay
-  currentYear: number
-  currentMonth: number
-  selectedDate: Date | null
-  onDayClick: (date: number) => void
-  selectedDateRef: RefObject<HTMLButtonElement | null>
-  rowIndex: number
-  colIndex: number
-  setDayButtonRef: (key: string, node: HTMLButtonElement | null) => void
-  focusDay: (row: number, col: number) => void
-  restProps?: boolean
-}
+import { useCallback, useMemo } from 'react'
+import type { DayComponentProps } from './Week'
 
 export default function Day({
   dayData,
@@ -26,7 +12,7 @@ export default function Day({
   colIndex,
   setDayButtonRef,
   focusDay,
-}: Props) {
+}: DayComponentProps) {
   const { date, isCurrentMonth } = dayData
 
   const isSelected = selectedDate
@@ -58,7 +44,6 @@ export default function Day({
       setDayButtonRef(`${rowIndex}-${colIndex}`, node)
 
       if (isSelected && node && selectedDateRef.current !== node) {
-        // @ts-expect-error - RefObject의 current는 readonly이지만 callback ref에서는 할당 가능
         selectedDateRef.current = node
       }
     },

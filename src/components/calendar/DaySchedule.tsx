@@ -1,17 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import type { CalendarDay, DayProps } from './hooks/useCalendar'
-import type { ScheduleEvent } from './types'
-
-interface Props extends Omit<DayProps, 'restProps'> {
-  dayData: CalendarDay
-  rowIndex: number
-  colIndex: number
-  getSchedulesForDate?: (
-    year: number,
-    month: number,
-    day: number
-  ) => ScheduleEvent[]
-}
+import type { DayComponentProps } from './Week'
 
 const CATEGORY_COLORS: Record<string, string> = {
   birthday: 'bg-[#6AA9F3]',
@@ -36,8 +24,7 @@ export default function DaySchedule({
   setDayButtonRef,
   focusDay,
   getSchedulesForDate,
-  ...restProps
-}: Props) {
+}: DayComponentProps) {
   const { date, isCurrentMonth } = dayData
 
   // 해당 날짜의 스케줄 가져오기
@@ -81,7 +68,6 @@ export default function DaySchedule({
       setDayButtonRef(`${rowIndex}-${colIndex}`, node)
 
       if (isSelected && node && selectedDateRef.current !== node) {
-        // @ts-expect-error - RefObject의 current는 readonly이지만 callback ref에서는 할당 가능
         selectedDateRef.current = node
       }
     },
@@ -126,7 +112,7 @@ export default function DaySchedule({
   }, [currentYear, currentMonth, date, isSelected, isToday, schedules.length])
 
   return (
-    <td {...restProps}>
+    <td>
       <button
         type="button"
         onClick={handleClick}
