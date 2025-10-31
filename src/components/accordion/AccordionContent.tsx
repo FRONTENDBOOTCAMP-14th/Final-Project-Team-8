@@ -11,7 +11,7 @@ import {
   VaccinesCompo,
   WalksCompo,
 } from './AccordionList'
-import EmptyState from './EmptyState'
+import EmptyState from './EmptyStateAccordion'
 
 /** 실제 데이터 로딩/렌더 파트 (useSuspenseQuery 사용) */
 export default function AccordionContent<T extends TableType>({
