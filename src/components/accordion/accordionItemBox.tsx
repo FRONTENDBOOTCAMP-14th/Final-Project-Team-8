@@ -11,9 +11,9 @@ import QueryErrorBoundary from '../common/QueryErrorBoundary'
 import ModalHost from '../modal/ModalHost'
 import Button from '../ui/button/Button'
 import AccordionContent from './accordionContent'
-import { selectTypeButtonTitle } from './accordionFun'
 import EmptyState from './EmptyState'
 import ListLoading from './ListLoading'
+import { selectTypeButtonTitle } from './util/accordionFun'
 
 interface Props<T extends TableType> {
   type: T

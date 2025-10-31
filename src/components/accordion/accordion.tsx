@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import { selectTypeIcon } from './accordionFun'
 import AccordionItemBox from './accordionItemBox'
+import { selectTypeIcon } from './util/accordionFun'
 // Accordion 컴포넌트 Props 타입 정의
 export interface AccordionProps {
   type:
