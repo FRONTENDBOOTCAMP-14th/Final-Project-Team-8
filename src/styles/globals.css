@@ -18,3 +18,81 @@
   background: #ff6000;
   border-radius: 10px;
 }
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ---------------------------------------
+   ✅ 커스텀 키프레임 & 유틸리티 정의
+---------------------------------------- */
+
+/* 1️⃣ 배경 그라데이션 흐름 애니메이션 */
+/* 2️⃣ 애니메이션 유틸리티 등록 */
+@import 'tailwindcss';
+
+/* ---------------------------------------
+   🔥 gradient-flow: 배경색 흐름 애니메이션
+---------------------------------------- */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ✅ 텍스트 흰색, 배경만 그라데이션 애니메이션 흐름 */
+@utility gradient-bg {
+  background: linear-gradient(
+    90deg,
+    #fb923c,
+    #f97316,
+    #ec4899,
+    #f97316,
+    #fb923c
+  );
+  background-size: 300% 100%;
+  animation: gradient-flow 3s ease infinite;
+}
+
+/* ---------------------------------------
+   🔥 gradient-flow: 배경색 흐름 애니메이션
+---------------------------------------- */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ✅ 배경색이 부드럽게 흐르는 유틸리티 */
+@utility gradient-bg {
+  background: linear-gradient(
+    90deg,
+    #fb923c,
+    #f97316,
+    #ec4899,
+    #f97316,
+    #fb923c
+  );
+  background-size: 300% 100%;
+  animation: gradient-flow 3s ease infinite;
+}
